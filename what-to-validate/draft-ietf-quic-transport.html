@@ -821,7 +821,7 @@ table.left {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Iyengar &amp; Thomson</td>
-<td class="center">Expires 20 August 2020</td>
+<td class="center">Expires 21 August 2020</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -834,12 +834,12 @@ table.left {
 <dd class="internet-draft">draft-ietf-quic-transport-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2020-02-17" class="published">17 February 2020</time>
+<time datetime="2020-02-18" class="published">18 February 2020</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2020-08-20">20 August 2020</time></dd>
+<dd class="expires"><time datetime="2020-08-21">21 August 2020</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -892,7 +892,7 @@ code and issues list for this draft can be found at
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 20 August 2020.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 21 August 2020.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -3499,26 +3499,17 @@ the integrity protection key for tokens.<a href="#section-8.1.4-2" class="pilcro
 server that generates the token also consumes it.  Tokens sent in Retry packets
 SHOULD include information that allows the server to verify that the source IP
 address and port in client packets remains constant.<a href="#section-8.1.4-3" class="pilcrow">¶</a></p>
-<p id="section-8.1.4-4">Servers might use tokens from NEW_TOKEN in deciding not to send a Retry packet,
-even if the client address has changed. Tokens sent in NEW_TOKEN frames MUST
-include information that allows the server to verify that the client IP address
-has not changed from when the token was issued.<a href="#section-8.1.4-4" class="pilcrow">¶</a></p>
-<dl class="dlParallel" id="section-8.1.4-5">
-            <dt id="section-8.1.4-5.1">Note:</dt>
-<dd id="section-8.1.4-5.2">
-  The intent of this requirement is to verify that the same client is present on
-the same network path, which is not always verifiable by a server.  For
-instance, a NAT might cause the same IP address and port to be routed to a
-different client, or cause the same client to use a different IP address and
-port.  Servers might use heuristics or other information to determine when to
-request address validation.<a href="#section-8.1.4-5.2" class="pilcrow">¶</a>
-</dd>
-</dl>
-<p id="section-8.1.4-6">Servers MUST ensure that replay of tokens is prevented or limited.  For
+<p id="section-8.1.4-4">Tokens sent in NEW_TOKEN frames MUST include information that allows the server
+to verify that the client IP address has not changed from when the token was
+issued. Servers might use tokens from NEW_TOKEN in deciding not to send a Retry
+packet, even if the client address has changed. However, if the address has
+changed, the server MUST adhere to the anti-amplification limits found in
+<a href="#validate-handshake" class="xref">Section 8.1</a>.<a href="#section-8.1.4-4" class="pilcrow">¶</a></p>
+<p id="section-8.1.4-5">Servers MUST ensure that replay of tokens is prevented or limited.  For
 instance, servers might limit the time over which a token is accepted.  Tokens
 provided in NEW_TOKEN frames might need to allow longer validity periods.
 Tokens MAY include additional information about clients to further narrow
-applicability or reuse.<a href="#section-8.1.4-6" class="pilcrow">¶</a></p>
+applicability or reuse.<a href="#section-8.1.4-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -8977,10 +8968,10 @@ specification reference is provided.<a href="#section-22.4-4.4" class="pilcrow">
 <span class="refAuthor">Postel, J.</span>, <span class="refTitle">"Internet Protocol"</span>, <span class="seriesInfo">STD 5</span>, <span class="seriesInfo">RFC 791</span>, <span class="seriesInfo">DOI 10.17487/RFC0791</span>, <time datetime="1981-09">September 1981</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc791">https://www.rfc-editor.org/info/rfc791</a>&gt;</span>. </dd>
 <dt id="QUIC-RECOVERY">[QUIC-RECOVERY]</dt>
 <dd>
-<span class="refAuthor">Iyengar, J., Ed.</span><span class="refAuthor"> and I. Swett, Ed.</span>, <span class="refTitle">"QUIC Loss Detection and Congestion Control"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-recovery-latest</span>, <time datetime="2020-02-17">17 February 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-recovery-latest">https://tools.ietf.org/html/draft-ietf-quic-recovery-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Iyengar, J., Ed.</span><span class="refAuthor"> and I. Swett, Ed.</span>, <span class="refTitle">"QUIC Loss Detection and Congestion Control"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-recovery-latest</span>, <time datetime="2020-02-18">18 February 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-recovery-latest">https://tools.ietf.org/html/draft-ietf-quic-recovery-latest</a>&gt;</span>. </dd>
 <dt id="QUIC-TLS">[QUIC-TLS]</dt>
 <dd>
-<span class="refAuthor">Thomson, M., Ed.</span><span class="refAuthor"> and S. Turner, Ed.</span>, <span class="refTitle">"Using Transport Layer Security (TLS) to Secure QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-tls-latest</span>, <time datetime="2020-02-17">17 February 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-tls-latest">https://tools.ietf.org/html/draft-ietf-quic-tls-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Thomson, M., Ed.</span><span class="refAuthor"> and S. Turner, Ed.</span>, <span class="refTitle">"Using Transport Layer Security (TLS) to Secure QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-tls-latest</span>, <time datetime="2020-02-18">18 February 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-tls-latest">https://tools.ietf.org/html/draft-ietf-quic-tls-latest</a>&gt;</span>. </dd>
 <dt id="RFC1191">[RFC1191]</dt>
 <dd>
 <span class="refAuthor">Mogul, J.C.</span><span class="refAuthor"> and S.E. Deering</span>, <span class="refTitle">"Path MTU discovery"</span>, <span class="seriesInfo">RFC 1191</span>, <span class="seriesInfo">DOI 10.17487/RFC1191</span>, <time datetime="1990-11">November 1990</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc1191">https://www.rfc-editor.org/info/rfc1191</a>&gt;</span>. </dd>
@@ -9035,7 +9026,7 @@ specification reference is provided.<a href="#section-22.4-4.4" class="pilcrow">
 <span class="refAuthor">Belshe, M.</span><span class="refAuthor">, Peon, R.</span><span class="refAuthor">, and M. Thomson, Ed.</span>, <span class="refTitle">"Hypertext Transfer Protocol Version 2 (HTTP/2)"</span>, <span class="seriesInfo">RFC 7540</span>, <span class="seriesInfo">DOI 10.17487/RFC7540</span>, <time datetime="2015-05">May 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7540">https://www.rfc-editor.org/info/rfc7540</a>&gt;</span>. </dd>
 <dt id="QUIC-INVARIANTS">[QUIC-INVARIANTS]</dt>
 <dd>
-<span class="refAuthor">Thomson, M.</span>, <span class="refTitle">"Version-Independent Properties of QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-invariants-latest</span>, <time datetime="2020-02-17">17 February 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-invariants-latest">https://tools.ietf.org/html/draft-ietf-quic-invariants-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Thomson, M.</span>, <span class="refTitle">"Version-Independent Properties of QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-invariants-latest</span>, <time datetime="2020-02-18">18 February 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-invariants-latest">https://tools.ietf.org/html/draft-ietf-quic-invariants-latest</a>&gt;</span>. </dd>
 <dt id="QUIC-MANAGEABILITY">[QUIC-MANAGEABILITY]</dt>
 <dd>
 <span class="refAuthor">Kuehlewind, M.</span><span class="refAuthor"> and B. Trammell</span>, <span class="refTitle">"Manageability of the QUIC Transport Protocol"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-manageability-05</span>, <time datetime="2019-07-05">5 July 2019</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-quic-manageability-05.txt">http://www.ietf.org/internet-drafts/draft-ietf-quic-manageability-05.txt</a>&gt;</span>. </dd>
