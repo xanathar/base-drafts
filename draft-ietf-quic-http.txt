@@ -486,7 +486,7 @@ Internet-Draft                   HTTP/3                    February 2020
    target host to the server during the TLS handshake.  If the server is
    identified by a DNS name, clients MUST send the Server Name
    Indication (SNI) [RFC6066] TLS extension unless an alternative
-   mechanism for indicate the target host is used.
+   mechanism to indicate the target host is used.
 
    QUIC connections are established as described in [QUIC-TRANSPORT].
    During connection establishment, HTTP/3 support is indicated by
