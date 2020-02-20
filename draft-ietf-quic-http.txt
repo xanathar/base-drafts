@@ -4,8 +4,8 @@
 
 QUIC                                                      M. Bishop, Ed.
 Internet-Draft                                                    Akamai
-Intended status: Standards Track                        19 February 2020
-Expires: 22 August 2020
+Intended status: Standards Track                        20 February 2020
+Expires: 23 August 2020
 
 
              Hypertext Transfer Protocol Version 3 (HTTP/3)
@@ -47,13 +47,13 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 August 2020.
+   This Internet-Draft will expire on 23 August 2020.
 
 
 
 
 
-Bishop                   Expires 22 August 2020                 [Page 1]
+Bishop                   Expires 23 August 2020                 [Page 1]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Bishop                   Expires 22 August 2020                 [Page 2]
+Bishop                   Expires 23 August 2020                 [Page 2]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -151,42 +151,43 @@ Internet-Draft                   HTTP/3                    February 2020
      A.3.  HTTP/2 SETTINGS Parameters  . . . . . . . . . . . . . . .  51
      A.4.  HTTP/2 Error Codes  . . . . . . . . . . . . . . . . . . .  52
    Appendix B.  Change Log . . . . . . . . . . . . . . . . . . . . .  53
-     B.1.  Since draft-ietf-quic-http-24 . . . . . . . . . . . . . .  53
-     B.2.  Since draft-ietf-quic-http-23 . . . . . . . . . . . . . .  53
-     B.3.  Since draft-ietf-quic-http-22 . . . . . . . . . . . . . .  54
-     B.4.  Since draft-ietf-quic-http-21 . . . . . . . . . . . . . .  55
-     B.5.  Since draft-ietf-quic-http-20 . . . . . . . . . . . . . .  55
-     B.6.  Since draft-ietf-quic-http-19 . . . . . . . . . . . . . .  56
-     B.7.  Since draft-ietf-quic-http-18 . . . . . . . . . . . . . .  56
-     B.8.  Since draft-ietf-quic-http-17 . . . . . . . . . . . . . .  56
-     B.9.  Since draft-ietf-quic-http-16 . . . . . . . . . . . . . .  56
-     B.10. Since draft-ietf-quic-http-15 . . . . . . . . . . . . . .  57
-     B.11. Since draft-ietf-quic-http-14 . . . . . . . . . . . . . .  57
+     B.1.  Since draft-ietf-quic-http-25 . . . . . . . . . . . . . .  53
+     B.2.  Since draft-ietf-quic-http-24 . . . . . . . . . . . . . .  53
+     B.3.  Since draft-ietf-quic-http-23 . . . . . . . . . . . . . .  54
+     B.4.  Since draft-ietf-quic-http-22 . . . . . . . . . . . . . .  54
+     B.5.  Since draft-ietf-quic-http-21 . . . . . . . . . . . . . .  55
+     B.6.  Since draft-ietf-quic-http-20 . . . . . . . . . . . . . .  55
+     B.7.  Since draft-ietf-quic-http-19 . . . . . . . . . . . . . .  56
+     B.8.  Since draft-ietf-quic-http-18 . . . . . . . . . . . . . .  56
+     B.9.  Since draft-ietf-quic-http-17 . . . . . . . . . . . . . .  56
+     B.10. Since draft-ietf-quic-http-16 . . . . . . . . . . . . . .  56
+     B.11. Since draft-ietf-quic-http-15 . . . . . . . . . . . . . .  57
 
 
 
-Bishop                   Expires 22 August 2020                 [Page 3]
+Bishop                   Expires 23 August 2020                 [Page 3]
 
 Internet-Draft                   HTTP/3                    February 2020
 
 
-     B.12. Since draft-ietf-quic-http-13 . . . . . . . . . . . . . .  57
-     B.13. Since draft-ietf-quic-http-12 . . . . . . . . . . . . . .  57
-     B.14. Since draft-ietf-quic-http-11 . . . . . . . . . . . . . .  58
-     B.15. Since draft-ietf-quic-http-10 . . . . . . . . . . . . . .  58
-     B.16. Since draft-ietf-quic-http-09 . . . . . . . . . . . . . .  58
-     B.17. Since draft-ietf-quic-http-08 . . . . . . . . . . . . . .  58
-     B.18. Since draft-ietf-quic-http-07 . . . . . . . . . . . . . .  58
-     B.19. Since draft-ietf-quic-http-06 . . . . . . . . . . . . . .  58
-     B.20. Since draft-ietf-quic-http-05 . . . . . . . . . . . . . .  59
-     B.21. Since draft-ietf-quic-http-04 . . . . . . . . . . . . . .  59
-     B.22. Since draft-ietf-quic-http-03 . . . . . . . . . . . . . .  59
-     B.23. Since draft-ietf-quic-http-02 . . . . . . . . . . . . . .  59
-     B.24. Since draft-ietf-quic-http-01 . . . . . . . . . . . . . .  59
-     B.25. Since draft-ietf-quic-http-00 . . . . . . . . . . . . . .  60
-     B.26. Since draft-shade-quic-http2-mapping-00 . . . . . . . . .  60
+     B.12. Since draft-ietf-quic-http-14 . . . . . . . . . . . . . .  57
+     B.13. Since draft-ietf-quic-http-13 . . . . . . . . . . . . . .  57
+     B.14. Since draft-ietf-quic-http-12 . . . . . . . . . . . . . .  57
+     B.15. Since draft-ietf-quic-http-11 . . . . . . . . . . . . . .  58
+     B.16. Since draft-ietf-quic-http-10 . . . . . . . . . . . . . .  58
+     B.17. Since draft-ietf-quic-http-09 . . . . . . . . . . . . . .  58
+     B.18. Since draft-ietf-quic-http-08 . . . . . . . . . . . . . .  58
+     B.19. Since draft-ietf-quic-http-07 . . . . . . . . . . . . . .  58
+     B.20. Since draft-ietf-quic-http-06 . . . . . . . . . . . . . .  59
+     B.21. Since draft-ietf-quic-http-05 . . . . . . . . . . . . . .  59
+     B.22. Since draft-ietf-quic-http-04 . . . . . . . . . . . . . .  59
+     B.23. Since draft-ietf-quic-http-03 . . . . . . . . . . . . . .  59
+     B.24. Since draft-ietf-quic-http-02 . . . . . . . . . . . . . .  59
+     B.25. Since draft-ietf-quic-http-01 . . . . . . . . . . . . . .  59
+     B.26. Since draft-ietf-quic-http-00 . . . . . . . . . . . . . .  60
+     B.27. Since draft-shade-quic-http2-mapping-00 . . . . . . . . .  60
    Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  60
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  60
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  61
 
 1.  Introduction
 
@@ -220,8 +221,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-
-Bishop                   Expires 22 August 2020                 [Page 4]
+Bishop                   Expires 23 August 2020                 [Page 4]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -277,7 +277,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                 [Page 5]
+Bishop                   Expires 23 August 2020                 [Page 5]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -333,7 +333,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                 [Page 6]
+Bishop                   Expires 23 August 2020                 [Page 6]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -389,7 +389,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                 [Page 7]
+Bishop                   Expires 23 August 2020                 [Page 7]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -445,7 +445,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                 [Page 8]
+Bishop                   Expires 23 August 2020                 [Page 8]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -501,7 +501,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                 [Page 9]
+Bishop                   Expires 23 August 2020                 [Page 9]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -557,7 +557,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 10]
+Bishop                   Expires 23 August 2020                [Page 10]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -613,7 +613,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 11]
+Bishop                   Expires 23 August 2020                [Page 11]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -669,7 +669,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 12]
+Bishop                   Expires 23 August 2020                [Page 12]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -725,7 +725,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 13]
+Bishop                   Expires 23 August 2020                [Page 13]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -781,7 +781,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 14]
+Bishop                   Expires 23 August 2020                [Page 14]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -837,7 +837,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 15]
+Bishop                   Expires 23 August 2020                [Page 15]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -893,7 +893,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 16]
+Bishop                   Expires 23 August 2020                [Page 16]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -949,7 +949,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 17]
+Bishop                   Expires 23 August 2020                [Page 17]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -1005,7 +1005,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 18]
+Bishop                   Expires 23 August 2020                [Page 18]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -1061,7 +1061,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 19]
+Bishop                   Expires 23 August 2020                [Page 19]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -1117,7 +1117,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 20]
+Bishop                   Expires 23 August 2020                [Page 20]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -1173,7 +1173,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 21]
+Bishop                   Expires 23 August 2020                [Page 21]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -1229,7 +1229,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 22]
+Bishop                   Expires 23 August 2020                [Page 22]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -1285,7 +1285,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 23]
+Bishop                   Expires 23 August 2020                [Page 23]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -1341,7 +1341,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 24]
+Bishop                   Expires 23 August 2020                [Page 24]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -1397,7 +1397,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 25]
+Bishop                   Expires 23 August 2020                [Page 25]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -1453,7 +1453,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 26]
+Bishop                   Expires 23 August 2020                [Page 26]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -1509,7 +1509,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 27]
+Bishop                   Expires 23 August 2020                [Page 27]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -1565,7 +1565,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 28]
+Bishop                   Expires 23 August 2020                [Page 28]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -1621,7 +1621,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 29]
+Bishop                   Expires 23 August 2020                [Page 29]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -1677,7 +1677,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 30]
+Bishop                   Expires 23 August 2020                [Page 30]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -1733,7 +1733,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 31]
+Bishop                   Expires 23 August 2020                [Page 31]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -1789,7 +1789,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 32]
+Bishop                   Expires 23 August 2020                [Page 32]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -1845,7 +1845,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 33]
+Bishop                   Expires 23 August 2020                [Page 33]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -1901,7 +1901,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 34]
+Bishop                   Expires 23 August 2020                [Page 34]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -1957,7 +1957,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 35]
+Bishop                   Expires 23 August 2020                [Page 35]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -2013,7 +2013,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 36]
+Bishop                   Expires 23 August 2020                [Page 36]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -2069,7 +2069,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 37]
+Bishop                   Expires 23 August 2020                [Page 37]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -2125,7 +2125,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 38]
+Bishop                   Expires 23 August 2020                [Page 38]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -2181,7 +2181,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 39]
+Bishop                   Expires 23 August 2020                [Page 39]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -2237,7 +2237,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 40]
+Bishop                   Expires 23 August 2020                [Page 40]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -2293,7 +2293,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 41]
+Bishop                   Expires 23 August 2020                [Page 41]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -2349,7 +2349,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 42]
+Bishop                   Expires 23 August 2020                [Page 42]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -2405,7 +2405,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 43]
+Bishop                   Expires 23 August 2020                [Page 43]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -2461,7 +2461,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 44]
+Bishop                   Expires 23 August 2020                [Page 44]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -2517,7 +2517,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 45]
+Bishop                   Expires 23 August 2020                [Page 45]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -2538,14 +2538,14 @@ Internet-Draft                   HTTP/3                    February 2020
 
    [QPACK]    Krasic, C., Bishop, M., and A. Frindell, Ed., "QPACK:
               Header Compression for HTTP over QUIC", Work in Progress,
-              Internet-Draft, draft-ietf-quic-qpack-latest, 19 February
+              Internet-Draft, draft-ietf-quic-qpack-latest, 20 February
               2020, <https://tools.ietf.org/html/draft-ietf-quic-qpack-
               latest>.
 
    [QUIC-TRANSPORT]
               Iyengar, J., Ed. and M. Thomson, Ed., "QUIC: A UDP-Based
               Multiplexed and Secure Transport", Work in Progress,
-              Internet-Draft, draft-ietf-quic-transport-latest, 19
+              Internet-Draft, draft-ietf-quic-transport-latest, 20
               February 2020, <https://tools.ietf.org/html/draft-ietf-
               quic-transport-latest>.
 
@@ -2573,7 +2573,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 46]
+Bishop                   Expires 23 August 2020                [Page 46]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -2629,7 +2629,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-Bishop                   Expires 22 August 2020                [Page 47]
+Bishop                   Expires 23 August 2020                [Page 47]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -2685,7 +2685,7 @@ A.1.  Streams
 
 
 
-Bishop                   Expires 22 August 2020                [Page 48]
+Bishop                   Expires 23 August 2020                [Page 48]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -2741,7 +2741,7 @@ A.2.2.  Header Compression Differences
 
 
 
-Bishop                   Expires 22 August 2020                [Page 49]
+Bishop                   Expires 23 August 2020                [Page 49]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -2797,7 +2797,7 @@ A.2.4.  Mapping Between HTTP/2 and HTTP/3 Frame Types
 
 
 
-Bishop                   Expires 22 August 2020                [Page 50]
+Bishop                   Expires 23 August 2020                [Page 50]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -2853,7 +2853,7 @@ A.3.  HTTP/2 SETTINGS Parameters
 
 
 
-Bishop                   Expires 22 August 2020                [Page 51]
+Bishop                   Expires 23 August 2020                [Page 51]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -2909,7 +2909,7 @@ A.4.  HTTP/2 Error Codes
 
 
 
-Bishop                   Expires 22 August 2020                [Page 52]
+Bishop                   Expires 23 August 2020                [Page 52]
 
 Internet-Draft                   HTTP/3                    February 2020
 
@@ -2949,33 +2949,41 @@ Appendix B.  Change Log
       *RFC Editor's Note:* Please remove this section prior to
       publication of a final version of this document.
 
-B.1.  Since draft-ietf-quic-http-24
+B.1.  Since draft-ietf-quic-http-25
+
+   *  Require QUICv1 for HTTP/3 (#3117, #3323)
+
+   *  Remove DUPLICATE_PUSH and allow duplicate PUSH_PROMISE (#3275,
+      #3309)
+
+   *  Clarify the definition of "malformed" (#3352, #3345)
+
+B.2.  Since draft-ietf-quic-http-24
 
    *  Removed H3_EARLY_RESPONSE error code; H3_NO_ERROR is recommended
       instead (#3130,#3208)
+
+
+
+Bishop                   Expires 23 August 2020                [Page 53]
+
+Internet-Draft                   HTTP/3                    February 2020
+
 
    *  Unknown error codes are equivalent to H3_NO_ERROR (#3276,#3331)
 
    *  Some error codes are reserved for greasing (#3325,#3360)
 
-B.2.  Since draft-ietf-quic-http-23
+B.3.  Since draft-ietf-quic-http-23
 
    *  Removed "quic" Alt-Svc parameter (#3061,#3118)
-
-
-
-
-Bishop                   Expires 22 August 2020                [Page 53]
-
-Internet-Draft                   HTTP/3                    February 2020
-
 
    *  Clients need not persist unknown settings for use in 0-RTT
       (#3110,#3113)
 
    *  Clarify error cases around CANCEL_PUSH (#2819,#3083)
 
-B.3.  Since draft-ietf-quic-http-22
+B.4.  Since draft-ietf-quic-http-22
 
    *  Removed priority signaling (#2922,#2924)
 
@@ -3011,26 +3019,24 @@ B.3.  Since draft-ietf-quic-http-22
    *  Clarify that Upgrade and the 101 status code are prohibited
       (#2898,#2889)
 
+
+
+Bishop                   Expires 23 August 2020                [Page 54]
+
+Internet-Draft                   HTTP/3                    February 2020
+
+
    *  Clarify that frame types reserved for greasing can occur on any
       stream, but frame types reserved due to HTTP/2 correspondence are
       prohibited (#2997,#2692,#2693)
 
    *  Unknown error codes cannot be treated as errors (#2998,#2816)
 
-
-
-
-
-Bishop                   Expires 22 August 2020                [Page 54]
-
-Internet-Draft                   HTTP/3                    February 2020
-
-
-B.4.  Since draft-ietf-quic-http-21
+B.5.  Since draft-ietf-quic-http-21
 
    No changes
 
-B.5.  Since draft-ietf-quic-http-20
+B.6.  Since draft-ietf-quic-http-20
 
    *  Prohibit closing the control stream (#2509, #2666)
 
@@ -3069,27 +3075,25 @@ B.5.  Since draft-ietf-quic-http-20
 
       -  Remove HTTP_PUSH_ALREADY_IN_CACHE error (#2812, #2813)
 
-      -  Refactor Push ID related errors (#2818, #2820)
-
-      -  Rationalize HTTP/3 stream creation errors (#2821, #2822)
 
 
-
-
-
-Bishop                   Expires 22 August 2020                [Page 55]
+Bishop                   Expires 23 August 2020                [Page 55]
 
 Internet-Draft                   HTTP/3                    February 2020
 
 
-B.6.  Since draft-ietf-quic-http-19
+      -  Refactor Push ID related errors (#2818, #2820)
+
+      -  Rationalize HTTP/3 stream creation errors (#2821, #2822)
+
+B.7.  Since draft-ietf-quic-http-19
 
    *  SETTINGS_NUM_PLACEHOLDERS is 0x9 (#2443,#2530)
 
    *  Non-zero bits in the Empty field of the PRIORITY frame MAY be
       treated as an error (#2501)
 
-B.7.  Since draft-ietf-quic-http-18
+B.8.  Since draft-ietf-quic-http-18
 
    *  Resetting streams following a GOAWAY is recommended, but not
       required (#2256,#2457)
@@ -3110,14 +3114,14 @@ B.7.  Since draft-ietf-quic-http-18
 
    *  Use connection error for invalid PRIORITY (#2507, #2508)
 
-B.8.  Since draft-ietf-quic-http-17
+B.9.  Since draft-ietf-quic-http-17
 
    *  HTTP_REQUEST_REJECTED is used to indicate a request can be retried
       (#2106, #2325)
 
    *  Changed error code for GOAWAY on the wrong stream (#2231, #2343)
 
-B.9.  Since draft-ietf-quic-http-16
+B.10.  Since draft-ietf-quic-http-16
 
    *  Rename "HTTP/QUIC" to "HTTP/3" (#1973)
 
@@ -3127,16 +3131,14 @@ B.9.  Since draft-ietf-quic-http-16
 
       -  Remove exclusive reprioritization
 
-      -  Changes to Prioritized Element Type bits
 
 
-
-
-
-Bishop                   Expires 22 August 2020                [Page 56]
+Bishop                   Expires 23 August 2020                [Page 56]
 
 Internet-Draft                   HTTP/3                    February 2020
 
+
+      -  Changes to Prioritized Element Type bits
 
    *  Define DUPLICATE_PUSH frame to refer to another PUSH_PROMISE
       (#2072)
@@ -3152,11 +3154,11 @@ Internet-Draft                   HTTP/3                    February 2020
 
    *  Removed prohibition of zero-length DATA frames (#2098)
 
-B.10.  Since draft-ietf-quic-http-15
+B.11.  Since draft-ietf-quic-http-15
 
    Substantial editorial reorganization; no technical changes.
 
-B.11.  Since draft-ietf-quic-http-14
+B.12.  Since draft-ietf-quic-http-14
 
    *  Recommend sensible values for QUIC transport parameters
       (#1720,#1806)
@@ -3170,7 +3172,7 @@ B.11.  Since draft-ietf-quic-http-14
 
    *  HTTP_VERSION_FALLBACK falls back to HTTP/1.1 (#1677,#1685)
 
-B.12.  Since draft-ietf-quic-http-13
+B.13.  Since draft-ietf-quic-http-13
 
    *  Reserved some frame types for grease (#1333, #1446)
 
@@ -3182,17 +3184,18 @@ B.12.  Since draft-ietf-quic-http-13
 
    *  Specify behavior for truncated requests (#1596, #1643)
 
-B.13.  Since draft-ietf-quic-http-12
-
-   *  TLS SNI extension isn't mandatory if an alternative method is used
-      (#1459, #1462, #1466)
+B.14.  Since draft-ietf-quic-http-12
 
 
 
-Bishop                   Expires 22 August 2020                [Page 57]
+
+Bishop                   Expires 23 August 2020                [Page 57]
 
 Internet-Draft                   HTTP/3                    February 2020
 
+
+   *  TLS SNI extension isn't mandatory if an alternative method is used
+      (#1459, #1462, #1466)
 
    *  Removed flags from HTTP/3 frames (#1388, #1398)
 
@@ -3207,17 +3210,17 @@ Internet-Draft                   HTTP/3                    February 2020
    *  Priority mechanism now uses explicit placeholders to enable
       persistent structure in the tree (#441,#1421,#1422)
 
-B.14.  Since draft-ietf-quic-http-11
+B.15.  Since draft-ietf-quic-http-11
 
    *  Moved QPACK table updates and acknowledgments to dedicated streams
       (#1121, #1122, #1238)
 
-B.15.  Since draft-ietf-quic-http-10
+B.16.  Since draft-ietf-quic-http-10
 
    *  Settings need to be remembered when attempting and accepting 0-RTT
       (#1157, #1207)
 
-B.16.  Since draft-ietf-quic-http-09
+B.17.  Since draft-ietf-quic-http-09
 
    *  Selected QCRAM for header compression (#228, #1117)
 
@@ -3226,11 +3229,11 @@ B.16.  Since draft-ietf-quic-http-09
    *  Specified handling of unsupported versions in Alt-Svc (#1093,
       #1097)
 
-B.17.  Since draft-ietf-quic-http-08
+B.18.  Since draft-ietf-quic-http-08
 
    *  Clarified connection coalescing rules (#940, #1024)
 
-B.18.  Since draft-ietf-quic-http-07
+B.19.  Since draft-ietf-quic-http-07
 
    *  Changes for integer encodings in QUIC (#595,#905)
 
@@ -3240,19 +3243,18 @@ B.18.  Since draft-ietf-quic-http-07
 
    *  Improve description of server push usage (#947, #950, #957)
 
-B.19.  Since draft-ietf-quic-http-06
 
 
-
-
-Bishop                   Expires 22 August 2020                [Page 58]
+Bishop                   Expires 23 August 2020                [Page 58]
 
 Internet-Draft                   HTTP/3                    February 2020
 
 
+B.20.  Since draft-ietf-quic-http-06
+
    *  Track changes in QUIC error code usage (#485)
 
-B.20.  Since draft-ietf-quic-http-05
+B.21.  Since draft-ietf-quic-http-05
 
    *  Made push ID sequential, add MAX_PUSH_ID, remove
       SETTINGS_ENABLE_PUSH (#709)
@@ -3261,7 +3263,7 @@ B.20.  Since draft-ietf-quic-http-05
 
    *  Expanded text on GOAWAY and cancellation (#757)
 
-B.21.  Since draft-ietf-quic-http-04
+B.22.  Since draft-ietf-quic-http-04
 
    *  Cite RFC 5234 (#404)
 
@@ -3278,15 +3280,15 @@ B.21.  Since draft-ietf-quic-http-04
 
    *  DATA frames cannot be empty (#700)
 
-B.22.  Since draft-ietf-quic-http-03
+B.23.  Since draft-ietf-quic-http-03
 
    None.
 
-B.23.  Since draft-ietf-quic-http-02
+B.24.  Since draft-ietf-quic-http-02
 
    *  Track changes in transport draft
 
-B.24.  Since draft-ietf-quic-http-01
+B.25.  Since draft-ietf-quic-http-01
 
    *  SETTINGS changes (#181):
 
@@ -3297,14 +3299,14 @@ B.24.  Since draft-ietf-quic-http-01
 
       -  Settings can only occur in the SETTINGS frame a single time
 
-      -  Boolean format updated
 
 
-
-Bishop                   Expires 22 August 2020                [Page 59]
+Bishop                   Expires 23 August 2020                [Page 59]
 
 Internet-Draft                   HTTP/3                    February 2020
 
+
+      -  Boolean format updated
 
    *  Alt-Svc parameter changed from "v" to "quic"; format updated
       (#229)
@@ -3319,7 +3321,7 @@ Internet-Draft                   HTTP/3                    February 2020
    *  Guide to differences from HTTP/2 and porting HTTP/2 extensions
       added (#127,#242)
 
-B.25.  Since draft-ietf-quic-http-00
+B.26.  Since draft-ietf-quic-http-00
 
    *  Changed "HTTP/2-over-QUIC" to "HTTP/QUIC" throughout (#11,#29)
 
@@ -3338,7 +3340,7 @@ B.25.  Since draft-ietf-quic-http-00
 
    *  Application-layer-defined error codes (#19,#74)
 
-B.26.  Since draft-shade-quic-http2-mapping-00
+B.27.  Since draft-shade-quic-http2-mapping-00
 
    *  Adopted as base for draft-ietf-quic-http
 
@@ -3352,15 +3354,15 @@ Acknowledgements
    A substantial portion of Mike's contribution was supported by
    Microsoft during his employment there.
 
-Author's Address
 
 
 
-
-Bishop                   Expires 22 August 2020                [Page 60]
+Bishop                   Expires 23 August 2020                [Page 60]
 
 Internet-Draft                   HTTP/3                    February 2020
 
+
+Author's Address
 
    Mike Bishop (editor)
    Akamai
@@ -3411,6 +3413,4 @@ Internet-Draft                   HTTP/3                    February 2020
 
 
 
-
-
-Bishop                   Expires 22 August 2020                [Page 61]
+Bishop                   Expires 23 August 2020                [Page 61]
