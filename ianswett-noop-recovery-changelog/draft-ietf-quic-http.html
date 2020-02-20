@@ -818,11 +818,11 @@ table.left {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">HTTP/3</td>
-<td class="right">January 2020</td>
+<td class="right">February 2020</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Bishop</td>
-<td class="center">Expires 24 July 2020</td>
+<td class="center">Expires 23 August 2020</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -835,12 +835,12 @@ table.left {
 <dd class="internet-draft">draft-ietf-quic-http-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2020-01-21" class="published">21 January 2020</time>
+<time datetime="2020-02-20" class="published">20 February 2020</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2020-07-24">24 July 2020</time></dd>
+<dd class="expires"><time datetime="2020-08-23">23 August 2020</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -890,7 +890,7 @@ code and issues list for this draft can be found at
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 24 July 2020.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 23 August 2020.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1056,10 +1056,7 @@ code and issues list for this draft can be found at
                     <p id="section-toc.1-1.7.2.2.2.7.1"><a href="#section-7.2.7" class="xref">7.2.7</a>.  <a href="#name-max_push_id" class="xref">MAX_PUSH_ID</a><a href="#section-toc.1-1.7.2.2.2.7.1" class="pilcrow">¶</a></p>
 </li>
 <li class="toc ulEmpty" id="section-toc.1-1.7.2.2.2.8">
-                    <p id="section-toc.1-1.7.2.2.2.8.1"><a href="#section-7.2.8" class="xref">7.2.8</a>.  <a href="#name-duplicate_push" class="xref">DUPLICATE_PUSH</a><a href="#section-toc.1-1.7.2.2.2.8.1" class="pilcrow">¶</a></p>
-</li>
-<li class="toc ulEmpty" id="section-toc.1-1.7.2.2.2.9">
-                    <p id="section-toc.1-1.7.2.2.2.9.1"><a href="#section-7.2.9" class="xref">7.2.9</a>.  <a href="#name-reserved-frame-types" class="xref">Reserved Frame Types</a><a href="#section-toc.1-1.7.2.2.2.9.1" class="pilcrow">¶</a></p>
+                    <p id="section-toc.1-1.7.2.2.2.8.1"><a href="#section-7.2.8" class="xref">7.2.8</a>.  <a href="#name-reserved-frame-types" class="xref">Reserved Frame Types</a><a href="#section-toc.1-1.7.2.2.2.8.1" class="pilcrow">¶</a></p>
 </li>
 </ul>
 </li>
@@ -1328,7 +1325,7 @@ streams.<a href="#section-2-4" class="pilcrow">¶</a></p>
 a server to push a request-response exchange to a client in anticipation of the
 client making the indicated request.  This trades off network usage against a
 potential latency gain.  Several HTTP/3 frames are used to manage server push,
-such as PUSH_PROMISE, DUPLICATE_PUSH, MAX_PUSH_ID, and CANCEL_PUSH.<a href="#section-2-5" class="pilcrow">¶</a></p>
+such as PUSH_PROMISE, MAX_PUSH_ID, and CANCEL_PUSH.<a href="#section-2-5" class="pilcrow">¶</a></p>
 <p id="section-2-6">As in HTTP/2, request and response headers are compressed for transmission.
 Because HPACK <span>[<a href="#HPACK" class="xref">HPACK</a>]</span> relies on in-order transmission of compressed
 header blocks (a guarantee not provided by QUIC), HTTP/3 replaces HPACK with
@@ -1485,13 +1482,17 @@ this string.<a href="#section-3.1-2" class="pilcrow">¶</a></p>
 <p id="section-3.1-3">Implementations of draft versions of the protocol MUST add the string "-" and
 the corresponding draft number to the identifier. For example,
 draft-ietf-quic-http-01 is identified using the string "h3-01".<a href="#section-3.1-3" class="pilcrow">¶</a></p>
-<p id="section-3.1-4">Non-compatible experiments that are based on these draft versions MUST append
+<p id="section-3.1-4">Draft versions MUST use the corresponding draft transport version as their
+transport. For example, the application protocol defined in
+draft-ietf-quic-http-25 uses the transport defined in
+draft-ietf-quic-transport-25.<a href="#section-3.1-4" class="pilcrow">¶</a></p>
+<p id="section-3.1-5">Non-compatible experiments that are based on these draft versions MUST append
 the string "-" and an experiment name to the identifier. For example, an
 experimental implementation based on draft-ietf-quic-http-09 which reserves an
 extra stream for unsolicited transmission of 1980s pop music might identify
 itself as "h3-09-rickroll". Note that any label MUST conform to the "token"
 syntax defined in Section 3.2.6 of <span>[<a href="#RFC7230" class="xref">RFC7230</a>]</span>. Experimenters are encouraged to
-coordinate their experiments on the quic@ietf.org mailing list.<a href="#section-3.1-4" class="pilcrow">¶</a></p>
+coordinate their experiments on the quic@ietf.org mailing list.<a href="#section-3.1-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="discovery">
@@ -1526,20 +1527,22 @@ an explicit port.<a href="#section-3.2-6" class="pilcrow">¶</a></p>
         <h3 id="name-connection-establishment">
 <a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-connection-establishment" class="section-name selfRef">Connection Establishment</a>
         </h3>
-<p id="section-3.3-1">HTTP/3 relies on QUIC as the underlying transport.  The QUIC version being used
-MUST use TLS version 1.3 or greater as its handshake protocol.  HTTP/3 clients
-MUST indicate the target domain name during the TLS handshake. This may be done
-using the Server Name Indication (SNI) <span>[<a href="#RFC6066" class="xref">RFC6066</a>]</span> extension to TLS or using
-some other mechanism.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
-<p id="section-3.3-2">QUIC connections are established as described in <span>[<a href="#QUIC-TRANSPORT" class="xref">QUIC-TRANSPORT</a>]</span>. During
+<p id="section-3.3-1">HTTP/3 relies on QUIC version 1 as the underlying transport.  The use of other
+QUIC transport versions with HTTP/3 MAY be defined by future specifications.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.3-2">QUIC version 1 uses TLS version 1.3 or greater as its handshake protocol.
+HTTP/3 clients MUST support a mechanism to indicate the target host to the
+server during the TLS handshake.  If the server is identified by a DNS name,
+clients MUST send the Server Name Indication (SNI) <span>[<a href="#RFC6066" class="xref">RFC6066</a>]</span> TLS extension
+unless an alternative mechanism to indicate the target host is used.<a href="#section-3.3-2" class="pilcrow">¶</a></p>
+<p id="section-3.3-3">QUIC connections are established as described in <span>[<a href="#QUIC-TRANSPORT" class="xref">QUIC-TRANSPORT</a>]</span>. During
 connection establishment, HTTP/3 support is indicated by selecting the ALPN
 token "h3" in the TLS handshake.  Support for other application-layer protocols
-MAY be offered in the same handshake.<a href="#section-3.3-2" class="pilcrow">¶</a></p>
-<p id="section-3.3-3">While connection-level options pertaining to the core QUIC protocol are set in
+MAY be offered in the same handshake.<a href="#section-3.3-3" class="pilcrow">¶</a></p>
+<p id="section-3.3-4">While connection-level options pertaining to the core QUIC protocol are set in
 the initial crypto handshake, HTTP/3-specific settings are conveyed in the
 SETTINGS frame. After the QUIC connection is established, a SETTINGS frame
 (<a href="#frame-settings" class="xref">Section 7.2.4</a>) MUST be sent by each endpoint as the initial frame of their
-respective HTTP control stream (see <a href="#control-streams" class="xref">Section 6.2.1</a>).<a href="#section-3.3-3" class="pilcrow">¶</a></p>
+respective HTTP control stream (see <a href="#control-streams" class="xref">Section 6.2.1</a>).<a href="#section-3.3-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="connection-reuse">
@@ -1587,54 +1590,64 @@ management of HTTP/3 connections.<a href="#section-3.4-5" class="pilcrow">¶</a>
 A client MUST send only a single request on a given stream. A server sends zero
 or more non-final HTTP responses on the same stream as the request, followed by
 a single final HTTP response, as detailed below.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
-<p id="section-4.1-2">An HTTP message (request or response) consists of:<a href="#section-4.1-2" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal" id="section-4.1-3">
-          <li id="section-4.1-3.1">the message header (see Section 3.2 of <span>[<a href="#RFC7230" class="xref">RFC7230</a>]</span>), sent as a single
-HEADERS frame (see <a href="#frame-headers" class="xref">Section 7.2.2</a>),<a href="#section-4.1-3.1" class="pilcrow">¶</a>
+<p id="section-4.1-2">Pushed responses are sent on a server-initiated unidirectional QUIC stream (see
+<a href="#push-streams" class="xref">Section 6.2.2</a>).  A server sends zero or more non-final HTTP responses,
+followed by a single final HTTP response, in the same manner as a standard
+response.  Push is described in more detail in <a href="#server-push" class="xref">Section 4.4</a>.<a href="#section-4.1-2" class="pilcrow">¶</a></p>
+<p id="section-4.1-3">On a given stream, receipt of multiple requests or receipt of an additional HTTP
+response following a final HTTP response MUST be treated as malformed
+(<a href="#malformed" class="xref">Section 4.1.3</a>).<a href="#section-4.1-3" class="pilcrow">¶</a></p>
+<p id="section-4.1-4">An HTTP message (request or response) consists of:<a href="#section-4.1-4" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal" id="section-4.1-5">
+          <li id="section-4.1-5.1">the message header (see Section 3.2 of <span>[<a href="#RFC7230" class="xref">RFC7230</a>]</span>), sent as a single
+HEADERS frame (see <a href="#frame-headers" class="xref">Section 7.2.2</a>),<a href="#section-4.1-5.1" class="pilcrow">¶</a>
 </li>
-<li id="section-4.1-3.2">optionally, the payload body, if present (see Section 3.3 of <span>[<a href="#RFC7230" class="xref">RFC7230</a>]</span>),
-sent as a series of DATA frames (see <a href="#frame-data" class="xref">Section 7.2.1</a>),<a href="#section-4.1-3.2" class="pilcrow">¶</a>
+<li id="section-4.1-5.2">optionally, the payload body, if present (see Section 3.3 of <span>[<a href="#RFC7230" class="xref">RFC7230</a>]</span>),
+sent as a series of DATA frames (see <a href="#frame-data" class="xref">Section 7.2.1</a>),<a href="#section-4.1-5.2" class="pilcrow">¶</a>
 </li>
-<li id="section-4.1-3.3">optionally, trailing headers, if present (see Section 4.1.2 of <span>[<a href="#RFC7230" class="xref">RFC7230</a>]</span>),
-sent as a single HEADERS frame.<a href="#section-4.1-3.3" class="pilcrow">¶</a>
+<li id="section-4.1-5.3">optionally, trailing headers, if present (see Section 4.1.2 of <span>[<a href="#RFC7230" class="xref">RFC7230</a>]</span>),
+sent as a single HEADERS frame.<a href="#section-4.1-5.3" class="pilcrow">¶</a>
 </li>
 </ol>
-<p id="section-4.1-4">A server MAY send one or more PUSH_PROMISE (see <a href="#frame-push-promise" class="xref">Section 7.2.5</a>) or
-DUPLICATE_PUSH (see <a href="#frame-duplicate-push" class="xref">Section 7.2.8</a>) frames before, after, or
-interleaved with the frames of a response message. These PUSH_PROMISE and
-DUPLICATE_PUSH frames are not part of the response; see <a href="#server-push" class="xref">Section 4.4</a> for
-more details.<a href="#section-4.1-4" class="pilcrow">¶</a></p>
-<p id="section-4.1-5">Frames of unknown types (<a href="#extensions" class="xref">Section 9</a>), including reserved frames
-(<a href="#frame-reserved" class="xref">Section 7.2.9</a>) MAY be sent on a request or push stream before, after, or
-interleaved with other frames described in this section.<a href="#section-4.1-5" class="pilcrow">¶</a></p>
-<p id="section-4.1-6">The HEADERS and PUSH_PROMISE frames might reference updates to the QPACK dynamic
+<p id="section-4.1-6">Receipt of DATA and HEADERS frames in any other sequence MUST be treated as a
+connection error of type H3_FRAME_UNEXPECTED (<a href="#errors" class="xref">Section 8</a>).<a href="#section-4.1-6" class="pilcrow">¶</a></p>
+<p id="section-4.1-7">A server MAY send one or more PUSH_PROMISE frames (see <a href="#frame-push-promise" class="xref">Section 7.2.5</a>)
+before, after, or interleaved with the frames of a response message. These
+PUSH_PROMISE frames are not part of the response; see <a href="#server-push" class="xref">Section 4.4</a> for more
+details.  These frames are not permitted in pushed responses; a pushed response
+which includes PUSH_PROMISE frames MUST be treated as a connection error of type
+H3_FRAME_UNEXPECTED.<a href="#section-4.1-7" class="pilcrow">¶</a></p>
+<p id="section-4.1-8">Frames of unknown types (<a href="#extensions" class="xref">Section 9</a>), including reserved frames
+(<a href="#frame-reserved" class="xref">Section 7.2.8</a>) MAY be sent on a request or push stream before, after, or
+interleaved with other frames described in this section.<a href="#section-4.1-8" class="pilcrow">¶</a></p>
+<p id="section-4.1-9">The HEADERS and PUSH_PROMISE frames might reference updates to the QPACK dynamic
 table. While these updates are not directly part of the message exchange, they
 must be received and processed before the message can be consumed.  See
-<a href="#header-formatting" class="xref">Section 4.1.1</a> for more details.<a href="#section-4.1-6" class="pilcrow">¶</a></p>
-<p id="section-4.1-7">The "chunked" transfer encoding defined in Section 4.1 of <span>[<a href="#RFC7230" class="xref">RFC7230</a>]</span> MUST NOT
-be used.<a href="#section-4.1-7" class="pilcrow">¶</a></p>
-<p id="section-4.1-8">A response MAY consist of multiple messages when and only when one or more
+<a href="#header-formatting" class="xref">Section 4.1.1</a> for more details.<a href="#section-4.1-9" class="pilcrow">¶</a></p>
+<p id="section-4.1-10">The "chunked" transfer encoding defined in Section 4.1 of <span>[<a href="#RFC7230" class="xref">RFC7230</a>]</span> MUST NOT
+be used.<a href="#section-4.1-10" class="pilcrow">¶</a></p>
+<p id="section-4.1-11">A response MAY consist of multiple messages when and only when one or more
 informational responses (1xx; see Section 6.2 of <span>[<a href="#RFC7231" class="xref">RFC7231</a>]</span>) precede a final
 response to the same request.  Non-final responses do not contain a payload body
-or trailers.<a href="#section-4.1-8" class="pilcrow">¶</a></p>
-<p id="section-4.1-9">If an endpoint receives an invalid sequence of frames on either a request or
+or trailers.<a href="#section-4.1-11" class="pilcrow">¶</a></p>
+<p id="section-4.1-12">If an endpoint receives an invalid sequence of frames on either a request or
 a push stream, it MUST respond with a connection error of type
 H3_FRAME_UNEXPECTED (<a href="#errors" class="xref">Section 8</a>).  In particular, a DATA frame before any
 HEADERS frame, or a HEADERS or DATA frame after the trailing HEADERS frame is
-considered invalid.<a href="#section-4.1-9" class="pilcrow">¶</a></p>
-<p id="section-4.1-10">An HTTP request/response exchange fully consumes a bidirectional QUIC stream.
-After sending a request, a client MUST close the stream for sending.  Unless
-using the CONNECT method (see <a href="#the-connect-method" class="xref">Section 4.2</a>), clients MUST NOT make
-stream closure dependent on receiving a response to their request. After sending
-a final response, the server MUST close the stream for sending. At this point,
-the QUIC stream is fully closed.<a href="#section-4.1-10" class="pilcrow">¶</a></p>
-<p id="section-4.1-11">When a stream is closed, this indicates the end of an HTTP message. Because some
+considered invalid.<a href="#section-4.1-12" class="pilcrow">¶</a></p>
+<p id="section-4.1-13">An HTTP request/response exchange fully consumes a client-initiated
+bidirectional QUIC stream. After sending a request, a client MUST close the
+stream for sending.  Unless using the CONNECT method (see <a href="#connect" class="xref">Section 4.2</a>), clients
+MUST NOT make stream closure dependent on receiving a response to their request.
+After sending a final response, the server MUST close the stream for sending. At
+this point, the QUIC stream is fully closed.<a href="#section-4.1-13" class="pilcrow">¶</a></p>
+<p id="section-4.1-14">When a stream is closed, this indicates the end of an HTTP message. Because some
 messages are large or unbounded, endpoints SHOULD begin processing partial HTTP
 messages once enough of the message has been received to make progress.  If a
 client stream terminates without enough of the HTTP message to provide a
 complete response, the server SHOULD abort its response with the error code
-H3_REQUEST_INCOMPLETE.<a href="#section-4.1-11" class="pilcrow">¶</a></p>
-<p id="section-4.1-12">A server can send a complete response prior to the client sending an entire
+H3_REQUEST_INCOMPLETE.<a href="#section-4.1-14" class="pilcrow">¶</a></p>
+<p id="section-4.1-15">A server can send a complete response prior to the client sending an entire
 request if the response does not depend on any portion of the request that has
 not been sent and received. When the server does not need to receive the
 remainder of the request, it MAY abort reading the request stream, send a
@@ -1644,7 +1657,7 @@ the request stream.  Clients MUST NOT discard complete responses as a result of
 having their request terminated abruptly, though clients can always discard
 responses at their discretion for other reasons.  If the server sends a partial
 or complete response but does not abort reading, clients SHOULD continue sending
-the body of the request and close the stream normally.<a href="#section-4.1-12" class="pilcrow">¶</a></p>
+the body of the request and close the stream normally.<a href="#section-4.1-15" class="pilcrow">¶</a></p>
 <div id="header-formatting">
 <section id="section-4.1.1">
           <h4 id="name-header-formatting-and-compr">
@@ -1661,37 +1674,137 @@ header field names and values are discussed in more detail in Section 3.2 of
 field names MUST be converted to lowercase prior to their encoding.  A request
 or response containing uppercase header field names MUST be treated as
 malformed (<a href="#malformed" class="xref">Section 4.1.3</a>).<a href="#section-4.1.1-2" class="pilcrow">¶</a></p>
-<p id="section-4.1.1-3">As in HTTP/2, HTTP/3 uses special pseudo-header fields beginning with the ':'
+<p id="section-4.1.1-3">Like HTTP/2, HTTP/3 does not use the Connection header field to indicate
+connection-specific header fields; in this protocol, connection-specific
+metadata is conveyed by other means.  An endpoint MUST NOT generate an HTTP/3
+message containing connection-specific header fields; any message containing
+connection-specific header fields MUST be treated as malformed (<a href="#malformed" class="xref">Section 4.1.3</a>).<a href="#section-4.1.1-3" class="pilcrow">¶</a></p>
+<p id="section-4.1.1-4">The only exception to this is the TE header field, which MAY be present in an
+HTTP/3 request; when it is, it MUST NOT contain any value other than "trailers".<a href="#section-4.1.1-4" class="pilcrow">¶</a></p>
+<p id="section-4.1.1-5">This means that an intermediary transforming an HTTP/1.x message to HTTP/3 will
+need to remove any header fields nominated by the Connection header field, along
+with the Connection header field itself.  Such intermediaries SHOULD also remove
+other connection-specific header fields, such as Keep-Alive, Proxy-Connection,
+Transfer-Encoding, and Upgrade, even if they are not nominated by the Connection
+header field.<a href="#section-4.1.1-5" class="pilcrow">¶</a></p>
+<div id="pseudo-header-fields">
+<section id="section-4.1.1.1">
+            <h5 id="name-pseudo-header-fields">
+<a href="#section-4.1.1.1" class="section-number selfRef">4.1.1.1. </a><a href="#name-pseudo-header-fields" class="section-name selfRef">Pseudo-Header Fields</a>
+            </h5>
+<p id="section-4.1.1.1-1">As in HTTP/2, HTTP/3 uses special pseudo-header fields beginning with the ':'
 character (ASCII 0x3a) to convey the target URI, the method of the request, and
-the status code for the response.  These pseudo-header fields are defined in
-Section 8.1.2.3 and 8.1.2.4 of <span>[<a href="#HTTP2" class="xref">HTTP2</a>]</span>. Pseudo-header fields are not HTTP
-header fields.  Endpoints MUST NOT generate pseudo-header fields other than
-those defined in <span>[<a href="#HTTP2" class="xref">HTTP2</a>]</span>.  The restrictions on the use of pseudo-header
-fields in Section 8.1.2 of <span>[<a href="#HTTP2" class="xref">HTTP2</a>]</span> also apply to HTTP/3.  Messages which
-are considered malformed under these restrictions are handled as described in
-<a href="#malformed" class="xref">Section 4.1.3</a>.<a href="#section-4.1.1-3" class="pilcrow">¶</a></p>
-<p id="section-4.1.1-4">HTTP/3 uses QPACK header compression as described in <span>[<a href="#QPACK" class="xref">QPACK</a>]</span>, a variation of
+the status code for the response.<a href="#section-4.1.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.1.1.1-2">Pseudo-header fields are not HTTP header fields.  Endpoints MUST NOT generate
+pseudo-header fields other than those defined in this document, except as
+negotiated via an extension; see <a href="#extensions" class="xref">Section 9</a>.<a href="#section-4.1.1.1-2" class="pilcrow">¶</a></p>
+<p id="section-4.1.1.1-3">Pseudo-header fields are only valid in the context in which they are defined.
+Pseudo-header fields defined for requests MUST NOT appear in responses;
+pseudo-header fields defined for responses MUST NOT appear in requests.
+Pseudo-header fields MUST NOT appear in trailers.  Endpoints MUST treat a
+request or response that contains undefined or invalid pseudo-header fields as
+malformed (<a href="#malformed" class="xref">Section 4.1.3</a>).<a href="#section-4.1.1.1-3" class="pilcrow">¶</a></p>
+<p id="section-4.1.1.1-4">All pseudo-header fields MUST appear in the header block before regular header
+fields.  Any request or response that contains a pseudo-header field that
+appears in a header block after a regular header field MUST be treated as
+malformed (<a href="#malformed" class="xref">Section 4.1.3</a>).<a href="#section-4.1.1.1-4" class="pilcrow">¶</a></p>
+<p id="section-4.1.1.1-5">The following pseudo-header fields are defined for requests:<a href="#section-4.1.1.1-5" class="pilcrow">¶</a></p>
+<dl class="dlParallel" id="section-4.1.1.1-6">
+              <dt id="section-4.1.1.1-6.1">":method":</dt>
+<dd id="section-4.1.1.1-6.2">
+  Contains the HTTP method (<span>[<a href="#RFC7231" class="xref">RFC7231</a>]</span>, Section 4)<a href="#section-4.1.1.1-6.2" class="pilcrow">¶</a>
+</dd>
+<dt id="section-4.1.1.1-6.3">":scheme":</dt>
+<dd id="section-4.1.1.1-6.4">
+  Contains the scheme portion of the target URI (<span>[<a href="#RFC3986" class="xref">RFC3986</a>]</span>, Section 3.1)<a href="#section-4.1.1.1-6.4" class="pilcrow">¶</a>
+</dd>
+<dt id="section-4.1.1.1-6.5"></dt>
+<dd id="section-4.1.1.1-6.6">":scheme" is not restricted to "http" and "https" schemed URIs.  A proxy or
+gateway can translate requests for non-HTTP schemes, enabling the use of
+HTTP to interact with non-HTTP services.<a href="#section-4.1.1.1-6.6" class="pilcrow">¶</a>
+</dd>
+<dt id="section-4.1.1.1-6.7">":authority":</dt>
+<dd id="section-4.1.1.1-6.8">
+  Contains the authority portion of the target URI (Section 3.2 of <span>[<a href="#RFC3986" class="xref">RFC3986</a>]</span>).
+The authority MUST NOT include the deprecated "userinfo" subcomponent for
+"http" or "https" schemed URIs.<a href="#section-4.1.1.1-6.8" class="pilcrow">¶</a>
+</dd>
+<dt id="section-4.1.1.1-6.9"></dt>
+<dd id="section-4.1.1.1-6.10">To ensure that the HTTP/1.1 request line can be reproduced accurately, this
+pseudo-header field MUST be omitted when translating from an HTTP/1.1
+request that has a request target in origin or asterisk form (see Section
+5.3 of <span>[<a href="#RFC7230" class="xref">RFC7230</a>]</span>).  Clients that generate HTTP/3 requests directly SHOULD
+use the ":authority" pseudo-header field instead of the Host header field.
+An intermediary that converts an HTTP/3 request to HTTP/1.1 MUST create a
+Host header field if one is not present in a request by copying the value of
+the ":authority" pseudo-header field.<a href="#section-4.1.1.1-6.10" class="pilcrow">¶</a>
+</dd>
+<dt id="section-4.1.1.1-6.11">":path":</dt>
+<dd id="section-4.1.1.1-6.12">
+  Contains the path and query parts of the target URI (the "path-absolute"
+production and optionally a '?' character followed by the "query" production
+(see Sections 3.3 and 3.4 of <span>[<a href="#RFC3986" class="xref">RFC3986</a>]</span>).  A request in asterisk form
+includes the value '*' for the ":path" pseudo-header field.<a href="#section-4.1.1.1-6.12" class="pilcrow">¶</a>
+</dd>
+<dt id="section-4.1.1.1-6.13"></dt>
+<dd id="section-4.1.1.1-6.14">This pseudo-header field MUST NOT be empty for "http" or "https" URIs;
+"http" or "https" URIs that do not contain a path component MUST include a
+value of '/'.  The exception to this rule is an OPTIONS request for an
+"http" or "https" URI that does not include a path component; these MUST
+include a ":path" pseudo-header field with a value of '*' (see Section 5.3.4
+of <span>[<a href="#RFC7230" class="xref">RFC7230</a>]</span>).<a href="#section-4.1.1.1-6.14" class="pilcrow">¶</a>
+</dd>
+</dl>
+<p id="section-4.1.1.1-7">All HTTP/3 requests MUST include exactly one value for the ":method", ":scheme",
+and ":path" pseudo-header fields, unless it is a CONNECT request (<a href="#connect" class="xref">Section 4.2</a>).
+An HTTP request that omits mandatory pseudo-header fields or contains invalid
+values for those fields is malformed (<a href="#malformed" class="xref">Section 4.1.3</a>).<a href="#section-4.1.1.1-7" class="pilcrow">¶</a></p>
+<p id="section-4.1.1.1-8">HTTP/3 does not define a way to carry the version identifier that is included in
+the HTTP/1.1 request line.<a href="#section-4.1.1.1-8" class="pilcrow">¶</a></p>
+<p id="section-4.1.1.1-9">For responses, a single ":status" pseudo-header field is defined that carries
+the HTTP status code field (see Section 6 of <span>[<a href="#RFC7231" class="xref">RFC7231</a>]</span>).  This pseudo-header
+field MUST be included in all responses; otherwise, the response is malformed
+(<a href="#malformed" class="xref">Section 4.1.3</a>).<a href="#section-4.1.1.1-9" class="pilcrow">¶</a></p>
+<p id="section-4.1.1.1-10">HTTP/3 does not define a way to carry the version or reason phrase that is
+included in an HTTP/1.1 status line.<a href="#section-4.1.1.1-10" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="header-compression">
+<section id="section-4.1.1.2">
+            <h5 id="name-header-compression">
+<a href="#section-4.1.1.2" class="section-number selfRef">4.1.1.2. </a><a href="#name-header-compression" class="section-name selfRef">Header Compression</a>
+            </h5>
+<p id="section-4.1.1.2-1">HTTP/3 uses QPACK header compression as described in <span>[<a href="#QPACK" class="xref">QPACK</a>]</span>, a variation of
 HPACK which allows the flexibility to avoid header-compression-induced
-head-of-line blocking.  See that document for additional details.<a href="#section-4.1.1-4" class="pilcrow">¶</a></p>
-<p id="section-4.1.1-5">To allow for better compression efficiency, the cookie header field <span>[<a href="#RFC6265" class="xref">RFC6265</a>]</span>
+head-of-line blocking.  See that document for additional details.<a href="#section-4.1.1.2-1" class="pilcrow">¶</a></p>
+<p id="section-4.1.1.2-2">To allow for better compression efficiency, the cookie header field <span>[<a href="#RFC6265" class="xref">RFC6265</a>]</span>
 MAY be split into separate header fields, each with one or more cookie-pairs,
 before compression. If a decompressed header list contains multiple cookie
 header fields, these MUST be concatenated before being passed into a non-HTTP/2,
-non-HTTP/3 context, as described in Section 8.1.2.5 of <span>[<a href="#HTTP2" class="xref">HTTP2</a>]</span>.<a href="#section-4.1.1-5" class="pilcrow">¶</a></p>
-<p id="section-4.1.1-6">An HTTP/3 implementation MAY impose a limit on the maximum size of the message
+non-HTTP/3 context, as described in Section 8.1.2.5 of <span>[<a href="#HTTP2" class="xref">HTTP2</a>]</span>.<a href="#section-4.1.1.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="header-size-constraints">
+<section id="section-4.1.1.3">
+            <h5 id="name-header-size-constraints">
+<a href="#section-4.1.1.3" class="section-number selfRef">4.1.1.3. </a><a href="#name-header-size-constraints" class="section-name selfRef">Header Size Constraints</a>
+            </h5>
+<p id="section-4.1.1.3-1">An HTTP/3 implementation MAY impose a limit on the maximum size of the message
 header it will accept on an individual HTTP message.  A server that receives a
 larger header field list than it is willing to handle can send an HTTP 431
 (Request Header Fields Too Large) status code <span>[<a href="#RFC6585" class="xref">RFC6585</a>]</span>.  A client can
 discard responses that it cannot process.  The size of a header field list is
 calculated based on the uncompressed size of header fields, including the length
 of the name and value in bytes plus an overhead of 32 bytes for each header
-field.<a href="#section-4.1.1-6" class="pilcrow">¶</a></p>
-<p id="section-4.1.1-7">If an implementation wishes to advise its peer of this limit, it can be conveyed
+field.<a href="#section-4.1.1.3-1" class="pilcrow">¶</a></p>
+<p id="section-4.1.1.3-2">If an implementation wishes to advise its peer of this limit, it can be conveyed
 as a number of bytes in the <code>SETTINGS_MAX_HEADER_LIST_SIZE</code> parameter. An
 implementation which has received this parameter SHOULD NOT send an HTTP message
 header which exceeds the indicated size, as the peer will likely refuse to
 process it.  However, because this limit is applied at each hop, messages below
-this limit are not guaranteed to be accepted.<a href="#section-4.1.1-7" class="pilcrow">¶</a></p>
+this limit are not guaranteed to be accepted.<a href="#section-4.1.1.3-2" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="request-cancellation">
@@ -1732,29 +1845,41 @@ permitted (e.g., idempotent actions like GET, PUT, or DELETE).<a href="#section-
 <a href="#section-4.1.3" class="section-number selfRef">4.1.3. </a><a href="#name-malformed-requests-and-resp" class="section-name selfRef">Malformed Requests and Responses</a>
           </h4>
 <p id="section-4.1.3-1">A malformed request or response is one that is an otherwise valid sequence of
-frames but is invalid due to the presence of extraneous frames, prohibited
-header fields, the absence of mandatory header fields, or the inclusion of
-uppercase header field names.<a href="#section-4.1.3-1" class="pilcrow">¶</a></p>
-<p id="section-4.1.3-2">A request or response that includes a payload body can include a
+frames but is invalid due to:<a href="#section-4.1.3-1" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-4.1.3-2.1">the presence of prohibited header fields or pseudo-header fields,<a href="#section-4.1.3-2.1" class="pilcrow">¶</a>
+</li>
+<li id="section-4.1.3-2.2">the absence of mandatory pseudo-header fields,<a href="#section-4.1.3-2.2" class="pilcrow">¶</a>
+</li>
+<li id="section-4.1.3-2.3">invalid values for pseudo-header fields,<a href="#section-4.1.3-2.3" class="pilcrow">¶</a>
+</li>
+<li id="section-4.1.3-2.4">pseudo-header fields after header fields,<a href="#section-4.1.3-2.4" class="pilcrow">¶</a>
+</li>
+<li id="section-4.1.3-2.5">an invalid sequence of HTTP messages, or<a href="#section-4.1.3-2.5" class="pilcrow">¶</a>
+</li>
+<li id="section-4.1.3-2.6">the inclusion of uppercase header field names.<a href="#section-4.1.3-2.6" class="pilcrow">¶</a>
+</li>
+</ul>
+<p id="section-4.1.3-3">A request or response that includes a payload body can include a
 <code>content-length</code> header field.  A request or response is also malformed if the
 value of a content-length header field does not equal the sum of the DATA frame
 payload lengths that form the body.  A response that is defined to have no
 payload, as described in Section 3.3.2 of <span>[<a href="#RFC7230" class="xref">RFC7230</a>]</span> can have a non-zero
-content-length header field, even though no content is included in DATA frames.<a href="#section-4.1.3-2" class="pilcrow">¶</a></p>
-<p id="section-4.1.3-3">Intermediaries that process HTTP requests or responses (i.e., any intermediary
+content-length header field, even though no content is included in DATA frames.<a href="#section-4.1.3-3" class="pilcrow">¶</a></p>
+<p id="section-4.1.3-4">Intermediaries that process HTTP requests or responses (i.e., any intermediary
 not acting as a tunnel) MUST NOT forward a malformed request or response.
 Malformed requests or responses that are detected MUST be treated as a stream
-error (<a href="#errors" class="xref">Section 8</a>) of type H3_GENERAL_PROTOCOL_ERROR.<a href="#section-4.1.3-3" class="pilcrow">¶</a></p>
-<p id="section-4.1.3-4">For malformed requests, a server MAY send an HTTP response prior to closing or
+error (<a href="#errors" class="xref">Section 8</a>) of type H3_GENERAL_PROTOCOL_ERROR.<a href="#section-4.1.3-4" class="pilcrow">¶</a></p>
+<p id="section-4.1.3-5">For malformed requests, a server MAY send an HTTP response prior to closing or
 resetting the stream.  Clients MUST NOT accept a malformed response.  Note that
 these requirements are intended to protect against several types of common
 attacks against HTTP; they are deliberately strict because being permissive can
-expose implementations to these vulnerabilities.<a href="#section-4.1.3-4" class="pilcrow">¶</a></p>
+expose implementations to these vulnerabilities.<a href="#section-4.1.3-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
-<div id="the-connect-method">
+<div id="connect">
 <section id="section-4.2">
         <h3 id="name-the-connect-method">
 <a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-the-connect-method" class="section-name selfRef">The CONNECT Method</a>
@@ -1819,11 +1944,13 @@ a server to push a request-response exchange to a client in anticipation of the
 client making the indicated request.  This trades off network usage against a
 potential latency gain.  HTTP/3 server push is similar to what is described in
 HTTP/2 <span>[<a href="#HTTP2" class="xref">HTTP2</a>]</span>, but uses different mechanisms.<a href="#section-4.4-1" class="pilcrow">¶</a></p>
-<p id="section-4.4-2">Each server push is identified by a unique Push ID. This Push ID is used in a
-single PUSH_PROMISE frame (see <a href="#frame-push-promise" class="xref">Section 7.2.5</a>) which carries the request
-headers, possibly included in one or more DUPLICATE_PUSH frames (see
-<a href="#frame-duplicate-push" class="xref">Section 7.2.8</a>), then included with the push stream which ultimately
-fulfills those promises.<a href="#section-4.4-2" class="pilcrow">¶</a></p>
+<p id="section-4.4-2">Each server push is identified by a unique Push ID. This Push ID is used in one
+or more PUSH_PROMISE frames (see <a href="#frame-push-promise" class="xref">Section 7.2.5</a>) that carry the request
+headers, then included with the push stream which ultimately fulfills those
+promises. When the same Push ID is promised on multiple request streams, the
+decompressed request header sets MUST contain the same fields in the
+same order, and both the name and the value in each field MUST be exact
+matches.<a href="#section-4.4-2" class="pilcrow">¶</a></p>
 <p id="section-4.4-3">Server push is only enabled on a connection when a client sends a MAX_PUSH_ID
 frame (see <a href="#frame-max-push-id" class="xref">Section 7.2.7</a>). A server cannot use server push until it
 receives a MAX_PUSH_ID frame. A client sends additional MAX_PUSH_ID frames to
@@ -1832,32 +1959,29 @@ IDs sequentially, starting at 0. A client MUST treat receipt of a push stream
 with a Push ID that is greater than the maximum Push ID as a connection error of
 type H3_ID_ERROR.<a href="#section-4.4-3" class="pilcrow">¶</a></p>
 <p id="section-4.4-4">The header of the request message is carried by a PUSH_PROMISE frame (see
-<a href="#frame-push-promise" class="xref">Section 7.2.5</a>) on the request stream which generated the push. This
-allows the server push to be associated with a client request.  Promised
+<a href="#frame-push-promise" class="xref">Section 7.2.5</a>) on the request stream which generated the push. Promised
 requests MUST conform to the requirements in Section 8.2 of <span>[<a href="#HTTP2" class="xref">HTTP2</a>]</span>.<a href="#section-4.4-4" class="pilcrow">¶</a></p>
-<p id="section-4.4-5">The same server push can be associated with additional client requests using a
-DUPLICATE_PUSH frame (see <a href="#frame-duplicate-push" class="xref">Section 7.2.8</a>).<a href="#section-4.4-5" class="pilcrow">¶</a></p>
-<p id="section-4.4-6">Ordering of a PUSH_PROMISE or DUPLICATE_PUSH in relation to certain parts of the
-response is important. The server SHOULD send PUSH_PROMISE or DUPLICATE_PUSH
-frames prior to sending HEADERS or DATA frames that reference the promised
-responses.  This reduces the chance that a client requests a resource that will
-be pushed by the server.<a href="#section-4.4-6" class="pilcrow">¶</a></p>
+<p id="section-4.4-5">Each pushed response is associated with one or more client requests.  The push
+is associated with the request stream on which the PUSH_PROMISE frame was
+received.  The same server push can be associated with additional client
+requests using a PUSH_PROMISE frame with the same Push ID on multiple request
+streams.  These associations do not affect the operation of the protocol, but
+MAY be considered by user agents when deciding how to use pushed resources.<a href="#section-4.4-5" class="pilcrow">¶</a></p>
+<p id="section-4.4-6">Ordering of a PUSH_PROMISE in relation to certain parts of the response is
+important. The server SHOULD send PUSH_PROMISE frames prior to sending HEADERS
+or DATA frames that reference the promised responses.  This reduces the chance
+that a client requests a resource that will be pushed by the server.<a href="#section-4.4-6" class="pilcrow">¶</a></p>
 <p id="section-4.4-7">When a server later fulfills a promise, the server push response is conveyed on
 a push stream (see <a href="#push-streams" class="xref">Section 6.2.2</a>). The push stream identifies the Push ID of
 the promise that it fulfills, then contains a response to the promised request
 using the same format described for responses in <a href="#request-response" class="xref">Section 4.1</a>.<a href="#section-4.4-7" class="pilcrow">¶</a></p>
-<p id="section-4.4-8">Due to reordering, DUPLICATE_PUSH frames or push stream data can arrive before
-the corresponding PUSH_PROMISE frame.  When a client receives a DUPLICATE_PUSH
-frame for an as-yet-unknown Push ID, the request headers of the push are not
-immediately available.  The client can either delay generating new requests for
-content referenced following the DUPLICATE_PUSH frame until the request headers
-become available, or can initiate requests for discovered resources and cancel
-the requests if the requested resource is already being pushed. When a client
-receives a new push stream with an as-yet-unknown Push ID, both the associated
-client request and the pushed request headers are unknown.  The client can
-buffer the stream data in expectation of the matching PUSH_PROMISE. The client
-can use stream flow control (see section 4.1 of <span>[<a href="#QUIC-TRANSPORT" class="xref">QUIC-TRANSPORT</a>]</span>) to limit the
-amount of data a server may commit to the pushed stream.<a href="#section-4.4-8" class="pilcrow">¶</a></p>
+<p id="section-4.4-8">Due to reordering, push stream data can arrive before the corresponding
+PUSH_PROMISE frame.  When a client receives a new push stream with an
+as-yet-unknown Push ID, both the associated client request and the pushed
+request headers are unknown.  The client can buffer the stream data in
+expectation of the matching PUSH_PROMISE. The client can use stream flow control
+(see section 4.1 of <span>[<a href="#QUIC-TRANSPORT" class="xref">QUIC-TRANSPORT</a>]</span>) to limit the amount of data a server may
+commit to the pushed stream.<a href="#section-4.4-8" class="pilcrow">¶</a></p>
 <p id="section-4.4-9">If a promised server push is not needed by the client, the client SHOULD send a
 CANCEL_PUSH frame. If the push stream is already open or opens after sending the
 CANCEL_PUSH frame, the client can abort reading the stream with an error code of
@@ -2161,7 +2285,9 @@ desired. They MAY also be sent on connections where no data is currently being
 transferred. Endpoints MUST NOT consider these streams to have any meaning upon
 receipt.<a href="#section-6.2.3-1" class="pilcrow">¶</a></p>
 <p id="section-6.2.3-2">The payload and length of the stream are selected in any manner the
-implementation chooses.<a href="#section-6.2.3-2" class="pilcrow">¶</a></p>
+implementation chooses.  Implementations MAY terminate these streams cleanly, or
+MAY abruptly terminate them.  When terminating abruptly, the error code
+H3_NO_ERROR or a reserved error code (<a href="#http-error-codes" class="xref">Section 8.1</a>) SHOULD be used.<a href="#section-6.2.3-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2258,21 +2384,12 @@ comparison between HTTP/2 and HTTP/3 frames is provided in <a href="#h2-frames" 
 </td>
           </tr>
           <tr>
-            <td class="text-left" rowspan="1" colspan="1">DUPLICATE_PUSH</td>
-            <td class="text-left" rowspan="1" colspan="1">No</td>
-            <td class="text-left" rowspan="1" colspan="1">Yes</td>
-            <td class="text-left" rowspan="1" colspan="1">No</td>
-            <td class="text-left" rowspan="1" colspan="1">
-              <a href="#frame-duplicate-push" class="xref">Section 7.2.8</a>
-</td>
-          </tr>
-          <tr>
             <td class="text-left" rowspan="1" colspan="1">Reserved</td>
             <td class="text-left" rowspan="1" colspan="1">Yes</td>
             <td class="text-left" rowspan="1" colspan="1">Yes</td>
             <td class="text-left" rowspan="1" colspan="1">Yes</td>
             <td class="text-left" rowspan="1" colspan="1">
-              <a href="#frame-reserved" class="xref">Section 7.2.9</a>
+              <a href="#frame-reserved" class="xref">Section 7.2.8</a>
 </td>
           </tr>
         </tbody>
@@ -2603,7 +2720,7 @@ set from server to client on a request stream, as in HTTP/2.<a href="#section-7.
 <dd id="section-7.2.5-4.2">
   A variable-length integer that identifies the server push operation.  A Push
 ID is used in push stream headers (<a href="#server-push" class="xref">Section 4.4</a>), CANCEL_PUSH frames
-(<a href="#frame-cancel-push" class="xref">Section 7.2.3</a>), and DUPLICATE_PUSH frames (<a href="#frame-duplicate-push" class="xref">Section 7.2.8</a>).<a href="#section-7.2.5-4.2" class="pilcrow">¶</a>
+(<a href="#frame-cancel-push" class="xref">Section 7.2.3</a>).<a href="#section-7.2.5-4.2" class="pilcrow">¶</a>
 </dd>
 <dt id="section-7.2.5-4.3">Header Block:</dt>
 <dd id="section-7.2.5-4.4">
@@ -2615,14 +2732,26 @@ for more details.<a href="#section-7.2.5-4.4" class="pilcrow">¶</a>
 MAX_PUSH_ID frame (<a href="#frame-max-push-id" class="xref">Section 7.2.7</a>). A client MUST treat receipt of a
 PUSH_PROMISE frame that contains a larger Push ID than the client has advertised
 as a connection error of H3_ID_ERROR.<a href="#section-7.2.5-5" class="pilcrow">¶</a></p>
-<p id="section-7.2.5-6">A server MUST NOT use the same Push ID in multiple PUSH_PROMISE frames. A client
-MUST treat receipt of a Push ID which has already been promised as a connection
-error of type H3_ID_ERROR.<a href="#section-7.2.5-6" class="pilcrow">¶</a></p>
-<p id="section-7.2.5-7">If a PUSH_PROMISE frame is received on the control stream, the client MUST
-respond with a connection error (<a href="#errors" class="xref">Section 8</a>) of type H3_FRAME_UNEXPECTED.<a href="#section-7.2.5-7" class="pilcrow">¶</a></p>
-<p id="section-7.2.5-8">A client MUST NOT send a PUSH_PROMISE frame.  A server MUST treat the receipt
-of a PUSH_PROMISE frame as a connection error of type H3_FRAME_UNEXPECTED.<a href="#section-7.2.5-8" class="pilcrow">¶</a></p>
-<p id="section-7.2.5-9">See <a href="#server-push" class="xref">Section 4.4</a> for a description of the overall server push mechanism.<a href="#section-7.2.5-9" class="pilcrow">¶</a></p>
+<p id="section-7.2.5-6">A server MAY use the same Push ID in multiple PUSH_PROMISE frames. If so, the
+decompressed request header sets MUST contain the same fields in the same
+order, and both the name and and value in each field MUST be exact
+matches. Clients SHOULD compare the request header sets for resources promised
+multiple times. If a client receives a Push ID that has already been promised
+and detects a mismatch, it MUST respond with a connection error of type
+H3_GENERAL_PROTOCOL_ERROR. If the decompressed header sets match exactly, the
+client SHOULD associate the pushed content with each stream on which
+a PUSH_PROMISE was received.<a href="#section-7.2.5-6" class="pilcrow">¶</a></p>
+<p id="section-7.2.5-7">Allowing duplicate references to the same Push ID is primarily to reduce
+duplication caused by concurrent requests.  A server SHOULD avoid reusing a Push
+ID over a long period.  Clients are likely to consume server push responses and
+not retain them for reuse over time.  Clients that see a PUSH_PROMISE that uses
+a Push ID that they have already consumed and discarded are forced to ignore the
+PUSH_PROMISE.<a href="#section-7.2.5-7" class="pilcrow">¶</a></p>
+<p id="section-7.2.5-8">If a PUSH_PROMISE frame is received on the control stream, the client MUST
+respond with a connection error (<a href="#errors" class="xref">Section 8</a>) of type H3_FRAME_UNEXPECTED.<a href="#section-7.2.5-8" class="pilcrow">¶</a></p>
+<p id="section-7.2.5-9">A client MUST NOT send a PUSH_PROMISE frame.  A server MUST treat the receipt
+of a PUSH_PROMISE frame as a connection error of type H3_FRAME_UNEXPECTED.<a href="#section-7.2.5-9" class="pilcrow">¶</a></p>
+<p id="section-7.2.5-10">See <a href="#server-push" class="xref">Section 4.4</a> for a description of the overall server push mechanism.<a href="#section-7.2.5-10" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="frame-goaway">
@@ -2704,68 +2833,22 @@ receipt of a MAX_PUSH_ID that contains a smaller value than previously received
 MUST be treated as a connection error of type H3_ID_ERROR.<a href="#section-7.2.7-6" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="frame-duplicate-push">
-<section id="section-7.2.8">
-          <h4 id="name-duplicate_push">
-<a href="#section-7.2.8" class="section-number selfRef">7.2.8. </a><a href="#name-duplicate_push" class="section-name selfRef">DUPLICATE_PUSH</a>
-          </h4>
-<p id="section-7.2.8-1">The DUPLICATE_PUSH frame (type=0xE) is used by servers to indicate that an
-existing pushed resource is related to multiple client requests.<a href="#section-7.2.8-1" class="pilcrow">¶</a></p>
-<p id="section-7.2.8-2">The DUPLICATE_PUSH frame is always sent on a request stream.  Receipt of a
-DUPLICATE_PUSH frame on any other stream MUST be treated as a connection error
-of type H3_FRAME_UNEXPECTED.<a href="#section-7.2.8-2" class="pilcrow">¶</a></p>
-<p id="section-7.2.8-3">A client MUST NOT send a DUPLICATE_PUSH frame.  A server MUST treat the receipt
-of a DUPLICATE_PUSH frame as a connection error of type H3_FRAME_UNEXPECTED.<a href="#section-7.2.8-3" class="pilcrow">¶</a></p>
-<span id="name-duplicate_push-frame-payloa"></span><div id="fig-duplicate-push">
-<figure id="figure-11">
-            <div class="artwork art-text alignLeft art-drawing" id="section-7.2.8-4.1">
-<pre>
- 0                   1                   2                   3
- 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|                          Push ID (i)                        ...
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-</pre>
-</div>
-<figcaption><a href="#figure-11" class="selfRef">Figure 11</a>:
-<a href="#name-duplicate_push-frame-payloa" class="selfRef">DUPLICATE_PUSH Frame Payload</a>
-            </figcaption></figure>
-</div>
-<p id="section-7.2.8-5">The DUPLICATE_PUSH frame carries a single variable-length integer that
-identifies the Push ID of a resource that the server has previously promised
-(see <a href="#frame-push-promise" class="xref">Section 7.2.5</a>), though that promise might not be received before
-this frame.  A server MUST NOT use a Push ID that is larger than the client has
-provided in a MAX_PUSH_ID frame (<a href="#frame-max-push-id" class="xref">Section 7.2.7</a>).  A client MUST treat
-receipt of a DUPLICATE_PUSH that contains a larger Push ID than the client has
-advertised as a connection error of type H3_ID_ERROR.<a href="#section-7.2.8-5" class="pilcrow">¶</a></p>
-<p id="section-7.2.8-6">This frame allows the server to use the same server push in response to multiple
-concurrent requests.  Referencing the same server push ensures that a promise
-can be made in relation to every response in which server push might be needed
-without duplicating request headers or pushed responses.<a href="#section-7.2.8-6" class="pilcrow">¶</a></p>
-<p id="section-7.2.8-7">Allowing duplicate references to the same Push ID is primarily to reduce
-duplication caused by concurrent requests.  A server SHOULD avoid reusing a Push
-ID over a long period.  Clients are likely to consume server push responses and
-not retain them for reuse over time.  Clients that see a DUPLICATE_PUSH that
-uses a Push ID that they have since consumed and discarded are forced to ignore
-the DUPLICATE_PUSH.<a href="#section-7.2.8-7" class="pilcrow">¶</a></p>
-</section>
-</div>
 <div id="frame-reserved">
-<section id="section-7.2.9">
+<section id="section-7.2.8">
           <h4 id="name-reserved-frame-types">
-<a href="#section-7.2.9" class="section-number selfRef">7.2.9. </a><a href="#name-reserved-frame-types" class="section-name selfRef">Reserved Frame Types</a>
+<a href="#section-7.2.8" class="section-number selfRef">7.2.8. </a><a href="#name-reserved-frame-types" class="section-name selfRef">Reserved Frame Types</a>
           </h4>
-<p id="section-7.2.9-1">Frame types of the format <code>0x1f * N + 0x21</code> for integer values of N are reserved
+<p id="section-7.2.8-1">Frame types of the format <code>0x1f * N + 0x21</code> for integer values of N are reserved
 to exercise the requirement that unknown types be ignored (<a href="#extensions" class="xref">Section 9</a>).
 These frames have no semantics, and can be sent on any open stream when
 application-layer padding is desired. They MAY also be sent on connections where
 no data is currently being transferred. Endpoints MUST NOT consider these frames
-to have any meaning upon receipt.<a href="#section-7.2.9-1" class="pilcrow">¶</a></p>
-<p id="section-7.2.9-2">The payload and length of the frames are selected in any manner the
-implementation chooses.<a href="#section-7.2.9-2" class="pilcrow">¶</a></p>
-<p id="section-7.2.9-3">Frame types which were used in HTTP/2 where there is no corresponding HTTP/3
+to have any meaning upon receipt.<a href="#section-7.2.8-1" class="pilcrow">¶</a></p>
+<p id="section-7.2.8-2">The payload and length of the frames are selected in any manner the
+implementation chooses.<a href="#section-7.2.8-2" class="pilcrow">¶</a></p>
+<p id="section-7.2.8-3">Frame types which were used in HTTP/2 where there is no corresponding HTTP/3
 frame have also been reserved (<a href="#iana-frames" class="xref">Section 11.2.1</a>).  These frame types MUST NOT be
-sent, and receipt MAY be treated as an error of type H3_FRAME_UNEXPECTED.<a href="#section-7.2.9-3" class="pilcrow">¶</a></p>
+sent, and receipt MAY be treated as an error of type H3_FRAME_UNEXPECTED.<a href="#section-7.2.8-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2871,6 +2954,10 @@ abnormally closed.<a href="#section-8.1-2.30" class="pilcrow">¶</a>
 retry over HTTP/1.1.<a href="#section-8.1-2.32" class="pilcrow">¶</a>
 </dd>
 </dl>
+<p id="section-8.1-3">Error codes of the format <code>0x1f * N + 0x21</code> for integer values of N are reserved
+to exercise the requirement that unknown error codes be treated as equivalent to
+H3_NO_ERROR (<a href="#extensions" class="xref">Section 9</a>). Implementations SHOULD select an error code from
+this space with some probability when they would have sent H3_NO_ERROR.<a href="#section-8.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2933,9 +3020,11 @@ security considerations of <span>[<a href="#ALTSVC" class="xref">ALTSVC</a>]</sp
 <p id="section-10.1-1">Where HTTP/2 employs PADDING frames and Padding fields in other frames to make a
 connection more resistant to traffic analysis, HTTP/3 can either rely on
 transport-layer padding or employ the reserved frame and stream types discussed
-in <a href="#frame-reserved" class="xref">Section 7.2.9</a> and <a href="#stream-grease" class="xref">Section 6.2.3</a>.  These methods of padding produce
-different results in terms of the granularity of padding, the effect of packet
-loss and recovery, and how an implementation might control padding.<a href="#section-10.1-1" class="pilcrow">¶</a></p>
+in <a href="#frame-reserved" class="xref">Section 7.2.8</a> and <a href="#stream-grease" class="xref">Section 6.2.3</a>.  These methods of padding produce
+different results in terms of the granularity of padding, how padding is
+arranged in relation to the information that is being protected, whether
+padding is applied in the case of packet loss, and how an implementation might
+control padding.<a href="#section-10.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="frame-parsing">
@@ -3127,13 +3216,6 @@ its semantics, including any parts of the frame that are conditionally present.<
                 <td class="text-center" rowspan="1" colspan="1">0xD</td>
                 <td class="text-left" rowspan="1" colspan="1">
                   <a href="#frame-max-push-id" class="xref">Section 7.2.7</a>
-</td>
-              </tr>
-              <tr>
-                <td class="text-left" rowspan="1" colspan="1">DUPLICATE_PUSH</td>
-                <td class="text-center" rowspan="1" colspan="1">0xE</td>
-                <td class="text-left" rowspan="1" colspan="1">
-                  <a href="#frame-duplicate-push" class="xref">Section 7.2.8</a>
 </td>
               </tr>
             </tbody>
@@ -3404,6 +3486,9 @@ registrations in this registry MUST include the following fields:<a href="#secti
             </tbody>
           </table>
 </div>
+<p id="section-11.2.3-7">Additionally, each code of the format <code>0x1f * N + 0x21</code> for integer values of N
+(that is, <code>0x21</code>, <code>0x40</code>, ..., through <code>0x3FFFFFFFFFFFFFFE</code>) MUST NOT be
+assigned by IANA.<a href="#section-11.2.3-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="iana-stream-types">
@@ -3492,16 +3577,19 @@ assigned by IANA.<a href="#section-11.2.4-7" class="pilcrow">¶</a></p>
 <span class="refAuthor">Belshe, M.</span><span class="refAuthor">, Peon, R.</span><span class="refAuthor">, and M. Thomson, Ed.</span>, <span class="refTitle">"Hypertext Transfer Protocol Version 2 (HTTP/2)"</span>, <span class="seriesInfo">RFC 7540</span>, <span class="seriesInfo">DOI 10.17487/RFC7540</span>, <time datetime="2015-05">May 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7540">https://www.rfc-editor.org/info/rfc7540</a>&gt;</span>. </dd>
 <dt id="QPACK">[QPACK]</dt>
 <dd>
-<span class="refAuthor">Krasic, C.</span><span class="refAuthor">, Bishop, M.</span><span class="refAuthor">, and A. Frindell, Ed.</span>, <span class="refTitle">"QPACK: Header Compression for HTTP over QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-qpack-latest</span>, <time datetime="2020-01-21">21 January 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-qpack-latest">https://tools.ietf.org/html/draft-ietf-quic-qpack-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Krasic, C.</span><span class="refAuthor">, Bishop, M.</span><span class="refAuthor">, and A. Frindell, Ed.</span>, <span class="refTitle">"QPACK: Header Compression for HTTP over QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-qpack-latest</span>, <time datetime="2020-02-20">20 February 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-qpack-latest">https://tools.ietf.org/html/draft-ietf-quic-qpack-latest</a>&gt;</span>. </dd>
 <dt id="QUIC-TRANSPORT">[QUIC-TRANSPORT]</dt>
 <dd>
-<span class="refAuthor">Iyengar, J., Ed.</span><span class="refAuthor"> and M. Thomson, Ed.</span>, <span class="refTitle">"QUIC: A UDP-Based Multiplexed and Secure Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-transport-latest</span>, <time datetime="2020-01-21">21 January 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-transport-latest">https://tools.ietf.org/html/draft-ietf-quic-transport-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Iyengar, J., Ed.</span><span class="refAuthor"> and M. Thomson, Ed.</span>, <span class="refTitle">"QUIC: A UDP-Based Multiplexed and Secure Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-transport-latest</span>, <time datetime="2020-02-20">20 February 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-transport-latest">https://tools.ietf.org/html/draft-ietf-quic-transport-latest</a>&gt;</span>. </dd>
 <dt id="RFC0793">[RFC0793]</dt>
 <dd>
 <span class="refAuthor">Postel, J.</span>, <span class="refTitle">"Transmission Control Protocol"</span>, <span class="seriesInfo">STD 7</span>, <span class="seriesInfo">RFC 793</span>, <span class="seriesInfo">DOI 10.17487/RFC0793</span>, <time datetime="1981-09">September 1981</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc793">https://www.rfc-editor.org/info/rfc793</a>&gt;</span>. </dd>
 <dt id="RFC2119">[RFC2119]</dt>
 <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;</span>. </dd>
+<dt id="RFC3986">[RFC3986]</dt>
+<dd>
+<span class="refAuthor">Berners-Lee, T.</span><span class="refAuthor">, Fielding, R.</span><span class="refAuthor">, and L. Masinter</span>, <span class="refTitle">"Uniform Resource Identifier (URI): Generic Syntax"</span>, <span class="seriesInfo">STD 66</span>, <span class="seriesInfo">RFC 3986</span>, <span class="seriesInfo">DOI 10.17487/RFC3986</span>, <time datetime="2005-01">January 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc3986">https://www.rfc-editor.org/info/rfc3986</a>&gt;</span>. </dd>
 <dt id="RFC5234">[RFC5234]</dt>
 <dd>
 <span class="refAuthor">Crocker, D., Ed.</span><span class="refAuthor"> and P. Overell</span>, <span class="refTitle">"Augmented BNF for Syntax Specifications: ABNF"</span>, <span class="seriesInfo">STD 68</span>, <span class="seriesInfo">RFC 5234</span>, <span class="seriesInfo">DOI 10.17487/RFC5234</span>, <time datetime="2008-01">January 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5234">https://www.rfc-editor.org/info/rfc5234</a>&gt;</span>. </dd>
@@ -3891,6 +3979,8 @@ final version of this document.<a href="#section-appendix.b-1.1" class="pilcrow"
 (#3130,#3208)<a href="#section-b.1-1.1" class="pilcrow">¶</a>
 </li>
 <li id="section-b.1-1.2">Unknown error codes are equivalent to H3_NO_ERROR (#3276,#3331)<a href="#section-b.1-1.2" class="pilcrow">¶</a>
+</li>
+<li id="section-b.1-1.3">Some error codes are reserved for greasing (#3325,#3360)<a href="#section-b.1-1.3" class="pilcrow">¶</a>
 </li>
 </ul>
 </section>

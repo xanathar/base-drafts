@@ -818,11 +818,11 @@ table.left {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">QPACK</td>
-<td class="right">January 2020</td>
+<td class="right">February 2020</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Krasic, et al.</td>
-<td class="center">Expires 24 July 2020</td>
+<td class="center">Expires 23 August 2020</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -835,12 +835,12 @@ table.left {
 <dd class="internet-draft">draft-ietf-quic-qpack-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2020-01-21" class="published">21 January 2020</time>
+<time datetime="2020-02-20" class="published">20 February 2020</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2020-07-24">24 July 2020</time></dd>
+<dd class="expires"><time datetime="2020-08-23">23 August 2020</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -896,7 +896,7 @@ code and issues list for this draft can be found at
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 24 July 2020.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 23 August 2020.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -952,7 +952,10 @@ code and issues list for this draft can be found at
                     <p id="section-toc.1-1.2.2.1.2.3.1"><a href="#section-2.1.3" class="xref">2.1.3</a>.  <a href="#name-blocked-streams" class="xref">Blocked Streams</a><a href="#section-toc.1-1.2.2.1.2.3.1" class="pilcrow">¶</a></p>
 </li>
 <li class="toc ulEmpty" id="section-toc.1-1.2.2.1.2.4">
-                    <p id="section-toc.1-1.2.2.1.2.4.1"><a href="#section-2.1.4" class="xref">2.1.4</a>.  <a href="#name-known-received-count" class="xref">Known Received Count</a><a href="#section-toc.1-1.2.2.1.2.4.1" class="pilcrow">¶</a></p>
+                    <p id="section-toc.1-1.2.2.1.2.4.1"><a href="#section-2.1.4" class="xref">2.1.4</a>.  <a href="#name-avoiding-flow-control-deadl" class="xref">Avoiding Flow Control Deadlocks</a><a href="#section-toc.1-1.2.2.1.2.4.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.2.2.1.2.5">
+                    <p id="section-toc.1-1.2.2.1.2.5.1"><a href="#section-2.1.5" class="xref">2.1.5</a>.  <a href="#name-known-received-count" class="xref">Known Received Count</a><a href="#section-toc.1-1.2.2.1.2.5.1" class="pilcrow">¶</a></p>
 </li>
 </ul>
 </li>
@@ -1380,11 +1383,11 @@ table, the Required Insert Count is zero.<a href="#section-2.1.3-2" class="pilcr
 than its own Insert Count, the stream cannot be processed immediately, and is
 considered "blocked"; see <a href="#blocked-decoding" class="xref">Section 2.2.1</a>.<a href="#section-2.1.3-3" class="pilcrow">¶</a></p>
 <p id="section-2.1.3-4">The decoder specifies an upper bound on the number of streams which can be
-blocked using the SETTINGS_QPACK_BLOCKED_STREAMS setting; see
-<a href="#configuration" class="xref">Section 5</a>. An encoder MUST limit the number of streams which could
-become blocked to the value of SETTINGS_QPACK_BLOCKED_STREAMS at all times.
-If a decoder encounters more blocked streams than it promised to support, it
-MUST treat this as a connection error of type HTTP_QPACK_DECOMPRESSION_FAILED.<a href="#section-2.1.3-4" class="pilcrow">¶</a></p>
+blocked using the SETTINGS_QPACK_BLOCKED_STREAMS setting; see <a href="#configuration" class="xref">Section 5</a>.
+An encoder MUST limit the number of streams which could become blocked to the
+value of SETTINGS_QPACK_BLOCKED_STREAMS at all times. If a decoder encounters
+more blocked streams than it promised to support, it MUST treat this as a
+connection error of type QPACK_DECOMPRESSION_FAILED.<a href="#section-2.1.3-4" class="pilcrow">¶</a></p>
 <p id="section-2.1.3-5">Note that the decoder might not become blocked on every stream which risks
 becoming blocked.<a href="#section-2.1.3-5" class="pilcrow">¶</a></p>
 <p id="section-2.1.3-6">An encoder can decide whether to risk having a stream become blocked. If
@@ -1397,24 +1400,44 @@ literals. Since literals make the header block larger, this can result in the
 encoder becoming blocked on congestion or flow control limits.<a href="#section-2.1.3-6" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="known-received-count">
+<div id="avoiding-flow-control-deadlocks">
 <section id="section-2.1.4">
-          <h4 id="name-known-received-count">
-<a href="#section-2.1.4" class="section-number selfRef">2.1.4. </a><a href="#name-known-received-count" class="section-name selfRef">Known Received Count</a>
+          <h4 id="name-avoiding-flow-control-deadl">
+<a href="#section-2.1.4" class="section-number selfRef">2.1.4. </a><a href="#name-avoiding-flow-control-deadl" class="section-name selfRef">Avoiding Flow Control Deadlocks</a>
           </h4>
-<p id="section-2.1.4-1">The Known Received Count is the total number of dynamic table insertions and
+<p id="section-2.1.4-1">Writing instructions on streams that are limited by flow control can produce
+deadlocks.<a href="#section-2.1.4-1" class="pilcrow">¶</a></p>
+<p id="section-2.1.4-2">A decoder might stop issuing flow control credit on the stream that carries a
+header block until the necessary updates are received on the encoder
+stream. If the granting of flow control credit on the encoder stream (or the
+connection as a whole) depends on the consumption and release of data on the
+stream carrying the header block, a deadlock might result.<a href="#section-2.1.4-2" class="pilcrow">¶</a></p>
+<p id="section-2.1.4-3">More generally, a stream containing a large instruction can become deadlocked if
+the decoder withholds flow control credit until the instruction is completely
+received.<a href="#section-2.1.4-3" class="pilcrow">¶</a></p>
+<p id="section-2.1.4-4">To avoid these deadlocks, an encoder SHOULD avoid writing an instruction unless
+sufficient stream and connection flow control credit is available for the entire
+instruction.<a href="#section-2.1.4-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="known-received-count">
+<section id="section-2.1.5">
+          <h4 id="name-known-received-count">
+<a href="#section-2.1.5" class="section-number selfRef">2.1.5. </a><a href="#name-known-received-count" class="section-name selfRef">Known Received Count</a>
+          </h4>
+<p id="section-2.1.5-1">The Known Received Count is the total number of dynamic table insertions and
 duplications acknowledged by the decoder.  The encoder tracks the Known Received
 Count in order to identify which dynamic table entries can be referenced without
 potentially blocking a stream.  The decoder tracks the Known Received Count in
-order to be able to send Insert Count Increment instructions.<a href="#section-2.1.4-1" class="pilcrow">¶</a></p>
-<p id="section-2.1.4-2">A Header Acknowledgement instruction (<a href="#header-acknowledgement" class="xref">Section 4.4.1</a>) implies that
+order to be able to send Insert Count Increment instructions.<a href="#section-2.1.5-1" class="pilcrow">¶</a></p>
+<p id="section-2.1.5-2">A Header Acknowledgement instruction (<a href="#header-acknowledgement" class="xref">Section 4.4.1</a>) implies that
 the decoder has received all dynamic table state necessary to process
 corresponding the header block.  If the Required Insert Count of the
 acknowledged header block is greater than the current Known Received Count,
-Known Received Count is updated to the value of the Required Insert Count.<a href="#section-2.1.4-2" class="pilcrow">¶</a></p>
-<p id="section-2.1.4-3">An Insert Count Increment instruction <a href="#insert-count-increment" class="xref">Section 4.4.3</a> increases the
+Known Received Count is updated to the value of the Required Insert Count.<a href="#section-2.1.5-2" class="pilcrow">¶</a></p>
+<p id="section-2.1.5-3">An Insert Count Increment instruction <a href="#insert-count-increment" class="xref">Section 4.4.3</a> increases the
 Known Received Count by its Increment parameter.  See <a href="#new-table-entries" class="xref">Section 2.2.2.3</a> for
-guidance.<a href="#section-2.1.4-3" class="pilcrow">¶</a></p>
+guidance.<a href="#section-2.1.5-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1448,9 +1471,9 @@ decoder has started reading from the stream.<a href="#section-2.2.1-2" class="pi
 <p id="section-2.2.1-3">When processing header blocks, the decoder expects the Required Insert Count to
 exactly match the value defined in <a href="#blocked-streams" class="xref">Section 2.1.3</a>. If it encounters a
 smaller value than expected, it MUST treat this as a connection error of type
-HTTP_QPACK_DECOMPRESSION_FAILED; see <a href="#invalid-references" class="xref">Section 2.2.3</a>. If it encounters a
+QPACK_DECOMPRESSION_FAILED; see <a href="#invalid-references" class="xref">Section 2.2.3</a>. If it encounters a
 larger value than expected, it MAY treat this as a connection error of type
-HTTP_QPACK_DECOMPRESSION_FAILED.<a href="#section-2.2.1-3" class="pilcrow">¶</a></p>
+QPACK_DECOMPRESSION_FAILED.<a href="#section-2.2.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="state-synchronization">
@@ -1522,10 +1545,10 @@ acknowledged before using it.<a href="#section-2.2.2.3-1" class="pilcrow">¶</a>
 dynamic table entry which has already been evicted or which has an absolute
 index greater than or equal to the declared Required Insert Count
 (<a href="#header-prefix" class="xref">Section 4.5.1</a>), it MUST treat this as a connection error of type
-<code>HTTP_QPACK_DECOMPRESSION_FAILED</code>.<a href="#section-2.2.3-1" class="pilcrow">¶</a></p>
+QPACK_DECOMPRESSION_FAILED.<a href="#section-2.2.3-1" class="pilcrow">¶</a></p>
 <p id="section-2.2.3-2">If the decoder encounters a reference in an encoder instruction to a dynamic
 table entry which has already been evicted, it MUST treat this as a connection
-error of type <code>HTTP_QPACK_ENCODER_STREAM_ERROR</code>.<a href="#section-2.2.3-2" class="pilcrow">¶</a></p>
+error of type QPACK_ENCODER_STREAM_ERROR.<a href="#section-2.2.3-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1554,9 +1577,8 @@ index.<a href="#section-3.1-2" class="pilcrow">¶</a></p>
 table is indexed from 1.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
 <p id="section-3.1-4">When the decoder encounters an invalid static table index in a header block
 representation it MUST treat this as a connection error of type
-<code>HTTP_QPACK_DECOMPRESSION_FAILED</code>.  If this index is received on the encoder
-stream, this MUST be treated as a connection error of type
-<code>HTTP_QPACK_ENCODER_STREAM_ERROR</code>.<a href="#section-3.1-4" class="pilcrow">¶</a></p>
+QPACK_DECOMPRESSION_FAILED.  If this index is received on the encoder stream,
+this MUST be treated as a connection error of type QPACK_ENCODER_STREAM_ERROR.<a href="#section-3.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="header-table-dynamic">
@@ -1600,7 +1622,7 @@ dynamic table entry to be evicted unless that entry is evictable; see
 <a href="#blocked-insertion" class="xref">Section 2.1.2</a>.  The new entry is then added to the table.  It is an
 error if the encoder attempts to add an entry that is larger than the dynamic
 table capacity; the decoder MUST treat this as a connection error of type
-<code>HTTP_QPACK_ENCODER_STREAM_ERROR</code>.<a href="#section-3.2.2-2" class="pilcrow">¶</a></p>
+QPACK_ENCODER_STREAM_ERROR.<a href="#section-3.2.2-2" class="pilcrow">¶</a></p>
 <p id="section-3.2.2-3">A new entry can reference an entry in the dynamic table that will be evicted
 when adding this new entry into the dynamic table.  Implementations are
 cautioned to avoid deleting the referenced name or value if the referenced entry
@@ -1628,10 +1650,10 @@ it can choose to use a lower dynamic table capacity; see
 the remembered value of the setting, or zero if the value was not previously
 sent.  When the client's 0-RTT value of the SETTING is zero, the server MAY set
 it to a non-zero value in its SETTINGS frame. If the remembered value is
-non-zero, the server MUST send the same non-zero value in its SETTINGS frame.
-If it specifies any other value, or omits SETTINGS_QPACK_MAX_TABLE_CAPACITY from
+non-zero, the server MUST send the same non-zero value in its SETTINGS frame. If
+it specifies any other value, or omits SETTINGS_QPACK_MAX_TABLE_CAPACITY from
 SETTINGS, the encoder must treat this as a connection error of type
-<code>HTTP_QPACK_DECODER_STREAM_ERROR</code>.<a href="#section-3.2.3-2" class="pilcrow">¶</a></p>
+QPACK_DECODER_STREAM_ERROR.<a href="#section-3.2.3-2" class="pilcrow">¶</a></p>
 <p id="section-3.2.3-3">For HTTP/3 servers and HTTP/3 clients when 0-RTT is not attempted or is
 rejected, the maximum table capacity is 0 until the encoder processes a SETTINGS
 frame with a non-zero value of SETTINGS_QPACK_MAX_TABLE_CAPACITY.<a href="#section-3.2.3-3" class="pilcrow">¶</a></p>
@@ -1861,10 +1883,9 @@ see <a href="#prefixed-integers" class="xref">Section 4.1.1</a>.<a href="#sectio
 </div>
 <p id="section-4.3.1-3">The new capacity MUST be lower than or equal to the limit described in
 <a href="#maximum-dynamic-table-capacity" class="xref">Section 3.2.3</a>.  In HTTP/3, this limit is the value of the
-SETTINGS_QPACK_MAX_TABLE_CAPACITY parameter (<a href="#configuration" class="xref">Section 5</a>) received
-from the decoder.  The decoder MUST treat a new dynamic table capacity value
-that exceeds this limit as a connection error of type
-<code>HTTP_QPACK_ENCODER_STREAM_ERROR</code>.<a href="#section-4.3.1-3" class="pilcrow">¶</a></p>
+SETTINGS_QPACK_MAX_TABLE_CAPACITY parameter (<a href="#configuration" class="xref">Section 5</a>) received from
+the decoder.  The decoder MUST treat a new dynamic table capacity value that
+exceeds this limit as a connection error of type QPACK_ENCODER_STREAM_ERROR.<a href="#section-4.3.1-3" class="pilcrow">¶</a></p>
 <p id="section-4.3.1-4">Reducing the dynamic table capacity can cause entries to be evicted; see
 <a href="#eviction" class="xref">Section 3.2.2</a>.  This MUST NOT cause the eviction of entries which are not
 evictable; see <a href="#blocked-insertion" class="xref">Section 2.1.2</a>.  Changing the capacity of the dynamic
@@ -1984,7 +2005,7 @@ zero, the decoder emits a Header Acknowledgement instruction.  The instruction
 begins with the '1' one-bit pattern which is followed by the header block's
 associated stream ID encoded as a 7-bit prefix integer; see
 <a href="#prefixed-integers" class="xref">Section 4.1.1</a>.<a href="#section-4.4.1-1" class="pilcrow">¶</a></p>
-<p id="section-4.4.1-2">This instruction is used as described in <a href="#known-received-count" class="xref">Section 2.1.4</a> and
+<p id="section-4.4.1-2">This instruction is used as described in <a href="#known-received-count" class="xref">Section 2.1.5</a> and
 in <a href="#state-synchronization" class="xref">Section 2.2.2</a>.<a href="#section-4.4.1-2" class="pilcrow">¶</a></p>
 <span id="name-header-acknowledgement-2"></span><div id="fig-header-ack">
 <figure id="figure-9">
@@ -2003,9 +2024,9 @@ in <a href="#state-synchronization" class="xref">Section 2.2.2</a>.<a href="#sec
 <p id="section-4.4.1-4">If an encoder receives a Header Acknowledgement instruction referring to a
 stream on which every header block with a non-zero Required Insert Count has
 already been acknowledged, that MUST be treated as a connection error of type
-<code>HTTP_QPACK_DECODER_STREAM_ERROR</code>.<a href="#section-4.4.1-4" class="pilcrow">¶</a></p>
+QPACK_DECODER_STREAM_ERROR.<a href="#section-4.4.1-4" class="pilcrow">¶</a></p>
 <p id="section-4.4.1-5">The Header Acknowledgement instruction might increase the Known Received Count;
-see <a href="#known-received-count" class="xref">Section 2.1.4</a>.<a href="#section-4.4.1-5" class="pilcrow">¶</a></p>
+see <a href="#known-received-count" class="xref">Section 2.1.5</a>.<a href="#section-4.4.1-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="stream-cancellation">
@@ -2041,7 +2062,7 @@ pattern, which is followed by the stream ID of the affected stream encoded as a
           </h4>
 <p id="section-4.4.3-1">The Insert Count Increment instruction begins with the '00' two-bit pattern,
 followed by the Increment encoded as a 6-bit prefix integer.  This instruction
-increases the Known Received Count (<a href="#known-received-count" class="xref">Section 2.1.4</a>) by the value of
+increases the Known Received Count (<a href="#known-received-count" class="xref">Section 2.1.5</a>) by the value of
 the Increment parameter.  The decoder should send an Increment value that
 increases the Known Received Count to the total number of dynamic table
 insertions and duplications processed so far.<a href="#section-4.4.3-1" class="pilcrow">¶</a></p>
@@ -2061,7 +2082,7 @@ insertions and duplications processed so far.<a href="#section-4.4.3-1" class="p
 </div>
 <p id="section-4.4.3-3">An encoder that receives an Increment field equal to zero, or one that increases
 the Known Received Count beyond what the encoder has sent MUST treat this as a
-connection error of type <code>HTTP_QPACK_DECODER_STREAM_ERROR</code>.<a href="#section-4.4.3-3" class="pilcrow">¶</a></p>
+connection error of type QPACK_DECODER_STREAM_ERROR.<a href="#section-4.4.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2135,7 +2156,7 @@ the decoder; see <a href="#maximum-dynamic-table-capacity" class="xref">Section 
 <p id="section-4.5.1.1-8">The decoder can reconstruct the Required Insert Count using an algorithm such as
 the following.  If the decoder encounters a value of EncodedInsertCount that
 could not have been produced by a conformant encoder, it MUST treat this as a
-connection error of type <code>HTTP_QPACK_DECOMPRESSION_FAILED</code>.<a href="#section-4.5.1.1-8" class="pilcrow">¶</a></p>
+connection error of type QPACK_DECOMPRESSION_FAILED.<a href="#section-4.5.1.1-8" class="pilcrow">¶</a></p>
 <p id="section-4.5.1.1-9">TotalNumberOfInserts is the total number of inserts into the decoder's dynamic
 table.<a href="#section-4.5.1.1-9" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft" id="section-4.5.1.1-10">
@@ -2220,7 +2241,8 @@ entry.<a href="#section-4.5.1.2-7" class="pilcrow">¶</a></p>
 <a href="#section-4.5.2" class="section-number selfRef">4.5.2. </a><a href="#name-indexed-header-field" class="section-name selfRef">Indexed Header Field</a>
           </h4>
 <p id="section-4.5.2-1">An indexed header field representation identifies an entry in the static table,
-or an entry in the dynamic table with an absolute index less than the Base.<a href="#section-4.5.2-1" class="pilcrow">¶</a></p>
+or an entry in the dynamic table with an absolute index less than the value of
+the Base.<a href="#section-4.5.2-1" class="pilcrow">¶</a></p>
 <span id="name-indexed-header-field-2"></span><figure id="figure-13">
             <div class="artwork art-text alignLeft art-drawing" id="section-4.5.2-2.1">
 <pre>
@@ -2247,7 +2269,8 @@ dynamic table.<a href="#section-4.5.2-3" class="pilcrow">¶</a></p>
 <a href="#section-4.5.3" class="section-number selfRef">4.5.3. </a><a href="#name-indexed-header-field-with-p" class="section-name selfRef">Indexed Header Field With Post-Base Index</a>
           </h4>
 <p id="section-4.5.3-1">An indexed header field with post-base index representation identifies an entry
-in the dynamic table with an absolute index greater than or equal to the Base.<a href="#section-4.5.3-1" class="pilcrow">¶</a></p>
+in the dynamic table with an absolute index greater than or equal to the value
+of the Base.<a href="#section-4.5.3-1" class="pilcrow">¶</a></p>
 <span id="name-indexed-header-field-with-po"></span><figure id="figure-14">
             <div class="artwork art-text alignLeft art-drawing" id="section-4.5.3-2.1">
 <pre>
@@ -2273,7 +2296,7 @@ an integer with a 4-bit prefix; see <a href="#prefixed-integers" class="xref">Se
 <p id="section-4.5.4-1">A literal header field with name reference representation encodes a header field
 where the header field name matches the header field name of an entry in the
 static table, or the header field name of an entry in the dynamic table with an
-absolute index less than the Base.<a href="#section-4.5.4-1" class="pilcrow">¶</a></p>
+absolute index less than the value of the Base.<a href="#section-4.5.4-1" class="pilcrow">¶</a></p>
 <span id="name-literal-header-field-with-na"></span><figure id="figure-15">
             <div class="artwork art-text alignLeft art-drawing" id="section-4.5.4-2.1">
 <pre>
@@ -2316,7 +2339,8 @@ field value is encoded as an 8-bit prefix string literal; see
           </h4>
 <p id="section-4.5.5-1">A literal header field with post-base name reference representation encodes a
 header field where the header field name matches the header field name of a
-dynamic table entry with an absolute index greater than or equal to the Base.<a href="#section-4.5.5-1" class="pilcrow">¶</a></p>
+dynamic table entry with an absolute index greater than or equal to the value of
+the Base.<a href="#section-4.5.5-1" class="pilcrow">¶</a></p>
 <span id="name-literal-header-field-with-po"></span><figure id="figure-16">
             <div class="artwork art-text alignLeft art-drawing" id="section-4.5.5-2.1">
 <pre>
@@ -2404,17 +2428,17 @@ the equivalent of the SETTINGS_HEADER_TABLE_SIZE from HTTP/2.<a href="#section-5
 <p id="section-6-1">The following error codes are defined for HTTP/3 to indicate failures of
 QPACK which prevent the connection from continuing:<a href="#section-6-1" class="pilcrow">¶</a></p>
 <dl class="dlParallel" id="section-6-2">
-        <dt id="section-6-2.1">HTTP_QPACK_DECOMPRESSION_FAILED (0x200):</dt>
+        <dt id="section-6-2.1">QPACK_DECOMPRESSION_FAILED (0x200):</dt>
 <dd id="section-6-2.2">
   The decoder failed to interpret a header block and is not able to continue
 decoding that header block.<a href="#section-6-2.2" class="pilcrow">¶</a>
 </dd>
-<dt id="section-6-2.3">HTTP_QPACK_ENCODER_STREAM_ERROR (0x201):</dt>
+<dt id="section-6-2.3">QPACK_ENCODER_STREAM_ERROR (0x201):</dt>
 <dd id="section-6-2.4">
   The decoder failed to interpret an encoder instruction received on the
 encoder stream.<a href="#section-6-2.4" class="pilcrow">¶</a>
 </dd>
-<dt id="section-6-2.5">HTTP_QPACK_DECODER_STREAM_ERROR (0x202):</dt>
+<dt id="section-6-2.5">QPACK_DECODER_STREAM_ERROR (0x202):</dt>
 <dd id="section-6-2.6">
   The encoder failed to interpret a decoder instruction received on the
 decoder stream.<a href="#section-6-2.6" class="pilcrow">¶</a>
@@ -2538,7 +2562,7 @@ are registered in the "HTTP/3 Error Code" registry established in <span>[<a href
           </thead>
           <tbody>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">HTTP_QPACK_DECOMPRESSION_FAILED</td>
+              <td class="text-left" rowspan="1" colspan="1">QPACK_DECOMPRESSION_FAILED</td>
               <td class="text-left" rowspan="1" colspan="1">0x200</td>
               <td class="text-left" rowspan="1" colspan="1">Decompression of a header block failed</td>
               <td class="text-left" rowspan="1" colspan="1">
@@ -2546,7 +2570,7 @@ are registered in the "HTTP/3 Error Code" registry established in <span>[<a href
 </td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">HTTP_QPACK_ENCODER_STREAM_ERROR</td>
+              <td class="text-left" rowspan="1" colspan="1">QPACK_ENCODER_STREAM_ERROR</td>
               <td class="text-left" rowspan="1" colspan="1">0x201</td>
               <td class="text-left" rowspan="1" colspan="1">Error on the encoder stream</td>
               <td class="text-left" rowspan="1" colspan="1">
@@ -2554,7 +2578,7 @@ are registered in the "HTTP/3 Error Code" registry established in <span>[<a href
 </td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">HTTP_QPACK_DECODER_STREAM_ERROR</td>
+              <td class="text-left" rowspan="1" colspan="1">QPACK_DECODER_STREAM_ERROR</td>
               <td class="text-left" rowspan="1" colspan="1">0x202</td>
               <td class="text-left" rowspan="1" colspan="1">Error on the decoder stream</td>
               <td class="text-left" rowspan="1" colspan="1">
@@ -2578,10 +2602,10 @@ are registered in the "HTTP/3 Error Code" registry established in <span>[<a href
 <dl class="references">
 <dt id="HTTP3">[HTTP3]</dt>
 <dd>
-<span class="refAuthor">Bishop, M., Ed.</span>, <span class="refTitle">"Hypertext Transfer Protocol Version 3 (HTTP/3)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-http-latest</span>, <time datetime="2020-01-21">21 January 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-http-latest">https://tools.ietf.org/html/draft-ietf-quic-http-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Bishop, M., Ed.</span>, <span class="refTitle">"Hypertext Transfer Protocol Version 3 (HTTP/3)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-http-latest</span>, <time datetime="2020-02-20">20 February 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-http-latest">https://tools.ietf.org/html/draft-ietf-quic-http-latest</a>&gt;</span>. </dd>
 <dt id="QUIC-TRANSPORT">[QUIC-TRANSPORT]</dt>
 <dd>
-<span class="refAuthor">Iyengar, J., Ed.</span><span class="refAuthor"> and M. Thomson, Ed.</span>, <span class="refTitle">"QUIC: A UDP-Based Multiplexed and Secure Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-transport-latest</span>, <time datetime="2020-01-21">21 January 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-transport-latest">https://tools.ietf.org/html/draft-ietf-quic-transport-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Iyengar, J., Ed.</span><span class="refAuthor"> and M. Thomson, Ed.</span>, <span class="refTitle">"QUIC: A UDP-Based Multiplexed and Secure Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-transport-latest</span>, <time datetime="2020-02-20">20 February 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-transport-latest">https://tools.ietf.org/html/draft-ietf-quic-transport-latest</a>&gt;</span>. </dd>
 <dt id="RFC2119">[RFC2119]</dt>
 <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;</span>. </dd>
