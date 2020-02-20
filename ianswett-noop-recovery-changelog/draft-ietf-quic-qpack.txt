@@ -74,9 +74,9 @@ Copyright Notice
 
 Table of Contents
 
-   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   3
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   4
      1.1.  Conventions and Definitions . . . . . . . . . . . . . . .   4
-     1.2.  Notational Conventions  . . . . . . . . . . . . . . . . .   4
+     1.2.  Notational Conventions  . . . . . . . . . . . . . . . . .   5
    2.  Compression Process Overview  . . . . . . . . . . . . . . . .   5
      2.1.  Encoder . . . . . . . . . . . . . . . . . . . . . . . . .   5
        2.1.1.  Reference Tracking  . . . . . . . . . . . . . . . . .   6
@@ -139,20 +139,36 @@ Internet-Draft                    QPACK                    February 2020
    Appendix A.  Static Table . . . . . . . . . . . . . . . . . . . .  29
    Appendix B.  Sample One Pass Encoding Algorithm . . . . . . . . .  33
    Appendix C.  Change Log . . . . . . . . . . . . . . . . . . . . .  34
-     C.1.  Since draft-ietf-quic-qpack-11  . . . . . . . . . . . . .  35
-     C.2.  Since draft-ietf-quic-qpack-10  . . . . . . . . . . . . .  35
-     C.3.  Since draft-ietf-quic-qpack-09  . . . . . . . . . . . . .  35
-     C.4.  Since draft-ietf-quic-qpack-08  . . . . . . . . . . . . .  35
-     C.5.  Since draft-ietf-quic-qpack-06  . . . . . . . . . . . . .  35
-     C.6.  Since draft-ietf-quic-qpack-05  . . . . . . . . . . . . .  35
-     C.7.  Since draft-ietf-quic-qpack-04  . . . . . . . . . . . . .  35
-     C.8.  Since draft-ietf-quic-qpack-03  . . . . . . . . . . . . .  35
-     C.9.  Since draft-ietf-quic-qpack-02  . . . . . . . . . . . . .  36
-     C.10. Since draft-ietf-quic-qpack-01  . . . . . . . . . . . . .  36
-     C.11. Since draft-ietf-quic-qpack-00  . . . . . . . . . . . . .  36
-     C.12. Since draft-ietf-quic-qcram-00  . . . . . . . . . . . . .  36
+     C.1.  Since draft-ietf-quic-qpack-12  . . . . . . . . . . . . .  35
+     C.2.  Since draft-ietf-quic-qpack-11  . . . . . . . . . . . . .  35
+     C.3.  Since draft-ietf-quic-qpack-10  . . . . . . . . . . . . .  35
+     C.4.  Since draft-ietf-quic-qpack-09  . . . . . . . . . . . . .  35
+     C.5.  Since draft-ietf-quic-qpack-08  . . . . . . . . . . . . .  35
+     C.6.  Since draft-ietf-quic-qpack-06  . . . . . . . . . . . . .  35
+     C.7.  Since draft-ietf-quic-qpack-05  . . . . . . . . . . . . .  35
+     C.8.  Since draft-ietf-quic-qpack-04  . . . . . . . . . . . . .  35
+     C.9.  Since draft-ietf-quic-qpack-03  . . . . . . . . . . . . .  36
+     C.10. Since draft-ietf-quic-qpack-02  . . . . . . . . . . . . .  36
+     C.11. Since draft-ietf-quic-qpack-01  . . . . . . . . . . . . .  36
+     C.12. Since draft-ietf-quic-qpack-00  . . . . . . . . . . . . .  36
+     C.13. Since draft-ietf-quic-qcram-00  . . . . . . . . . . . . .  37
    Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  37
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  37
+
+
+
+
+
+
+
+
+
+
+
+Krasic, et al.           Expires 23 August 2020                 [Page 3]
+
+Internet-Draft                    QPACK                    February 2020
+
 
 1.  Introduction
 
@@ -162,13 +178,6 @@ Internet-Draft                    QPACK                    February 2020
    compression.  If HPACK were used for HTTP/3 [HTTP3], it would induce
    head-of-line blocking due to built-in assumptions of a total ordering
    across frames on all streams.
-
-
-
-Krasic, et al.           Expires 23 August 2020                 [Page 3]
-
-Internet-Draft                    QPACK                    February 2020
-
 
    QPACK reuses core concepts from HPACK, but is redesigned to allow
    correctness in the presence of out-of-order delivery, with
@@ -208,6 +217,15 @@ Internet-Draft                    QPACK                    February 2020
       References to dynamic table entries in header blocks are relative
       to a Base.
 
+
+
+
+
+Krasic, et al.           Expires 23 August 2020                 [Page 4]
+
+Internet-Draft                    QPACK                    February 2020
+
+
    Insert Count:  The total number of entries inserted in the dynamic
       table.
 
@@ -217,14 +235,6 @@ Internet-Draft                    QPACK                    February 2020
 
    Diagrams use the format described in Section 3.1 of [RFC2360], with
    the following additional conventions:
-
-
-
-
-Krasic, et al.           Expires 23 August 2020                 [Page 4]
-
-Internet-Draft                    QPACK                    February 2020
-
 
    x (A)  Indicates that x is A bits long
 
@@ -263,16 +273,6 @@ Internet-Draft                    QPACK                    February 2020
    is not limited to header fields it is compressing.
 
    QPACK preserves the ordering of header fields within each header
-   list.  An encoder MUST emit header field representations in the order
-   they appear in the input header list.
-
-   QPACK is designed to contain the more complex state tracking to the
-   encoder, while the decoder is relatively simple.
-
-
-
-
-
 
 
 
@@ -281,6 +281,12 @@ Krasic, et al.           Expires 23 August 2020                 [Page 5]
 
 Internet-Draft                    QPACK                    February 2020
 
+
+   list.  An encoder MUST emit header field representations in the order
+   they appear in the input header list.
+
+   QPACK is designed to contain the more complex state tracking to the
+   encoder, while the decoder is relatively simple.
 
 2.1.1.  Reference Tracking
 
@@ -324,12 +330,6 @@ Internet-Draft                    QPACK                    February 2020
    smallest absolute index (Section 3.2.4) in the dynamic table that it
    will emit a reference for.  As new entries are inserted, the encoder
    increases the draining index to maintain the section of the table
-   that it will not reference.  If the encoder does not create new
-   references to entries with an absolute index lower than the draining
-   index, the number of unacknowledged references to those entries will
-   eventually become zero, allowing them to be evicted.
-
-
 
 
 
@@ -337,6 +337,11 @@ Krasic, et al.           Expires 23 August 2020                 [Page 6]
 
 Internet-Draft                    QPACK                    February 2020
 
+
+   that it will not reference.  If the encoder does not create new
+   references to entries with an absolute index lower than the draining
+   index, the number of unacknowledged references to those entries will
+   eventually become zero, allowing them to be evicted.
 
       +----------+---------------------------------+--------+
       | Draining |          Referenceable          | Unused |
@@ -381,11 +386,6 @@ Internet-Draft                    QPACK                    February 2020
    An encoder can decide whether to risk having a stream become blocked.
    If permitted by the value of SETTINGS_QPACK_BLOCKED_STREAMS,
    compression efficiency can often be improved by referencing dynamic
-   table entries that are still in transit, but if there is loss or
-   reordering the stream can become blocked at the decoder.  An encoder
-   can avoid the risk of blocking by only referencing dynamic table
-   entries which have been acknowledged, but this could mean using
-   literals.  Since literals make the header block larger, this can
 
 
 
@@ -394,6 +394,11 @@ Krasic, et al.           Expires 23 August 2020                 [Page 7]
 Internet-Draft                    QPACK                    February 2020
 
 
+   table entries that are still in transit, but if there is loss or
+   reordering the stream can become blocked at the decoder.  An encoder
+   can avoid the risk of blocking by only referencing dynamic table
+   entries which have been acknowledged, but this could mean using
+   literals.  Since literals make the header block larger, this can
    result in the encoder becoming blocked on congestion or flow control
    limits.
 
@@ -436,11 +441,6 @@ Internet-Draft                    QPACK                    February 2020
    An Insert Count Increment instruction Section 4.4.3 increases the
    Known Received Count by its Increment parameter.  See Section 2.2.2.3
    for guidance.
-
-
-
-
-
 
 
 
@@ -1909,15 +1909,19 @@ Internet-Draft                    QPACK                    February 2020
       *RFC Editor's Note:* Please remove this section prior to
       publication of a final version of this document.
 
-C.1.  Since draft-ietf-quic-qpack-11
+C.1.  Since draft-ietf-quic-qpack-12
 
    Editorial changes only
 
-C.2.  Since draft-ietf-quic-qpack-10
+C.2.  Since draft-ietf-quic-qpack-11
 
    Editorial changes only
 
-C.3.  Since draft-ietf-quic-qpack-09
+C.3.  Since draft-ietf-quic-qpack-10
+
+   Editorial changes only
+
+C.4.  Since draft-ietf-quic-qpack-09
 
    *  Decoders MUST emit Header Acknowledgements (#2939)
 
@@ -1925,19 +1929,19 @@ C.3.  Since draft-ietf-quic-qpack-09
 
    *  Added explicit defaults for new SETTINGS (#2974)
 
-C.4.  Since draft-ietf-quic-qpack-08
+C.5.  Since draft-ietf-quic-qpack-08
 
    *  Endpoints are permitted to create encoder and decoder streams even
       if they can't use them (#2100, #2529)
 
    *  Maximum values for settings removed (#2766, #2767)
 
-C.5.  Since draft-ietf-quic-qpack-06
+C.6.  Since draft-ietf-quic-qpack-06
 
    *  Clarify initial dynamic table capacity maximums (#2276, #2330,
       #2330)
 
-C.6.  Since draft-ietf-quic-qpack-05
+C.7.  Since draft-ietf-quic-qpack-05
 
    *  Introduced the terms dynamic table capacity and maximum dynamic
       table capacity.
@@ -1945,14 +1949,10 @@ C.6.  Since draft-ietf-quic-qpack-05
    *  Renamed SETTINGS_HEADER_TABLE_SIZE to
       SETTINGS_QPACK_MAX_TABLE_CAPACITY.
 
-C.7.  Since draft-ietf-quic-qpack-04
+C.8.  Since draft-ietf-quic-qpack-04
 
    *  Changed calculation of Delta Base Index to avoid an illegal value
       (#2002, #2005)
-
-C.8.  Since draft-ietf-quic-qpack-03
-
-   *  Change HTTP settings defaults (#2038)
 
 
 
@@ -1962,9 +1962,13 @@ Krasic, et al.           Expires 23 August 2020                [Page 35]
 Internet-Draft                    QPACK                    February 2020
 
 
+C.9.  Since draft-ietf-quic-qpack-03
+
+   *  Change HTTP settings defaults (#2038)
+
    *  Substantial editorial reorganization
 
-C.9.  Since draft-ietf-quic-qpack-02
+C.10.  Since draft-ietf-quic-qpack-02
 
    *  Largest Reference encoded modulo MaxEntries (#1763)
 
@@ -1986,12 +1990,12 @@ C.9.  Since draft-ietf-quic-qpack-02
    *  Initial table size is the maximum permitted when table is first
       usable (#1642)
 
-C.10.  Since draft-ietf-quic-qpack-01
+C.11.  Since draft-ietf-quic-qpack-01
 
    *  Only header blocks that reference the dynamic table are
       acknowledged (#1603, #1605)
 
-C.11.  Since draft-ietf-quic-qpack-00
+C.12.  Since draft-ietf-quic-qpack-00
 
    *  Renumbered instructions for consistency (#1471, #1472)
 
@@ -2007,16 +2011,14 @@ C.11.  Since draft-ietf-quic-qpack-00
    *  Control streams use typed unidirectional streams rather than fixed
       stream IDs (#910,#1359)
 
-C.12.  Since draft-ietf-quic-qcram-00
-
-
-
 
 
 Krasic, et al.           Expires 23 August 2020                [Page 36]
 
 Internet-Draft                    QPACK                    February 2020
 
+
+C.13.  Since draft-ietf-quic-qcram-00
 
    *  Separate instruction sets for table updates and header blocks
       (#1235, #1142, #1141)
@@ -2064,8 +2066,6 @@ Authors' Addresses
    Email: ckrasic@netflix.com
 
 
-   Mike Bishop
-
 
 
 
@@ -2074,6 +2074,7 @@ Krasic, et al.           Expires 23 August 2020                [Page 37]
 Internet-Draft                    QPACK                    February 2020
 
 
+   Mike Bishop
    Akamai Technologies
 
    Email: mbishop@evequefou.be
@@ -2083,7 +2084,6 @@ Internet-Draft                    QPACK                    February 2020
    Facebook
 
    Email: afrind@fb.com
-
 
 
 
