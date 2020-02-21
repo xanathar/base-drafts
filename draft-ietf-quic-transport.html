@@ -6425,16 +6425,13 @@ connection.<a href="#section-17.3.1-9" class="pilcrow">¶</a></p>
       </h2>
 <p id="section-18-1">The <code>extension_data</code> field of the quic_transport_parameters extension defined in
 <span>[<a href="#QUIC-TLS" class="xref">QUIC-TLS</a>]</span> contains the QUIC transport parameters. They are encoded as a
-length-prefixed sequence of transport parameters, as shown in
-<a href="#transport-parameter-sequence" class="xref">Figure 16</a>:<a href="#section-18-1" class="pilcrow">¶</a></p>
+sequence of transport parameters, as shown in <a href="#transport-parameter-sequence" class="xref">Figure 16</a>:<a href="#section-18-1" class="pilcrow">¶</a></p>
 <span id="name-sequence-of-transport-param"></span><div id="transport-parameter-sequence">
 <figure id="figure-16">
         <div class="artwork art-text alignLeft" id="section-18-2.1">
 <pre>
  0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|      Sequence Length (16)     |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |                  Transport Parameter 1 (*)                  ...
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -6450,9 +6447,8 @@ length-prefixed sequence of transport parameters, as shown in
 <a href="#name-sequence-of-transport-param" class="selfRef">Sequence of Transport Parameters</a>
         </figcaption></figure>
 </div>
-<p id="section-18-3">The Sequence Length field contains the length of the sequence of transport
-parameters, in bytes. Each transport parameter is encoded as an (identifier,
-length, value) tuple, as shown in <a href="#transport-parameter-encoding-fig" class="xref">Figure 17</a>:<a href="#section-18-3" class="pilcrow">¶</a></p>
+<p id="section-18-3">Each transport parameter is encoded as an (identifier, length, value) tuple,
+as shown in <a href="#transport-parameter-encoding-fig" class="xref">Figure 17</a>:<a href="#section-18-3" class="pilcrow">¶</a></p>
 <span id="name-transport-parameter-encoding"></span><div id="transport-parameter-encoding-fig">
 <figure id="figure-17">
         <div class="artwork art-text alignLeft" id="section-18-4.1">
@@ -6460,7 +6456,9 @@ length, value) tuple, as shown in <a href="#transport-parameter-encoding-fig" cl
  0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|  Transport Parameter ID (16)  |  Transport Param Length (16)  |
+|                 Transport Parameter ID (i)                  ...
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|               Transport Parameter Length (i)                ...
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |                Transport Parameter Value (*)                ...
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -6497,7 +6495,7 @@ encoding (see <a href="#integer-encoding" class="xref">Section 16</a>) and have 
 transport parameter is absent, unless otherwise stated.<a href="#section-18.2-2" class="pilcrow">¶</a></p>
 <p id="section-18.2-3">The following transport parameters are defined:<a href="#section-18.2-3" class="pilcrow">¶</a></p>
 <dl class="dlParallel" id="section-18.2-4">
-          <dt id="section-18.2-4.1">original_connection_id (0x0000):</dt>
+          <dt id="section-18.2-4.1">original_connection_id (0x00):</dt>
 <dd id="section-18.2-4.2">
   The value of the Destination Connection ID field from the first Initial packet
 sent by the client.  This transport parameter is only sent by a server.  This
@@ -6505,13 +6503,13 @@ is the same value sent in the "Original Destination Connection ID" field of a
 Retry packet (see <a href="#packet-retry" class="xref">Section 17.2.5</a>).  A server MUST include the
 original_connection_id transport parameter if it sent a Retry packet.<a href="#section-18.2-4.2" class="pilcrow">¶</a>
 </dd>
-<dt id="section-18.2-4.3">max_idle_timeout (0x0001):</dt>
+<dt id="section-18.2-4.3">max_idle_timeout (0x01):</dt>
 <dd id="section-18.2-4.4">
   The max idle timeout is a value in milliseconds that is encoded as an integer;
 see (<a href="#idle-timeout" class="xref">Section 10.2</a>).  Idle timeout is disabled when both endpoints omit
 this transport parameter or specify a value of 0.<a href="#section-18.2-4.4" class="pilcrow">¶</a>
 </dd>
-<dt id="section-18.2-4.5">stateless_reset_token (0x0002):</dt>
+<dt id="section-18.2-4.5">stateless_reset_token (0x02):</dt>
 <dd id="section-18.2-4.6">
   A stateless reset token is used in verifying a stateless reset; see
 <a href="#stateless-reset" class="xref">Section 10.4</a>.  This parameter is a sequence of 16 bytes.  This
@@ -6520,7 +6518,7 @@ A server that does not send this transport parameter cannot use stateless
 reset (<a href="#stateless-reset" class="xref">Section 10.4</a>) for the connection ID negotiated during the
 handshake.<a href="#section-18.2-4.6" class="pilcrow">¶</a>
 </dd>
-<dt id="section-18.2-4.7">max_packet_size (0x0003):</dt>
+<dt id="section-18.2-4.7">max_packet_size (0x03):</dt>
 <dd id="section-18.2-4.8">
   The maximum packet size parameter is an integer value that limits the size of
 packets that the endpoint is willing to receive.  This indicates that packets
@@ -6528,14 +6526,14 @@ larger than this limit will be dropped.  The default for this parameter is the
 maximum permitted UDP payload of 65527.  Values below 1200 are invalid.  This
 limit only applies to protected packets (<a href="#packet-protected" class="xref">Section 12.1</a>).<a href="#section-18.2-4.8" class="pilcrow">¶</a>
 </dd>
-<dt id="section-18.2-4.9">initial_max_data (0x0004):</dt>
+<dt id="section-18.2-4.9">initial_max_data (0x04):</dt>
 <dd id="section-18.2-4.10">
   The initial maximum data parameter is an integer value that contains the
 initial value for the maximum amount of data that can be sent on the
 connection.  This is equivalent to sending a MAX_DATA (<a href="#frame-max-data" class="xref">Section 19.9</a>) for
 the connection immediately after completing the handshake.<a href="#section-18.2-4.10" class="pilcrow">¶</a>
 </dd>
-<dt id="section-18.2-4.11">initial_max_stream_data_bidi_local (0x0005):</dt>
+<dt id="section-18.2-4.11">initial_max_stream_data_bidi_local (0x05):</dt>
 <dd id="section-18.2-4.12">
   This parameter is an integer value specifying the initial flow control limit
 for locally-initiated bidirectional streams.  This limit applies to newly
@@ -6545,7 +6543,7 @@ identifier with the least significant two bits set to 0x0; in server transport
 parameters, this applies to streams with the least significant two bits set to
 0x1.<a href="#section-18.2-4.12" class="pilcrow">¶</a>
 </dd>
-<dt id="section-18.2-4.13">initial_max_stream_data_bidi_remote (0x0006):</dt>
+<dt id="section-18.2-4.13">initial_max_stream_data_bidi_remote (0x06):</dt>
 <dd id="section-18.2-4.14">
   This parameter is an integer value specifying the initial flow control limit
 for peer-initiated bidirectional streams.  This limit applies to newly created
@@ -6555,7 +6553,7 @@ identifier with the least significant two bits set to 0x1; in server transport
 parameters, this applies to streams with the least significant two bits set to
 0x0.<a href="#section-18.2-4.14" class="pilcrow">¶</a>
 </dd>
-<dt id="section-18.2-4.15">initial_max_stream_data_uni (0x0007):</dt>
+<dt id="section-18.2-4.15">initial_max_stream_data_uni (0x07):</dt>
 <dd id="section-18.2-4.16">
   This parameter is an integer value specifying the initial flow control limit
 for unidirectional streams.  This limit applies to newly created
@@ -6565,7 +6563,7 @@ identifier with the least significant two bits set to 0x3; in server transport
 parameters, this applies to streams with the least significant two bits set to
 0x2.<a href="#section-18.2-4.16" class="pilcrow">¶</a>
 </dd>
-<dt id="section-18.2-4.17">initial_max_streams_bidi (0x0008):</dt>
+<dt id="section-18.2-4.17">initial_max_streams_bidi (0x08):</dt>
 <dd id="section-18.2-4.18">
   The initial maximum bidirectional streams parameter is an integer value that
 contains the initial maximum number of bidirectional streams the peer may
@@ -6574,7 +6572,7 @@ bidirectional streams until a MAX_STREAMS frame is sent.  Setting this
 parameter is equivalent to sending a MAX_STREAMS (<a href="#frame-max-streams" class="xref">Section 19.11</a>) of
 the corresponding type with the same value.<a href="#section-18.2-4.18" class="pilcrow">¶</a>
 </dd>
-<dt id="section-18.2-4.19">initial_max_streams_uni (0x0009):</dt>
+<dt id="section-18.2-4.19">initial_max_streams_uni (0x09):</dt>
 <dd id="section-18.2-4.20">
   The initial maximum unidirectional streams parameter is an integer value that
 contains the initial maximum number of unidirectional streams the peer may
@@ -6583,14 +6581,14 @@ unidirectional streams until a MAX_STREAMS frame is sent.  Setting this
 parameter is equivalent to sending a MAX_STREAMS (<a href="#frame-max-streams" class="xref">Section 19.11</a>) of
 the corresponding type with the same value.<a href="#section-18.2-4.20" class="pilcrow">¶</a>
 </dd>
-<dt id="section-18.2-4.21">ack_delay_exponent (0x000a):</dt>
+<dt id="section-18.2-4.21">ack_delay_exponent (0x0a):</dt>
 <dd id="section-18.2-4.22">
   The ACK delay exponent is an integer value indicating an
 exponent used to decode the ACK Delay field in the ACK frame (<a href="#frame-ack" class="xref">Section 19.3</a>).
 If this value is absent, a default value of 3 is assumed (indicating a
 multiplier of 8). Values above 20 are invalid.<a href="#section-18.2-4.22" class="pilcrow">¶</a>
 </dd>
-<dt id="section-18.2-4.23">max_ack_delay (0x000b):</dt>
+<dt id="section-18.2-4.23">max_ack_delay (0x0b):</dt>
 <dd id="section-18.2-4.24">
   The maximum ACK delay is an integer value indicating the
 maximum amount of time in milliseconds by which the endpoint will delay
@@ -6600,7 +6598,7 @@ and alarms commonly fire up to 1ms late, then it should send a max_ack_delay
 of 6ms.  If this value is absent, a default of 25 milliseconds is assumed.
 Values of 2^14 or greater are invalid.<a href="#section-18.2-4.24" class="pilcrow">¶</a>
 </dd>
-<dt id="section-18.2-4.25">disable_active_migration (0x000c):</dt>
+<dt id="section-18.2-4.25">disable_active_migration (0x0c):</dt>
 <dd id="section-18.2-4.26">
   The disable active migration transport parameter is included if the endpoint
 does not support active connection migration (<a href="#migration" class="xref">Section 9</a>). Peers of an
@@ -6609,7 +6607,7 @@ including probing packets (<a href="#probing" class="xref">Section 9.1</a>), fro
 than that used to perform the handshake.  This parameter is a zero-length
 value.<a href="#section-18.2-4.26" class="pilcrow">¶</a>
 </dd>
-<dt id="section-18.2-4.27">preferred_address (0x000d):</dt>
+<dt id="section-18.2-4.27">preferred_address (0x0d):</dt>
 <dd id="section-18.2-4.28">
   The server's preferred address is used to effect a change in server address at
 the end of the handshake, as described in <a href="#preferred-address" class="xref">Section 9.6</a>.  The format
@@ -6661,7 +6659,7 @@ Connection ID field.<a href="#section-18.2-4.28" class="pilcrow">¶</a>
           </figcaption></figure>
 </div>
 <dl class="dlParallel" id="section-18.2-6">
-          <dt id="section-18.2-6.1">active_connection_id_limit (0x000e):</dt>
+          <dt id="section-18.2-6.1">active_connection_id_limit (0x0e):</dt>
 <dd id="section-18.2-6.2">
   The active connection ID limit is an integer value specifying the
 maximum number of connection IDs from the peer that an endpoint is willing
@@ -8657,7 +8655,7 @@ contact both the IESG (ietf@ietf.org) and the QUIC working group
         </h3>
 <p id="section-22.2-1">IANA [SHALL add/has added] a registry for "QUIC Transport Parameters" under a
 "QUIC" heading.<a href="#section-22.2-1" class="pilcrow">¶</a></p>
-<p id="section-22.2-2">The "QUIC Transport Parameters" registry governs a 16-bit space.  This registry
+<p id="section-22.2-2">The "QUIC Transport Parameters" registry governs a 62-bit space.  This registry
 follows the registration policy from <a href="#iana-policy" class="xref">Section 22.1</a>.  Permanent registrations
 in this registry are assigned using the Specification Required policy
 <span>[<a href="#RFC8126" class="xref">RFC8126</a>]</span>.<a href="#section-22.2-2" class="pilcrow">¶</a></p>
@@ -8685,105 +8683,105 @@ this registry MUST include the following fields:<a href="#section-22.2-3" class=
           </thead>
           <tbody>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">0x0000</td>
+              <td class="text-left" rowspan="1" colspan="1">0x00</td>
               <td class="text-left" rowspan="1" colspan="1">original_connection_id</td>
               <td class="text-left" rowspan="1" colspan="1">
                 <a href="#transport-parameter-definitions" class="xref">Section 18.2</a>
 </td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">0x0001</td>
+              <td class="text-left" rowspan="1" colspan="1">0x01</td>
               <td class="text-left" rowspan="1" colspan="1">max_idle_timeout</td>
               <td class="text-left" rowspan="1" colspan="1">
                 <a href="#transport-parameter-definitions" class="xref">Section 18.2</a>
 </td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">0x0002</td>
+              <td class="text-left" rowspan="1" colspan="1">0x02</td>
               <td class="text-left" rowspan="1" colspan="1">stateless_reset_token</td>
               <td class="text-left" rowspan="1" colspan="1">
                 <a href="#transport-parameter-definitions" class="xref">Section 18.2</a>
 </td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">0x0003</td>
+              <td class="text-left" rowspan="1" colspan="1">0x03</td>
               <td class="text-left" rowspan="1" colspan="1">max_packet_size</td>
               <td class="text-left" rowspan="1" colspan="1">
                 <a href="#transport-parameter-definitions" class="xref">Section 18.2</a>
 </td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">0x0004</td>
+              <td class="text-left" rowspan="1" colspan="1">0x04</td>
               <td class="text-left" rowspan="1" colspan="1">initial_max_data</td>
               <td class="text-left" rowspan="1" colspan="1">
                 <a href="#transport-parameter-definitions" class="xref">Section 18.2</a>
 </td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">0x0005</td>
+              <td class="text-left" rowspan="1" colspan="1">0x05</td>
               <td class="text-left" rowspan="1" colspan="1">initial_max_stream_data_bidi_local</td>
               <td class="text-left" rowspan="1" colspan="1">
                 <a href="#transport-parameter-definitions" class="xref">Section 18.2</a>
 </td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">0x0006</td>
+              <td class="text-left" rowspan="1" colspan="1">0x06</td>
               <td class="text-left" rowspan="1" colspan="1">initial_max_stream_data_bidi_remote</td>
               <td class="text-left" rowspan="1" colspan="1">
                 <a href="#transport-parameter-definitions" class="xref">Section 18.2</a>
 </td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">0x0007</td>
+              <td class="text-left" rowspan="1" colspan="1">0x07</td>
               <td class="text-left" rowspan="1" colspan="1">initial_max_stream_data_uni</td>
               <td class="text-left" rowspan="1" colspan="1">
                 <a href="#transport-parameter-definitions" class="xref">Section 18.2</a>
 </td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">0x0008</td>
+              <td class="text-left" rowspan="1" colspan="1">0x08</td>
               <td class="text-left" rowspan="1" colspan="1">initial_max_streams_bidi</td>
               <td class="text-left" rowspan="1" colspan="1">
                 <a href="#transport-parameter-definitions" class="xref">Section 18.2</a>
 </td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">0x0009</td>
+              <td class="text-left" rowspan="1" colspan="1">0x09</td>
               <td class="text-left" rowspan="1" colspan="1">initial_max_streams_uni</td>
               <td class="text-left" rowspan="1" colspan="1">
                 <a href="#transport-parameter-definitions" class="xref">Section 18.2</a>
 </td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">0x000a</td>
+              <td class="text-left" rowspan="1" colspan="1">0x0a</td>
               <td class="text-left" rowspan="1" colspan="1">ack_delay_exponent</td>
               <td class="text-left" rowspan="1" colspan="1">
                 <a href="#transport-parameter-definitions" class="xref">Section 18.2</a>
 </td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">0x000b</td>
+              <td class="text-left" rowspan="1" colspan="1">0x0b</td>
               <td class="text-left" rowspan="1" colspan="1">max_ack_delay</td>
               <td class="text-left" rowspan="1" colspan="1">
                 <a href="#transport-parameter-definitions" class="xref">Section 18.2</a>
 </td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">0x000c</td>
+              <td class="text-left" rowspan="1" colspan="1">0x0c</td>
               <td class="text-left" rowspan="1" colspan="1">disable_active_migration</td>
               <td class="text-left" rowspan="1" colspan="1">
                 <a href="#transport-parameter-definitions" class="xref">Section 18.2</a>
 </td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">0x000d</td>
+              <td class="text-left" rowspan="1" colspan="1">0x0d</td>
               <td class="text-left" rowspan="1" colspan="1">preferred_address</td>
               <td class="text-left" rowspan="1" colspan="1">
                 <a href="#transport-parameter-definitions" class="xref">Section 18.2</a>
 </td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">0x000e</td>
+              <td class="text-left" rowspan="1" colspan="1">0x0e</td>
               <td class="text-left" rowspan="1" colspan="1">active_connection_id_limit</td>
               <td class="text-left" rowspan="1" colspan="1">
                 <a href="#transport-parameter-definitions" class="xref">Section 18.2</a>
