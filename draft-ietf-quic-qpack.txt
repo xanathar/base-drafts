@@ -139,22 +139,22 @@ Internet-Draft                    QPACK                    February 2020
    Appendix A.  Static Table . . . . . . . . . . . . . . . . . . . .  29
    Appendix B.  Sample One Pass Encoding Algorithm . . . . . . . . .  33
    Appendix C.  Change Log . . . . . . . . . . . . . . . . . . . . .  34
-     C.1.  Since draft-ietf-quic-qpack-12  . . . . . . . . . . . . .  35
-     C.2.  Since draft-ietf-quic-qpack-11  . . . . . . . . . . . . .  35
-     C.3.  Since draft-ietf-quic-qpack-10  . . . . . . . . . . . . .  35
-     C.4.  Since draft-ietf-quic-qpack-09  . . . . . . . . . . . . .  35
-     C.5.  Since draft-ietf-quic-qpack-08  . . . . . . . . . . . . .  35
-     C.6.  Since draft-ietf-quic-qpack-06  . . . . . . . . . . . . .  35
-     C.7.  Since draft-ietf-quic-qpack-05  . . . . . . . . . . . . .  35
-     C.8.  Since draft-ietf-quic-qpack-04  . . . . . . . . . . . . .  35
-     C.9.  Since draft-ietf-quic-qpack-03  . . . . . . . . . . . . .  36
-     C.10. Since draft-ietf-quic-qpack-02  . . . . . . . . . . . . .  36
-     C.11. Since draft-ietf-quic-qpack-01  . . . . . . . . . . . . .  36
-     C.12. Since draft-ietf-quic-qpack-00  . . . . . . . . . . . . .  36
-     C.13. Since draft-ietf-quic-qcram-00  . . . . . . . . . . . . .  37
+     C.1.  Since draft-ietf-quic-qpack-13  . . . . . . . . . . . . .  35
+     C.2.  Since draft-ietf-quic-qpack-12  . . . . . . . . . . . . .  35
+     C.3.  Since draft-ietf-quic-qpack-11  . . . . . . . . . . . . .  35
+     C.4.  Since draft-ietf-quic-qpack-10  . . . . . . . . . . . . .  35
+     C.5.  Since draft-ietf-quic-qpack-09  . . . . . . . . . . . . .  35
+     C.6.  Since draft-ietf-quic-qpack-08  . . . . . . . . . . . . .  35
+     C.7.  Since draft-ietf-quic-qpack-06  . . . . . . . . . . . . .  35
+     C.8.  Since draft-ietf-quic-qpack-05  . . . . . . . . . . . . .  35
+     C.9.  Since draft-ietf-quic-qpack-04  . . . . . . . . . . . . .  36
+     C.10. Since draft-ietf-quic-qpack-03  . . . . . . . . . . . . .  36
+     C.11. Since draft-ietf-quic-qpack-02  . . . . . . . . . . . . .  36
+     C.12. Since draft-ietf-quic-qpack-01  . . . . . . . . . . . . .  36
+     C.13. Since draft-ietf-quic-qpack-00  . . . . . . . . . . . . .  36
+     C.14. Since draft-ietf-quic-qcram-00  . . . . . . . . . . . . .  37
    Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  37
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  37
-
 
 
 
@@ -1909,19 +1909,23 @@ Internet-Draft                    QPACK                    February 2020
       *RFC Editor's Note:* Please remove this section prior to
       publication of a final version of this document.
 
-C.1.  Since draft-ietf-quic-qpack-12
+C.1.  Since draft-ietf-quic-qpack-13
+
+   No changes
+
+C.2.  Since draft-ietf-quic-qpack-12
 
    Editorial changes only
 
-C.2.  Since draft-ietf-quic-qpack-11
+C.3.  Since draft-ietf-quic-qpack-11
 
    Editorial changes only
 
-C.3.  Since draft-ietf-quic-qpack-10
+C.4.  Since draft-ietf-quic-qpack-10
 
    Editorial changes only
 
-C.4.  Since draft-ietf-quic-qpack-09
+C.5.  Since draft-ietf-quic-qpack-09
 
    *  Decoders MUST emit Header Acknowledgements (#2939)
 
@@ -1929,19 +1933,19 @@ C.4.  Since draft-ietf-quic-qpack-09
 
    *  Added explicit defaults for new SETTINGS (#2974)
 
-C.5.  Since draft-ietf-quic-qpack-08
+C.6.  Since draft-ietf-quic-qpack-08
 
    *  Endpoints are permitted to create encoder and decoder streams even
       if they can't use them (#2100, #2529)
 
    *  Maximum values for settings removed (#2766, #2767)
 
-C.6.  Since draft-ietf-quic-qpack-06
+C.7.  Since draft-ietf-quic-qpack-06
 
    *  Clarify initial dynamic table capacity maximums (#2276, #2330,
       #2330)
 
-C.7.  Since draft-ietf-quic-qpack-05
+C.8.  Since draft-ietf-quic-qpack-05
 
    *  Introduced the terms dynamic table capacity and maximum dynamic
       table capacity.
@@ -1949,10 +1953,6 @@ C.7.  Since draft-ietf-quic-qpack-05
    *  Renamed SETTINGS_HEADER_TABLE_SIZE to
       SETTINGS_QPACK_MAX_TABLE_CAPACITY.
 
-C.8.  Since draft-ietf-quic-qpack-04
-
-   *  Changed calculation of Delta Base Index to avoid an illegal value
-      (#2002, #2005)
 
 
 
@@ -1962,13 +1962,18 @@ Krasic, et al.           Expires 24 August 2020                [Page 35]
 Internet-Draft                    QPACK                    February 2020
 
 
-C.9.  Since draft-ietf-quic-qpack-03
+C.9.  Since draft-ietf-quic-qpack-04
+
+   *  Changed calculation of Delta Base Index to avoid an illegal value
+      (#2002, #2005)
+
+C.10.  Since draft-ietf-quic-qpack-03
 
    *  Change HTTP settings defaults (#2038)
 
    *  Substantial editorial reorganization
 
-C.10.  Since draft-ietf-quic-qpack-02
+C.11.  Since draft-ietf-quic-qpack-02
 
    *  Largest Reference encoded modulo MaxEntries (#1763)
 
@@ -1990,12 +1995,12 @@ C.10.  Since draft-ietf-quic-qpack-02
    *  Initial table size is the maximum permitted when table is first
       usable (#1642)
 
-C.11.  Since draft-ietf-quic-qpack-01
+C.12.  Since draft-ietf-quic-qpack-01
 
    *  Only header blocks that reference the dynamic table are
       acknowledged (#1603, #1605)
 
-C.12.  Since draft-ietf-quic-qpack-00
+C.13.  Since draft-ietf-quic-qpack-00
 
    *  Renumbered instructions for consistency (#1471, #1472)
 
@@ -2006,11 +2011,6 @@ C.12.  Since draft-ietf-quic-qpack-00
 
    *  Added an acknowledgment for unread streams (#1371, #1400)
 
-   *  Removed framing from encoder stream (#1361,#1467)
-
-   *  Control streams use typed unidirectional streams rather than fixed
-      stream IDs (#910,#1359)
-
 
 
 Krasic, et al.           Expires 24 August 2020                [Page 36]
@@ -2018,7 +2018,12 @@ Krasic, et al.           Expires 24 August 2020                [Page 36]
 Internet-Draft                    QPACK                    February 2020
 
 
-C.13.  Since draft-ietf-quic-qcram-00
+   *  Removed framing from encoder stream (#1361,#1467)
+
+   *  Control streams use typed unidirectional streams rather than fixed
+      stream IDs (#910,#1359)
+
+C.14.  Since draft-ietf-quic-qcram-00
 
    *  Separate instruction sets for table updates and header blocks
       (#1235, #1142, #1141)
@@ -2060,11 +2065,6 @@ Acknowledgments
 
 Authors' Addresses
 
-   Charles 'Buck' Krasic
-   Netflix
-
-   Email: ckrasic@netflix.com
-
 
 
 
@@ -2072,6 +2072,12 @@ Authors' Addresses
 Krasic, et al.           Expires 24 August 2020                [Page 37]
 
 Internet-Draft                    QPACK                    February 2020
+
+
+   Charles 'Buck' Krasic
+   Netflix
+
+   Email: ckrasic@netflix.com
 
 
    Mike Bishop
@@ -2084,12 +2090,6 @@ Internet-Draft                    QPACK                    February 2020
    Facebook
 
    Email: afrind@fb.com
-
-
-
-
-
-
 
 
 
