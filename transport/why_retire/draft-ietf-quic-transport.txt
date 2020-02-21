@@ -1525,24 +1525,21 @@ Internet-Draft           QUIC Transport Protocol           February 2020
    away from a local address SHOULD retire all connection IDs used on
    that address once it no longer plans to use that address.
 
-   An endpoint can cause its peer to retire connection IDs by sending a
-   NEW_CONNECTION_ID frame with an increased Retire Prior To field.
-   Upon receipt, the peer MUST first retire the corresponding connection
-   IDs using RETIRE_CONNECTION_ID frames and then add the newly provided
-   connection ID to the set of active connection IDs.  Failure to retire
-   the connection IDs within approximately one PTO can cause packets to
-   be delayed, lost, or cause the original endpoint to send a stateless
-   reset in response to a connection ID it can no longer route
-   correctly.
+   An endpoint might need to stop accepting previously issued connection
+   IDs in certain circumstances.  Such an endpoint can cause its peer to
+   retire connection IDs by sending a NEW_CONNECTION_ID frame with an
+   increased Retire Prior To field.  The endpoint SHOULD continue to
+   accept the previously issued connection IDs until they are retired by
+   the peer.  If the endpoint can no longer process the indicated
+   connection IDs, it MAY close the connection.
 
-   An endpoint MAY discard a connection ID for which retirement has been
-   requested once an interval of no less than 3 PTO has elapsed since an
-   acknowledgement is received for the NEW_CONNECTION_ID frame
-   requesting that retirement.  Until then, the endpoint SHOULD be
-   prepared to receive packets that contain the connection ID that it
-   has requested be retired.  Subsequent incoming packets using that
-   connection ID could elicit a response with the corresponding
-   stateless reset token.
+   Upon receipt of an increase Retire Prior To field, the peer MUST
+   first stop using the corresponding connection IDs using
+   RETIRE_CONNECTION_ID frames and then add the newly provided
+   connection ID to the set of active connection IDs.  Failure to retire
+   the connection IDs promptly can cause failure of the connection,
+   either because the endpoint closed the connection or can no longer
+   associate these connection IDs with the active connection.
 
 5.2.  Matching Packets to Connections
 
@@ -1561,6 +1558,9 @@ Internet-Draft           QUIC Transport Protocol           February 2020
    endpoint uses to identify a connection with a zero-length connection
    ID, QUIC processes the packet as part of that connection.  An
    endpoint can use just destination IP and port or both source and
+   destination addresses for identification, though this makes
+   connections fragile as described in Section 5.1.
+
 
 
 
@@ -1569,9 +1569,6 @@ Iyengar & Thomson        Expires 24 August 2020                [Page 28]
 
 Internet-Draft           QUIC Transport Protocol           February 2020
 
-
-   destination addresses for identification, though this makes
-   connections fragile as described in Section 5.1.
 
    Endpoints can send a Stateless Reset (Section 10.4) for any packets
    that cannot be attributed to an existing connection.  A stateless
@@ -1618,6 +1615,9 @@ Internet-Draft           QUIC Transport Protocol           February 2020
    semantics and encodings for any version-specific field.  In
    particular, different packet protection keys might be used for
    different versions.  Servers that do not support a particular version
+   are unlikely to be able to decrypt the payload of the packet.
+   Servers SHOULD NOT attempt to decode or decrypt a packet from an
+
 
 
 
@@ -1626,8 +1626,6 @@ Iyengar & Thomson        Expires 24 August 2020                [Page 29]
 Internet-Draft           QUIC Transport Protocol           February 2020
 
 
-   are unlikely to be able to decrypt the payload of the packet.
-   Servers SHOULD NOT attempt to decode or decrypt a packet from an
    unknown version, but instead send a Version Negotiation packet,
    provided that the packet is sufficiently long.
 
@@ -1674,6 +1672,8 @@ Internet-Draft           QUIC Transport Protocol           February 2020
    Separately, a server can also send application data to a client
    before it receives the final cryptographic handshake messages that
    allow it to confirm the identity and liveness of the client.  These
+   capabilities allow an application protocol to offer the option to
+   trade some security guarantees for reduced latency.
 
 
 
@@ -1681,9 +1681,6 @@ Iyengar & Thomson        Expires 24 August 2020                [Page 30]
 
 Internet-Draft           QUIC Transport Protocol           February 2020
 
-
-   capabilities allow an application protocol to offer the option to
-   trade some security guarantees for reduced latency.
 
    The use of connection IDs (Section 5.1) allows connections to migrate
    to a new network path, both as a direct choice of an endpoint and
@@ -1730,6 +1727,9 @@ Internet-Draft           QUIC Transport Protocol           February 2020
       streams of each type, as communicated in the transport parameters
       (Section 7.3);
 
+   *  control resource allocation of various types, including flow
+      control and the number of permitted streams of each type;
+
 
 
 
@@ -1737,9 +1737,6 @@ Iyengar & Thomson        Expires 24 August 2020                [Page 31]
 
 Internet-Draft           QUIC Transport Protocol           February 2020
 
-
-   *  control resource allocation of various types, including flow
-      control and the number of permitted streams of each type;
 
    *  identify whether the handshake has completed successfully or is
       still ongoing
@@ -1786,6 +1783,9 @@ Internet-Draft           QUIC Transport Protocol           February 2020
    0-RTT might choose not to send Version Negotiation packets in
    response to 0-RTT packets with the expectation that it will
    eventually receive an Initial packet.
+
+
+
 
 
 
