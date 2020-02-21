@@ -1533,7 +1533,7 @@ Internet-Draft           QUIC Transport Protocol           February 2020
    the peer.  If the endpoint can no longer process the indicated
    connection IDs, it MAY close the connection.
 
-   Upon receipt of an increase Retire Prior To field, the peer MUST
+   Upon receipt of an increased Retire Prior To field, the peer MUST
    first stop using the corresponding connection IDs using
    RETIRE_CONNECTION_ID frames and then add the newly provided
    connection ID to the set of active connection IDs.  Failure to retire

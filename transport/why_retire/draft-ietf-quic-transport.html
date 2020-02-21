@@ -2697,7 +2697,7 @@ IDs by sending a NEW_CONNECTION_ID frame with an increased Retire Prior To
 field.  The endpoint SHOULD continue to accept the previously issued connection
 IDs until they are retired by the peer.  If the endpoint can no longer process
 the indicated connection IDs, it MAY close the connection.<a href="#section-5.1.2-4" class="pilcrow">¶</a></p>
-<p id="section-5.1.2-5">Upon receipt of an increase Retire Prior To field, the peer MUST first stop
+<p id="section-5.1.2-5">Upon receipt of an increased Retire Prior To field, the peer MUST first stop
 using the corresponding connection IDs using RETIRE_CONNECTION_ID frames and
 then add the newly provided connection ID to the set of active connection IDs.
 Failure to retire the connection IDs promptly can cause failure of the
