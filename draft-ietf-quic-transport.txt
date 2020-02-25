@@ -1471,8 +1471,9 @@ Internet-Draft           QUIC Transport Protocol           February 2020
    its peer invalidates the connection ID via a RETIRE_CONNECTION_ID
    frame (Section 19.16).  Connection IDs that are issued and not
    retired are considered active; any active connection ID is valid for
-   use at any time, in any packet type.  This includes the connection ID
-   issued by the server via the preferred_address transport parameter.
+   use with the current connection at any time, in any packet type.
+   This includes the connection ID issued by the server via the
+   preferred_address transport parameter.
 
    An endpoint SHOULD ensure that its peer has a sufficient number of
    available and unused connection IDs.  Endpoints store received
@@ -1504,8 +1505,7 @@ Internet-Draft           QUIC Transport Protocol           February 2020
    consumes connection IDs in response to a migrating peer; see
    Section 9.5 for more.
 
-   An endpoint maintains a set of connection IDs received from its peer,
-   any of which it can use when sending packets.  When the endpoint
+
 
 
 
@@ -1514,6 +1514,8 @@ Iyengar & Thomson        Expires 28 August 2020                [Page 27]
 Internet-Draft           QUIC Transport Protocol           February 2020
 
 
+   An endpoint maintains a set of connection IDs received from its peer,
+   any of which it can use when sending packets.  When the endpoint
    wishes to remove a connection ID from use, it sends a
    RETIRE_CONNECTION_ID frame to its peer.  Sending a
    RETIRE_CONNECTION_ID frame indicates that the connection ID will not
@@ -1560,8 +1562,6 @@ Internet-Draft           QUIC Transport Protocol           February 2020
    information in the packet matches the addressing information the
    endpoint uses to identify a connection with a zero-length connection
    ID, QUIC processes the packet as part of that connection.  An
-   endpoint can use just destination IP and port or both source and
-
 
 
 
@@ -1570,6 +1570,7 @@ Iyengar & Thomson        Expires 28 August 2020                [Page 28]
 Internet-Draft           QUIC Transport Protocol           February 2020
 
 
+   endpoint can use just destination IP and port or both source and
    destination addresses for identification, though this makes
    connections fragile as described in Section 5.1.
 
@@ -1617,7 +1618,6 @@ Internet-Draft           QUIC Transport Protocol           February 2020
    The first packet for an unsupported version can use different
    semantics and encodings for any version-specific field.  In
    particular, different packet protection keys might be used for
-   different versions.  Servers that do not support a particular version
 
 
 
@@ -1626,6 +1626,7 @@ Iyengar & Thomson        Expires 28 August 2020                [Page 29]
 Internet-Draft           QUIC Transport Protocol           February 2020
 
 
+   different versions.  Servers that do not support a particular version
    are unlikely to be able to decrypt the payload of the packet.
    Servers SHOULD NOT attempt to decode or decrypt a packet from an
    unknown version, but instead send a Version Negotiation packet,
@@ -1673,7 +1674,6 @@ Internet-Draft           QUIC Transport Protocol           February 2020
    no protection against replay attacks in 0-RTT; see [QUIC-TLS].
    Separately, a server can also send application data to a client
    before it receives the final cryptographic handshake messages that
-   allow it to confirm the identity and liveness of the client.  These
 
 
 
@@ -1682,6 +1682,7 @@ Iyengar & Thomson        Expires 28 August 2020                [Page 30]
 Internet-Draft           QUIC Transport Protocol           February 2020
 
 
+   allow it to confirm the identity and liveness of the client.  These
    capabilities allow an application protocol to offer the option to
    trade some security guarantees for reduced latency.
 
@@ -1729,7 +1730,6 @@ Internet-Draft           QUIC Transport Protocol           February 2020
    *  configure minimum values for the initial number of permitted
       streams of each type, as communicated in the transport parameters
       (Section 7.3);
-
 
 
 
