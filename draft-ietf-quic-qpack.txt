@@ -5,10 +5,10 @@
 QUIC                                                           C. Krasic
 Internet-Draft                                                   Netflix
 Intended status: Standards Track                               M. Bishop
-Expires: 27 August 2020                              Akamai Technologies
+Expires: 28 August 2020                              Akamai Technologies
                                                         A. Frindell, Ed.
                                                                 Facebook
-                                                        24 February 2020
+                                                        25 February 2020
 
 
                   QPACK: Header Compression for HTTP/3
@@ -48,12 +48,12 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 27 August 2020.
+   This Internet-Draft will expire on 28 August 2020.
 
 
 
 
-Krasic, et al.           Expires 27 August 2020                 [Page 1]
+Krasic, et al.           Expires 28 August 2020                 [Page 1]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -79,11 +79,10 @@ Table of Contents
      1.2.  Notational Conventions  . . . . . . . . . . . . . . . . .   5
    2.  Compression Process Overview  . . . . . . . . . . . . . . . .   5
      2.1.  Encoder . . . . . . . . . . . . . . . . . . . . . . . . .   5
-       2.1.1.  Reference Tracking  . . . . . . . . . . . . . . . . .   6
-       2.1.2.  Limits on Dynamic Table Insertions  . . . . . . . . .   6
-       2.1.3.  Blocked Streams . . . . . . . . . . . . . . . . . . .   7
-       2.1.4.  Avoiding Flow Control Deadlocks . . . . . . . . . . .   8
-       2.1.5.  Known Received Count  . . . . . . . . . . . . . . . .   8
+       2.1.1.  Limits on Dynamic Table Insertions  . . . . . . . . .   6
+       2.1.2.  Blocked Streams . . . . . . . . . . . . . . . . . . .   7
+       2.1.3.  Avoiding Flow Control Deadlocks . . . . . . . . . . .   8
+       2.1.4.  Known Received Count  . . . . . . . . . . . . . . . .   8
      2.2.  Decoder . . . . . . . . . . . . . . . . . . . . . . . . .   9
        2.2.1.  Blocked Decoding  . . . . . . . . . . . . . . . . . .   9
        2.2.2.  State Synchronization . . . . . . . . . . . . . . . .   9
@@ -106,15 +105,15 @@ Table of Contents
        4.3.1.  Set Dynamic Table Capacity  . . . . . . . . . . . . .  16
        4.3.2.  Insert With Name Reference  . . . . . . . . . . . . .  17
        4.3.3.  Insert Without Name Reference . . . . . . . . . . . .  17
+       4.3.4.  Duplicate . . . . . . . . . . . . . . . . . . . . . .  18
 
 
 
-Krasic, et al.           Expires 27 August 2020                 [Page 2]
+Krasic, et al.           Expires 28 August 2020                 [Page 2]
 
 Internet-Draft                    QPACK                    February 2020
 
 
-       4.3.4.  Duplicate . . . . . . . . . . . . . . . . . . . . . .  18
      4.4.  Decoder Instructions  . . . . . . . . . . . . . . . . . .  18
        4.4.1.  Header Acknowledgement  . . . . . . . . . . . . . . .  18
        4.4.2.  Stream Cancellation . . . . . . . . . . . . . . . . .  19
@@ -165,7 +164,8 @@ Internet-Draft                    QPACK                    February 2020
 
 
 
-Krasic, et al.           Expires 27 August 2020                 [Page 3]
+
+Krasic, et al.           Expires 28 August 2020                 [Page 3]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -221,7 +221,7 @@ Internet-Draft                    QPACK                    February 2020
 
 
 
-Krasic, et al.           Expires 27 August 2020                 [Page 4]
+Krasic, et al.           Expires 28 August 2020                 [Page 4]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -277,7 +277,7 @@ Internet-Draft                    QPACK                    February 2020
 
 
 
-Krasic, et al.           Expires 27 August 2020                 [Page 5]
+Krasic, et al.           Expires 28 August 2020                 [Page 5]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -288,16 +288,7 @@ Internet-Draft                    QPACK                    February 2020
    QPACK is designed to contain the more complex state tracking to the
    encoder, while the decoder is relatively simple.
 
-2.1.1.  Reference Tracking
-
-   An encoder MUST ensure that a header block which references a dynamic
-   table entry is not processed by the decoder after the referenced
-   entry has been evicted.  Hence the encoder needs to retain
-   information about each compressed header block that references the
-   dynamic table until that header block is acknowledged by the decoder;
-   see Section 4.4.1.
-
-2.1.2.  Limits on Dynamic Table Insertions
+2.1.1.  Limits on Dynamic Table Insertions
 
    Inserting entries into the dynamic table might not be possible if the
    table contains entries which cannot be evicted.
@@ -305,17 +296,22 @@ Internet-Draft                    QPACK                    February 2020
    A dynamic table entry cannot be evicted immediately after insertion,
    even if it has never been referenced.  Once the insertion of a
    dynamic table entry has been acknowledged and there are no
-   outstanding unacknowledged references to the entry, the entry becomes
-   evictable.
+   outstanding references to the entry in unacknowledged header blocks,
+   the entry becomes evictable.  Note that references on the encoder
+   stream never preclude the eviction of an entry, because those
+   references are guaranteed to be processed before the instruction
+   evicting the entry.
 
    If the dynamic table does not contain enough room for a new entry
    without evicting other entries, and the entries which would be
    evicted are not evictable, the encoder MUST NOT insert that entry
    into the dynamic table (including duplicates of existing entries).
    In order to avoid this, an encoder that uses the dynamic table has to
-   keep track of whether each entry is currently evictable or not.
+   keep track of each dynamic table entry referenced by each header
+   block until that header block is acknowledged by the decoder (see
+   Section 4.4.1).
 
-2.1.2.1.  Avoiding Prohibited Insertions
+2.1.1.1.  Avoiding Prohibited Insertions
 
    To ensure that the encoder is not prevented from adding new entries,
    the encoder can avoid referencing entries that are close to eviction.
@@ -330,18 +326,17 @@ Internet-Draft                    QPACK                    February 2020
    smallest absolute index (Section 3.2.4) in the dynamic table that it
    will emit a reference for.  As new entries are inserted, the encoder
    increases the draining index to maintain the section of the table
-
-
-
-Krasic, et al.           Expires 27 August 2020                 [Page 6]
-
-Internet-Draft                    QPACK                    February 2020
-
-
    that it will not reference.  If the encoder does not create new
    references to entries with an absolute index lower than the draining
    index, the number of unacknowledged references to those entries will
    eventually become zero, allowing them to be evicted.
+
+
+
+Krasic, et al.           Expires 28 August 2020                 [Page 6]
+
+Internet-Draft                    QPACK                    February 2020
+
 
       +----------+---------------------------------+--------+
       | Draining |          Referenceable          | Unused |
@@ -354,7 +349,7 @@ Internet-Draft                    QPACK                    February 2020
 
                   Figure 1: Draining Dynamic Table Entries
 
-2.1.3.  Blocked Streams
+2.1.2.  Blocked Streams
 
    Because QUIC does not guarantee order between data on different
    streams, a decoder might encounter a header block that references a
@@ -386,23 +381,23 @@ Internet-Draft                    QPACK                    February 2020
    An encoder can decide whether to risk having a stream become blocked.
    If permitted by the value of SETTINGS_QPACK_BLOCKED_STREAMS,
    compression efficiency can often be improved by referencing dynamic
-
-
-
-Krasic, et al.           Expires 27 August 2020                 [Page 7]
-
-Internet-Draft                    QPACK                    February 2020
-
-
    table entries that are still in transit, but if there is loss or
    reordering the stream can become blocked at the decoder.  An encoder
    can avoid the risk of blocking by only referencing dynamic table
    entries which have been acknowledged, but this could mean using
    literals.  Since literals make the header block larger, this can
+
+
+
+Krasic, et al.           Expires 28 August 2020                 [Page 7]
+
+Internet-Draft                    QPACK                    February 2020
+
+
    result in the encoder becoming blocked on congestion or flow control
    limits.
 
-2.1.4.  Avoiding Flow Control Deadlocks
+2.1.3.  Avoiding Flow Control Deadlocks
 
    Writing instructions on streams that are limited by flow control can
    produce deadlocks.
@@ -422,7 +417,7 @@ Internet-Draft                    QPACK                    February 2020
    instruction unless sufficient stream and connection flow control
    credit is available for the entire instruction.
 
-2.1.5.  Known Received Count
+2.1.4.  Known Received Count
 
    The Known Received Count is the total number of dynamic table
    insertions and duplications acknowledged by the decoder.  The encoder
@@ -445,7 +440,12 @@ Internet-Draft                    QPACK                    February 2020
 
 
 
-Krasic, et al.           Expires 27 August 2020                 [Page 8]
+
+
+
+
+
+Krasic, et al.           Expires 28 August 2020                 [Page 8]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -478,7 +478,7 @@ Internet-Draft                    QPACK                    February 2020
    stream.
 
    When processing header blocks, the decoder expects the Required
-   Insert Count to exactly match the value defined in Section 2.1.3.  If
+   Insert Count to exactly match the value defined in Section 2.1.2.  If
    it encounters a smaller value than expected, it MUST treat this as a
    connection error of type QPACK_DECOMPRESSION_FAILED; see
    Section 2.2.3.  If it encounters a larger value than expected, it MAY
@@ -501,7 +501,7 @@ Internet-Draft                    QPACK                    February 2020
 
 
 
-Krasic, et al.           Expires 27 August 2020                 [Page 9]
+Krasic, et al.           Expires 28 August 2020                 [Page 9]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -523,7 +523,7 @@ Internet-Draft                    QPACK                    February 2020
    permit the encoder to remove references to entries in the dynamic
    table.  When an entry with absolute index lower than the Known
    Received Count has zero references, then it is considered evictable;
-   see Section 2.1.2.
+   see Section 2.1.1.
 
 2.2.2.3.  New Table Entries
 
@@ -557,7 +557,7 @@ Internet-Draft                    QPACK                    February 2020
 
 
 
-Krasic, et al.           Expires 27 August 2020                [Page 10]
+Krasic, et al.           Expires 28 August 2020                [Page 10]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -613,7 +613,7 @@ Internet-Draft                    QPACK                    February 2020
 
 
 
-Krasic, et al.           Expires 27 August 2020                [Page 11]
+Krasic, et al.           Expires 28 August 2020                [Page 11]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -630,7 +630,7 @@ Internet-Draft                    QPACK                    February 2020
    from the end of the dynamic table until the size of the dynamic table
    is less than or equal to (table capacity - size of new entry).  The
    encoder MUST NOT cause a dynamic table entry to be evicted unless
-   that entry is evictable; see Section 2.1.2.  The new entry is then
+   that entry is evictable; see Section 2.1.1.  The new entry is then
    added to the table.  It is an error if the encoder attempts to add an
    entry that is larger than the dynamic table capacity; the decoder
    MUST treat this as a connection error of type
@@ -669,7 +669,7 @@ Internet-Draft                    QPACK                    February 2020
 
 
 
-Krasic, et al.           Expires 27 August 2020                [Page 12]
+Krasic, et al.           Expires 28 August 2020                [Page 12]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -725,7 +725,7 @@ Internet-Draft                    QPACK                    February 2020
 
 
 
-Krasic, et al.           Expires 27 August 2020                [Page 13]
+Krasic, et al.           Expires 28 August 2020                [Page 13]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -781,7 +781,7 @@ Internet-Draft                    QPACK                    February 2020
 
 
 
-Krasic, et al.           Expires 27 August 2020                [Page 14]
+Krasic, et al.           Expires 28 August 2020                [Page 14]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -837,7 +837,7 @@ Internet-Draft                    QPACK                    February 2020
 
 
 
-Krasic, et al.           Expires 27 August 2020                [Page 15]
+Krasic, et al.           Expires 28 August 2020                [Page 15]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -893,7 +893,7 @@ Internet-Draft                    QPACK                    February 2020
 
 
 
-Krasic, et al.           Expires 27 August 2020                [Page 16]
+Krasic, et al.           Expires 28 August 2020                [Page 16]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -905,7 +905,7 @@ Internet-Draft                    QPACK                    February 2020
 
    Reducing the dynamic table capacity can cause entries to be evicted;
    see Section 3.2.2.  This MUST NOT cause the eviction of entries which
-   are not evictable; see Section 2.1.2.  Changing the capacity of the
+   are not evictable; see Section 2.1.1.  Changing the capacity of the
    dynamic table is not acknowledged as this instruction does not insert
    an entry.
 
@@ -949,7 +949,7 @@ Internet-Draft                    QPACK                    February 2020
 
 
 
-Krasic, et al.           Expires 27 August 2020                [Page 17]
+Krasic, et al.           Expires 28 August 2020                [Page 17]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -1005,12 +1005,12 @@ Internet-Draft                    QPACK                    February 2020
 
 
 
-Krasic, et al.           Expires 27 August 2020                [Page 18]
+Krasic, et al.           Expires 28 August 2020                [Page 18]
 
 Internet-Draft                    QPACK                    February 2020
 
 
-   This instruction is used as described in Section 2.1.5 and in
+   This instruction is used as described in Section 2.1.4 and in
    Section 2.2.2.
 
      0   1   2   3   4   5   6   7
@@ -1026,7 +1026,7 @@ Internet-Draft                    QPACK                    February 2020
    connection error of type QPACK_DECODER_STREAM_ERROR.
 
    The Header Acknowledgement instruction might increase the Known
-   Received Count; see Section 2.1.5.
+   Received Count; see Section 2.1.4.
 
 4.4.2.  Stream Cancellation
 
@@ -1048,7 +1048,7 @@ Internet-Draft                    QPACK                    February 2020
 
    The Insert Count Increment instruction begins with the '00' two-bit
    pattern, followed by the Increment encoded as a 6-bit prefix integer.
-   This instruction increases the Known Received Count (Section 2.1.5)
+   This instruction increases the Known Received Count (Section 2.1.4)
    by the value of the Increment parameter.  The decoder should send an
    Increment value that increases the Known Received Count to the total
    number of dynamic table insertions and duplications processed so far.
@@ -1061,7 +1061,7 @@ Internet-Draft                    QPACK                    February 2020
 
 
 
-Krasic, et al.           Expires 27 August 2020                [Page 19]
+Krasic, et al.           Expires 28 August 2020                [Page 19]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -1117,7 +1117,7 @@ Internet-Draft                    QPACK                    February 2020
 
 
 
-Krasic, et al.           Expires 27 August 2020                [Page 20]
+Krasic, et al.           Expires 28 August 2020                [Page 20]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -1173,7 +1173,7 @@ Internet-Draft                    QPACK                    February 2020
 
 
 
-Krasic, et al.           Expires 27 August 2020                [Page 21]
+Krasic, et al.           Expires 28 August 2020                [Page 21]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -1229,7 +1229,7 @@ Internet-Draft                    QPACK                    February 2020
 
 
 
-Krasic, et al.           Expires 27 August 2020                [Page 22]
+Krasic, et al.           Expires 28 August 2020                [Page 22]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -1285,7 +1285,7 @@ Internet-Draft                    QPACK                    February 2020
 
 
 
-Krasic, et al.           Expires 27 August 2020                [Page 23]
+Krasic, et al.           Expires 28 August 2020                [Page 23]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -1341,7 +1341,7 @@ Internet-Draft                    QPACK                    February 2020
 
 
 
-Krasic, et al.           Expires 27 August 2020                [Page 24]
+Krasic, et al.           Expires 28 August 2020                [Page 24]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -1397,7 +1397,7 @@ Internet-Draft                    QPACK                    February 2020
 
 
 
-Krasic, et al.           Expires 27 August 2020                [Page 25]
+Krasic, et al.           Expires 28 August 2020                [Page 25]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -1420,7 +1420,7 @@ Internet-Draft                    QPACK                    February 2020
       SETTINGS_HEADER_TABLE_SIZE from HTTP/2.
 
    SETTINGS_QPACK_BLOCKED_STREAMS (0x7):  The default value is zero.
-      See Section 2.1.3.
+      See Section 2.1.2.
 
 6.  Error Handling
 
@@ -1453,7 +1453,7 @@ Internet-Draft                    QPACK                    February 2020
 
 
 
-Krasic, et al.           Expires 27 August 2020                [Page 26]
+Krasic, et al.           Expires 28 August 2020                [Page 26]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -1509,7 +1509,7 @@ Internet-Draft                    QPACK                    February 2020
 
 
 
-Krasic, et al.           Expires 27 August 2020                [Page 27]
+Krasic, et al.           Expires 28 August 2020                [Page 27]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -1536,13 +1536,13 @@ Internet-Draft                    QPACK                    February 2020
 
    [HTTP3]    Bishop, M., Ed., "Hypertext Transfer Protocol Version 3
               (HTTP/3)", Work in Progress, Internet-Draft, draft-ietf-
-              quic-http-latest, 24 February 2020,
+              quic-http-latest, 25 February 2020,
               <https://tools.ietf.org/html/draft-ietf-quic-http-latest>.
 
    [QUIC-TRANSPORT]
               Iyengar, J., Ed. and M. Thomson, Ed., "QUIC: A UDP-Based
               Multiplexed and Secure Transport", Work in Progress,
-              Internet-Draft, draft-ietf-quic-transport-latest, 24
+              Internet-Draft, draft-ietf-quic-transport-latest, 25
               February 2020, <https://tools.ietf.org/html/draft-ietf-
               quic-transport-latest>.
 
@@ -1565,7 +1565,7 @@ Internet-Draft                    QPACK                    February 2020
 
 
 
-Krasic, et al.           Expires 27 August 2020                [Page 28]
+Krasic, et al.           Expires 28 August 2020                [Page 28]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -1621,7 +1621,7 @@ Appendix A.  Static Table
 
 
 
-Krasic, et al.           Expires 27 August 2020                [Page 29]
+Krasic, et al.           Expires 28 August 2020                [Page 29]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -1677,7 +1677,7 @@ Internet-Draft                    QPACK                    February 2020
 
 
 
-Krasic, et al.           Expires 27 August 2020                [Page 30]
+Krasic, et al.           Expires 28 August 2020                [Page 30]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -1733,7 +1733,7 @@ Internet-Draft                    QPACK                    February 2020
 
 
 
-Krasic, et al.           Expires 27 August 2020                [Page 31]
+Krasic, et al.           Expires 28 August 2020                [Page 31]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -1789,7 +1789,7 @@ Internet-Draft                    QPACK                    February 2020
 
 
 
-Krasic, et al.           Expires 27 August 2020                [Page 32]
+Krasic, et al.           Expires 28 August 2020                [Page 32]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -1845,7 +1845,7 @@ Appendix B.  Sample One Pass Encoding Algorithm
 
 
 
-Krasic, et al.           Expires 27 August 2020                [Page 33]
+Krasic, et al.           Expires 28 August 2020                [Page 33]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -1901,7 +1901,7 @@ Appendix C.  Change Log
 
 
 
-Krasic, et al.           Expires 27 August 2020                [Page 34]
+Krasic, et al.           Expires 28 August 2020                [Page 34]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -1957,7 +1957,7 @@ C.8.  Since draft-ietf-quic-qpack-05
 
 
 
-Krasic, et al.           Expires 27 August 2020                [Page 35]
+Krasic, et al.           Expires 28 August 2020                [Page 35]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -2013,7 +2013,7 @@ C.13.  Since draft-ietf-quic-qpack-00
 
 
 
-Krasic, et al.           Expires 27 August 2020                [Page 36]
+Krasic, et al.           Expires 28 August 2020                [Page 36]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -2069,7 +2069,7 @@ Authors' Addresses
 
 
 
-Krasic, et al.           Expires 27 August 2020                [Page 37]
+Krasic, et al.           Expires 28 August 2020                [Page 37]
 
 Internet-Draft                    QPACK                    February 2020
 
@@ -2125,4 +2125,4 @@ Internet-Draft                    QPACK                    February 2020
 
 
 
-Krasic, et al.           Expires 27 August 2020                [Page 38]
+Krasic, et al.           Expires 28 August 2020                [Page 38]
