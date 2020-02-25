@@ -3151,25 +3151,27 @@ response to connection migration (<a href="#migration" class="xref">Section 9</a
 <a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-transport-parameters" class="section-name selfRef">Transport Parameters</a>
         </h3>
 <p id="section-7.3-1">During connection establishment, both endpoints make authenticated declarations
-of their transport parameters.  These declarations are made unilaterally by each
-endpoint.  Endpoints are required to comply with the restrictions implied by
-these parameters; the description of each parameter includes rules for its
-handling.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
-<p id="section-7.3-2">The encoding of the transport parameters is detailed in
-<a href="#transport-parameter-encoding" class="xref">Section 18</a>.<a href="#section-7.3-2" class="pilcrow">¶</a></p>
-<p id="section-7.3-3">QUIC includes the encoded transport parameters in the cryptographic handshake.
+of their transport parameters.  Endpoints are required to comply with the
+restrictions implied by these parameters; the description of each parameter
+includes rules for its handling.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
+<p id="section-7.3-2">Transport parameters are declarations that are made unilaterally by each
+endpoint.  Each endpoint can choose values for transport parameters independent
+of the values chosen by its peer.<a href="#section-7.3-2" class="pilcrow">¶</a></p>
+<p id="section-7.3-3">The encoding of the transport parameters is detailed in
+<a href="#transport-parameter-encoding" class="xref">Section 18</a>.<a href="#section-7.3-3" class="pilcrow">¶</a></p>
+<p id="section-7.3-4">QUIC includes the encoded transport parameters in the cryptographic handshake.
 Once the handshake completes, the transport parameters declared by the peer are
-available.  Each endpoint validates the value provided by its peer.<a href="#section-7.3-3" class="pilcrow">¶</a></p>
-<p id="section-7.3-4">Definitions for each of the defined transport parameters are included in
-<a href="#transport-parameter-definitions" class="xref">Section 18.2</a>.<a href="#section-7.3-4" class="pilcrow">¶</a></p>
-<p id="section-7.3-5">An endpoint MUST treat receipt of a transport parameter with an invalid value as
-a connection error of type TRANSPORT_PARAMETER_ERROR.<a href="#section-7.3-5" class="pilcrow">¶</a></p>
-<p id="section-7.3-6">An endpoint MUST NOT send a parameter more than once in a given transport
+available.  Each endpoint validates the value provided by its peer.<a href="#section-7.3-4" class="pilcrow">¶</a></p>
+<p id="section-7.3-5">Definitions for each of the defined transport parameters are included in
+<a href="#transport-parameter-definitions" class="xref">Section 18.2</a>.<a href="#section-7.3-5" class="pilcrow">¶</a></p>
+<p id="section-7.3-6">An endpoint MUST treat receipt of a transport parameter with an invalid value as
+a connection error of type TRANSPORT_PARAMETER_ERROR.<a href="#section-7.3-6" class="pilcrow">¶</a></p>
+<p id="section-7.3-7">An endpoint MUST NOT send a parameter more than once in a given transport
 parameters extension.  An endpoint SHOULD treat receipt of duplicate transport
-parameters as a connection error of type TRANSPORT_PARAMETER_ERROR.<a href="#section-7.3-6" class="pilcrow">¶</a></p>
-<p id="section-7.3-7">A server MUST include the original_connection_id transport parameter
+parameters as a connection error of type TRANSPORT_PARAMETER_ERROR.<a href="#section-7.3-7" class="pilcrow">¶</a></p>
+<p id="section-7.3-8">A server MUST include the original_connection_id transport parameter
 (<a href="#transport-parameter-definitions" class="xref">Section 18.2</a>) if it sent a Retry packet to enable
-validation of the Retry, as described in <a href="#packet-retry" class="xref">Section 17.2.5</a>.<a href="#section-7.3-7" class="pilcrow">¶</a></p>
+validation of the Retry, as described in <a href="#packet-retry" class="xref">Section 17.2.5</a>.<a href="#section-7.3-8" class="pilcrow">¶</a></p>
 <div id="zerortt-parameters">
 <section id="section-7.3.1">
           <h4 id="name-values-of-transport-paramet">

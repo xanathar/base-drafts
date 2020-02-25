@@ -2053,18 +2053,18 @@ Internet-Draft           QUIC Transport Protocol           February 2020
 7.3.  Transport Parameters
 
    During connection establishment, both endpoints make authenticated
-   declarations of their transport parameters.  These declarations are
-   made unilaterally by each endpoint.  Endpoints are required to comply
-   with the restrictions implied by these parameters; the description of
-   each parameter includes rules for its handling.
+   declarations of their transport parameters.  Endpoints are required
+   to comply with the restrictions implied by these parameters; the
+   description of each parameter includes rules for its handling.
+
+   Transport parameters are declarations that are made unilaterally by
+   each endpoint.  Each endpoint can choose values for transport
+   parameters independent of the values chosen by its peer.
 
    The encoding of the transport parameters is detailed in Section 18.
 
    QUIC includes the encoded transport parameters in the cryptographic
    handshake.  Once the handshake completes, the transport parameters
-   declared by the peer are available.  Each endpoint validates the
-   value provided by its peer.
-
 
 
 
@@ -2073,6 +2073,9 @@ Iyengar & Thomson        Expires 28 August 2020                [Page 37]
 
 Internet-Draft           QUIC Transport Protocol           February 2020
 
+
+   declared by the peer are available.  Each endpoint validates the
+   value provided by its peer.
 
    Definitions for each of the defined transport parameters are included
    in Section 18.2.
@@ -2118,9 +2121,6 @@ Internet-Draft           QUIC Transport Protocol           February 2020
    0-RTT data.  A server uses the transport parameters in determining
    whether to accept 0-RTT data.
 
-   If 0-RTT data is accepted by the server, the server MUST NOT reduce
-   any limits or alter any values that might be violated by the client
-   with its 0-RTT data.  In particular, a server that accepts 0-RTT data
 
 
 
@@ -2130,6 +2130,9 @@ Iyengar & Thomson        Expires 28 August 2020                [Page 38]
 Internet-Draft           QUIC Transport Protocol           February 2020
 
 
+   If 0-RTT data is accepted by the server, the server MUST NOT reduce
+   any limits or alter any values that might be violated by the client
+   with its 0-RTT data.  In particular, a server that accepts 0-RTT data
    MUST NOT set values for the following parameters (Section 18.2) that
    are smaller than the remembered value of the parameters.
 
@@ -2176,15 +2179,15 @@ Internet-Draft           QUIC Transport Protocol           February 2020
    described in Section 18.1, some identifiers are reserved in order to
    exercise this requirement.
 
-   New transport parameters can be registered according to the rules in
-   Section 22.2.
-
 
 
 Iyengar & Thomson        Expires 28 August 2020                [Page 39]
 
 Internet-Draft           QUIC Transport Protocol           February 2020
 
+
+   New transport parameters can be registered according to the rules in
+   Section 22.2.
 
 7.4.  Cryptographic Message Buffering
 
@@ -2228,9 +2231,6 @@ Internet-Draft           QUIC Transport Protocol           February 2020
    claims.  Address validation is performed both during connection
    establishment (see Section 8.1) and during connection migration (see
    Section 8.2).
-
-
-
 
 
 
