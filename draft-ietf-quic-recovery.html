@@ -1582,10 +1582,11 @@ packet (<a href="#packet-threshold" class="xref">Section 5.1.1</a>), or it was s
 packet and time thresholds provide some tolerance for packet reordering.<a href="#section-5.1-4" class="pilcrow">¶</a></p>
 <p id="section-5.1-5">Spuriously declaring packets as lost leads to unnecessary retransmissions and
 may result in degraded performance due to the actions of the congestion
-controller upon detecting loss.  Implementations that detect spurious
-retransmissions and increase the reordering threshold in packets or time MAY
-choose to start with smaller initial reordering thresholds to minimize recovery
-latency.<a href="#section-5.1-5" class="pilcrow">¶</a></p>
+controller upon detecting loss.  Implementations can detect spurious
+retransmissions and increase the reordering threshold in packets or time to
+reduce future spurious retransmissions and loss events. Implementations with
+adaptive time thresholds MAY choose to start with smaller initial reordering
+thresholds to minimize recovery latency.<a href="#section-5.1-5" class="pilcrow">¶</a></p>
 <div id="packet-threshold">
 <section id="section-5.1.1">
           <h4 id="name-packet-threshold">
