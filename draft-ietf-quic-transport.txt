@@ -8713,7 +8713,8 @@ Appendix C.  Change Log
 
 C.1.  Since draft-ietf-quic-transport-26
 
-   *  Change format of transport paramters to use varints (#3294, #3169)
+   *  Change format of transport parameters to use varints (#3294,
+      #3169)
 
 C.2.  Since draft-ietf-quic-transport-25
 
@@ -8729,7 +8730,6 @@ C.3.  Since draft-ietf-quic-transport-24
 
    *  Added HANDSHAKE_DONE to signal handshake confirmation (#2863,
       #3142, #3145)
-
 
 
 
