@@ -145,7 +145,7 @@ Internet-Draft                   HTTP/3                    February 2020
      A.1.  Streams . . . . . . . . . . . . . . . . . . . . . . . . .  48
      A.2.  HTTP Frame Types  . . . . . . . . . . . . . . . . . . . .  49
        A.2.1.  Prioritization Differences  . . . . . . . . . . . . .  49
-       A.2.2.  Header Compression Differences  . . . . . . . . . . .  50
+       A.2.2.  Header Compression Differences  . . . . . . . . . . .  49
        A.2.3.  Guidance for New Frame Type Definitions . . . . . . .  50
        A.2.4.  Mapping Between HTTP/2 and HTTP/3 Frame Types . . . .  50
      A.3.  HTTP/2 SETTINGS Parameters  . . . . . . . . . . . . . . .  51
@@ -172,7 +172,7 @@ Internet-Draft                   HTTP/3                    February 2020
 
      B.12. Since draft-ietf-quic-http-15 . . . . . . . . . . . . . .  57
      B.13. Since draft-ietf-quic-http-14 . . . . . . . . . . . . . .  57
-     B.14. Since draft-ietf-quic-http-13 . . . . . . . . . . . . . .  58
+     B.14. Since draft-ietf-quic-http-13 . . . . . . . . . . . . . .  57
      B.15. Since draft-ietf-quic-http-12 . . . . . . . . . . . . . .  58
      B.16. Since draft-ietf-quic-http-11 . . . . . . . . . . . . . .  58
      B.17. Since draft-ietf-quic-http-10 . . . . . . . . . . . . . .  58
@@ -233,9 +233,9 @@ Internet-Draft                   HTTP/3                    February 2020
    layer.  By providing reliability at the stream level and congestion
    control across the entire connection, it has the capability to
    improve the performance of HTTP compared to a TCP mapping.  QUIC also
-   incorporates TLS 1.3 [TLS13] at the transport layer, offering
-   comparable security to running TLS over TCP, with the improved
-   connection setup latency of TCP Fast Open [TFO].
+   incorporates TLS 1.3 at the transport layer, offering comparable
+   security to running TLS over TCP, with the improved connection setup
+   latency of TCP Fast Open [RFC7413].
 
    This document defines a mapping of HTTP semantics over the QUIC
    transport protocol, drawing heavily on the design of HTTP/2.  While
@@ -2634,13 +2634,9 @@ Bishop                   Expires 29 August 2020                [Page 47]
 Internet-Draft                   HTTP/3                    February 2020
 
 
-   [TFO]      Cheng, Y., Chu, J., Radhakrishnan, S., and A. Jain, "TCP
+   [RFC7413]  Cheng, Y., Chu, J., Radhakrishnan, S., and A. Jain, "TCP
               Fast Open", RFC 7413, DOI 10.17487/RFC7413, December 2014,
               <https://www.rfc-editor.org/info/rfc7413>.
-
-   [TLS13]    Rescorla, E., "The Transport Layer Security (TLS) Protocol
-              Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
-              <https://www.rfc-editor.org/info/rfc8446>.
 
 Appendix A.  Considerations for Transitioning from HTTP/2
 
@@ -2682,6 +2678,10 @@ A.1.  Streams
    Due to the presence of other unidirectional stream types, HTTP/3 does
    not rely exclusively on the number of concurrent unidirectional
    streams to control the number of concurrent in-flight pushes.
+   Instead, HTTP/3 clients use the MAX_PUSH_ID frame to control the
+   number of pushes received from an HTTP/3 server.
+
+
 
 
 
@@ -2689,9 +2689,6 @@ Bishop                   Expires 29 August 2020                [Page 48]
 
 Internet-Draft                   HTTP/3                    February 2020
 
-
-   Instead, HTTP/3 clients use the MAX_PUSH_ID frame to control the
-   number of pushes received from an HTTP/3 server.
 
 A.2.  HTTP Frame Types
 
@@ -2733,9 +2730,12 @@ A.2.1.  Prioritization Differences
    does not mean that prioritization is not important for achieving good
    performance.
 
+A.2.2.  Header Compression Differences
 
-
-
+   HPACK was designed with the assumption of in-order delivery.  A
+   sequence of encoded header blocks must arrive (and be decoded) at an
+   endpoint in the same order in which they were encoded.  This ensures
+   that the dynamic state at the two endpoints remains in sync.
 
 
 
@@ -2745,13 +2745,6 @@ Bishop                   Expires 29 August 2020                [Page 49]
 
 Internet-Draft                   HTTP/3                    February 2020
 
-
-A.2.2.  Header Compression Differences
-
-   HPACK was designed with the assumption of in-order delivery.  A
-   sequence of encoded header blocks must arrive (and be decoded) at an
-   endpoint in the same order in which they were encoded.  This ensures
-   that the dynamic state at the two endpoints remains in sync.
 
    Because this total ordering is not provided by QUIC, HTTP/3 uses a
    modified version of HPACK, called QPACK.  QPACK uses a single
@@ -2794,6 +2787,13 @@ A.2.4.  Mapping Between HTTP/2 and HTTP/3 Frame Types
    PRIORITY (0x2):  As described in Appendix A.2.1, HTTP/3 does not
       provide a means of signaling priority.
 
+   RST_STREAM (0x3):  RST_STREAM frames do not exist, since QUIC
+      provides stream lifecycle management.  The same code point is used
+      for the CANCEL_PUSH frame (Section 7.2.3).
+
+   SETTINGS (0x4):  SETTINGS frames are sent only at the beginning of
+      the connection.  See Section 7.2.4 and Appendix A.3.
+
 
 
 
@@ -2801,13 +2801,6 @@ Bishop                   Expires 29 August 2020                [Page 50]
 
 Internet-Draft                   HTTP/3                    February 2020
 
-
-   RST_STREAM (0x3):  RST_STREAM frames do not exist, since QUIC
-      provides stream lifecycle management.  The same code point is used
-      for the CANCEL_PUSH frame (Section 7.2.3).
-
-   SETTINGS (0x4):  SETTINGS frames are sent only at the beginning of
-      the connection.  See Section 7.2.4 and Appendix A.3.
 
    PUSH_PROMISE (0x5):  The PUSH_PROMISE does not reference a stream;
       instead the push stream references the PUSH_PROMISE frame using a
@@ -2851,6 +2844,13 @@ A.3.  HTTP/2 SETTINGS Parameters
    SETTINGS_ENABLE_PUSH:  This is removed in favor of the MAX_PUSH_ID
       which provides a more granular control over server push.
 
+   SETTINGS_MAX_CONCURRENT_STREAMS:  QUIC controls the largest open
+      Stream ID as part of its flow control logic.  Specifying
+      SETTINGS_MAX_CONCURRENT_STREAMS in the SETTINGS frame is an error.
+
+   SETTINGS_INITIAL_WINDOW_SIZE:  QUIC requires both stream and
+      connection flow control window sizes to be specified in the
+
 
 
 Bishop                   Expires 29 August 2020                [Page 51]
@@ -2858,12 +2858,6 @@ Bishop                   Expires 29 August 2020                [Page 51]
 Internet-Draft                   HTTP/3                    February 2020
 
 
-   SETTINGS_MAX_CONCURRENT_STREAMS:  QUIC controls the largest open
-      Stream ID as part of its flow control logic.  Specifying
-      SETTINGS_MAX_CONCURRENT_STREAMS in the SETTINGS frame is an error.
-
-   SETTINGS_INITIAL_WINDOW_SIZE:  QUIC requires both stream and
-      connection flow control window sizes to be specified in the
       initial transport handshake.  Specifying
       SETTINGS_INITIAL_WINDOW_SIZE in the SETTINGS frame is an error.
 
@@ -2907,17 +2901,18 @@ A.4.  HTTP/2 Error Codes
       This includes H3_FRAME_UNEXPECTED and H3_CLOSED_CRITICAL_STREAM
       defined in Section 8.1.
 
+   INTERNAL_ERROR (0x2):  H3_INTERNAL_ERROR in Section 8.1.
+
+   FLOW_CONTROL_ERROR (0x3):  Not applicable, since QUIC handles flow
+      control.
+
+
 
 
 Bishop                   Expires 29 August 2020                [Page 52]
 
 Internet-Draft                   HTTP/3                    February 2020
 
-
-   INTERNAL_ERROR (0x2):  H3_INTERNAL_ERROR in Section 8.1.
-
-   FLOW_CONTROL_ERROR (0x3):  Not applicable, since QUIC handles flow
-      control.
 
    SETTINGS_TIMEOUT (0x4):  Not applicable, since no acknowledgement of
       SETTINGS is defined.
@@ -2962,6 +2957,11 @@ B.2.  Since draft-ietf-quic-http-25
 
    *  Require QUICv1 for HTTP/3 (#3117, #3323)
 
+   *  Remove DUPLICATE_PUSH and allow duplicate PUSH_PROMISE (#3275,
+      #3309)
+
+   *  Clarify the definition of "malformed" (#3352, #3345)
+
 
 
 
@@ -2969,11 +2969,6 @@ Bishop                   Expires 29 August 2020                [Page 53]
 
 Internet-Draft                   HTTP/3                    February 2020
 
-
-   *  Remove DUPLICATE_PUSH and allow duplicate PUSH_PROMISE (#3275,
-      #3309)
-
-   *  Clarify the definition of "malformed" (#3352, #3345)
 
 B.3.  Since draft-ietf-quic-http-24
 
@@ -3017,6 +3012,11 @@ B.5.  Since draft-ietf-quic-http-22
 
    *  Changes to SETTINGS frames in 0-RTT (#2972,#2790,#2945):
 
+      -  Servers must send all settings with non-default values in their
+         SETTINGS frame, even when resuming
+
+      -  If a client doesn't have settings associated with a 0-RTT
+         ticket, it uses the defaults
 
 
 
@@ -3025,12 +3025,6 @@ Bishop                   Expires 29 August 2020                [Page 54]
 
 Internet-Draft                   HTTP/3                    February 2020
 
-
-      -  Servers must send all settings with non-default values in their
-         SETTINGS frame, even when resuming
-
-      -  If a client doesn't have settings associated with a 0-RTT
-         ticket, it uses the defaults
 
       -  Servers can't accept early data if they cannot recover the
          settings the client will have remembered
@@ -3074,6 +3068,12 @@ B.7.  Since draft-ietf-quic-http-20
       -  Require connection errors for more error conditions (#2511,
          #2510)
 
+      -  Updated the error codes for illegal GOAWAY frames (#2714,
+         #2707)
+
+      -  Specified error code for HEADERS on control stream (#2708)
+
+      -  Specified error code for servers receiving PUSH_PROMISE (#2709)
 
 
 
@@ -3081,13 +3081,6 @@ Bishop                   Expires 29 August 2020                [Page 55]
 
 Internet-Draft                   HTTP/3                    February 2020
 
-
-      -  Updated the error codes for illegal GOAWAY frames (#2714,
-         #2707)
-
-      -  Specified error code for HEADERS on control stream (#2708)
-
-      -  Specified error code for servers receiving PUSH_PROMISE (#2709)
 
       -  Specified error code for receiving DATA before HEADERS (#2715)
 
@@ -3129,6 +3122,13 @@ B.9.  Since draft-ietf-quic-http-18
 
 B.10.  Since draft-ietf-quic-http-17
 
+   *  HTTP_REQUEST_REJECTED is used to indicate a request can be retried
+      (#2106, #2325)
+
+   *  Changed error code for GOAWAY on the wrong stream (#2231, #2343)
+
+
+
 
 
 
@@ -3137,11 +3137,6 @@ Bishop                   Expires 29 August 2020                [Page 56]
 
 Internet-Draft                   HTTP/3                    February 2020
 
-
-   *  HTTP_REQUEST_REJECTED is used to indicate a request can be retried
-      (#2106, #2325)
-
-   *  Changed error code for GOAWAY on the wrong stream (#2231, #2343)
 
 B.11.  Since draft-ietf-quic-http-16
 
@@ -3187,16 +3182,17 @@ B.13.  Since draft-ietf-quic-http-14
 
    *  HTTP_VERSION_FALLBACK falls back to HTTP/1.1 (#1677,#1685)
 
+B.14.  Since draft-ietf-quic-http-13
+
+   *  Reserved some frame types for grease (#1333, #1446)
+
+
 
 
 Bishop                   Expires 29 August 2020                [Page 57]
 
 Internet-Draft                   HTTP/3                    February 2020
 
-
-B.14.  Since draft-ietf-quic-http-13
-
-   *  Reserved some frame types for grease (#1333, #1446)
 
    *  Unknown unidirectional stream types are tolerated, not errors;
       some reserved for grease (#1490, #1525)
@@ -3242,6 +3238,10 @@ B.18.  Since draft-ietf-quic-http-09
 
    *  Specified handling of unsupported versions in Alt-Svc (#1093,
       #1097)
+
+
+
+
 
 
 
