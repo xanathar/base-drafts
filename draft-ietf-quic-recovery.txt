@@ -184,17 +184,12 @@ Internet-Draft             QUIC Loss Detection             February 2020
 
 1.  Introduction
 
-   QUIC is a new multiplexed and secure transport atop UDP.  QUIC builds
-   on decades of transport and security experience, and implements
-   mechanisms that make it attractive as a modern general-purpose
-   transport.  The QUIC protocol is described in [QUIC-TRANSPORT].
-
-   QUIC implements the spirit of existing TCP congestion control and
+   QUIC is a new multiplexed and secure transport protocol atop UDP,
+   specified in [QUIC-TRANSPORT].  This document describes congestion
+   control and loss recovery for QUIC.  Mechanisms described in this
+   document follow the spirit of existing TCP congestion control and
    loss recovery mechanisms, described in RFCs, various Internet-drafts,
-   and also those prevalent in the Linux TCP implementation.  This
-   document describes QUIC congestion control and loss recovery, and
-   where applicable, attributes the TCP equivalent in RFCs, Internet-
-   drafts, academic papers, and/or TCP implementations.
+   or academic papers, and also those prevalent in TCP implementations.
 
 2.  Conventions and Definitions
 
@@ -217,6 +212,11 @@ Internet-Draft             QUIC Loss Detection             February 2020
       eliciting or contain a PADDING frame, and they have been sent but
       are not acknowledged, declared lost, or abandoned along with old
       keys.
+
+
+
+
+
 
 
 
