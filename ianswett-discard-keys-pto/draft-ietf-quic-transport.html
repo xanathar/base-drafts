@@ -12,7 +12,7 @@
 documents describe QUIC's loss detection and congestion control and the use of
 TLS for key negotiation. 
     " name="description">
-<meta content="xml2rfc 2.37.3" name="generator">
+<meta content="xml2rfc 2.40.0" name="generator">
 <meta content="draft-ietf-quic-transport-latest" name="ietf.draft">
 <link href="draft-ietf-quic-transport.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -236,6 +236,10 @@ figcaption, caption {
     display: inline-block;
     vertical-align: text-bottom;
     padding-bottom: 8px;
+  }
+  table {
+    display: inline-block;
+    overflow-x: auto;
   }
 }
 
@@ -510,7 +514,7 @@ hr.addr {
     padding: 0;
     margin: 0;
     border-bottom: 1px solid #ccc;
-    opacity: 0.6;
+    opacity: 0.9; /* TODO fix when Henrik takes the patch. */
   }
   #toc.active {
       opacity: 1;
@@ -821,7 +825,7 @@ table.left {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Iyengar &amp; Thomson</td>
-<td class="center">Expires 13 August 2020</td>
+<td class="center">Expires 31 August 2020</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -834,12 +838,12 @@ table.left {
 <dd class="internet-draft">draft-ietf-quic-transport-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2020-02-10" class="published">10 February 2020</time>
+<time datetime="2020-02-28" class="published">28 February 2020</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2020-08-13">13 August 2020</time></dd>
+<dd class="expires"><time datetime="2020-08-31">31 August 2020</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -892,7 +896,7 @@ code and issues list for this draft can be found at
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 13 August 2020.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 31 August 2020.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -8315,7 +8319,7 @@ to be dropped by the receiving endpoint as invalid, as packet payloads are both
 authenticated and encrypted.<a href="#section-21.12.3.1-6" class="pilcrow">¶</a></p>
 <p id="section-21.12.3.1-7">In the presence of an on-path attacker, QUIC aims to provide the following
 properties:<a href="#section-21.12.3.1-7" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal" id="section-21.12.3.1-8">
+<ol start="1" type="1" class="normal type-1" id="section-21.12.3.1-8">
               <li id="section-21.12.3.1-8.1">An on-path attacker can prevent use of a path for a connection, causing
 it to fail if it cannot use a different path that does not contain the
 attacker. This can be achieved by dropping all packets, modifying them so
@@ -8379,7 +8383,7 @@ state, potentially both causing an endpoint to lose its NAT binding, and an
 attacker to obtain the same port for use with its traffic.<a href="#section-21.12.3.2-8" class="pilcrow">¶</a></p>
 <p id="section-21.12.3.2-9">In the presence of an off-path attacker, QUIC aims to provide the following
 properties:<a href="#section-21.12.3.2-9" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal" id="section-21.12.3.2-10">
+<ol start="1" type="1" class="normal type-1" id="section-21.12.3.2-10">
               <li id="section-21.12.3.2-10.1">An off-path attacker can race packets and attempt to become a "limited"
 on-path attacker.<a href="#section-21.12.3.2-10.1" class="pilcrow">¶</a>
 </li>
@@ -8445,7 +8449,7 @@ attacker drops packets, the original copy will still arrive at the destination
 endpoint.<a href="#section-21.12.3.3-7" class="pilcrow">¶</a></p>
 <p id="section-21.12.3.3-8">In the presence of a limited on-path attacker, QUIC aims to provide the
 following properties:<a href="#section-21.12.3.3-8" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal" id="section-21.12.3.3-9">
+<ol start="1" type="1" class="normal type-1" id="section-21.12.3.3-9">
               <li id="section-21.12.3.3-9.1">A limited on-path attacker cannot cause a connection to close once the
 handshake has completed.<a href="#section-21.12.3.3-9.1" class="pilcrow">¶</a>
 </li>
@@ -8956,10 +8960,10 @@ specification reference is provided.<a href="#section-22.4-4.4" class="pilcrow">
 <span class="refAuthor">Postel, J.</span>, <span class="refTitle">"Internet Protocol"</span>, <span class="seriesInfo">STD 5</span>, <span class="seriesInfo">RFC 791</span>, <span class="seriesInfo">DOI 10.17487/RFC0791</span>, <time datetime="1981-09">September 1981</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc791">https://www.rfc-editor.org/info/rfc791</a>&gt;</span>. </dd>
 <dt id="QUIC-RECOVERY">[QUIC-RECOVERY]</dt>
 <dd>
-<span class="refAuthor">Iyengar, J., Ed.</span><span class="refAuthor"> and I. Swett, Ed.</span>, <span class="refTitle">"QUIC Loss Detection and Congestion Control"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-recovery-latest</span>, <time datetime="2020-02-10">10 February 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-recovery-latest">https://tools.ietf.org/html/draft-ietf-quic-recovery-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Iyengar, J., Ed.</span><span class="refAuthor"> and I. Swett, Ed.</span>, <span class="refTitle">"QUIC Loss Detection and Congestion Control"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-recovery-latest</span>, <time datetime="2020-02-28">28 February 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-recovery-latest">https://tools.ietf.org/html/draft-ietf-quic-recovery-latest</a>&gt;</span>. </dd>
 <dt id="QUIC-TLS">[QUIC-TLS]</dt>
 <dd>
-<span class="refAuthor">Thomson, M., Ed.</span><span class="refAuthor"> and S. Turner, Ed.</span>, <span class="refTitle">"Using Transport Layer Security (TLS) to Secure QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-tls-latest</span>, <time datetime="2020-02-10">10 February 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-tls-latest">https://tools.ietf.org/html/draft-ietf-quic-tls-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Thomson, M., Ed.</span><span class="refAuthor"> and S. Turner, Ed.</span>, <span class="refTitle">"Using Transport Layer Security (TLS) to Secure QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-tls-latest</span>, <time datetime="2020-02-28">28 February 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-tls-latest">https://tools.ietf.org/html/draft-ietf-quic-tls-latest</a>&gt;</span>. </dd>
 <dt id="RFC1191">[RFC1191]</dt>
 <dd>
 <span class="refAuthor">Mogul, J.C.</span><span class="refAuthor"> and S.E. Deering</span>, <span class="refTitle">"Path MTU discovery"</span>, <span class="seriesInfo">RFC 1191</span>, <span class="seriesInfo">DOI 10.17487/RFC1191</span>, <time datetime="1990-11">November 1990</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc1191">https://www.rfc-editor.org/info/rfc1191</a>&gt;</span>. </dd>
@@ -9014,7 +9018,7 @@ specification reference is provided.<a href="#section-22.4-4.4" class="pilcrow">
 <span class="refAuthor">Belshe, M.</span><span class="refAuthor">, Peon, R.</span><span class="refAuthor">, and M. Thomson, Ed.</span>, <span class="refTitle">"Hypertext Transfer Protocol Version 2 (HTTP/2)"</span>, <span class="seriesInfo">RFC 7540</span>, <span class="seriesInfo">DOI 10.17487/RFC7540</span>, <time datetime="2015-05">May 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7540">https://www.rfc-editor.org/info/rfc7540</a>&gt;</span>. </dd>
 <dt id="QUIC-INVARIANTS">[QUIC-INVARIANTS]</dt>
 <dd>
-<span class="refAuthor">Thomson, M.</span>, <span class="refTitle">"Version-Independent Properties of QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-invariants-latest</span>, <time datetime="2020-02-10">10 February 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-invariants-latest">https://tools.ietf.org/html/draft-ietf-quic-invariants-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Thomson, M.</span>, <span class="refTitle">"Version-Independent Properties of QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-invariants-latest</span>, <time datetime="2020-02-28">28 February 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-invariants-latest">https://tools.ietf.org/html/draft-ietf-quic-invariants-latest</a>&gt;</span>. </dd>
 <dt id="QUIC-MANAGEABILITY">[QUIC-MANAGEABILITY]</dt>
 <dd>
 <span class="refAuthor">Kuehlewind, M.</span><span class="refAuthor"> and B. Trammell</span>, <span class="refTitle">"Manageability of the QUIC Transport Protocol"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-manageability-05</span>, <time datetime="2019-07-05">5 July 2019</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-quic-manageability-05.txt">http://www.ietf.org/internet-drafts/draft-ietf-quic-manageability-05.txt</a>&gt;</span>. </dd>
