@@ -3139,8 +3139,8 @@ changes the Destination Connection ID field in response to the first Initial
 packet received from a server.  Once a client has received an Initial packet
 from the server, it MUST discard any packet it receives with a different Source
 Connection ID.<a href="#section-7.2-6" class="pilcrow">¶</a></p>
-<p id="section-7.2-7">Each endpoint includes the Source Connection ID it includes in Initial packets
-in the handshake_connection_id transport parameter; see
+<p id="section-7.2-7">Each endpoint includes the value of the Source Connection ID from Initial
+packets it sends in the handshake_connection_id transport parameter; see
 <a href="#transport-parameter-definitions" class="xref">Section 18.2</a>.  Each endpoint validates that the value
 received from the peer is identical to the value of the transport parameter.
 Absense of the handshake_connection_id transport parameter or a mismatch in

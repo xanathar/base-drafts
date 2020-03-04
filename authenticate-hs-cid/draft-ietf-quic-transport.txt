@@ -2037,17 +2037,17 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    server, it MUST discard any packet it receives with a different
    Source Connection ID.
 
-   Each endpoint includes the Source Connection ID it includes in
-   Initial packets in the handshake_connection_id transport parameter;
-   see Section 18.2.  Each endpoint validates that the value received
-   from the peer is identical to the value of the transport parameter.
-   Absense of the handshake_connection_id transport parameter or a
-   mismatch in values MUST be treated as a connection error of type
-   PROTOCOL_VIOLATION.  When sending a Retry packet or the first Initial
-   packet, a server MUST select values for the Source Connection ID
-   field that differ from the values the client includes in the
-   Destination Connection ID field.  These measures ensure that the
-   choice of connection ID cannot be influenced by an attacker.
+   Each endpoint includes the value of the Source Connection ID from
+   Initial packets it sends in the handshake_connection_id transport
+   parameter; see Section 18.2.  Each endpoint validates that the value
+   received from the peer is identical to the value of the transport
+   parameter.  Absense of the handshake_connection_id transport
+   parameter or a mismatch in values MUST be treated as a connection
+   error of type PROTOCOL_VIOLATION.  When sending a Retry packet or the
+   first Initial packet, a server MUST select values for the Source
+   Connection ID field that differ from the values the client includes
+   in the Destination Connection ID field.  These measures ensure that
+   the choice of connection ID cannot be influenced by an attacker.
 
    A client MUST only change the value it sends in the Destination
    Connection ID in response to the first packet of each type it
