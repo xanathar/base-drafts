@@ -1933,6 +1933,12 @@ which ends when the lost packet that started recovery is acknowledged.<a href="#
 <p id="section-6.5-2">The recovery period limits congestion window reduction to once per round trip.
 During recovery, the congestion window remains unchanged irrespective of new
 losses or increases in the ECN-CE counter.<a href="#section-6.5-2" class="pilcrow">¶</a></p>
+<p id="section-6.5-3">When entering recovery, a single packet MAY be sent even if bytes in flight
+now exceeds the recently reduced congestion window.  This speeds up loss
+recovery if the data in the lost packet is retransmitted and is similar to TCP
+as described in Section 5 of <span>[<a href="#RFC6675" class="xref">RFC6675</a>]</span>.  If further packets are lost while
+the sender is in recovery, sending any packets in response MUST obey the
+congestion window limit.<a href="#section-6.5-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="ignoring-loss-of-undecryptable-packets">
@@ -2853,6 +2859,8 @@ window.<a href="#section-b.6-1" class="pilcrow">¶</a></p>
        congestion_window *= kLossReductionFactor
        congestion_window = max(congestion_window, kMinimumWindow)
        ssthresh = congestion_window
+       // A packet can be sent to speed up loss recovery.
+       MaybeSendOnePacket()
 </pre><a href="#section-b.6-2" class="pilcrow">¶</a>
 </div>
 </section>
