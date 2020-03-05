@@ -1856,11 +1856,16 @@ algorithm to use, such as Cubic <span>[<a href="#RFC8312" class="xref">RFC8312</
 <p id="section-6-3">If an endpoint uses a different controller than that specified in this document,
 the chosen controller MUST conform to the congestion control guidelines
 specified in Section 3.1 of <span>[<a href="#RFC8085" class="xref">RFC8085</a>]</span>.<a href="#section-6-3" class="pilcrow">¶</a></p>
-<p id="section-6-4">The algorithm in this document specifies and uses the controller's congestion
-window in bytes.<a href="#section-6-4" class="pilcrow">¶</a></p>
-<p id="section-6-5">An endpoint MUST NOT send a packet if it would cause bytes_in_flight (see
+<p id="section-6-4">Similar to TCP, packets containing only ACK frames do not count towards bytes
+in flight and are not congestion controlled.  Unlike TCP, QUIC can detect the
+loss of these packets and MAY use that information to adjust the congestion
+controller or the rate of ACK-only packets being sent, but this document does
+not describe a mechanism for doing so.<a href="#section-6-4" class="pilcrow">¶</a></p>
+<p id="section-6-5">The algorithm in this document specifies and uses the controller's congestion
+window in bytes.<a href="#section-6-5" class="pilcrow">¶</a></p>
+<p id="section-6-6">An endpoint MUST NOT send a packet if it would cause bytes_in_flight (see
 <a href="#vars-of-interest" class="xref">Appendix B.2</a>) to be larger than the congestion window, unless the packet
-is sent on a PTO timer expiration (see <a href="#pto" class="xref">Section 5.2</a>).<a href="#section-6-5" class="pilcrow">¶</a></p>
+is sent on a PTO timer expiration (see <a href="#pto" class="xref">Section 5.2</a>).<a href="#section-6-6" class="pilcrow">¶</a></p>
 <div id="congestion-ecn">
 <section id="section-6.1">
         <h3 id="name-explicit-congestion-notific">

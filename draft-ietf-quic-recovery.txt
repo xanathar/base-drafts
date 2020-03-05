@@ -95,11 +95,11 @@ Table of Contents
      5.4.  Handling Retry Packets  . . . . . . . . . . . . . . . . .  15
      5.5.  Discarding Keys and Packet State  . . . . . . . . . . . .  15
    6.  Congestion Control  . . . . . . . . . . . . . . . . . . . . .  16
-     6.1.  Explicit Congestion Notification  . . . . . . . . . . . .  16
+     6.1.  Explicit Congestion Notification  . . . . . . . . . . . .  17
      6.2.  Initial and Minimum Congestion Window . . . . . . . . . .  17
      6.3.  Slow Start  . . . . . . . . . . . . . . . . . . . . . . .  17
      6.4.  Congestion Avoidance  . . . . . . . . . . . . . . . . . .  17
-     6.5.  Recovery Period . . . . . . . . . . . . . . . . . . . . .  17
+     6.5.  Recovery Period . . . . . . . . . . . . . . . . . . . . .  18
      6.6.  Ignoring Loss of Undecryptable Packets  . . . . . . . . .  18
      6.7.  Probe Timeout . . . . . . . . . . . . . . . . . . . . . .  18
      6.8.  Persistent Congestion . . . . . . . . . . . . . . . . . .  18
@@ -872,6 +872,13 @@ Internet-Draft             QUIC Loss Detection                March 2020
    this document, the chosen controller MUST conform to the congestion
    control guidelines specified in Section 3.1 of [RFC8085].
 
+   Similar to TCP, packets containing only ACK frames do not count
+   towards bytes in flight and are not congestion controlled.  Unlike
+   TCP, QUIC can detect the loss of these packets and MAY use that
+   information to adjust the congestion controller or the rate of ACK-
+   only packets being sent, but this document does not describe a
+   mechanism for doing so.
+
    The algorithm in this document specifies and uses the controller's
    congestion window in bytes.
 
@@ -879,13 +886,6 @@ Internet-Draft             QUIC Loss Detection                March 2020
    (see Appendix B.2) to be larger than the congestion window, unless
    the packet is sent on a PTO timer expiration (see Section 5.2).
 
-6.1.  Explicit Congestion Notification
-
-   If a path has been verified to support ECN [RFC3168] [RFC8311], QUIC
-   treats a Congestion Experienced(CE) codepoint in the IP header as a
-   signal of congestion.  This document specifies an endpoint's response
-   when its peer receives packets with the Congestion Experienced
-   codepoint.
 
 
 
@@ -897,6 +897,14 @@ Iyengar & Swett         Expires 6 September 2020               [Page 16]
 
 Internet-Draft             QUIC Loss Detection                March 2020
 
+
+6.1.  Explicit Congestion Notification
+
+   If a path has been verified to support ECN [RFC3168] [RFC8311], QUIC
+   treats a Congestion Experienced(CE) codepoint in the IP header as a
+   signal of congestion.  This document specifies an endpoint's response
+   when its peer receives packets with the Congestion Experienced
+   codepoint.
 
 6.2.  Initial and Minimum Congestion Window
 
@@ -934,6 +942,18 @@ Internet-Draft             QUIC Loss Detection                March 2020
    detected, NewReno halves the congestion window and sets the slow
    start threshold to the new congestion window.
 
+
+
+
+
+
+
+
+Iyengar & Swett         Expires 6 September 2020               [Page 17]
+
+Internet-Draft             QUIC Loss Detection                March 2020
+
+
 6.5.  Recovery Period
 
    A recovery period is entered when loss or ECN-CE marking of a packet
@@ -945,14 +965,6 @@ Internet-Draft             QUIC Loss Detection                March 2020
    The recovery period limits congestion window reduction to once per
    round trip.  During recovery, the congestion window remains unchanged
    irrespective of new losses or increases in the ECN-CE counter.
-
-
-
-
-Iyengar & Swett         Expires 6 September 2020               [Page 17]
-
-Internet-Draft             QUIC Loss Detection                March 2020
-
 
 6.6.  Ignoring Loss of Undecryptable Packets
 
@@ -989,18 +1001,6 @@ Internet-Draft             QUIC Loss Detection                March 2020
 
    For example, assume:
 
-   smoothed_rtt = 1 rttvar = 0 max_ack_delay = 0
-   kPersistentCongestionThreshold = 3
-
-   If an ack-eliciting packet is sent at time = 0, the following
-   scenario would illustrate persistent congestion:
-
-
-
-
-
-
-
 
 
 
@@ -1009,6 +1009,12 @@ Iyengar & Swett         Expires 6 September 2020               [Page 18]
 
 Internet-Draft             QUIC Loss Detection                March 2020
 
+
+   smoothed_rtt = 1 rttvar = 0 max_ack_delay = 0
+   kPersistentCongestionThreshold = 3
+
+   If an ack-eliciting packet is sent at time = 0, the following
+   scenario would illustrate persistent congestion:
 
                      +-----+------------------------+
                      | t=0 | Send Pkt #1 (App Data) |
@@ -1052,12 +1058,6 @@ Internet-Draft             QUIC Loss Detection                March 2020
    An implementation should take care to architect its congestion
    controller to work well with a pacer.  For instance, a pacer might
    wrap the congestion controller and control the availability of the
-   congestion window, or a pacer might pace out packets handed to it by
-   the congestion controller.  Timely delivery of ACK frames is
-   important for efficient loss recovery.  Packets containing only ACK
-   frames SHOULD therefore not be paced, to avoid delaying their
-   delivery to the peer.
-
 
 
 
@@ -1065,6 +1065,12 @@ Iyengar & Swett         Expires 6 September 2020               [Page 19]
 
 Internet-Draft             QUIC Loss Detection                March 2020
 
+
+   congestion window, or a pacer might pace out packets handed to it by
+   the congestion controller.  Timely delivery of ACK frames is
+   important for efficient loss recovery.  Packets containing only ACK
+   frames SHOULD therefore not be paced, to avoid delaying their
+   delivery to the peer.
 
    Sending multiple packets into the network without any delay between
    them creates a packet burst that might cause short-term congestion
@@ -1108,12 +1114,6 @@ Internet-Draft             QUIC Loss Detection                March 2020
    path attackers can spoof or alter these signals.  An attacker can
    cause endpoints to reduce their sending rate by dropping packets, or
    alter send rate by changing ECN codepoints.
-
-
-
-
-
-
 
 
 
