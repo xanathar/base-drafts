@@ -194,6 +194,9 @@ a[href]:hover {
 a[href].selfRef:hover {
   background-color: var(--highlight-color);
 }
+a.xref {
+  white-space: nowrap;
+}
 
 /* Figures */
 tt, code, pre {
@@ -385,6 +388,9 @@ hr {
   margin: 0.75em 0;
   padding-left: 1.2em;
   text-indent: -1.2em;
+}
+#toc a.xref {
+  white-space: normal;
 }
 /* references */
 .references dt {
@@ -824,7 +830,7 @@ table.left {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Iyengar &amp; Swett</td>
-<td class="center">Expires 4 September 2020</td>
+<td class="center">Expires 8 September 2020</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -837,12 +843,12 @@ table.left {
 <dd class="internet-draft">draft-ietf-quic-recovery-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2020-03-03" class="published">3 March 2020</time>
+<time datetime="2020-03-07" class="published">7 March 2020</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2020-09-04">4 September 2020</time></dd>
+<dd class="expires"><time datetime="2020-09-08">8 September 2020</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -894,7 +900,7 @@ code and issues list for this draft can be found at
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 4 September 2020.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 8 September 2020.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1421,9 +1427,9 @@ delay instead of using a fixed minimum timeout. Unlike TCP, which collapses
 the congestion window upon expiry of an RTO, QUIC does not collapse the
 congestion window until persistent congestion (<a href="#persistent-congestion" class="xref">Section 6.7</a>) is
 declared and instead allows probe packets to temporarily exceed the congestion
-window whenever the timer expires.  In practice, this is similar to TCP with
-F-RTO, but it does allow more packets to be sent when the congestion window was
-not fully utilized prior to the probe timeout expiring. Though this is slightly
+window whenever the timer expires.  In comparison to TCP with F-RTO
+<span>[<a href="#RFC5682" class="xref">RFC5682</a>]</span>, which corrects an unnecessary collapse of the congestion window,
+this design aims to prevent the window from collapsing. Though this is slightly
 more aggressive than TCP RTO, it's less aggressive than if the connection was
 not application limited.<a href="#section-3.1.7-1" class="pilcrow">¶</a></p>
 <p id="section-3.1.7-2">A single packet loss at the tail does not indicate persistent congestion, so
@@ -2142,13 +2148,16 @@ detect.<a href="#section-7.3-4" class="pilcrow">¶</a></p>
 <dl class="references">
 <dt id="QUIC-TLS">[QUIC-TLS]</dt>
 <dd>
-<span class="refAuthor">Thomson, M., Ed.</span><span class="refAuthor"> and S. Turner, Ed.</span>, <span class="refTitle">"Using TLS to Secure QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-tls-latest</span>, <time datetime="2020-03-03">3 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-tls-latest">https://tools.ietf.org/html/draft-ietf-quic-tls-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Thomson, M., Ed.</span><span class="refAuthor"> and S. Turner, Ed.</span>, <span class="refTitle">"Using TLS to Secure QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-tls-latest</span>, <time datetime="2020-03-07">7 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-tls-latest">https://tools.ietf.org/html/draft-ietf-quic-tls-latest</a>&gt;</span>. </dd>
 <dt id="QUIC-TRANSPORT">[QUIC-TRANSPORT]</dt>
 <dd>
-<span class="refAuthor">Iyengar, J., Ed.</span><span class="refAuthor"> and M. Thomson, Ed.</span>, <span class="refTitle">"QUIC: A UDP-Based Multiplexed and Secure Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-transport-latest</span>, <time datetime="2020-03-03">3 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-transport-latest">https://tools.ietf.org/html/draft-ietf-quic-transport-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Iyengar, J., Ed.</span><span class="refAuthor"> and M. Thomson, Ed.</span>, <span class="refTitle">"QUIC: A UDP-Based Multiplexed and Secure Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-transport-latest</span>, <time datetime="2020-03-07">7 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-transport-latest">https://tools.ietf.org/html/draft-ietf-quic-transport-latest</a>&gt;</span>. </dd>
 <dt id="RFC2119">[RFC2119]</dt>
 <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;</span>. </dd>
+<dt id="RFC5682">[RFC5682]</dt>
+<dd>
+<span class="refAuthor">Sarolahti, P.</span><span class="refAuthor">, Kojo, M.</span><span class="refAuthor">, Yamamoto, K.</span><span class="refAuthor">, and M. Hata</span>, <span class="refTitle">"Forward RTO-Recovery (F-RTO): An Algorithm for Detecting Spurious Retransmission Timeouts with TCP"</span>, <span class="seriesInfo">RFC 5682</span>, <span class="seriesInfo">DOI 10.17487/RFC5682</span>, <time datetime="2009-09">September 2009</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5682">https://www.rfc-editor.org/info/rfc5682</a>&gt;</span>. </dd>
 <dt id="RFC8085">[RFC8085]</dt>
 <dd>
 <span class="refAuthor">Eggert, L.</span><span class="refAuthor">, Fairhurst, G.</span><span class="refAuthor">, and G. Shepherd</span>, <span class="refTitle">"UDP Usage Guidelines"</span>, <span class="seriesInfo">BCP 145</span>, <span class="seriesInfo">RFC 8085</span>, <span class="seriesInfo">DOI 10.17487/RFC8085</span>, <time datetime="2017-03">March 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8085">https://www.rfc-editor.org/info/rfc8085</a>&gt;</span>. </dd>
@@ -2167,7 +2176,7 @@ detect.<a href="#section-7.3-4" class="pilcrow">¶</a></p>
 <span class="refAuthor">Mathis, M.</span><span class="refAuthor"> and J. Mahdavi</span>, <span class="refTitle">"Forward Acknowledgement: Refining TCP Congestion Control"</span>, <span class="seriesInfo">ACM SIGCOMM </span>, <time datetime="1996-08">August 1996</time>. </dd>
 <dt id="RACK">[RACK]</dt>
 <dd>
-<span class="refAuthor">Cheng, Y.</span><span class="refAuthor">, Cardwell, N.</span><span class="refAuthor">, Dukkipati, N.</span><span class="refAuthor">, and P. Jha</span>, <span class="refTitle">"RACK: a time-based fast loss detection algorithm for TCP"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-tcpm-rack-05</span>, <time datetime="2019-04-26">26 April 2019</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-tcpm-rack-05.txt">http://www.ietf.org/internet-drafts/draft-ietf-tcpm-rack-05.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Cheng, Y.</span><span class="refAuthor">, Cardwell, N.</span><span class="refAuthor">, Dukkipati, N.</span><span class="refAuthor">, and P. Jha</span>, <span class="refTitle">"RACK: a time-based fast loss detection algorithm for TCP"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-tcpm-rack-07</span>, <time datetime="2020-01-17">17 January 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-tcpm-rack-07.txt">http://www.ietf.org/internet-drafts/draft-ietf-tcpm-rack-07.txt</a>&gt;</span>. </dd>
 <dt id="RFC3168">[RFC3168]</dt>
 <dd>
 <span class="refAuthor">Ramakrishnan, K.</span><span class="refAuthor">, Floyd, S.</span><span class="refAuthor">, and D. Black</span>, <span class="refTitle">"The Addition of Explicit Congestion Notification (ECN) to IP"</span>, <span class="seriesInfo">RFC 3168</span>, <span class="seriesInfo">DOI 10.17487/RFC3168</span>, <time datetime="2001-09">September 2001</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc3168">https://www.rfc-editor.org/info/rfc3168</a>&gt;</span>. </dd>
@@ -2177,9 +2186,6 @@ detect.<a href="#section-7.3-4" class="pilcrow">¶</a></p>
 <dt id="RFC5681">[RFC5681]</dt>
 <dd>
 <span class="refAuthor">Allman, M.</span><span class="refAuthor">, Paxson, V.</span><span class="refAuthor">, and E. Blanton</span>, <span class="refTitle">"TCP Congestion Control"</span>, <span class="seriesInfo">RFC 5681</span>, <span class="seriesInfo">DOI 10.17487/RFC5681</span>, <time datetime="2009-09">September 2009</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5681">https://www.rfc-editor.org/info/rfc5681</a>&gt;</span>. </dd>
-<dt id="RFC5682">[RFC5682]</dt>
-<dd>
-<span class="refAuthor">Sarolahti, P.</span><span class="refAuthor">, Kojo, M.</span><span class="refAuthor">, Yamamoto, K.</span><span class="refAuthor">, and M. Hata</span>, <span class="refTitle">"Forward RTO-Recovery (F-RTO): An Algorithm for Detecting Spurious Retransmission Timeouts with TCP"</span>, <span class="seriesInfo">RFC 5682</span>, <span class="seriesInfo">DOI 10.17487/RFC5682</span>, <time datetime="2009-09">September 2009</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5682">https://www.rfc-editor.org/info/rfc5682</a>&gt;</span>. </dd>
 <dt id="RFC5827">[RFC5827]</dt>
 <dd>
 <span class="refAuthor">Allman, M.</span><span class="refAuthor">, Avrachenkov, K.</span><span class="refAuthor">, Ayesta, U.</span><span class="refAuthor">, Blanton, J.</span><span class="refAuthor">, and P. Hurtig</span>, <span class="refTitle">"Early Retransmit for TCP and Stream Control Transmission Protocol (SCTP)"</span>, <span class="seriesInfo">RFC 5827</span>, <span class="seriesInfo">DOI 10.17487/RFC5827</span>, <time datetime="2010-05">May 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5827">https://www.rfc-editor.org/info/rfc5827</a>&gt;</span>. </dd>
