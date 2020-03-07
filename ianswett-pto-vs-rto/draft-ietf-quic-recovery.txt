@@ -80,7 +80,7 @@ Table of Contents
        3.1.5.  More ACK Ranges . . . . . . . . . . . . . . . . . . .   7
        3.1.6.  Explicit Correction For Delayed Acknowledgements  . .   7
        3.1.7.  Probe Timeout Replaces RTO and TLP  . . . . . . . . .   7
-   4.  Estimating the Round-Trip Time  . . . . . . . . . . . . . . .   7
+   4.  Estimating the Round-Trip Time  . . . . . . . . . . . . . . .   8
      4.1.  Generating RTT samples  . . . . . . . . . . . . . . . . .   8
      4.2.  Estimating min_rtt  . . . . . . . . . . . . . . . . . . .   9
      4.3.  Estimating smoothed_rtt and rttvar  . . . . . . . . . . .   9
@@ -368,24 +368,24 @@ Internet-Draft             QUIC Loss Detection                March 2020
    expiry of an RTO, QUIC does not collapse the congestion window until
    persistent congestion (Section 6.7) is declared and instead allows
    probe packets to temporarily exceed the congestion window whenever
-   the timer expires.  In comparison to TCP with F-RTO [RFC5682], which
-   corrects an unnecessary collapse of the congestion window, this
-   design aims to prevent the window from collapsing.  Though this is
-   slightly more aggressive than TCP RTO, it's less aggressive than if
-   the connection was not application limited.
+   the timer expires.
+
+   In doing this, QUIC avoids unnecessary congestion window reductions,
+   obviating the need for correcting mechanisms such as F-RTO [RFC5682].
+   Since QUIC does not collapse the congestion window on a PTO
+   expiration, a QUIC sender is not limited from sending more in-flight
+   packets after a PTO expiration if it still has available congestion
+   window.  This occurs when a sender is application-limited and then
+   the PTO timer expires.  This is more aggressive than TCP's RTO
+   mechanism when application-limited, but identical when not
+   application-limited.
 
    A single packet loss at the tail does not indicate persistent
    congestion, so QUIC specifies a time-based definition to ensure one
    or more packets are sent prior to a dramatic decrease in congestion
    window; see Section 6.7.
 
-4.  Estimating the Round-Trip Time
 
-   At a high level, an endpoint measures the time from when a packet was
-   sent to when it is acknowledged as a round-trip time (RTT) sample.
-   The endpoint uses RTT samples and peer-reported host delays (see
-   Section 13.2 of [QUIC-TRANSPORT]) to generate a statistical
-   description of the network path's RTT.  An endpoint computes the
 
 
 
@@ -394,6 +394,13 @@ Iyengar & Swett         Expires 8 September 2020                [Page 7]
 Internet-Draft             QUIC Loss Detection                March 2020
 
 
+4.  Estimating the Round-Trip Time
+
+   At a high level, an endpoint measures the time from when a packet was
+   sent to when it is acknowledged as a round-trip time (RTT) sample.
+   The endpoint uses RTT samples and peer-reported host delays (see
+   Section 13.2 of [QUIC-TRANSPORT]) to generate a statistical
+   description of the network path's RTT.  An endpoint computes the
    following three values for each path: the minimum value observed over
    the lifetime of the path (min_rtt), an exponentially-weighted moving
    average (smoothed_rtt), and the mean deviation (referred to as
@@ -435,13 +442,6 @@ Internet-Draft             QUIC Loss Detection                March 2020
 
    A sender might generate multiple RTT samples per RTT when multiple
    ACK frames are received within an RTT.  As suggested in [RFC6298],
-   doing so might result in inadequate history in smoothed_rtt and
-   rttvar.  Ensuring that RTT estimates retain sufficient history is an
-   open research question.
-
-
-
-
 
 
 
@@ -449,6 +449,10 @@ Iyengar & Swett         Expires 8 September 2020                [Page 8]
 
 Internet-Draft             QUIC Loss Detection                March 2020
 
+
+   doing so might result in inadequate history in smoothed_rtt and
+   rttvar.  Ensuring that RTT estimates retain sufficient history is an
+   open research question.
 
 4.2.  Estimating min_rtt
 
@@ -494,10 +498,6 @@ Internet-Draft             QUIC Loss Detection                March 2020
    *  MUST ignore the Ack Delay field of the ACK frame for packets sent
       in the Initial and Handshake packet number space.
 
-   *  MUST use the lesser of the value reported in Ack Delay field of
-      the ACK frame and the peer's max_ack_delay transport parameter.
-
-
 
 
 
@@ -505,6 +505,9 @@ Iyengar & Swett         Expires 8 September 2020                [Page 9]
 
 Internet-Draft             QUIC Loss Detection                March 2020
 
+
+   *  MUST use the lesser of the value reported in Ack Delay field of
+      the ACK frame and the peer's max_ack_delay transport parameter.
 
    *  MUST NOT apply the adjustment if the resulting RTT sample is
       smaller than the min_rtt.  This limits the underestimation that a
@@ -552,9 +555,6 @@ Internet-Draft             QUIC Loss Detection                March 2020
    *  The packet is unacknowledged, in-flight, and was sent prior to an
       acknowledged packet.
 
-   *  Either its packet number is kPacketThreshold smaller than an
-
-
 
 
 Iyengar & Swett         Expires 8 September 2020               [Page 10]
@@ -562,6 +562,7 @@ Iyengar & Swett         Expires 8 September 2020               [Page 10]
 Internet-Draft             QUIC Loss Detection                March 2020
 
 
+   *  Either its packet number is kPacketThreshold smaller than an
       acknowledged packet (Section 5.1.1), or it was sent long enough in
       the past (Section 5.1.2).
 
@@ -608,7 +609,6 @@ Internet-Draft             QUIC Loss Detection                March 2020
       to reordering where the acknowledgement encountered a shorter
       path;
 
-   *  the latest RTT sample is higher than the smoothed RTT, perhaps due
 
 
 
@@ -618,6 +618,7 @@ Iyengar & Swett         Expires 8 September 2020               [Page 11]
 Internet-Draft             QUIC Loss Detection                March 2020
 
 
+   *  the latest RTT sample is higher than the smoothed RTT, perhaps due
       to a sustained increase in the actual RTT, but the smoothed RTT
       has not yet caught up.
 
@@ -664,7 +665,6 @@ Internet-Draft             QUIC Loss Detection                March 2020
 
    The PTO value MUST be set to at least kGranularity, to avoid the
    timer expiring immediately.
-
 
 
 
