@@ -5,8 +5,8 @@
 QUIC                                                     M. Thomson, Ed.
 Internet-Draft                                                   Mozilla
 Intended status: Standards Track                          S. Turner, Ed.
-Expires: 5 September 2020                                          sn3rd
-                                                            4 March 2020
+Expires: 10 September 2020                                         sn3rd
+                                                            9 March 2020
 
 
                         Using TLS to Secure QUIC
@@ -44,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 September 2020.
+   This Internet-Draft will expire on 10 September 2020.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Thomson & Turner        Expires 5 September 2020                [Page 1]
+Thomson & Turner        Expires 10 September 2020               [Page 1]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Thomson & Turner        Expires 5 September 2020                [Page 2]
+Thomson & Turner        Expires 10 September 2020               [Page 2]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -165,7 +165,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020                [Page 3]
+Thomson & Turner        Expires 10 September 2020               [Page 3]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -221,7 +221,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020                [Page 4]
+Thomson & Turner        Expires 10 September 2020               [Page 4]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -277,7 +277,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020                [Page 5]
+Thomson & Turner        Expires 10 September 2020               [Page 5]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -333,7 +333,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020                [Page 6]
+Thomson & Turner        Expires 10 September 2020               [Page 6]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -389,7 +389,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020                [Page 7]
+Thomson & Turner        Expires 10 September 2020               [Page 7]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -440,12 +440,12 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
    rules here generalize those of TLS, in that frames associated with
    establishing the connection can usually appear in packets in any
    packet number space, whereas those associated with transferring data
-   can only appear in the application packet number space:
+   can only appear in the application data packet number space:
 
 
 
 
-Thomson & Turner        Expires 5 September 2020                [Page 8]
+Thomson & Turner        Expires 10 September 2020               [Page 8]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -456,13 +456,14 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
    *  CONNECTION_CLOSE frames signaling errors at the QUIC layer (type
       0x1c) MAY appear in any packet number space.  CONNECTION_CLOSE
       frames signaling application errors (type 0x1d) MUST only appear
-      in the Application packet number space.
+      in the application data packet number space.
 
    *  ACK frames MAY appear in any packet number space, but can only
       acknowledge packets which appeared in that packet number space.
+      However, as noted below, 0-RTT packets cannot contain ACK frames.
 
-   *  All other frame types MUST only be sent in the application packet
-      number space.
+   *  All other frame types MUST only be sent in the application data
+      packet number space.
 
    Note that it is not possible to send the following frames in 0-RTT
    packets for various reasons: ACK, CRYPTO, HANDSHAKE_DONE, NEW_TOKEN,
@@ -476,23 +477,23 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
    endpoints SHOULD use coalesced packets to send them in the same UDP
    datagram.
 
-          +---------------------+-----------------+-------------+
-          | Packet Type         | Encryption Keys | PN Space    |
-          +=====================+=================+=============+
-          | Initial             | Initial secrets | Initial     |
-          +---------------------+-----------------+-------------+
-          | 0-RTT Protected     | 0-RTT           | Application |
-          +---------------------+-----------------+-------------+
-          | Handshake           | Handshake       | Handshake   |
-          +---------------------+-----------------+-------------+
-          | Retry               | Retry           | N/A         |
-          +---------------------+-----------------+-------------+
-          | Version Negotiation | N/A             | N/A         |
-          +---------------------+-----------------+-------------+
-          | Short Header        | 1-RTT           | Application |
-          +---------------------+-----------------+-------------+
+       +---------------------+-----------------+------------------+
+       | Packet Type         | Encryption Keys | PN Space         |
+       +=====================+=================+==================+
+       | Initial             | Initial secrets | Initial          |
+       +---------------------+-----------------+------------------+
+       | 0-RTT Protected     | 0-RTT           | Application data |
+       +---------------------+-----------------+------------------+
+       | Handshake           | Handshake       | Handshake        |
+       +---------------------+-----------------+------------------+
+       | Retry               | Retry           | N/A              |
+       +---------------------+-----------------+------------------+
+       | Version Negotiation | N/A             | N/A              |
+       +---------------------+-----------------+------------------+
+       | Short Header        | 1-RTT           | Application data |
+       +---------------------+-----------------+------------------+
 
-                  Table 1: Encryption Keys by Packet Type
+                 Table 1: Encryption Keys by Packet Type
 
    Section 17 of [QUIC-TRANSPORT] shows how packets at the various
    encryption levels fit into the handshake process.
@@ -500,8 +501,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-
-Thomson & Turner        Expires 5 September 2020                [Page 9]
+Thomson & Turner        Expires 10 September 2020               [Page 9]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -557,7 +557,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 10]
+Thomson & Turner        Expires 10 September 2020              [Page 10]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -572,17 +572,19 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
    At any time, the TLS stack at an endpoint will have a current sending
    encryption level and receiving encryption level.  Encryption levels
-   correspond roughly to packet number spaces and determine the packet
-   type and keys that are used for protecting data.
+   determine the packet type and keys that are used for protecting data.
 
    Each encryption level is associated with a different flow of bytes,
    which is reliably transmitted to the peer in CRYPTO frames.  When TLS
    provides handshake bytes to be sent, they are appended to the current
-   flow and any packet that includes the CRYPTO frame is protected using
+   flow.  Any packet that includes the CRYPTO frame is protected using
    keys from the corresponding encryption level.  Four encryption levels
    are used, producing keys for Initial, 0-RTT, Handshake, and 1-RTT
    packets.  CRYPTO frames are carried in just three of these levels,
-   omitting the 0-RTT level.
+   omitting the 0-RTT level.  These four levels correspond to three
+   packet number spaces: Initial and Handshake encrypted packets use
+   their own separate spaces; 0-RTT and 1-RTT packets use the
+   application data packet number space.
 
    QUIC takes the unprotected content of TLS handshake records as the
    content of CRYPTO frames.  TLS record protection is not used by QUIC.
@@ -607,16 +609,17 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
    *  If the packet is from a previously installed encryption level, it
       MUST not contain data which extends past the end of previously
       received data in that flow.  Implementations MUST treat any
-      violations of this requirement as a connection error of type
-      PROTOCOL_VIOLATION.
 
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 11]
+Thomson & Turner        Expires 10 September 2020              [Page 11]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
+
+      violations of this requirement as a connection error of type
+      PROTOCOL_VIOLATION.
 
    *  If the packet is from a new encryption level, it is saved for
       later processing by TLS.  Once TLS moves to receiving from this
@@ -663,16 +666,15 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
    *  An Authenticated Encryption with Associated Data (AEAD) function
 
-   *  A Key Derivation Function (KDF)
 
 
 
-
-
-Thomson & Turner        Expires 5 September 2020               [Page 12]
+Thomson & Turner        Expires 10 September 2020              [Page 12]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
+
+   *  A Key Derivation Function (KDF)
 
    These values are based on the values that TLS negotiates and are used
    by QUIC to generate packet and header protection keys (see Section 5
@@ -723,9 +725,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-
-
-Thomson & Turner        Expires 5 September 2020               [Page 13]
+Thomson & Turner        Expires 10 September 2020              [Page 13]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -781,7 +781,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 14]
+Thomson & Turner        Expires 10 September 2020              [Page 14]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -837,7 +837,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 15]
+Thomson & Turner        Expires 10 September 2020              [Page 15]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -893,7 +893,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 16]
+Thomson & Turner        Expires 10 September 2020              [Page 16]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -949,7 +949,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 17]
+Thomson & Turner        Expires 10 September 2020              [Page 17]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -1005,7 +1005,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 18]
+Thomson & Turner        Expires 10 September 2020              [Page 18]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -1061,7 +1061,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 19]
+Thomson & Turner        Expires 10 September 2020              [Page 19]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -1117,7 +1117,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 20]
+Thomson & Turner        Expires 10 September 2020              [Page 20]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -1173,7 +1173,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 21]
+Thomson & Turner        Expires 10 September 2020              [Page 21]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -1229,7 +1229,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 22]
+Thomson & Turner        Expires 10 September 2020              [Page 22]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -1285,7 +1285,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 23]
+Thomson & Turner        Expires 10 September 2020              [Page 23]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -1341,7 +1341,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 24]
+Thomson & Turner        Expires 10 September 2020              [Page 24]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -1397,7 +1397,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 25]
+Thomson & Turner        Expires 10 September 2020              [Page 25]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -1453,7 +1453,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 26]
+Thomson & Turner        Expires 10 September 2020              [Page 26]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -1509,7 +1509,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 27]
+Thomson & Turner        Expires 10 September 2020              [Page 27]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -1565,7 +1565,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 28]
+Thomson & Turner        Expires 10 September 2020              [Page 28]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -1621,7 +1621,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 29]
+Thomson & Turner        Expires 10 September 2020              [Page 29]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -1677,7 +1677,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 30]
+Thomson & Turner        Expires 10 September 2020              [Page 30]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -1733,7 +1733,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 31]
+Thomson & Turner        Expires 10 September 2020              [Page 31]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -1789,7 +1789,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 32]
+Thomson & Turner        Expires 10 September 2020              [Page 32]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -1845,7 +1845,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 33]
+Thomson & Turner        Expires 10 September 2020              [Page 33]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -1901,7 +1901,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 34]
+Thomson & Turner        Expires 10 September 2020              [Page 34]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -1957,7 +1957,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 35]
+Thomson & Turner        Expires 10 September 2020              [Page 35]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -2013,7 +2013,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 36]
+Thomson & Turner        Expires 10 September 2020              [Page 36]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -2069,7 +2069,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 37]
+Thomson & Turner        Expires 10 September 2020              [Page 37]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -2125,7 +2125,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 38]
+Thomson & Turner        Expires 10 September 2020              [Page 38]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -2181,7 +2181,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 39]
+Thomson & Turner        Expires 10 September 2020              [Page 39]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -2237,7 +2237,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 40]
+Thomson & Turner        Expires 10 September 2020              [Page 40]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -2280,20 +2280,20 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
    [QUIC-RECOVERY]
               Iyengar, J., Ed. and I. Swett, Ed., "QUIC Loss Detection
               and Congestion Control", Work in Progress, Internet-Draft,
-              draft-ietf-quic-recovery-latest, 4 March 2020,
+              draft-ietf-quic-recovery-latest, 9 March 2020,
               <https://tools.ietf.org/html/draft-ietf-quic-recovery-
               latest>.
 
    [QUIC-TRANSPORT]
               Iyengar, J., Ed. and M. Thomson, Ed., "QUIC: A UDP-Based
               Multiplexed and Secure Transport", Work in Progress,
-              Internet-Draft, draft-ietf-quic-transport-latest, 4 March
+              Internet-Draft, draft-ietf-quic-transport-latest, 9 March
               2020, <https://tools.ietf.org/html/draft-ietf-quic-
               transport-latest>.
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 41]
+Thomson & Turner        Expires 10 September 2020              [Page 41]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -2349,12 +2349,12 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 42]
+Thomson & Turner        Expires 10 September 2020              [Page 42]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
-              quic-http-latest, 4 March 2020,
+              quic-http-latest, 9 March 2020,
               <https://tools.ietf.org/html/draft-ietf-quic-http-latest>.
 
    [RFC2818]  Rescorla, E., "HTTP Over TLS", RFC 2818,
@@ -2405,7 +2405,7 @@ A.1.  Keys
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 43]
+Thomson & Turner        Expires 10 September 2020              [Page 43]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -2461,7 +2461,7 @@ A.2.  Client Initial
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 44]
+Thomson & Turner        Expires 10 September 2020              [Page 44]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -2517,7 +2517,7 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 45]
+Thomson & Turner        Expires 10 September 2020              [Page 45]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -2573,7 +2573,7 @@ A.3.  Server Initial
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 46]
+Thomson & Turner        Expires 10 September 2020              [Page 46]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -2629,7 +2629,7 @@ B.1.  Since draft-ietf-quic-tls-24
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 47]
+Thomson & Turner        Expires 10 September 2020              [Page 47]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -2685,7 +2685,7 @@ B.8.  Since draft-ietf-quic-tls-14
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 48]
+Thomson & Turner        Expires 10 September 2020              [Page 48]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -2741,7 +2741,7 @@ B.12.  Since draft-ietf-quic-tls-10
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 49]
+Thomson & Turner        Expires 10 September 2020              [Page 49]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -2797,7 +2797,7 @@ B.20.  Since draft-ietf-quic-tls-01
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 50]
+Thomson & Turner        Expires 10 September 2020              [Page 50]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -2853,7 +2853,7 @@ Authors' Addresses
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 51]
+Thomson & Turner        Expires 10 September 2020              [Page 51]
 
 Internet-Draft          Using TLS to Secure QUIC              March 2020
 
@@ -2909,4 +2909,4 @@ Internet-Draft          Using TLS to Secure QUIC              March 2020
 
 
 
-Thomson & Turner        Expires 5 September 2020               [Page 52]
+Thomson & Turner        Expires 10 September 2020              [Page 52]
