@@ -1998,17 +1998,17 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    During the handshake, packets with the long header (Section 17.2) are
    used to establish the connection IDs in each direction.  Each
    endpoint uses the Source Connection ID field to specify the
-   connection ID that is used in the DCID field of packets being sent to
-   them.  Upon receiving a packet, each endpoint sets the DCID it sends
-   to match the value of the Source Connection ID that it receives.
+   connection ID that is used in the Destination Connection ID field of
+   packets being sent to them.  Upon receiving a packet, each endpoint
+   sets the Destination Connection ID it sends to match the value of the
+   Source Connection ID that it receives.
 
    When an Initial packet is sent by a client that has not previously
    received an Initial or Retry packet from the server, the client
-   populates the DCID field with an unpredictable value.  This DCID MUST
-   be at least 8 bytes in length.  Until a packet is received from the
-   server, the client MUST use the same DCID value on all packets in
-   this connection.  This DCID is used to determine packet protection
-   keys for Initial packets.
+   populates the Destination Connection ID field with an unpredictable
+   value.  This Destination Connection ID MUST be at least 8 bytes in
+   length.  Until a packet is received from the server, the client MUST
+   use the same Destination Connection ID value on all packets in this
 
 
 
@@ -2017,6 +2017,9 @@ Iyengar & Thomson       Expires 10 September 2020              [Page 36]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
+
+   connection.  This Destination Connection ID is used to determine
+   packet protection keys for Initial packets.
 
    The client populates the Source Connection ID field with a value of
    its choosing and sets the SCID Len field to indicate the length.
@@ -2064,9 +2067,6 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
    The encoding of the transport parameters is detailed in Section 18.
 
-   QUIC includes the encoded transport parameters in the cryptographic
-   handshake.  Once the handshake completes, the transport parameters
-
 
 
 Iyengar & Thomson       Expires 10 September 2020              [Page 37]
@@ -2074,6 +2074,8 @@ Iyengar & Thomson       Expires 10 September 2020              [Page 37]
 Internet-Draft           QUIC Transport Protocol              March 2020
 
 
+   QUIC includes the encoded transport parameters in the cryptographic
+   handshake.  Once the handshake completes, the transport parameters
    declared by the peer are available.  Each endpoint validates the
    value provided by its peer.
 
@@ -2120,8 +2122,6 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    the values in the ticket and recover the information when accepting
    0-RTT data.  A server uses the transport parameters in determining
    whether to accept 0-RTT data.
-
-
 
 
 
