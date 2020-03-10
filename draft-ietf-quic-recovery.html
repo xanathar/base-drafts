@@ -1939,8 +1939,8 @@ congestion window, and then enters the recovery period.<a href="#section-6.4-1" 
 <a href="#section-6.5" class="section-number selfRef">6.5. </a><a href="#name-recovery-period" class="section-name selfRef">Recovery Period</a>
         </h3>
 <p id="section-6.5-1">A recovery period is entered when loss or ECN-CE marking of a packet is
-detected in congestion avoidance but after the congestion window and slow
-start threshold has been adapted.  A recovery period ends when a packet sent
+detected in congestion avoidance after the congestion window and slow start
+threshold have been decreased.  A recovery period ends when a packet sent
 during the recovery period is acknowledged.  This is slightly different from
 TCP's definition of recovery, which ends when the lost packet that started
 recovery is acknowledged.<a href="#section-6.5-1" class="pilcrow">¶</a></p>
