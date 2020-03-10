@@ -478,11 +478,13 @@ Internet-Draft                    QPACK                       March 2020
    stream.
 
    When processing header blocks, the decoder expects the Required
-   Insert Count to exactly match the value defined in Section 2.1.2.  If
-   it encounters a smaller value than expected, it MUST treat this as a
-   connection error of type QPACK_DECOMPRESSION_FAILED; see
-   Section 2.2.3.  If it encounters a larger value than expected, it MAY
-   treat this as a connection error of type QPACK_DECOMPRESSION_FAILED.
+   Insert Count to equal the lowest possible value for the Insert Count
+   with which the header block can be decoded, as prescribed in
+   Section 2.1.2.  If it encounters a Required Insert Count smaller than
+   expected, it MUST treat this as a connection error of type
+   QPACK_DECOMPRESSION_FAILED; see Section 2.2.3.  If it encounters a
+   Required Insert Count larger than expected, it MAY treat this as a
+   connection error of type QPACK_DECOMPRESSION_FAILED.
 
 2.2.2.  State Synchronization
 
@@ -496,8 +498,6 @@ Internet-Draft                    QPACK                       March 2020
    (Section 4.4.1).  A stream may carry multiple header blocks in the
    case of intermediate responses, trailers, and pushed requests.  The
    encoder interprets each Header Acknowledgement instruction as
-   acknowledging the earliest unacknowledged header block containing
-   dynamic table references sent on the given stream.
 
 
 
@@ -505,6 +505,9 @@ Krasic, et al.          Expires 11 September 2020               [Page 9]
 
 Internet-Draft                    QPACK                       March 2020
 
+
+   acknowledging the earliest unacknowledged header block containing
+   dynamic table references sent on the given stream.
 
 2.2.2.2.  Abandonment of a Stream
 
@@ -550,9 +553,6 @@ Internet-Draft                    QPACK                       March 2020
    If the decoder encounters a reference in an encoder instruction to a
    dynamic table entry which has already been evicted, it MUST treat
    this as a connection error of type QPACK_ENCODER_STREAM_ERROR.
-
-
-
 
 
 

@@ -1474,11 +1474,12 @@ control window.  A stream becomes unblocked when the Insert Count becomes
 greater than or equal to the Required Insert Count for all header blocks the
 decoder has started reading from the stream.<a href="#section-2.2.1-2" class="pilcrow">¶</a></p>
 <p id="section-2.2.1-3">When processing header blocks, the decoder expects the Required Insert Count to
-exactly match the value defined in <a href="#blocked-streams" class="xref">Section 2.1.2</a>. If it encounters a
-smaller value than expected, it MUST treat this as a connection error of type
-QPACK_DECOMPRESSION_FAILED; see <a href="#invalid-references" class="xref">Section 2.2.3</a>. If it encounters a
-larger value than expected, it MAY treat this as a connection error of type
-QPACK_DECOMPRESSION_FAILED.<a href="#section-2.2.1-3" class="pilcrow">¶</a></p>
+equal the lowest possible value for the Insert Count with which the header block
+can be decoded, as prescribed in <a href="#blocked-streams" class="xref">Section 2.1.2</a>. If it encounters a
+Required Insert Count smaller than expected, it MUST treat this as a connection
+error of type QPACK_DECOMPRESSION_FAILED; see <a href="#invalid-references" class="xref">Section 2.2.3</a>. If it
+encounters a Required Insert Count larger than expected, it MAY treat this as a
+connection error of type QPACK_DECOMPRESSION_FAILED.<a href="#section-2.2.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="state-synchronization">
