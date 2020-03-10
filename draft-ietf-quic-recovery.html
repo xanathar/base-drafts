@@ -830,7 +830,7 @@ table.left {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Iyengar &amp; Swett</td>
-<td class="center">Expires 8 September 2020</td>
+<td class="center">Expires 11 September 2020</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -843,12 +843,12 @@ table.left {
 <dd class="internet-draft">draft-ietf-quic-recovery-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2020-03-07" class="published">7 March 2020</time>
+<time datetime="2020-03-10" class="published">10 March 2020</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2020-09-08">8 September 2020</time></dd>
+<dd class="expires"><time datetime="2020-09-11">11 September 2020</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -900,7 +900,7 @@ code and issues list for this draft can be found at
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 8 September 2020.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 11 September 2020.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1884,9 +1884,9 @@ is sent on a PTO timer expiration (see <a href="#pto" class="xref">Section 5.2</
 <a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-explicit-congestion-notific" class="section-name selfRef">Explicit Congestion Notification</a>
         </h3>
 <p id="section-6.1-1">If a path has been verified to support ECN <span>[<a href="#RFC3168" class="xref">RFC3168</a>]</span> <span>[<a href="#RFC8311" class="xref">RFC8311</a>]</span>, QUIC
-treats a Congestion Experienced(CE) codepoint in the IP header as a signal of
+treats a Congestion Experienced (CE) codepoint in the IP header as a signal of
 congestion. This document specifies an endpoint's response when its peer
-receives packets with the Congestion Experienced codepoint.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+receives packets with the ECN-CE codepoint.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="initial-cwnd">
@@ -1926,11 +1926,11 @@ which only occurs after persistent congestion is declared.<a href="#section-6.3-
 <a href="#section-6.4" class="section-number selfRef">6.4. </a><a href="#name-congestion-avoidance" class="section-name selfRef">Congestion Avoidance</a>
         </h3>
 <p id="section-6.4-1">Slow start exits to congestion avoidance.  Congestion avoidance uses an
-additive increase multiplicative decrease (AIMD) approach that increases
+Additive Increase Multiplicative Decrease (AIMD) approach that increases
 the congestion window by one maximum packet size per congestion window
 acknowledged.  When a loss or ECN-CE marking is detected, NewReno halves
-the congestion window and sets the slow start threshold to the new
-congestion window.<a href="#section-6.4-1" class="pilcrow">¶</a></p>
+the congestion window, sets the slow start threshold to the new
+congestion window, and then enters the recovery period.<a href="#section-6.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="recovery-period">
@@ -1939,12 +1939,14 @@ congestion window.<a href="#section-6.4-1" class="pilcrow">¶</a></p>
 <a href="#section-6.5" class="section-number selfRef">6.5. </a><a href="#name-recovery-period" class="section-name selfRef">Recovery Period</a>
         </h3>
 <p id="section-6.5-1">A recovery period is entered when loss or ECN-CE marking of a packet is
-detected.  A recovery period ends when a packet sent during the recovery period
-is acknowledged.  This is slightly different from TCP's definition of recovery,
-which ends when the lost packet that started recovery is acknowledged.<a href="#section-6.5-1" class="pilcrow">¶</a></p>
-<p id="section-6.5-2">The recovery period limits congestion window reduction to once per round trip.
-During recovery, the congestion window remains unchanged irrespective of new
-losses or increases in the ECN-CE counter.<a href="#section-6.5-2" class="pilcrow">¶</a></p>
+detected in congestion avoidance but after the congestion window and slow
+start threshold has been adapted.  A recovery period ends when a packet sent
+during the recovery period is acknowledged.  This is slightly different from
+TCP's definition of recovery, which ends when the lost packet that started
+recovery is acknowledged.<a href="#section-6.5-1" class="pilcrow">¶</a></p>
+<p id="section-6.5-2">The recovery period aims to limit congestion window reduction to once per round
+trip. Therefore during recovery, the congestion window remains unchanged
+irrespective of new losses or increases in the ECN-CE counter.<a href="#section-6.5-2" class="pilcrow">¶</a></p>
 <p id="section-6.5-3">When entering recovery, a single packet MAY be sent even if bytes in flight
 now exceeds the recently reduced congestion window.  This speeds up loss
 recovery if the data in the lost packet is retransmitted and is similar to TCP
@@ -2004,7 +2006,7 @@ as follows:<a href="#section-6.8-1" class="pilcrow">¶</a></p>
   rttvar = 0
   max_ack_delay = 0
   kPersistentCongestionThreshold = 3<a href="#section-6.8-4" class="pilcrow">¶</a></p>
-<p id="section-6.8-5">If an ack-eliciting packet is sent at time = 0, the following scenario would
+<p id="section-6.8-5">If an ack-eliciting packet is sent at time t = 0, the following scenario would
 illustrate persistent congestion:<a href="#section-6.8-5" class="pilcrow">¶</a></p>
 <table class="center" id="table-1">
           <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
@@ -2055,25 +2057,25 @@ similar to a sender's response on a Retransmission Timeout (RTO) in TCP
 <p id="section-6.9-1">This document does not specify a pacer, but it is RECOMMENDED that a sender pace
 sending of all in-flight packets based on input from the congestion
 controller. For example, a pacer might distribute the congestion window over
-the smoothed RTT when used with a window-based controller, and a pacer might use
+the smoothed RTT when used with a window-based controller, or a pacer might use
 the rate estimate of a rate-based controller.<a href="#section-6.9-1" class="pilcrow">¶</a></p>
 <p id="section-6.9-2">An implementation should take care to architect its congestion controller to
 work well with a pacer.  For instance, a pacer might wrap the congestion
 controller and control the availability of the congestion window, or a pacer
-might pace out packets handed to it by the congestion controller. Timely
-delivery of ACK frames is important for efficient loss recovery. Packets
+might pace out packets handed to it by the congestion controller.<a href="#section-6.9-2" class="pilcrow">¶</a></p>
+<p id="section-6.9-3">Timely delivery of ACK frames is important for efficient loss recovery. Packets
 containing only ACK frames SHOULD therefore not be paced, to avoid delaying
-their delivery to the peer.<a href="#section-6.9-2" class="pilcrow">¶</a></p>
-<p id="section-6.9-3">Sending multiple packets into the network without any delay between them
+their delivery to the peer.<a href="#section-6.9-3" class="pilcrow">¶</a></p>
+<p id="section-6.9-4">Sending multiple packets into the network without any delay between them
 creates a packet burst that might cause short-term congestion and losses.
 Implementations MUST either use pacing or limit such bursts to the initial
 congestion window, which is recommended to be the minimum of
 10 * max_datagram_size and max(2* max_datagram_size, 14720)), where
 max_datagram_size is the current maximum size of a datagram for the connection,
-not including UDP or IP overhead.<a href="#section-6.9-3" class="pilcrow">¶</a></p>
-<p id="section-6.9-4">As an example of a well-known and publicly available implementation of a flow
+not including UDP or IP overhead.<a href="#section-6.9-4" class="pilcrow">¶</a></p>
+<p id="section-6.9-5">As an example of a well-known and publicly available implementation of a flow
 pacer, implementers are referred to the Fair Queue packet scheduler (fq qdisc)
-in Linux (3.11 onwards).<a href="#section-6.9-4" class="pilcrow">¶</a></p>
+in Linux (3.11 onwards).<a href="#section-6.9-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="under-utilizing-the-congestion-window">
@@ -2085,7 +2087,7 @@ in Linux (3.11 onwards).<a href="#section-6.9-4" class="pilcrow">¶</a></p>
 pacing limited, the congestion window is under-utilized.  When this occurs,
 the congestion window SHOULD NOT be increased in either slow start or
 congestion avoidance. This can happen due to insufficient application data
-or flow control credit.<a href="#section-6.10-1" class="pilcrow">¶</a></p>
+or flow control limits.<a href="#section-6.10-1" class="pilcrow">¶</a></p>
 <p id="section-6.10-2">A sender MAY use the pipeACK method described in section 4.3 of <span>[<a href="#RFC7661" class="xref">RFC7661</a>]</span>
 to determine if the congestion window is sufficiently utilized.<a href="#section-6.10-2" class="pilcrow">¶</a></p>
 <p id="section-6.10-3">A sender that paces packets (see <a href="#pacing" class="xref">Section 6.9</a>) might delay sending packets
@@ -2169,10 +2171,10 @@ detect.<a href="#section-7.3-4" class="pilcrow">¶</a></p>
 <dl class="references">
 <dt id="QUIC-TLS">[QUIC-TLS]</dt>
 <dd>
-<span class="refAuthor">Thomson, M., Ed.</span><span class="refAuthor"> and S. Turner, Ed.</span>, <span class="refTitle">"Using TLS to Secure QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-tls-latest</span>, <time datetime="2020-03-07">7 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-tls-latest">https://tools.ietf.org/html/draft-ietf-quic-tls-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Thomson, M., Ed.</span><span class="refAuthor"> and S. Turner, Ed.</span>, <span class="refTitle">"Using TLS to Secure QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-tls-latest</span>, <time datetime="2020-03-10">10 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-tls-latest">https://tools.ietf.org/html/draft-ietf-quic-tls-latest</a>&gt;</span>. </dd>
 <dt id="QUIC-TRANSPORT">[QUIC-TRANSPORT]</dt>
 <dd>
-<span class="refAuthor">Iyengar, J., Ed.</span><span class="refAuthor"> and M. Thomson, Ed.</span>, <span class="refTitle">"QUIC: A UDP-Based Multiplexed and Secure Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-transport-latest</span>, <time datetime="2020-03-07">7 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-transport-latest">https://tools.ietf.org/html/draft-ietf-quic-transport-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Iyengar, J., Ed.</span><span class="refAuthor"> and M. Thomson, Ed.</span>, <span class="refTitle">"QUIC: A UDP-Based Multiplexed and Secure Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-transport-latest</span>, <time datetime="2020-03-10">10 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-transport-latest">https://tools.ietf.org/html/draft-ietf-quic-transport-latest</a>&gt;</span>. </dd>
 <dt id="RFC2119">[RFC2119]</dt>
 <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;</span>. </dd>
@@ -2194,7 +2196,7 @@ detect.<a href="#section-7.3-4" class="pilcrow">¶</a></p>
 <span class="refAuthor">Mathis, M.</span><span class="refAuthor"> and J. Mahdavi</span>, <span class="refTitle">"Forward Acknowledgement: Refining TCP Congestion Control"</span>, <span class="seriesInfo">ACM SIGCOMM </span>, <time datetime="1996-08">August 1996</time>. </dd>
 <dt id="RACK">[RACK]</dt>
 <dd>
-<span class="refAuthor">Cheng, Y.</span><span class="refAuthor">, Cardwell, N.</span><span class="refAuthor">, Dukkipati, N.</span><span class="refAuthor">, and P. Jha</span>, <span class="refTitle">"RACK: a time-based fast loss detection algorithm for TCP"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-tcpm-rack-07</span>, <time datetime="2020-01-17">17 January 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-tcpm-rack-07.txt">http://www.ietf.org/internet-drafts/draft-ietf-tcpm-rack-07.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Cheng, Y.</span><span class="refAuthor">, Cardwell, N.</span><span class="refAuthor">, Dukkipati, N.</span><span class="refAuthor">, and P. Jha</span>, <span class="refTitle">"RACK: a time-based fast loss detection algorithm for TCP"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-tcpm-rack-08</span>, <time datetime="2020-03-09">9 March 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-tcpm-rack-08.txt">http://www.ietf.org/internet-drafts/draft-ietf-tcpm-rack-08.txt</a>&gt;</span>. </dd>
 <dt id="RFC3168">[RFC3168]</dt>
 <dd>
 <span class="refAuthor">Ramakrishnan, K.</span><span class="refAuthor">, Floyd, S.</span><span class="refAuthor">, and D. Black</span>, <span class="refTitle">"The Addition of Explicit Congestion Notification (ECN) to IP"</span>, <span class="seriesInfo">RFC 3168</span>, <span class="seriesInfo">DOI 10.17487/RFC3168</span>, <time datetime="2001-09">September 2001</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc3168">https://www.rfc-editor.org/info/rfc3168</a>&gt;</span>. </dd>
