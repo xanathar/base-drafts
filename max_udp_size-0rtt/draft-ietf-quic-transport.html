@@ -195,6 +195,9 @@ a[href]:hover {
 a[href].selfRef:hover {
   background-color: var(--highlight-color);
 }
+a.xref {
+  white-space: nowrap;
+}
 
 /* Figures */
 tt, code, pre {
@@ -386,6 +389,9 @@ hr {
   margin: 0.75em 0;
   padding-left: 1.2em;
   text-indent: -1.2em;
+}
+#toc a.xref {
+  white-space: normal;
 }
 /* references */
 .references dt {
@@ -825,7 +831,7 @@ table.left {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Iyengar &amp; Thomson</td>
-<td class="center">Expires 5 September 2020</td>
+<td class="center">Expires 11 September 2020</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -838,12 +844,12 @@ table.left {
 <dd class="internet-draft">draft-ietf-quic-transport-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2020-03-04" class="published">4 March 2020</time>
+<time datetime="2020-03-10" class="published">10 March 2020</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2020-09-05">5 September 2020</time></dd>
+<dd class="expires"><time datetime="2020-09-11">11 September 2020</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -896,7 +902,7 @@ code and issues list for this draft can be found at
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 5 September 2020.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 11 September 2020.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -2698,10 +2704,10 @@ connection ID from use, it sends a RETIRE_CONNECTION_ID frame to its peer.
 Sending a RETIRE_CONNECTION_ID frame indicates that the connection ID will not
 be used again and requests that the peer replace it with a new connection ID
 using a NEW_CONNECTION_ID frame.<a href="#section-5.1.2-2" class="pilcrow">¶</a></p>
-<p id="section-5.1.2-3">As discussed in <a href="#migration-linkability" class="xref">Section 9.5</a>, each connection ID MUST be used on
-packets sent from only one local address.  An endpoint that migrates away from a
-local address SHOULD retire all connection IDs used on that address once it no
-longer plans to use that address.<a href="#section-5.1.2-3" class="pilcrow">¶</a></p>
+<p id="section-5.1.2-3">As discussed in <a href="#migration-linkability" class="xref">Section 9.5</a>, endpoints limit the use of a
+connection ID to a single network path where possible. Endpoints SHOULD retire
+connection IDs when no longer actively using the network path on which the
+connection ID was used.<a href="#section-5.1.2-3" class="pilcrow">¶</a></p>
 <p id="section-5.1.2-4">An endpoint can cause its peer to retire connection IDs by sending a
 NEW_CONNECTION_ID frame with an increased Retire Prior To field.  Upon receipt,
 the peer MUST first retire the corresponding connection IDs using
@@ -3193,10 +3199,9 @@ parameters established in the handshake.<a href="#section-7.3.1-1" class="pilcro
 specify whether they MUST, MAY, or MUST NOT be stored for 0-RTT. A client need
 not store a transport parameter it cannot process.<a href="#section-7.3.1-2" class="pilcrow">¶</a></p>
 <p id="section-7.3.1-3">A client MUST NOT use remembered values for the following parameters:
-original_connection_id, preferred_address, stateless_reset_token,
-ack_delay_exponent and active_connection_id_limit. The client MUST use the
-server's new values in the handshake instead, and absent new values from the
-server, the default value.<a href="#section-7.3.1-3" class="pilcrow">¶</a></p>
+original_connection_id, preferred_address, stateless_reset_token, and
+ack_delay_exponent. The client MUST use the server's new values in the
+handshake instead, and absent new values from the server, the default value.<a href="#section-7.3.1-3" class="pilcrow">¶</a></p>
 <p id="section-7.3.1-4">A client that attempts to send 0-RTT data MUST remember all other transport
 parameters used by the server. The server can remember these transport
 parameters, or store an integrity-protected copy of the values in the ticket
@@ -3208,19 +3213,21 @@ limits or alter any values that might be violated by the client with its
 values for the following parameters (<a href="#transport-parameter-definitions" class="xref">Section 18.2</a>)
 that are smaller than the remembered value of the parameters:<a href="#section-7.3.1-5" class="pilcrow">¶</a></p>
 <ul>
-<li id="section-7.3.1-6.1">initial_max_data<a href="#section-7.3.1-6.1" class="pilcrow">¶</a>
+<li id="section-7.3.1-6.1">active_connection_id_limit<a href="#section-7.3.1-6.1" class="pilcrow">¶</a>
 </li>
-<li id="section-7.3.1-6.2">initial_max_stream_data_bidi_local<a href="#section-7.3.1-6.2" class="pilcrow">¶</a>
+<li id="section-7.3.1-6.2">initial_max_data<a href="#section-7.3.1-6.2" class="pilcrow">¶</a>
 </li>
-<li id="section-7.3.1-6.3">initial_max_stream_data_bidi_remote<a href="#section-7.3.1-6.3" class="pilcrow">¶</a>
+<li id="section-7.3.1-6.3">initial_max_stream_data_bidi_local<a href="#section-7.3.1-6.3" class="pilcrow">¶</a>
 </li>
-<li id="section-7.3.1-6.4">initial_max_stream_data_uni<a href="#section-7.3.1-6.4" class="pilcrow">¶</a>
+<li id="section-7.3.1-6.4">initial_max_stream_data_bidi_remote<a href="#section-7.3.1-6.4" class="pilcrow">¶</a>
 </li>
-<li id="section-7.3.1-6.5">initial_max_streams_bidi<a href="#section-7.3.1-6.5" class="pilcrow">¶</a>
+<li id="section-7.3.1-6.5">initial_max_stream_data_uni<a href="#section-7.3.1-6.5" class="pilcrow">¶</a>
 </li>
-<li id="section-7.3.1-6.6">initial_max_streams_uni<a href="#section-7.3.1-6.6" class="pilcrow">¶</a>
+<li id="section-7.3.1-6.6">initial_max_streams_bidi<a href="#section-7.3.1-6.6" class="pilcrow">¶</a>
 </li>
-<li id="section-7.3.1-6.7">max_udp_payload_size<a href="#section-7.3.1-6.7" class="pilcrow">¶</a>
+<li id="section-7.3.1-6.7">initial_max_streams_uni<a href="#section-7.3.1-6.7" class="pilcrow">¶</a>
+</li>
+<li id="section-7.3.1-6.8">max_udp_payload_size<a href="#section-7.3.1-6.8" class="pilcrow">¶</a>
 </li>
 </ul>
 <p id="section-7.3.1-7">Omitting or setting a zero value for certain transport parameters can result in
@@ -3376,12 +3383,10 @@ connections to a different server instance.<a href="#section-8.1.2-3" class="pil
 invalid Retry token, it knows the client will not accept another Retry token.
 The server can discard such a packet and allow the client to time out to
 detect handshake failure, but that could impose a significant latency penalty on
-the client.  A server MAY proceed with the connection without verifying the
-token, though the server MUST NOT consider the client address validated.  If a
-server chooses not to proceed with the handshake, it SHOULD immediately close
-(<a href="#immediate-close" class="xref">Section 10.3</a>) the connection with an INVALID_TOKEN error.  Note that a
-server has not established any state for the connection at this point and so
-does not enter the closing period.<a href="#section-8.1.2-4" class="pilcrow">¶</a></p>
+the client.  Instead, the server SHOULD immediately close (<a href="#immediate-close" class="xref">Section 10.3</a>)
+the connection with an INVALID_TOKEN error.  Note that a server has not
+established any state for the connection at this point and so does not enter the
+closing period.<a href="#section-8.1.2-4" class="pilcrow">¶</a></p>
 <p id="section-8.1.2-5">A flow showing the use of a Retry packet is shown in <a href="#fig-retry" class="xref">Figure 5</a>.<a href="#section-8.1.2-5" class="pilcrow">¶</a></p>
 <span id="name-example-handshake-with-retr"></span><div id="fig-retry">
 <figure id="figure-5">
@@ -6635,8 +6640,14 @@ of this transport parameter is shown in <a href="#fig-preferred-address" class="
 transport parameter is only sent by a server. Servers MAY choose to only send
 a preferred address of one address family by sending an all-zero address and
 port (0.0.0.0:0 or ::.0) for the other family. IP addresses are encoded in
-network byte order. The CID Length field contains the length of the
-Connection ID field.<a href="#section-18.2-4.28" class="pilcrow">¶</a>
+network byte order.<a href="#section-18.2-4.28" class="pilcrow">¶</a>
+</dd>
+<dt id="section-18.2-4.29"></dt>
+<dd id="section-18.2-4.30">The Connection ID field and the Stateless Reset Token field contain an
+alternative connection ID that has a sequence number of 1 (<a href="#issue-cid" class="xref">Section 5.1.1</a>).
+Having these values bundled with the preferred address ensures that there will
+be at least one unused active connection ID when the client initiates
+migration to the preferred address.<a href="#section-18.2-4.30" class="pilcrow">¶</a>
 </dd>
 </dl>
 <span id="name-preferred-address-format"></span><div id="fig-preferred-address">
@@ -9008,16 +9019,16 @@ specification reference is provided.<a href="#section-22.4-4.4" class="pilcrow">
 <dl class="references">
 <dt id="DPLPMTUD">[DPLPMTUD]</dt>
 <dd>
-<span class="refAuthor">Fairhurst, G.</span><span class="refAuthor">, Jones, T.</span><span class="refAuthor">, Tuexen, M.</span><span class="refAuthor">, Ruengeler, I.</span><span class="refAuthor">, and T. Voelker</span>, <span class="refTitle">"Packetization Layer Path MTU Discovery for Datagram Transports"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-tsvwg-datagram-plpmtud-08</span>, <time datetime="2019-06-05">5 June 2019</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-tsvwg-datagram-plpmtud-08.txt">http://www.ietf.org/internet-drafts/draft-ietf-tsvwg-datagram-plpmtud-08.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Fairhurst, G.</span><span class="refAuthor">, Jones, T.</span><span class="refAuthor">, Tuexen, M.</span><span class="refAuthor">, Ruengeler, I.</span><span class="refAuthor">, and T. Voelker</span>, <span class="refTitle">"Packetization Layer Path MTU Discovery for Datagram Transports"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-tsvwg-datagram-plpmtud-16</span>, <time datetime="2020-03-09">9 March 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-tsvwg-datagram-plpmtud-16.txt">http://www.ietf.org/internet-drafts/draft-ietf-tsvwg-datagram-plpmtud-16.txt</a>&gt;</span>. </dd>
 <dt id="IPv4">[IPv4]</dt>
 <dd>
 <span class="refAuthor">Postel, J.</span>, <span class="refTitle">"Internet Protocol"</span>, <span class="seriesInfo">STD 5</span>, <span class="seriesInfo">RFC 791</span>, <span class="seriesInfo">DOI 10.17487/RFC0791</span>, <time datetime="1981-09">September 1981</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc791">https://www.rfc-editor.org/info/rfc791</a>&gt;</span>. </dd>
 <dt id="QUIC-RECOVERY">[QUIC-RECOVERY]</dt>
 <dd>
-<span class="refAuthor">Iyengar, J., Ed.</span><span class="refAuthor"> and I. Swett, Ed.</span>, <span class="refTitle">"QUIC Loss Detection and Congestion Control"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-recovery-latest</span>, <time datetime="2020-03-04">4 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-recovery-latest">https://tools.ietf.org/html/draft-ietf-quic-recovery-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Iyengar, J., Ed.</span><span class="refAuthor"> and I. Swett, Ed.</span>, <span class="refTitle">"QUIC Loss Detection and Congestion Control"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-recovery-latest</span>, <time datetime="2020-03-10">10 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-recovery-latest">https://tools.ietf.org/html/draft-ietf-quic-recovery-latest</a>&gt;</span>. </dd>
 <dt id="QUIC-TLS">[QUIC-TLS]</dt>
 <dd>
-<span class="refAuthor">Thomson, M., Ed.</span><span class="refAuthor"> and S. Turner, Ed.</span>, <span class="refTitle">"Using Transport Layer Security (TLS) to Secure QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-tls-latest</span>, <time datetime="2020-03-04">4 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-tls-latest">https://tools.ietf.org/html/draft-ietf-quic-tls-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Thomson, M., Ed.</span><span class="refAuthor"> and S. Turner, Ed.</span>, <span class="refTitle">"Using Transport Layer Security (TLS) to Secure QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-tls-latest</span>, <time datetime="2020-03-10">10 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-tls-latest">https://tools.ietf.org/html/draft-ietf-quic-tls-latest</a>&gt;</span>. </dd>
 <dt id="RFC1191">[RFC1191]</dt>
 <dd>
 <span class="refAuthor">Mogul, J.C.</span><span class="refAuthor"> and S.E. Deering</span>, <span class="refTitle">"Path MTU discovery"</span>, <span class="seriesInfo">RFC 1191</span>, <span class="seriesInfo">DOI 10.17487/RFC1191</span>, <time datetime="1990-11">November 1990</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc1191">https://www.rfc-editor.org/info/rfc1191</a>&gt;</span>. </dd>
@@ -9072,10 +9083,10 @@ specification reference is provided.<a href="#section-22.4-4.4" class="pilcrow">
 <span class="refAuthor">Belshe, M.</span><span class="refAuthor">, Peon, R.</span><span class="refAuthor">, and M. Thomson, Ed.</span>, <span class="refTitle">"Hypertext Transfer Protocol Version 2 (HTTP/2)"</span>, <span class="seriesInfo">RFC 7540</span>, <span class="seriesInfo">DOI 10.17487/RFC7540</span>, <time datetime="2015-05">May 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7540">https://www.rfc-editor.org/info/rfc7540</a>&gt;</span>. </dd>
 <dt id="QUIC-INVARIANTS">[QUIC-INVARIANTS]</dt>
 <dd>
-<span class="refAuthor">Thomson, M.</span>, <span class="refTitle">"Version-Independent Properties of QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-invariants-latest</span>, <time datetime="2020-03-04">4 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-invariants-latest">https://tools.ietf.org/html/draft-ietf-quic-invariants-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Thomson, M.</span>, <span class="refTitle">"Version-Independent Properties of QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-invariants-latest</span>, <time datetime="2020-03-10">10 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-invariants-latest">https://tools.ietf.org/html/draft-ietf-quic-invariants-latest</a>&gt;</span>. </dd>
 <dt id="QUIC-MANAGEABILITY">[QUIC-MANAGEABILITY]</dt>
 <dd>
-<span class="refAuthor">Kuehlewind, M.</span><span class="refAuthor"> and B. Trammell</span>, <span class="refTitle">"Manageability of the QUIC Transport Protocol"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-manageability-05</span>, <time datetime="2019-07-05">5 July 2019</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-quic-manageability-05.txt">http://www.ietf.org/internet-drafts/draft-ietf-quic-manageability-05.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Kuehlewind, M.</span><span class="refAuthor"> and B. Trammell</span>, <span class="refTitle">"Manageability of the QUIC Transport Protocol"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-manageability-06</span>, <time datetime="2020-01-06">6 January 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-quic-manageability-06.txt">http://www.ietf.org/internet-drafts/draft-ietf-quic-manageability-06.txt</a>&gt;</span>. </dd>
 <dt id="RFC1812">[RFC1812]</dt>
 <dd>
 <span class="refAuthor">Baker, F., Ed.</span>, <span class="refTitle">"Requirements for IP Version 4 Routers"</span>, <span class="seriesInfo">RFC 1812</span>, <span class="seriesInfo">DOI 10.17487/RFC1812</span>, <time datetime="1995-06">June 1995</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc1812">https://www.rfc-editor.org/info/rfc1812</a>&gt;</span>. </dd>
