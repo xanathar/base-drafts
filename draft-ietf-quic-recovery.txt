@@ -738,7 +738,8 @@ Internet-Draft             QUIC Loss Detection                March 2020
    unblock the server until it is certain that the server has finished
    its address validation (see Section 8 of [QUIC-TRANSPORT]).  That is,
    the client MUST set the probe timer if the client has not received an
-   acknowledgement for one of its Handshake or 1-RTT packets.
+   acknowledgement for one of its Handshake or 1-RTT packets, and has
+   not received a HANDSHAKE_DONE frame.
 
    Prior to handshake completion, when few to none RTT samples have been
    generated, it is possible that the probe timer expiration is due to
@@ -777,7 +778,6 @@ Internet-Draft             QUIC Loss Detection                March 2020
    application data is sent in a STREAM frame, deemed lost, then
    retransmitted in a new packet, and then the original transmission is
    acknowledged.  When there is no data to send, the sender SHOULD send
-
 
 
 
@@ -1646,7 +1646,8 @@ Internet-Draft             QUIC Loss Detection                March 2020
      # Servers complete address validation when a
      # protected packet is received.
      return has received Handshake ACK ||
-            has received 1-RTT ACK
+          has received 1-RTT ACK ||
+          has received HANDSHAKE_DONE
 
    SetLossDetectionTimer():
      earliest_loss_time, _ = GetEarliestTimeAndSpace(loss_time)
@@ -1672,7 +1673,6 @@ Internet-Draft             QUIC Loss Detection                March 2020
      sent_time, _ = GetEarliestTimeAndSpace(
        time_of_last_sent_ack_eliciting_packet)
      loss_detection_timer.update(sent_time + timeout)
-
 
 
 
