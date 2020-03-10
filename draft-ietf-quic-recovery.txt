@@ -682,10 +682,11 @@ Internet-Draft             QUIC Loss Detection                March 2020
    number spaces, the timer MUST be set for the packet number space with
    the earliest timeout, except for ApplicationData, which MUST be
    ignored until the handshake completes; see Section 4.1.1 of
-   [QUIC-TLS].  Not arming the PTO for ApplicationData prioritizes
-   completing the handshake and prevents the server from sending a 1-RTT
-   packet on a PTO before before it has the keys to process a 1-RTT
-   packet.
+   [QUIC-TLS].  Not arming the PTO for ApplicationData prevents a client
+   from retransmitting a 0-RTT packet on a PTO expiration before
+   confirming that the server is able to decrypt 0-RTT packets, and
+   prevents a server from sending a 1-RTT packet on a PTO expiration
+   before it has the keys to process an acknowledgement.
 
    When a PTO timer expires, the PTO period MUST be set to twice its
    current value.  This exponential reduction in the sender's rate is
@@ -721,7 +722,6 @@ Internet-Draft             QUIC Loss Detection                March 2020
 
    Until the server has validated the client's address on the path, the
    amount of data it can send is limited to three times the amount of
-   data received, as specified in Section 8.1 of [QUIC-TRANSPORT].  If
 
 
 
@@ -730,6 +730,7 @@ Iyengar & Swett         Expires 11 September 2020              [Page 13]
 Internet-Draft             QUIC Loss Detection                March 2020
 
 
+   data received, as specified in Section 8.1 of [QUIC-TRANSPORT].  If
    no data can be sent, then the PTO alarm MUST NOT be armed until
    datagrams have been received from the client.
 
@@ -777,7 +778,6 @@ Internet-Draft             QUIC Loss Detection                March 2020
    As an example, consider the following sequence of events: new
    application data is sent in a STREAM frame, deemed lost, then
    retransmitted in a new packet, and then the original transmission is
-   acknowledged.  When there is no data to send, the sender SHOULD send
 
 
 
@@ -786,6 +786,7 @@ Iyengar & Swett         Expires 11 September 2020              [Page 14]
 Internet-Draft             QUIC Loss Detection                March 2020
 
 
+   acknowledged.  When there is no data to send, the sender SHOULD send
    a PING or other ack-eliciting frame in a single packet, re-arming the
    PTO timer.
 
@@ -827,7 +828,6 @@ Internet-Draft             QUIC Loss Detection                March 2020
    acknowledgement is received that newly acknowledges packets, loss
    detection proceeds as dictated by packet and time threshold
    mechanisms; see Section 5.1.
-
 
 
 
