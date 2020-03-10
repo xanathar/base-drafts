@@ -1426,15 +1426,16 @@ computation.  QUIC's PTO includes the peer's maximum expected acknowledgement
 delay instead of using a fixed minimum timeout. QUIC does not collapse the
 congestion window until persistent congestion (<a href="#persistent-congestion" class="xref">Section 6.7</a>) is
 declared, unlike TCP, which collapses the congestion window upon expiry of an
-RTO.  Instead of collapsing the congestion window, QUIC allows probe packets
-to temporarily exceed the congestion window whenever the timer expires.<a href="#section-3.1.7-1" class="pilcrow">¶</a></p>
+RTO.  Instead of collapsing the congestion window and declaring everything
+in-flight lost, QUIC allows probe packets to temporarily exceed the congestion
+window whenever the timer expires.<a href="#section-3.1.7-1" class="pilcrow">¶</a></p>
 <p id="section-3.1.7-2">In doing this, QUIC avoids unnecessary congestion window reductions, obviating
 the need for correcting mechanisms such as F-RTO <span>[<a href="#RFC5682" class="xref">RFC5682</a>]</span>. Since QUIC does
 not collapse the congestion window on a PTO expiration, a QUIC sender is not
 limited from sending more in-flight packets after a PTO expiration if it still
 has available congestion window. This occurs when a sender is
-application-limited and then the PTO timer expires. This is more aggressive
-than TCP's RTO mechanism when application-limited, but identical when not
+application-limited and the PTO timer expires. This is more aggressive than
+TCP's RTO mechanism when application-limited, but identical when not
 application-limited.<a href="#section-3.1.7-2" class="pilcrow">¶</a></p>
 <p id="section-3.1.7-3">A single packet loss at the tail does not indicate persistent congestion, so
 QUIC specifies a time-based definition to ensure one or more packets are sent
