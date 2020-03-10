@@ -1411,11 +1411,12 @@ A.3.  Variables of interest
       ack for a previously unacked packet.
 
    smoothed_rtt:  The smoothed RTT of the connection, computed as
-      described in [RFC6298]
+      described in Section 4.3.
 
-   rttvar:  The RTT variation, computed as described in [RFC6298]
+   rttvar:  The RTT variation, computed as described in Section 4.3
 
-   min_rtt:  The minimum RTT seen in the connection, ignoring ack delay.
+   min_rtt:  The minimum RTT seen in the connection, ignoring ack delay,
+      as described in Section 4.2.
 
    max_ack_delay:  The maximum amount of time by which the receiver
       intends to delay acknowledgments for packets in the
@@ -1446,7 +1447,6 @@ A.4.  Initialization
 
    At the beginning of the connection, initialize the loss detection
    variables as follows:
-
 
 
 
