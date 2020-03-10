@@ -1838,9 +1838,9 @@ to encoder.<a href="#section-4.2-2.2" class="pilcrow">¶</a>
 <p id="section-4.2-3">HTTP/3 endpoints contain a QPACK encoder and decoder. Each endpoint MUST
 initiate at most one encoder stream and at most one decoder stream. Receipt of a
 second instance of either stream type MUST be treated as a connection error of
-type HTTP_STREAM_CREATION_ERROR. These streams MUST NOT be closed. Closure of
+type H3_STREAM_CREATION_ERROR. These streams MUST NOT be closed. Closure of
 either unidirectional stream type MUST be treated as a connection error of type
-HTTP_CLOSED_CRITICAL_STREAM.<a href="#section-4.2-3" class="pilcrow">¶</a></p>
+H3_CLOSED_CRITICAL_STREAM.<a href="#section-4.2-3" class="pilcrow">¶</a></p>
 <p id="section-4.2-4">An endpoint MAY avoid creating an encoder stream if it's not going to be used
 (for example if its encoder doesn't wish to use the dynamic table, or if the
 maximum size of the dynamic table permitted by the peer is zero).<a href="#section-4.2-4" class="pilcrow">¶</a></p>
