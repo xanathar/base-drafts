@@ -199,7 +199,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
        17.2.3.  0-RTT  . . . . . . . . . . . . . . . . . . . . . . .  98
        17.2.4.  Handshake Packet . . . . . . . . . . . . . . . . . . 100
        17.2.5.  Retry Packet . . . . . . . . . . . . . . . . . . . . 101
-     17.3.  Short Header Packets . . . . . . . . . . . . . . . . . . 103
+     17.3.  Short Header Packets . . . . . . . . . . . . . . . . . . 104
        17.3.1.  Latency Spin Bit . . . . . . . . . . . . . . . . . . 105
    18. Transport Parameter Encoding  . . . . . . . . . . . . . . . . 106
      18.1.  Reserved Transport Parameters  . . . . . . . . . . . . . 107
@@ -2098,8 +2098,12 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    *  presence of the retry_connection_id transport parameter when no
       Retry packet was received, or
 
-   *  a mismatch between values of these transport parameters and the
-      Destination Connection ID fields an endpoint used.
+   *  a mismatch between values received from a peer in these transport
+      parameters and the value sent in the corresponding Destination
+      Connection ID fields of Initial packets.
+
+   If a zero-length connection IDs is selected, the corresponding
+   transport parameter is included with a zero-length value.
 
 7.4.  Transport Parameters
 
@@ -2119,16 +2123,15 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    declared by the peer are available.  Each endpoint validates the
    value provided by its peer.
 
-   Definitions for each of the defined transport parameters are included
-   in Section 18.2.
-
-
 
 
 Iyengar & Thomson       Expires 12 September 2020              [Page 38]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
+
+   Definitions for each of the defined transport parameters are included
+   in Section 18.2.
 
    An endpoint MUST treat receipt of a transport parameter with an
    invalid value as a connection error of type
@@ -2174,10 +2177,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    If 0-RTT data is accepted by the server, the server MUST NOT reduce
    any limits or alter any values that might be violated by the client
    with its 0-RTT data.  In particular, a server that accepts 0-RTT data
-   MUST NOT set values for the following parameters (Section 18.2) that
-   are smaller than the remembered value of the parameters.
 
-   *  active_connection_id_limit
 
 
 
@@ -2185,6 +2185,11 @@ Iyengar & Thomson       Expires 12 September 2020              [Page 39]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
+
+   MUST NOT set values for the following parameters (Section 18.2) that
+   are smaller than the remembered value of the parameters.
+
+   *  active_connection_id_limit
 
    *  initial_max_data
 
@@ -2229,11 +2234,6 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    described in Section 18.1, some identifiers are reserved in order to
    exercise this requirement.
 
-   New transport parameters can be registered according to the rules in
-   Section 22.2.
-
-
-
 
 
 
@@ -2241,6 +2241,9 @@ Iyengar & Thomson       Expires 12 September 2020              [Page 40]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
+
+   New transport parameters can be registered according to the rules in
+   Section 22.2.
 
 7.5.  Cryptographic Message Buffering
 
@@ -2284,9 +2287,6 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    claims.  Address validation is performed both during connection
    establishment (see Section 8.1) and during connection migration (see
    Section 8.2).
-
-
-
 
 
 
@@ -5740,11 +5740,16 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
    A server acknowledges the use of a Retry packet for a connection
    using the retry_connection_id transport parameter; see Section 18.2.
-   If the server sends a Retry packet, it MUST include the Destination
-   Connection ID field from the client's first Initial packet in the
-   original_connection_id transport parameter and include a
+   If the server sends a Retry packet, the server adds a
    retry_connection_id transport parameter that contains the value of
    the Source Connection ID field from the Retry packet.
+
+   A server always includes an original_connection_id transport
+   parameter.  If the server sends a Retry packet, it MUST include the
+   Destination Connection ID field from the client's first Initial
+   packet in the original_connection_id transport parameter; otherwise
+   the original_connection_id transport parameter MUST be copied from
+   the client Initial.
 
    If the client received and processed a Retry packet, it MUST validate
    that the retry_connection_id transport parameter is present and
@@ -5755,11 +5760,6 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    A Retry packet does not include a packet number and cannot be
    explicitly acknowledged by a client.
 
-17.3.  Short Header Packets
-
-   This version of QUIC defines a single packet type which uses the
-   short packet header.
-
 
 
 
@@ -5769,6 +5769,11 @@ Iyengar & Thomson       Expires 12 September 2020             [Page 103]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
+
+17.3.  Short Header Packets
+
+   This version of QUIC defines a single packet type which uses the
+   short packet header.
 
     0                   1                   2                   3
     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -5814,11 +5819,6 @@ Internet-Draft           QUIC Transport Protocol              March 2020
       [QUIC-TLS] for details.  This bit is protected using header
       protection (see Section 5.4 of [QUIC-TLS]).
 
-   Packet Number Length (P):  The least significant two bits (those with
-      a mask of 0x03) of byte 0 contain the length of the packet number,
-      encoded as an unsigned, two-bit integer that is one less than the
-      length of the packet number field in bytes.  That is, the length
-
 
 
 Iyengar & Thomson       Expires 12 September 2020             [Page 104]
@@ -5826,6 +5826,10 @@ Iyengar & Thomson       Expires 12 September 2020             [Page 104]
 Internet-Draft           QUIC Transport Protocol              March 2020
 
 
+   Packet Number Length (P):  The least significant two bits (those with
+      a mask of 0x03) of byte 0 contain the length of the packet number,
+      encoded as an unsigned, two-bit integer that is one less than the
+      length of the packet number field in bytes.  That is, the length
       of the packet number field is the value of this field, plus one.
       These bits are protected using header protection (see Section 5.4
       of [QUIC-TLS]).
@@ -5870,10 +5874,6 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    the administrator, endpoints MUST disable their use of the spin bit
    for a random selection of at least one in every 16 network paths, or
    for one in every 16 connection IDs.  As each endpoint disables the
-   spin bit independently, this ensures that the spin bit signal is
-   disabled on approximately one in eight network paths.
-
-
 
 
 
@@ -5881,6 +5881,9 @@ Iyengar & Thomson       Expires 12 September 2020             [Page 105]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
+
+   spin bit independently, this ensures that the spin bit signal is
+   disabled on approximately one in eight network paths.
 
    When the spin bit is disabled, endpoints MAY set the spin bit to any
    value, and MUST ignore any incoming value.  It is RECOMMENDED that
@@ -5919,9 +5922,6 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    defined in [QUIC-TLS] contains the QUIC transport parameters.  They
    are encoded as a sequence of transport parameters, as shown in
    Figure 16:
-
-
-
 
 
 
@@ -6004,7 +6004,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    original_connection_id (0x00):  The value of the Destination
       Connection ID field from the first Initial packet sent by the
       client.  This transport parameter is only sent by a server.  This
-      is the same value sent in the "Original Destination Connection ID"
+      is the same value sent in the Original Destination Connection ID
       field that is used to construct a Retry packet (see
       Section 17.2.5).
 

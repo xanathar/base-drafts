@@ -3197,10 +3197,13 @@ receiving a Retry packet,<a href="#section-7.3-4.3" class="pilcrow">¶</a>
 <li id="section-7.3-4.4">presence of the retry_connection_id transport parameter when no Retry packet
 was received, or<a href="#section-7.3-4.4" class="pilcrow">¶</a>
 </li>
-<li id="section-7.3-4.5">a mismatch between values of these transport parameters and the Destination
-Connection ID fields an endpoint used.<a href="#section-7.3-4.5" class="pilcrow">¶</a>
+<li id="section-7.3-4.5">a mismatch between values received from a peer in these transport parameters
+and the value sent in the corresponding Destination Connection ID fields of
+Initial packets.<a href="#section-7.3-4.5" class="pilcrow">¶</a>
 </li>
 </ul>
+<p id="section-7.3-5">If a zero-length connection IDs is selected, the corresponding transport
+parameter is included with a zero-length value.<a href="#section-7.3-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="transport-parameters">
@@ -6332,17 +6335,20 @@ the cryptographic handshake message it sends in response to receiving a Retry.<a
 processing a Retry packet; <a href="#packet-0rtt" class="xref">Section 17.2.3</a> contains more information on this.<a href="#section-17.2.5-14" class="pilcrow">¶</a></p>
 <p id="section-17.2.5-15">A server acknowledges the use of a Retry packet for a connection using the
 retry_connection_id transport parameter; see
-<a href="#transport-parameter-definitions" class="xref">Section 18.2</a>. If the server sends a Retry packet, it
-MUST include the Destination Connection ID field from the client's first
-Initial packet in the original_connection_id transport parameter and include a
-retry_connection_id transport parameter that contains the value of the Source
-Connection ID field from the Retry packet.<a href="#section-17.2.5-15" class="pilcrow">¶</a></p>
-<p id="section-17.2.5-16">If the client received and processed a Retry packet, it MUST validate that the
+<a href="#transport-parameter-definitions" class="xref">Section 18.2</a>.  If the server sends a Retry packet, the
+server adds a retry_connection_id transport parameter that contains the value of
+the Source Connection ID field from the Retry packet.<a href="#section-17.2.5-15" class="pilcrow">¶</a></p>
+<p id="section-17.2.5-16">A server always includes an original_connection_id transport parameter. If the
+server sends a Retry packet, it MUST include the Destination Connection ID field
+from the client's first Initial packet in the original_connection_id transport
+parameter; otherwise the original_connection_id transport parameter MUST be
+copied from the client Initial.<a href="#section-17.2.5-16" class="pilcrow">¶</a></p>
+<p id="section-17.2.5-17">If the client received and processed a Retry packet, it MUST validate that the
 retry_connection_id transport parameter is present and correct; otherwise, it
 MUST validate that the transport parameter is absent.  A client MUST treat a
-failed validation as a connection error of type TRANSPORT_PARAMETER_ERROR.<a href="#section-17.2.5-16" class="pilcrow">¶</a></p>
-<p id="section-17.2.5-17">A Retry packet does not include a packet number and cannot be explicitly
-acknowledged by a client.<a href="#section-17.2.5-17" class="pilcrow">¶</a></p>
+failed validation as a connection error of type TRANSPORT_PARAMETER_ERROR.<a href="#section-17.2.5-17" class="pilcrow">¶</a></p>
+<p id="section-17.2.5-18">A Retry packet does not include a packet number and cannot be explicitly
+acknowledged by a client.<a href="#section-17.2.5-18" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -6571,8 +6577,8 @@ transport parameter is absent, unless otherwise stated.<a href="#section-18.2-2"
 <dd id="section-18.2-4.2">
   The value of the Destination Connection ID field from the first Initial packet
 sent by the client.  This transport parameter is only sent by a server.  This
-is the same value sent in the "Original Destination Connection ID" field that
-is used to construct a Retry packet (see <a href="#packet-retry" class="xref">Section 17.2.5</a>).<a href="#section-18.2-4.2" class="pilcrow">¶</a>
+is the same value sent in the Original Destination Connection ID field that is
+used to construct a Retry packet (see <a href="#packet-retry" class="xref">Section 17.2.5</a>).<a href="#section-18.2-4.2" class="pilcrow">¶</a>
 </dd>
 <dt id="section-18.2-4.3">max_idle_timeout (0x01):</dt>
 <dd id="section-18.2-4.4">
