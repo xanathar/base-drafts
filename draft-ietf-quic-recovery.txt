@@ -93,7 +93,7 @@ Table of Contents
        5.2.2.  Handshakes and New Paths  . . . . . . . . . . . . . .  13
        5.2.3.  Sending Probe Packets . . . . . . . . . . . . . . . .  14
        5.2.4.  Loss Detection  . . . . . . . . . . . . . . . . . . .  15
-     5.3.  Handling Retry Packets  . . . . . . . . . . . . . . . . .  16
+     5.3.  Handling Retry Packets  . . . . . . . . . . . . . . . . .  15
      5.4.  Discarding Keys and Packet State  . . . . . . . . . . . .  16
    6.  Congestion Control  . . . . . . . . . . . . . . . . . . . . .  16
      6.1.  Explicit Congestion Notification  . . . . . . . . . . . .  17
@@ -656,9 +656,6 @@ Internet-Draft             QUIC Loss Detection                March 2020
 
    PTO = smoothed_rtt + max(4*rttvar, kGranularity) + max_ack_delay
 
-   kGranularity, smoothed_rtt, rttvar, and max_ack_delay are defined in
-   Appendix A.2 and Appendix A.3.
-
    The PTO period is the amount of time that a sender ought to wait for
    an acknowledgement of a sent packet.  This time period includes the
    estimated network roundtrip-time (smoothed_rtt), the variation in the
@@ -667,15 +664,15 @@ Internet-Draft             QUIC Loss Detection                March 2020
    When the PTO is armed for Initial or Handshake packet number spaces,
    the max_ack_delay is 0, as specified in 13.2.1 of [QUIC-TRANSPORT].
 
+   The PTO value MUST be set to at least kGranularity, to avoid the
+   timer expiring immediately.
+
 
 
 Iyengar & Swett         Expires 12 September 2020              [Page 12]
 
 Internet-Draft             QUIC Loss Detection                March 2020
 
-
-   The PTO value MUST be set to at least kGranularity, to avoid the
-   timer expiring immediately.
 
    A sender computes its PTO timer every time an ack-eliciting packet is
    sent.  When ack-eliciting packets are in-flight in multiple packet
@@ -722,6 +719,9 @@ Internet-Draft             QUIC Loss Detection                March 2020
 
    Until the server has validated the client's address on the path, the
    amount of data it can send is limited to three times the amount of
+   data received, as specified in Section 8.1 of [QUIC-TRANSPORT].  If
+   no data can be sent, then the PTO alarm MUST NOT be armed until
+   datagrams have been received from the client.
 
 
 
@@ -729,10 +729,6 @@ Iyengar & Swett         Expires 12 September 2020              [Page 13]
 
 Internet-Draft             QUIC Loss Detection                March 2020
 
-
-   data received, as specified in Section 8.1 of [QUIC-TRANSPORT].  If
-   no data can be sent, then the PTO alarm MUST NOT be armed until
-   datagrams have been received from the client.
 
    Since the server could be blocked until more packets are received
    from the client, it is the client's responsibility to send packets to
@@ -778,6 +774,10 @@ Internet-Draft             QUIC Loss Detection                March 2020
    It is possible the sender has no new or previously-sent data to send.
    As an example, consider the following sequence of events: new
    application data is sent in a STREAM frame, deemed lost, then
+   retransmitted in a new packet, and then the original transmission is
+   acknowledged.  When there is no data to send, the sender SHOULD send
+   a PING or other ack-eliciting frame in a single packet, re-arming the
+   PTO timer.
 
 
 
@@ -785,11 +785,6 @@ Iyengar & Swett         Expires 12 September 2020              [Page 14]
 
 Internet-Draft             QUIC Loss Detection                March 2020
 
-
-   retransmitted in a new packet, and then the original transmission is
-   acknowledged.  When there is no data to send, the sender SHOULD send
-   a PING or other ack-eliciting frame in a single packet, re-arming the
-   PTO timer.
 
    Alternatively, instead of sending an ack-eliciting packet, the sender
    MAY mark any packets still in flight as lost.  Doing so avoids
@@ -830,8 +825,13 @@ Internet-Draft             QUIC Loss Detection                March 2020
    detection proceeds as dictated by packet and time threshold
    mechanisms; see Section 5.1.
 
+5.3.  Handling Retry Packets
 
-
+   A Retry packet causes a client to send another Initial packet,
+   effectively restarting the connection process.  A Retry packet
+   indicates that the Initial was received, but not processed.  A Retry
+   packet cannot be treated as an acknowledgment, because it does not
+   indicate that a packet was processed or specify the packet number.
 
 
 
@@ -841,14 +841,6 @@ Iyengar & Swett         Expires 12 September 2020              [Page 15]
 
 Internet-Draft             QUIC Loss Detection                March 2020
 
-
-5.3.  Handling Retry Packets
-
-   A Retry packet causes a client to send another Initial packet,
-   effectively restarting the connection process.  A Retry packet
-   indicates that the Initial was received, but not processed.  A Retry
-   packet cannot be treated as an acknowledgment, because it does not
-   indicate that a packet was processed or specify the packet number.
 
    Clients that receive a Retry packet reset congestion control and loss
    recovery state, including resetting any pending timers.  Other
@@ -890,14 +882,6 @@ Internet-Draft             QUIC Loss Detection                March 2020
    This document specifies a congestion controller for QUIC similar to
    TCP NewReno [RFC6582].
 
-
-
-
-Iyengar & Swett         Expires 12 September 2020              [Page 16]
-
-Internet-Draft             QUIC Loss Detection                March 2020
-
-
    The signals QUIC provides for congestion control are generic and are
    designed to support different algorithms.  Endpoints can unilaterally
    choose a different algorithm to use, such as Cubic [RFC8312].
@@ -905,6 +889,14 @@ Internet-Draft             QUIC Loss Detection                March 2020
    If an endpoint uses a different controller than that specified in
    this document, the chosen controller MUST conform to the congestion
    control guidelines specified in Section 3.1 of [RFC8085].
+
+
+
+
+Iyengar & Swett         Expires 12 September 2020              [Page 16]
+
+Internet-Draft             QUIC Loss Detection                March 2020
+
 
    Similar to TCP, packets containing only ACK frames do not count
    towards bytes in flight and are not congestion controlled.  Unlike
@@ -947,19 +939,20 @@ Internet-Draft             QUIC Loss Detection                March 2020
    number of bytes acknowledged when each acknowledgment is processed,
    resulting in exponential growth of the congestion window.
 
-
-
-Iyengar & Swett         Expires 12 September 2020              [Page 17]
-
-Internet-Draft             QUIC Loss Detection                March 2020
-
-
    QUIC exits slow start upon loss or upon increase in the ECN-CE
    counter.  When slow start is exited, the congestion window halves and
    the slow start threshold is set to the new congestion window.  QUIC
    re-enters slow start any time the congestion window is less than the
    slow start threshold, which only occurs after persistent congestion
    is declared.
+
+
+
+
+Iyengar & Swett         Expires 12 September 2020              [Page 17]
+
+Internet-Draft             QUIC Loss Detection                March 2020
+
 
 6.4.  Congestion Avoidance
 
@@ -1002,6 +995,13 @@ Internet-Draft             QUIC Loss Detection                March 2020
    be processed until the handshake completes.  Endpoints MAY ignore the
    loss of Handshake, 0-RTT, and 1-RTT packets that might have arrived
    before the peer had packet protection keys to process those packets.
+   Endpoints MUST NOT ignore the loss of packets that were sent after
+   the earliest acknowledged packet in a given packet number space.
+
+
+
+
+
 
 
 
@@ -1009,9 +1009,6 @@ Iyengar & Swett         Expires 12 September 2020              [Page 18]
 
 Internet-Draft             QUIC Loss Detection                March 2020
 
-
-   Endpoints MUST NOT ignore the loss of packets that were sent after
-   the earliest acknowledged packet in a given packet number space.
 
 6.7.  Probe Timeout
 
@@ -1058,6 +1055,9 @@ Internet-Draft             QUIC Loss Detection                March 2020
 
                                  Table 1
 
+   The first three packets are determined to be lost when the
+   acknowlegement of packet 4 is received at t=8.  The congestion period
+   is calculated as the time between the oldest and newest lost packets:
 
 
 
@@ -1066,9 +1066,6 @@ Iyengar & Swett         Expires 12 September 2020              [Page 19]
 Internet-Draft             QUIC Loss Detection                March 2020
 
 
-   The first three packets are determined to be lost when the
-   acknowlegement of packet 4 is received at t=8.  The congestion period
-   is calculated as the time between the oldest and newest lost packets:
    (3 - 0) = 3.  The duration for persistent congestion is equal to: (1
    * kPersistentCongestionThreshold) = 3.  Because the threshold was
    reached and because none of the packets between the oldest and the
@@ -1112,6 +1109,9 @@ Internet-Draft             QUIC Loss Detection                March 2020
    As an example of a well-known and publicly available implementation
    of a flow pacer, implementers are referred to the Fair Queue packet
    scheduler (fq qdisc) in Linux (3.11 onwards).
+
+
+
 
 
 

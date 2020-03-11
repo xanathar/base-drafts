@@ -1704,18 +1704,16 @@ the PTO period as follows:<a href="#section-5.2.1-1" class="pilcrow">¶</a></p>
 PTO = smoothed_rtt + max(4*rttvar, kGranularity) + max_ack_delay
 </pre><a href="#section-5.2.1-2" class="pilcrow">¶</a>
 </div>
-<p id="section-5.2.1-3">kGranularity, smoothed_rtt, rttvar, and max_ack_delay are defined in
-<a href="#ld-consts-of-interest" class="xref">Appendix A.2</a> and <a href="#ld-vars-of-interest" class="xref">Appendix A.3</a>.<a href="#section-5.2.1-3" class="pilcrow">¶</a></p>
-<p id="section-5.2.1-4">The PTO period is the amount of time that a sender ought to wait for an
+<p id="section-5.2.1-3">The PTO period is the amount of time that a sender ought to wait for an
 acknowledgement of a sent packet.  This time period includes the estimated
 network roundtrip-time (smoothed_rtt), the variation in the estimate (4*rttvar),
 and max_ack_delay, to account for the maximum time by which a receiver might
 delay sending an acknowledgement.  When the PTO is armed for Initial or
 Handshake packet number spaces, the max_ack_delay is 0, as specified in
-13.2.1 of <span>[<a href="#QUIC-TRANSPORT" class="xref">QUIC-TRANSPORT</a>]</span>.<a href="#section-5.2.1-4" class="pilcrow">¶</a></p>
-<p id="section-5.2.1-5">The PTO value MUST be set to at least kGranularity, to avoid the timer expiring
-immediately.<a href="#section-5.2.1-5" class="pilcrow">¶</a></p>
-<p id="section-5.2.1-6">A sender computes its PTO timer every time an ack-eliciting packet is sent.
+13.2.1 of <span>[<a href="#QUIC-TRANSPORT" class="xref">QUIC-TRANSPORT</a>]</span>.<a href="#section-5.2.1-3" class="pilcrow">¶</a></p>
+<p id="section-5.2.1-4">The PTO value MUST be set to at least kGranularity, to avoid the timer expiring
+immediately.<a href="#section-5.2.1-4" class="pilcrow">¶</a></p>
+<p id="section-5.2.1-5">A sender computes its PTO timer every time an ack-eliciting packet is sent.
 When ack-eliciting packets are in-flight in multiple packet number spaces,
 the timer MUST be set for the packet number space with the earliest timeout,
 except for ApplicationData, which MUST be ignored until the handshake
@@ -1723,21 +1721,21 @@ completes; see Section 4.1.1 of <span>[<a href="#QUIC-TLS" class="xref">QUIC-TLS
 ApplicationData prevents a client from retransmitting a 0-RTT packet on a PTO
 expiration before confirming that the server is able to decrypt 0-RTT packets,
 and prevents a server from sending a 1-RTT packet on a PTO expiration before it
-has the keys to process an acknowledgement.<a href="#section-5.2.1-6" class="pilcrow">¶</a></p>
-<p id="section-5.2.1-7">When a PTO timer expires, the PTO period MUST be set to twice its current
+has the keys to process an acknowledgement.<a href="#section-5.2.1-5" class="pilcrow">¶</a></p>
+<p id="section-5.2.1-6">When a PTO timer expires, the PTO period MUST be set to twice its current
 value. This exponential reduction in the sender's rate is important because
 consecutive PTOs might be caused by loss of packets or acknowledgements due to
 severe congestion.  Even when there are ack-eliciting packets in-flight in
 multiple packet number spaces, the exponential increase in probe timeout
 occurs across all spaces to prevent excess load on the network.  For example,
 a timeout in the Initial packet number space doubles the length of the timeout
-in the Handshake packet number space.<a href="#section-5.2.1-7" class="pilcrow">¶</a></p>
-<p id="section-5.2.1-8">The life of a connection that is experiencing consecutive PTOs is limited by
-the endpoint's idle timeout.<a href="#section-5.2.1-8" class="pilcrow">¶</a></p>
-<p id="section-5.2.1-9">The probe timer MUST NOT be set if the time threshold <a href="#time-threshold" class="xref">Section 5.1.2</a> loss
+in the Handshake packet number space.<a href="#section-5.2.1-6" class="pilcrow">¶</a></p>
+<p id="section-5.2.1-7">The life of a connection that is experiencing consecutive PTOs is limited by
+the endpoint's idle timeout.<a href="#section-5.2.1-7" class="pilcrow">¶</a></p>
+<p id="section-5.2.1-8">The probe timer MUST NOT be set if the time threshold <a href="#time-threshold" class="xref">Section 5.1.2</a> loss
 detection timer is set.  The time threshold loss detection timer is expected
 to both expire earlier than the PTO and be less likely to spuriously retransmit
-data.<a href="#section-5.2.1-9" class="pilcrow">¶</a></p>
+data.<a href="#section-5.2.1-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="handshakes-and-new-paths">
