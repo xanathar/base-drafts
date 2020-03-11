@@ -195,6 +195,9 @@ a[href]:hover {
 a[href].selfRef:hover {
   background-color: var(--highlight-color);
 }
+a.xref {
+  white-space: nowrap;
+}
 
 /* Figures */
 tt, code, pre {
@@ -386,6 +389,9 @@ hr {
   margin: 0.75em 0;
   padding-left: 1.2em;
   text-indent: -1.2em;
+}
+#toc a.xref {
+  white-space: normal;
 }
 /* references */
 .references dt {
@@ -825,7 +831,7 @@ table.left {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Iyengar &amp; Thomson</td>
-<td class="center">Expires 5 September 2020</td>
+<td class="center">Expires 12 September 2020</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -838,12 +844,12 @@ table.left {
 <dd class="internet-draft">draft-ietf-quic-transport-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2020-03-04" class="published">4 March 2020</time>
+<time datetime="2020-03-11" class="published">11 March 2020</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2020-09-05">5 September 2020</time></dd>
+<dd class="expires"><time datetime="2020-09-12">12 September 2020</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -896,7 +902,7 @@ code and issues list for this draft can be found at
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 5 September 2020.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 12 September 2020.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1058,18 +1064,21 @@ code and issues list for this draft can be found at
                 <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="xref">7.2</a>.  <a href="#name-negotiating-connection-ids" class="xref">Negotiating Connection IDs</a><a href="#section-toc.1-1.7.2.2.1" class="pilcrow">¶</a></p>
 </li>
 <li class="toc ulEmpty" id="section-toc.1-1.7.2.3">
-                <p id="section-toc.1-1.7.2.3.1"><a href="#section-7.3" class="xref">7.3</a>.  <a href="#name-transport-parameters" class="xref">Transport Parameters</a><a href="#section-toc.1-1.7.2.3.1" class="pilcrow">¶</a></p>
-<ul class="toc ulEmpty">
-<li class="toc ulEmpty" id="section-toc.1-1.7.2.3.2.1">
-                    <p id="section-toc.1-1.7.2.3.2.1.1"><a href="#section-7.3.1" class="xref">7.3.1</a>.  <a href="#name-values-of-transport-paramet" class="xref">Values of Transport Parameters for 0-RTT</a><a href="#section-toc.1-1.7.2.3.2.1.1" class="pilcrow">¶</a></p>
+                <p id="section-toc.1-1.7.2.3.1"><a href="#section-7.3" class="xref">7.3</a>.  <a href="#name-authenticating-connection-i" class="xref">Authenticating Connection IDs</a><a href="#section-toc.1-1.7.2.3.1" class="pilcrow">¶</a></p>
 </li>
-<li class="toc ulEmpty" id="section-toc.1-1.7.2.3.2.2">
-                    <p id="section-toc.1-1.7.2.3.2.2.1"><a href="#section-7.3.2" class="xref">7.3.2</a>.  <a href="#name-new-transport-parameters" class="xref">New Transport Parameters</a><a href="#section-toc.1-1.7.2.3.2.2.1" class="pilcrow">¶</a></p>
+<li class="toc ulEmpty" id="section-toc.1-1.7.2.4">
+                <p id="section-toc.1-1.7.2.4.1"><a href="#section-7.4" class="xref">7.4</a>.  <a href="#name-transport-parameters" class="xref">Transport Parameters</a><a href="#section-toc.1-1.7.2.4.1" class="pilcrow">¶</a></p>
+<ul class="toc ulEmpty">
+<li class="toc ulEmpty" id="section-toc.1-1.7.2.4.2.1">
+                    <p id="section-toc.1-1.7.2.4.2.1.1"><a href="#section-7.4.1" class="xref">7.4.1</a>.  <a href="#name-values-of-transport-paramet" class="xref">Values of Transport Parameters for 0-RTT</a><a href="#section-toc.1-1.7.2.4.2.1.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.7.2.4.2.2">
+                    <p id="section-toc.1-1.7.2.4.2.2.1"><a href="#section-7.4.2" class="xref">7.4.2</a>.  <a href="#name-new-transport-parameters" class="xref">New Transport Parameters</a><a href="#section-toc.1-1.7.2.4.2.2.1" class="pilcrow">¶</a></p>
 </li>
 </ul>
 </li>
-<li class="toc ulEmpty" id="section-toc.1-1.7.2.4">
-                <p id="section-toc.1-1.7.2.4.1"><a href="#section-7.4" class="xref">7.4</a>.  <a href="#name-cryptographic-message-buffe" class="xref">Cryptographic Message Buffering</a><a href="#section-toc.1-1.7.2.4.1" class="pilcrow">¶</a></p>
+<li class="toc ulEmpty" id="section-toc.1-1.7.2.5">
+                <p id="section-toc.1-1.7.2.5.1"><a href="#section-7.5" class="xref">7.5</a>.  <a href="#name-cryptographic-message-buffe" class="xref">Cryptographic Message Buffering</a><a href="#section-toc.1-1.7.2.5.1" class="pilcrow">¶</a></p>
 </li>
 </ul>
 </li>
@@ -2429,7 +2438,7 @@ sent in STREAM frames on all streams.<a href="#section-4.1-2.2" class="pilcrow">
 </li>
 </ul>
 <p id="section-4.1-3">A receiver sets initial credits for all streams by sending transport parameters
-during the handshake (<a href="#transport-parameters" class="xref">Section 7.3</a>).  A receiver sends
+during the handshake (<a href="#transport-parameters" class="xref">Section 7.4</a>).  A receiver sends
 MAX_STREAM_DATA (<a href="#frame-max-stream-data" class="xref">Section 19.10</a>) or MAX_DATA (<a href="#frame-max-data" class="xref">Section 19.9</a>)
 frames to the sender to advertise additional credit.<a href="#section-4.1-3" class="pilcrow">¶</a></p>
 <p id="section-4.1-4">A receiver advertises credit for a stream by sending a MAX_STREAM_DATA frame
@@ -2698,10 +2707,10 @@ connection ID from use, it sends a RETIRE_CONNECTION_ID frame to its peer.
 Sending a RETIRE_CONNECTION_ID frame indicates that the connection ID will not
 be used again and requests that the peer replace it with a new connection ID
 using a NEW_CONNECTION_ID frame.<a href="#section-5.1.2-2" class="pilcrow">¶</a></p>
-<p id="section-5.1.2-3">As discussed in <a href="#migration-linkability" class="xref">Section 9.5</a>, each connection ID MUST be used on
-packets sent from only one local address.  An endpoint that migrates away from a
-local address SHOULD retire all connection IDs used on that address once it no
-longer plans to use that address.<a href="#section-5.1.2-3" class="pilcrow">¶</a></p>
+<p id="section-5.1.2-3">As discussed in <a href="#migration-linkability" class="xref">Section 9.5</a>, endpoints limit the use of a
+connection ID to a single network path where possible. Endpoints SHOULD retire
+connection IDs when no longer actively using the network path on which the
+connection ID was used.<a href="#section-5.1.2-3" class="pilcrow">¶</a></p>
 <p id="section-5.1.2-4">An endpoint can cause its peer to retire connection IDs by sending a
 NEW_CONNECTION_ID frame with an increased Retire Prior To field.  Upon receipt,
 the peer MUST first retire the corresponding connection IDs using
@@ -2818,7 +2827,7 @@ establish a shared secret using the cryptographic handshake protocol
 <span>[<a href="#QUIC-TLS" class="xref">QUIC-TLS</a>]</span> and negotiate the application protocol.  The handshake
 (<a href="#handshake" class="xref">Section 7</a>) confirms that both endpoints are willing to communicate
 (<a href="#validate-handshake" class="xref">Section 8.1</a>) and establishes parameters for the connection
-(<a href="#transport-parameters" class="xref">Section 7.3</a>).<a href="#section-5.3-2" class="pilcrow">¶</a></p>
+(<a href="#transport-parameters" class="xref">Section 7.4</a>).<a href="#section-5.3-2" class="pilcrow">¶</a></p>
 <p id="section-5.3-3">An application protocol can also operate in a limited fashion during the
 handshake phase.  0-RTT allows application messages to be sent by a client
 before receiving any messages from the server.  However, 0-RTT lacks certain key
@@ -2870,7 +2879,7 @@ information.<a href="#section-5.4-5.3" class="pilcrow">¶</a>
 <p id="section-5.4-6">In either role, applications need to be able to:<a href="#section-5.4-6" class="pilcrow">¶</a></p>
 <ul>
 <li id="section-5.4-7.1">configure minimum values for the initial number of permitted streams of each
-type, as communicated in the transport parameters (<a href="#transport-parameters" class="xref">Section 7.3</a>);<a href="#section-5.4-7.1" class="pilcrow">¶</a>
+type, as communicated in the transport parameters (<a href="#transport-parameters" class="xref">Section 7.4</a>);<a href="#section-5.4-7.1" class="pilcrow">¶</a>
 </li>
 <li id="section-5.4-7.2">control resource allocation of various types, including flow control and the
 number of permitted streams of each type;<a href="#section-5.4-7.2" class="pilcrow">¶</a>
@@ -3012,7 +3021,7 @@ packets, and<a href="#section-7-3.1.2.4" class="pilcrow">¶</a>
 </li>
 <li id="section-7-3.2">authenticated values for transport parameters of both endpoints, and
 confidentiality protection for server transport parameters (see
-<a href="#transport-parameters" class="xref">Section 7.3</a>)<a href="#section-7-3.2" class="pilcrow">¶</a>
+<a href="#transport-parameters" class="xref">Section 7.4</a>)<a href="#section-7-3.2" class="pilcrow">¶</a>
 </li>
 <li id="section-7-3.3">authenticated negotiation of an application protocol (TLS uses ALPN
 <span>[<a href="#RFC7301" class="xref">RFC7301</a>]</span> for this purpose)<a href="#section-7-3.3" class="pilcrow">¶</a>
@@ -3115,180 +3124,216 @@ Connection ID is chosen by the recipient of the packet and is used to provide
 consistent routing; the Source Connection ID is used to set the Destination
 Connection ID used by the peer.<a href="#section-7.2-1" class="pilcrow">¶</a></p>
 <p id="section-7.2-2">During the handshake, packets with the long header (<a href="#long-header" class="xref">Section 17.2</a>) are used to
-establish the connection ID that each endpoint uses.  Each endpoint uses the
-Source Connection ID field to specify the connection ID that is used in the
-Destination Connection ID field of packets being sent to them.  Upon receiving a
-packet, each endpoint sets the Destination Connection ID it sends to match the
-value of the Source Connection ID that they receive.<a href="#section-7.2-2" class="pilcrow">¶</a></p>
+establish the connection IDs in each direction. Each endpoint uses the Source
+Connection ID field to specify the connection ID that is used in the Destination
+Connection ID field of packets being sent to them. Upon receiving a packet, each
+endpoint sets the Destination Connection ID it sends to match the value of the
+Source Connection ID that it receives.<a href="#section-7.2-2" class="pilcrow">¶</a></p>
 <p id="section-7.2-3">When an Initial packet is sent by a client that has not previously received an
-Initial or Retry packet from the server, it populates the Destination Connection
-ID field with an unpredictable value.  This MUST be at least 8 bytes in length.
-Until a packet is received from the server, the client MUST use the same value
-unless it abandons the connection attempt and starts a new one. The initial
-Destination Connection ID is used to determine packet protection keys for
-Initial packets.<a href="#section-7.2-3" class="pilcrow">¶</a></p>
+Initial or Retry packet from the server, the client populates the Destination
+Connection ID field with an unpredictable value.  This Destination Connection ID
+MUST be at least 8 bytes in length.  Until a packet is received from the server,
+the client MUST use the same Destination Connection ID value on all packets in
+this connection. This Destination Connection ID is used to determine packet
+protection keys for Initial packets.<a href="#section-7.2-3" class="pilcrow">¶</a></p>
 <p id="section-7.2-4">The client populates the Source Connection ID field with a value of its choosing
 and sets the SCID Len field to indicate the length.<a href="#section-7.2-4" class="pilcrow">¶</a></p>
-<p id="section-7.2-5">The first flight of 0-RTT packets use the same Destination and Source Connection
-ID values as the client's first Initial.<a href="#section-7.2-5" class="pilcrow">¶</a></p>
+<p id="section-7.2-5">The first flight of 0-RTT packets use the same Destination Connection ID and
+Source Connection ID values as the client's first Initial packet.<a href="#section-7.2-5" class="pilcrow">¶</a></p>
 <p id="section-7.2-6">Upon first receiving an Initial or Retry packet from the server, the client uses
 the Source Connection ID supplied by the server as the Destination Connection ID
-for subsequent packets, including any 0-RTT packets.  A client changes the
-Destination Connection ID field if it receives a Retry packet.  A client always
-changes the Destination Connection ID field in response to the first Initial
-packet received from a server.  Once a client has received an Initial packet
-from the server, it MUST discard any packet it receives with a different Source
-Connection ID.<a href="#section-7.2-6" class="pilcrow">¶</a></p>
-<p id="section-7.2-7">Each endpoint includes the value of the Source Connection ID from Initial
+for subsequent packets, including any 0-RTT packets.  This means that a client
+might have to change the connection ID it sets in the Destination Connection ID
+field twice during connection establishment: once in response to a Retry, and
+once in response to an Initial packet from the server. Once a client has
+received an Initial packet from the server, it MUST discard any subsequent
+packet it receives with a different Source Connection ID.<a href="#section-7.2-6" class="pilcrow">¶</a></p>
+<p id="section-7.2-7">A client MUST change the Destination Connection ID it uses for sending packets
+in response to only the first received Initial or Retry packet.  A server MUST
+set the Destination Connection ID it uses for sending packets based on the first
+received Initial packet. Any further changes to the Destination Connection ID
+are only permitted if the values are taken from any received
+NEW_CONNECTION_ID frames; if subsequent Initial packets include a different
+Source Connection ID, they MUST be discarded.  This avoids unpredictable
+outcomes that might otherwise result from stateless processing of multiple
+Initial packets with different Source Connection IDs.<a href="#section-7.2-7" class="pilcrow">¶</a></p>
+<p id="section-7.2-8">The Destination Connection ID that an endpoint sends can change over the
+lifetime of a connection, especially in response to connection migration
+(<a href="#migration" class="xref">Section 9</a>); see <a href="#issue-cid" class="xref">Section 5.1.1</a> for details.<a href="#section-7.2-8" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="authenticating-connection-ids">
+<section id="section-7.3">
+        <h3 id="name-authenticating-connection-i">
+<a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-authenticating-connection-i" class="section-name selfRef">Authenticating Connection IDs</a>
+        </h3>
+<p id="section-7.3-1">The choice each endpoint makes about connection IDs during the handshake is
+authenticated by including all values in transport parameters; see
+<a href="#transport-parameters" class="xref">Section 7.4</a>. This ensures that all connection IDs are authenticated
+by the cryptographic handshake.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
+<p id="section-7.3-2">Each endpoint includes the value of the Source Connection ID field from Initial
 packets it sends in the handshake_connection_id transport parameter; see
-<a href="#transport-parameter-definitions" class="xref">Section 18.2</a>.  Each endpoint validates that the value
-received from the peer is identical to the value of the transport parameter.
-Absense of the handshake_connection_id transport parameter or a mismatch in
-values MUST be treated as a connection error of type PROTOCOL_VIOLATION.  When
-sending a Retry packet or the first Initial packet, a server MUST select values
-for the Source Connection ID field that differ from the values the client
-includes in the Destination Connection ID field.  These measures ensure that the
-choice of connection ID cannot be influenced by an attacker.<a href="#section-7.2-7" class="pilcrow">¶</a></p>
-<p id="section-7.2-8">A client MUST only change the value it sends in the Destination Connection ID in
-response to the first packet of each type it receives from the server (Retry or
-Initial); a server MUST set its value based on the Initial packet.  Any
-additional changes are not permitted; if subsequent packets of those types
-include a different Source Connection ID, they MUST be discarded.  This avoids
-problems that might arise from stateless processing of multiple Initial packets
-producing different connection IDs.<a href="#section-7.2-8" class="pilcrow">¶</a></p>
-<p id="section-7.2-9">The connection ID can change over the lifetime of a connection, especially in
-response to connection migration (<a href="#migration" class="xref">Section 9</a>); see <a href="#issue-cid" class="xref">Section 5.1.1</a> for details.<a href="#section-7.2-9" class="pilcrow">¶</a></p>
+<a href="#transport-parameter-definitions" class="xref">Section 18.2</a>. A server includes the Destination
+Connection ID field it receives in the original Initial packet from the client
+in the original_connection_id transport parameter. After sending a Retry
+packet, a server also includes the Source Connection ID field from the Retry
+packet in the retry_connection_id transport parameter.<a href="#section-7.3-2" class="pilcrow">¶</a></p>
+<p id="section-7.3-3">Each endpoint ensures that the values of transport parameters matches the
+values. The values provided by a peer for these transport parameters MUST match
+values that an endpoint used in the Destination Connection ID field of an
+Initial packet. Including connection ID values in transport parameters and
+verifying them ensures that the choice of connection ID cannot be influenced by
+an attacker. An endpoint MUST treat any of the following as a connection error
+of type PROTOCOL_VIOLATION:<a href="#section-7.3-3" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-7.3-4.1">absence of the handshake_connection_id transport parameter from either
+endpoint,<a href="#section-7.3-4.1" class="pilcrow">¶</a>
+</li>
+<li id="section-7.3-4.2">absence of the original_connection_id transport parameter from the server,<a href="#section-7.3-4.2" class="pilcrow">¶</a>
+</li>
+<li id="section-7.3-4.3">absence of the retry_connection_id transport parameter from the server after
+receiving a Retry packet,<a href="#section-7.3-4.3" class="pilcrow">¶</a>
+</li>
+<li id="section-7.3-4.4">presence of the retry_connection_id transport parameter when no Retry packet
+was received, or<a href="#section-7.3-4.4" class="pilcrow">¶</a>
+</li>
+<li id="section-7.3-4.5">a mismatch between values of these transport parameters and the Destination
+Connection ID fields an endpoint used.<a href="#section-7.3-4.5" class="pilcrow">¶</a>
+</li>
+</ul>
 </section>
 </div>
 <div id="transport-parameters">
-<section id="section-7.3">
+<section id="section-7.4">
         <h3 id="name-transport-parameters">
-<a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-transport-parameters" class="section-name selfRef">Transport Parameters</a>
+<a href="#section-7.4" class="section-number selfRef">7.4. </a><a href="#name-transport-parameters" class="section-name selfRef">Transport Parameters</a>
         </h3>
-<p id="section-7.3-1">During connection establishment, both endpoints make authenticated declarations
+<p id="section-7.4-1">During connection establishment, both endpoints make authenticated declarations
 of their transport parameters.  Endpoints are required to comply with the
 restrictions implied by these parameters; the description of each parameter
-includes rules for its handling.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
-<p id="section-7.3-2">Transport parameters are declarations that are made unilaterally by each
+includes rules for its handling.<a href="#section-7.4-1" class="pilcrow">¶</a></p>
+<p id="section-7.4-2">Transport parameters are declarations that are made unilaterally by each
 endpoint.  Each endpoint can choose values for transport parameters independent
-of the values chosen by its peer.<a href="#section-7.3-2" class="pilcrow">¶</a></p>
-<p id="section-7.3-3">The encoding of the transport parameters is detailed in
-<a href="#transport-parameter-encoding" class="xref">Section 18</a>.<a href="#section-7.3-3" class="pilcrow">¶</a></p>
-<p id="section-7.3-4">QUIC includes the encoded transport parameters in the cryptographic handshake.
+of the values chosen by its peer.<a href="#section-7.4-2" class="pilcrow">¶</a></p>
+<p id="section-7.4-3">The encoding of the transport parameters is detailed in
+<a href="#transport-parameter-encoding" class="xref">Section 18</a>.<a href="#section-7.4-3" class="pilcrow">¶</a></p>
+<p id="section-7.4-4">QUIC includes the encoded transport parameters in the cryptographic handshake.
 Once the handshake completes, the transport parameters declared by the peer are
-available.  Each endpoint validates the value provided by its peer.<a href="#section-7.3-4" class="pilcrow">¶</a></p>
-<p id="section-7.3-5">Definitions for each of the defined transport parameters are included in
-<a href="#transport-parameter-definitions" class="xref">Section 18.2</a>.<a href="#section-7.3-5" class="pilcrow">¶</a></p>
-<p id="section-7.3-6">An endpoint MUST treat receipt of a transport parameter with an invalid value as
-a connection error of type TRANSPORT_PARAMETER_ERROR.<a href="#section-7.3-6" class="pilcrow">¶</a></p>
-<p id="section-7.3-7">An endpoint MUST NOT send a parameter more than once in a given transport
+available.  Each endpoint validates the value provided by its peer.<a href="#section-7.4-4" class="pilcrow">¶</a></p>
+<p id="section-7.4-5">Definitions for each of the defined transport parameters are included in
+<a href="#transport-parameter-definitions" class="xref">Section 18.2</a>.<a href="#section-7.4-5" class="pilcrow">¶</a></p>
+<p id="section-7.4-6">An endpoint MUST treat receipt of a transport parameter with an invalid value as
+a connection error of type TRANSPORT_PARAMETER_ERROR.<a href="#section-7.4-6" class="pilcrow">¶</a></p>
+<p id="section-7.4-7">An endpoint MUST NOT send a parameter more than once in a given transport
 parameters extension.  An endpoint SHOULD treat receipt of duplicate transport
-parameters as a connection error of type TRANSPORT_PARAMETER_ERROR.<a href="#section-7.3-7" class="pilcrow">¶</a></p>
-<p id="section-7.3-8">A server MUST include the original_connection_id transport parameter
+parameters as a connection error of type TRANSPORT_PARAMETER_ERROR.<a href="#section-7.4-7" class="pilcrow">¶</a></p>
+<p id="section-7.4-8">A server MUST include the original_connection_id transport parameter
 (<a href="#transport-parameter-definitions" class="xref">Section 18.2</a>) if it sent a Retry packet to enable
-validation of the Retry, as described in <a href="#packet-retry" class="xref">Section 17.2.5</a>.<a href="#section-7.3-8" class="pilcrow">¶</a></p>
+validation of the Retry, as described in <a href="#packet-retry" class="xref">Section 17.2.5</a>.<a href="#section-7.4-8" class="pilcrow">¶</a></p>
 <div id="zerortt-parameters">
-<section id="section-7.3.1">
+<section id="section-7.4.1">
           <h4 id="name-values-of-transport-paramet">
-<a href="#section-7.3.1" class="section-number selfRef">7.3.1. </a><a href="#name-values-of-transport-paramet" class="section-name selfRef">Values of Transport Parameters for 0-RTT</a>
+<a href="#section-7.4.1" class="section-number selfRef">7.4.1. </a><a href="#name-values-of-transport-paramet" class="section-name selfRef">Values of Transport Parameters for 0-RTT</a>
           </h4>
-<p id="section-7.3.1-1">Both endpoints store the value of the server transport parameters from
+<p id="section-7.4.1-1">Both endpoints store the value of the server transport parameters from
 a connection and apply them to any 0-RTT packets that are sent in
 subsequent connections to that peer, except for transport parameters that
 are explicitly excluded. Remembered transport parameters apply to the new
 connection until the handshake completes and the client starts sending
 1-RTT packets. Once the handshake completes, the client uses the transport
-parameters established in the handshake.<a href="#section-7.3.1-1" class="pilcrow">¶</a></p>
-<p id="section-7.3.1-2">The definition of new transport parameters (<a href="#new-transport-parameters" class="xref">Section 7.3.2</a>) MUST
+parameters established in the handshake.<a href="#section-7.4.1-1" class="pilcrow">¶</a></p>
+<p id="section-7.4.1-2">The definition of new transport parameters (<a href="#new-transport-parameters" class="xref">Section 7.4.2</a>) MUST
 specify whether they MUST, MAY, or MUST NOT be stored for 0-RTT. A client need
-not store a transport parameter it cannot process.<a href="#section-7.3.1-2" class="pilcrow">¶</a></p>
-<p id="section-7.3.1-3">A client MUST NOT use remembered values for the following parameters:
-original_connection_id, preferred_address, stateless_reset_token,
-ack_delay_exponent, active_connection_id_limit, and handshake_connection_id.
-The client MUST use the server's new values in the handshake instead, and
-absent new values from the server, the default value.<a href="#section-7.3.1-3" class="pilcrow">¶</a></p>
-<p id="section-7.3.1-4">A client that attempts to send 0-RTT data MUST remember all other transport
+not store a transport parameter it cannot process.<a href="#section-7.4.1-2" class="pilcrow">¶</a></p>
+<p id="section-7.4.1-3">A client MUST NOT use remembered values for the following parameters:
+ack_delay_exponent, handshake_connection_id, original_connection_id,
+preferred_address, retry_connection_id, and stateless_reset_token. The client
+MUST use the server's new values in the handshake instead and, absent new
+values from the server, the default value.<a href="#section-7.4.1-3" class="pilcrow">¶</a></p>
+<p id="section-7.4.1-4">A client that attempts to send 0-RTT data MUST remember all other transport
 parameters used by the server. The server can remember these transport
 parameters, or store an integrity-protected copy of the values in the ticket
 and recover the information when accepting 0-RTT data. A server uses the
-transport parameters in determining whether to accept 0-RTT data.<a href="#section-7.3.1-4" class="pilcrow">¶</a></p>
-<p id="section-7.3.1-5">If 0-RTT data is accepted by the server, the server MUST NOT reduce any
+transport parameters in determining whether to accept 0-RTT data.<a href="#section-7.4.1-4" class="pilcrow">¶</a></p>
+<p id="section-7.4.1-5">If 0-RTT data is accepted by the server, the server MUST NOT reduce any
 limits or alter any values that might be violated by the client with its
 0-RTT data.  In particular, a server that accepts 0-RTT data MUST NOT set
 values for the following parameters (<a href="#transport-parameter-definitions" class="xref">Section 18.2</a>)
-that are smaller than the remembered value of the parameters.<a href="#section-7.3.1-5" class="pilcrow">¶</a></p>
+that are smaller than the remembered value of the parameters.<a href="#section-7.4.1-5" class="pilcrow">¶</a></p>
 <ul>
-<li id="section-7.3.1-6.1">initial_max_data<a href="#section-7.3.1-6.1" class="pilcrow">¶</a>
+<li id="section-7.4.1-6.1">active_connection_id_limit<a href="#section-7.4.1-6.1" class="pilcrow">¶</a>
 </li>
-<li id="section-7.3.1-6.2">initial_max_stream_data_bidi_local<a href="#section-7.3.1-6.2" class="pilcrow">¶</a>
+<li id="section-7.4.1-6.2">initial_max_data<a href="#section-7.4.1-6.2" class="pilcrow">¶</a>
 </li>
-<li id="section-7.3.1-6.3">initial_max_stream_data_bidi_remote<a href="#section-7.3.1-6.3" class="pilcrow">¶</a>
+<li id="section-7.4.1-6.3">initial_max_stream_data_bidi_local<a href="#section-7.4.1-6.3" class="pilcrow">¶</a>
 </li>
-<li id="section-7.3.1-6.4">initial_max_stream_data_uni<a href="#section-7.3.1-6.4" class="pilcrow">¶</a>
+<li id="section-7.4.1-6.4">initial_max_stream_data_bidi_remote<a href="#section-7.4.1-6.4" class="pilcrow">¶</a>
 </li>
-<li id="section-7.3.1-6.5">initial_max_streams_bidi<a href="#section-7.3.1-6.5" class="pilcrow">¶</a>
+<li id="section-7.4.1-6.5">initial_max_stream_data_uni<a href="#section-7.4.1-6.5" class="pilcrow">¶</a>
 </li>
-<li id="section-7.3.1-6.6">initial_max_streams_uni<a href="#section-7.3.1-6.6" class="pilcrow">¶</a>
+<li id="section-7.4.1-6.6">initial_max_streams_bidi<a href="#section-7.4.1-6.6" class="pilcrow">¶</a>
+</li>
+<li id="section-7.4.1-6.7">initial_max_streams_uni<a href="#section-7.4.1-6.7" class="pilcrow">¶</a>
 </li>
 </ul>
-<p id="section-7.3.1-7">Omitting or setting a zero value for certain transport parameters can result in
+<p id="section-7.4.1-7">Omitting or setting a zero value for certain transport parameters can result in
 0-RTT data being enabled, but not usable.  The applicable subset of transport
 parameters that permit sending of application data SHOULD be set to non-zero
 values for 0-RTT.  This includes initial_max_data and either
 initial_max_streams_bidi and initial_max_stream_data_bidi_remote, or
-initial_max_streams_uni and initial_max_stream_data_uni.<a href="#section-7.3.1-7" class="pilcrow">¶</a></p>
-<p id="section-7.3.1-8">A server MUST either reject 0-RTT data or abort a handshake if the implied
-values for transport parameters cannot be supported.<a href="#section-7.3.1-8" class="pilcrow">¶</a></p>
-<p id="section-7.3.1-9">When sending frames in 0-RTT packets, a client MUST only use remembered
+initial_max_streams_uni and initial_max_stream_data_uni.<a href="#section-7.4.1-7" class="pilcrow">¶</a></p>
+<p id="section-7.4.1-8">A server MUST either reject 0-RTT data or abort a handshake if the implied
+values for transport parameters cannot be supported.<a href="#section-7.4.1-8" class="pilcrow">¶</a></p>
+<p id="section-7.4.1-9">When sending frames in 0-RTT packets, a client MUST only use remembered
 transport parameters; importantly, it MUST NOT use updated values that it learns
 from the server's updated transport parameters or from frames received in 1-RTT
 packets.  Updated values of transport parameters from the handshake apply only
 to 1-RTT packets.  For instance, flow control limits from remembered transport
 parameters apply to all 0-RTT packets even if those values are increased by the
 handshake or by frames sent in 1-RTT packets.  A server MAY treat use of updated
-transport parameters in 0-RTT as a connection error of type PROTOCOL_VIOLATION.<a href="#section-7.3.1-9" class="pilcrow">¶</a></p>
+transport parameters in 0-RTT as a connection error of type PROTOCOL_VIOLATION.<a href="#section-7.4.1-9" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="new-transport-parameters">
-<section id="section-7.3.2">
+<section id="section-7.4.2">
           <h4 id="name-new-transport-parameters">
-<a href="#section-7.3.2" class="section-number selfRef">7.3.2. </a><a href="#name-new-transport-parameters" class="section-name selfRef">New Transport Parameters</a>
+<a href="#section-7.4.2" class="section-number selfRef">7.4.2. </a><a href="#name-new-transport-parameters" class="section-name selfRef">New Transport Parameters</a>
           </h4>
-<p id="section-7.3.2-1">New transport parameters can be used to negotiate new protocol behavior.  An
+<p id="section-7.4.2-1">New transport parameters can be used to negotiate new protocol behavior.  An
 endpoint MUST ignore transport parameters that it does not support.  Absence of
 a transport parameter therefore disables any optional protocol feature that is
 negotiated using the parameter.  As described in <a href="#transport-parameter-grease" class="xref">Section 18.1</a>,
-some identifiers are reserved in order to exercise this requirement.<a href="#section-7.3.2-1" class="pilcrow">¶</a></p>
-<p id="section-7.3.2-2">New transport parameters can be registered according to the rules in
-<a href="#iana-transport-parameters" class="xref">Section 22.2</a>.<a href="#section-7.3.2-2" class="pilcrow">¶</a></p>
+some identifiers are reserved in order to exercise this requirement.<a href="#section-7.4.2-1" class="pilcrow">¶</a></p>
+<p id="section-7.4.2-2">New transport parameters can be registered according to the rules in
+<a href="#iana-transport-parameters" class="xref">Section 22.2</a>.<a href="#section-7.4.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="cryptographic-message-buffering">
-<section id="section-7.4">
+<section id="section-7.5">
         <h3 id="name-cryptographic-message-buffe">
-<a href="#section-7.4" class="section-number selfRef">7.4. </a><a href="#name-cryptographic-message-buffe" class="section-name selfRef">Cryptographic Message Buffering</a>
+<a href="#section-7.5" class="section-number selfRef">7.5. </a><a href="#name-cryptographic-message-buffe" class="section-name selfRef">Cryptographic Message Buffering</a>
         </h3>
-<p id="section-7.4-1">Implementations need to maintain a buffer of CRYPTO data received out of order.
+<p id="section-7.5-1">Implementations need to maintain a buffer of CRYPTO data received out of order.
 Because there is no flow control of CRYPTO frames, an endpoint could
-potentially force its peer to buffer an unbounded amount of data.<a href="#section-7.4-1" class="pilcrow">¶</a></p>
-<p id="section-7.4-2">Implementations MUST support buffering at least 4096 bytes of data received in
+potentially force its peer to buffer an unbounded amount of data.<a href="#section-7.5-1" class="pilcrow">¶</a></p>
+<p id="section-7.5-2">Implementations MUST support buffering at least 4096 bytes of data received in
 CRYPTO frames out of order. Endpoints MAY choose to allow more data to be
 buffered during the handshake. A larger limit during the handshake could allow
 for larger keys or credentials to be exchanged. An endpoint's buffer size does
-not need to remain constant during the life of the connection.<a href="#section-7.4-2" class="pilcrow">¶</a></p>
-<p id="section-7.4-3">Being unable to buffer CRYPTO frames during the handshake can lead to a
+not need to remain constant during the life of the connection.<a href="#section-7.5-2" class="pilcrow">¶</a></p>
+<p id="section-7.5-3">Being unable to buffer CRYPTO frames during the handshake can lead to a
 connection failure. If an endpoint's buffer is exceeded during the handshake, it
 can expand its buffer temporarily to complete the handshake. If an endpoint
 does not expand its buffer, it MUST close the connection with a
-CRYPTO_BUFFER_EXCEEDED error code.<a href="#section-7.4-3" class="pilcrow">¶</a></p>
-<p id="section-7.4-4">Once the handshake completes, if an endpoint is unable to buffer all data in a
+CRYPTO_BUFFER_EXCEEDED error code.<a href="#section-7.5-3" class="pilcrow">¶</a></p>
+<p id="section-7.5-4">Once the handshake completes, if an endpoint is unable to buffer all data in a
 CRYPTO frame, it MAY discard that CRYPTO frame and all CRYPTO frames received in
 the future, or it MAY close the connection with a CRYPTO_BUFFER_EXCEEDED error
 code. Packets containing discarded CRYPTO frames MUST be acknowledged because
 the packet has been received and processed by the transport even though the
-CRYPTO frame was discarded.<a href="#section-7.4-4" class="pilcrow">¶</a></p>
+CRYPTO frame was discarded.<a href="#section-7.5-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -3384,12 +3429,10 @@ connections to a different server instance.<a href="#section-8.1.2-3" class="pil
 invalid Retry token, it knows the client will not accept another Retry token.
 The server can discard such a packet and allow the client to time out to
 detect handshake failure, but that could impose a significant latency penalty on
-the client.  A server MAY proceed with the connection without verifying the
-token, though the server MUST NOT consider the client address validated.  If a
-server chooses not to proceed with the handshake, it SHOULD immediately close
-(<a href="#immediate-close" class="xref">Section 10.3</a>) the connection with an INVALID_TOKEN error.  Note that a
-server has not established any state for the connection at this point and so
-does not enter the closing period.<a href="#section-8.1.2-4" class="pilcrow">¶</a></p>
+the client.  Instead, the server SHOULD immediately close (<a href="#immediate-close" class="xref">Section 10.3</a>)
+the connection with an INVALID_TOKEN error.  Note that a server has not
+established any state for the connection at this point and so does not enter the
+closing period.<a href="#section-8.1.2-4" class="pilcrow">¶</a></p>
 <p id="section-8.1.2-5">A flow showing the use of a Retry packet is shown in <a href="#fig-retry" class="xref">Figure 5</a>.<a href="#section-8.1.2-5" class="pilcrow">¶</a></p>
 <span id="name-example-handshake-with-retr"></span><div id="fig-retry">
 <figure id="figure-5">
@@ -6288,12 +6331,14 @@ the cryptographic handshake message it sends in response to receiving a Retry.<a
 <p id="section-17.2.5-14">A client MUST NOT reset the packet number for any packet number space after
 processing a Retry packet; <a href="#packet-0rtt" class="xref">Section 17.2.3</a> contains more information on this.<a href="#section-17.2.5-14" class="pilcrow">¶</a></p>
 <p id="section-17.2.5-15">A server acknowledges the use of a Retry packet for a connection using the
-original_connection_id transport parameter (see
-<a href="#transport-parameter-definitions" class="xref">Section 18.2</a>).  If the server sends a Retry packet, it
+retry_connection_id transport parameter; see
+<a href="#transport-parameter-definitions" class="xref">Section 18.2</a>. If the server sends a Retry packet, it
 MUST include the Destination Connection ID field from the client's first
-Initial packet in the transport parameter.<a href="#section-17.2.5-15" class="pilcrow">¶</a></p>
+Initial packet in the original_connection_id transport parameter and include a
+retry_connection_id transport parameter that contains the value of the Source
+Connection ID field from the Retry packet.<a href="#section-17.2.5-15" class="pilcrow">¶</a></p>
 <p id="section-17.2.5-16">If the client received and processed a Retry packet, it MUST validate that the
-original_connection_id transport parameter is present and correct; otherwise, it
+retry_connection_id transport parameter is present and correct; otherwise, it
 MUST validate that the transport parameter is absent.  A client MUST treat a
 failed validation as a connection error of type TRANSPORT_PARAMETER_ERROR.<a href="#section-17.2.5-16" class="pilcrow">¶</a></p>
 <p id="section-17.2.5-17">A Retry packet does not include a packet number and cannot be explicitly
@@ -6526,9 +6571,8 @@ transport parameter is absent, unless otherwise stated.<a href="#section-18.2-2"
 <dd id="section-18.2-4.2">
   The value of the Destination Connection ID field from the first Initial packet
 sent by the client.  This transport parameter is only sent by a server.  This
-is the same value sent in the "Original Destination Connection ID" field of a
-Retry packet (see <a href="#packet-retry" class="xref">Section 17.2.5</a>).  A server MUST include the
-original_connection_id transport parameter if it sent a Retry packet.<a href="#section-18.2-4.2" class="pilcrow">¶</a>
+is the same value sent in the "Original Destination Connection ID" field that
+is used to construct a Retry packet (see <a href="#packet-retry" class="xref">Section 17.2.5</a>).<a href="#section-18.2-4.2" class="pilcrow">¶</a>
 </dd>
 <dt id="section-18.2-4.3">max_idle_timeout (0x01):</dt>
 <dd id="section-18.2-4.4">
@@ -6642,8 +6686,14 @@ of this transport parameter is shown in <a href="#fig-preferred-address" class="
 transport parameter is only sent by a server. Servers MAY choose to only send
 a preferred address of one address family by sending an all-zero address and
 port (0.0.0.0:0 or ::.0) for the other family. IP addresses are encoded in
-network byte order. The CID Length field contains the length of the
-Connection ID field.<a href="#section-18.2-4.28" class="pilcrow">¶</a>
+network byte order.<a href="#section-18.2-4.28" class="pilcrow">¶</a>
+</dd>
+<dt id="section-18.2-4.29"></dt>
+<dd id="section-18.2-4.30">The Connection ID field and the Stateless Reset Token field contain an
+alternative connection ID that has a sequence number of 1 (<a href="#issue-cid" class="xref">Section 5.1.1</a>).
+Having these values bundled with the preferred address ensures that there will
+be at least one unused active connection ID when the client initiates
+migration to the preferred address.<a href="#section-18.2-4.30" class="pilcrow">¶</a>
 </dd>
 </dl>
 <span id="name-preferred-address-format"></span><div id="fig-preferred-address">
@@ -6708,6 +6758,13 @@ was received in Initial packets. Authenticating this value ensures that an
 attacker is unable to influence the selection of connection IDs during the
 handshake.<a href="#section-18.2-6.4" class="pilcrow">¶</a>
 </dd>
+<dt id="section-18.2-6.5">retry_connection_id (0x10):</dt>
+<dd id="section-18.2-6.6">
+  The value that the the server included in the Source Connection ID field of a
+Retry packet.  This transport parameter is only sent by a server.  A server
+MUST include the retry_connection_id transport parameter if it sent a Retry
+packet.  This transport parameter MUST be absent if no Retry packet was sent.<a href="#section-18.2-6.6" class="pilcrow">¶</a>
+</dd>
 </dl>
 <p id="section-18.2-7">If present, transport parameters that set initial flow control limits
 (initial_max_stream_data_bidi_local, initial_max_stream_data_bidi_remote, and
@@ -6716,9 +6773,9 @@ initial_max_stream_data_uni) are equivalent to sending a MAX_STREAM_DATA frame
 immediately after opening.  If the transport parameter is absent, streams of
 that type start with a flow control limit of 0.<a href="#section-18.2-7" class="pilcrow">¶</a></p>
 <p id="section-18.2-8">A client MUST NOT include server-only transport parameters
-(original_connection_id, stateless_reset_token, or preferred_address).  A server
-MUST treat receipt of any of these transport parameters as a connection error of
-type TRANSPORT_PARAMETER_ERROR.<a href="#section-18.2-8" class="pilcrow">¶</a></p>
+(original_connection_id, preferred_address, retry_connection_id, and
+stateless_reset_token). A server MUST treat receipt of any of these transport
+parameters as a connection error of type TRANSPORT_PARAMETER_ERROR.<a href="#section-18.2-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -7327,7 +7384,7 @@ received offsets on all streams - including streams in terminal states - MUST
 NOT exceed the value advertised by a receiver.  An endpoint MUST terminate a
 connection with a FLOW_CONTROL_ERROR error if it receives more data than the
 maximum data value that it has sent, unless this is a result of a change in
-the initial limits (see <a href="#zerortt-parameters" class="xref">Section 7.3.1</a>).<a href="#section-19.9-6" class="pilcrow">¶</a></p>
+the initial limits (see <a href="#zerortt-parameters" class="xref">Section 7.4.1</a>).<a href="#section-19.9-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="frame-max-stream-data">
@@ -7383,7 +7440,7 @@ might not increase the largest received offset.<a href="#section-19.10-7" class=
 advertised by the receiver.  An endpoint MUST terminate a connection with a
 FLOW_CONTROL_ERROR error if it receives more data than the largest maximum
 stream data that it has sent for the affected stream, unless this is a result of
-a change in the initial limits (see <a href="#zerortt-parameters" class="xref">Section 7.3.1</a>).<a href="#section-19.10-8" class="pilcrow">¶</a></p>
+a change in the initial limits (see <a href="#zerortt-parameters" class="xref">Section 7.4.1</a>).<a href="#section-19.10-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="frame-max-streams">
@@ -8830,6 +8887,13 @@ this registry MUST include the following fields:<a href="#section-22.2-3" class=
                 <a href="#transport-parameter-definitions" class="xref">Section 18.2</a>
 </td>
             </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">0x10</td>
+              <td class="text-left" rowspan="1" colspan="1">retry_connection_id</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <a href="#transport-parameter-definitions" class="xref">Section 18.2</a>
+</td>
+            </tr>
           </tbody>
         </table>
 </div>
@@ -9031,16 +9095,16 @@ specification reference is provided.<a href="#section-22.4-4.4" class="pilcrow">
 <dl class="references">
 <dt id="DPLPMTUD">[DPLPMTUD]</dt>
 <dd>
-<span class="refAuthor">Fairhurst, G.</span><span class="refAuthor">, Jones, T.</span><span class="refAuthor">, Tuexen, M.</span><span class="refAuthor">, Ruengeler, I.</span><span class="refAuthor">, and T. Voelker</span>, <span class="refTitle">"Packetization Layer Path MTU Discovery for Datagram Transports"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-tsvwg-datagram-plpmtud-08</span>, <time datetime="2019-06-05">5 June 2019</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-tsvwg-datagram-plpmtud-08.txt">http://www.ietf.org/internet-drafts/draft-ietf-tsvwg-datagram-plpmtud-08.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Fairhurst, G.</span><span class="refAuthor">, Jones, T.</span><span class="refAuthor">, Tuexen, M.</span><span class="refAuthor">, Ruengeler, I.</span><span class="refAuthor">, and T. Voelker</span>, <span class="refTitle">"Packetization Layer Path MTU Discovery for Datagram Transports"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-tsvwg-datagram-plpmtud-16</span>, <time datetime="2020-03-09">9 March 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-tsvwg-datagram-plpmtud-16.txt">http://www.ietf.org/internet-drafts/draft-ietf-tsvwg-datagram-plpmtud-16.txt</a>&gt;</span>. </dd>
 <dt id="IPv4">[IPv4]</dt>
 <dd>
 <span class="refAuthor">Postel, J.</span>, <span class="refTitle">"Internet Protocol"</span>, <span class="seriesInfo">STD 5</span>, <span class="seriesInfo">RFC 791</span>, <span class="seriesInfo">DOI 10.17487/RFC0791</span>, <time datetime="1981-09">September 1981</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc791">https://www.rfc-editor.org/info/rfc791</a>&gt;</span>. </dd>
 <dt id="QUIC-RECOVERY">[QUIC-RECOVERY]</dt>
 <dd>
-<span class="refAuthor">Iyengar, J., Ed.</span><span class="refAuthor"> and I. Swett, Ed.</span>, <span class="refTitle">"QUIC Loss Detection and Congestion Control"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-recovery-latest</span>, <time datetime="2020-03-04">4 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-recovery-latest">https://tools.ietf.org/html/draft-ietf-quic-recovery-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Iyengar, J., Ed.</span><span class="refAuthor"> and I. Swett, Ed.</span>, <span class="refTitle">"QUIC Loss Detection and Congestion Control"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-recovery-latest</span>, <time datetime="2020-03-11">11 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-recovery-latest">https://tools.ietf.org/html/draft-ietf-quic-recovery-latest</a>&gt;</span>. </dd>
 <dt id="QUIC-TLS">[QUIC-TLS]</dt>
 <dd>
-<span class="refAuthor">Thomson, M., Ed.</span><span class="refAuthor"> and S. Turner, Ed.</span>, <span class="refTitle">"Using Transport Layer Security (TLS) to Secure QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-tls-latest</span>, <time datetime="2020-03-04">4 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-tls-latest">https://tools.ietf.org/html/draft-ietf-quic-tls-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Thomson, M., Ed.</span><span class="refAuthor"> and S. Turner, Ed.</span>, <span class="refTitle">"Using Transport Layer Security (TLS) to Secure QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-tls-latest</span>, <time datetime="2020-03-11">11 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-tls-latest">https://tools.ietf.org/html/draft-ietf-quic-tls-latest</a>&gt;</span>. </dd>
 <dt id="RFC1191">[RFC1191]</dt>
 <dd>
 <span class="refAuthor">Mogul, J.C.</span><span class="refAuthor"> and S.E. Deering</span>, <span class="refTitle">"Path MTU discovery"</span>, <span class="seriesInfo">RFC 1191</span>, <span class="seriesInfo">DOI 10.17487/RFC1191</span>, <time datetime="1990-11">November 1990</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc1191">https://www.rfc-editor.org/info/rfc1191</a>&gt;</span>. </dd>
@@ -9095,10 +9159,10 @@ specification reference is provided.<a href="#section-22.4-4.4" class="pilcrow">
 <span class="refAuthor">Belshe, M.</span><span class="refAuthor">, Peon, R.</span><span class="refAuthor">, and M. Thomson, Ed.</span>, <span class="refTitle">"Hypertext Transfer Protocol Version 2 (HTTP/2)"</span>, <span class="seriesInfo">RFC 7540</span>, <span class="seriesInfo">DOI 10.17487/RFC7540</span>, <time datetime="2015-05">May 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7540">https://www.rfc-editor.org/info/rfc7540</a>&gt;</span>. </dd>
 <dt id="QUIC-INVARIANTS">[QUIC-INVARIANTS]</dt>
 <dd>
-<span class="refAuthor">Thomson, M.</span>, <span class="refTitle">"Version-Independent Properties of QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-invariants-latest</span>, <time datetime="2020-03-04">4 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-invariants-latest">https://tools.ietf.org/html/draft-ietf-quic-invariants-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Thomson, M.</span>, <span class="refTitle">"Version-Independent Properties of QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-invariants-latest</span>, <time datetime="2020-03-11">11 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-invariants-latest">https://tools.ietf.org/html/draft-ietf-quic-invariants-latest</a>&gt;</span>. </dd>
 <dt id="QUIC-MANAGEABILITY">[QUIC-MANAGEABILITY]</dt>
 <dd>
-<span class="refAuthor">Kuehlewind, M.</span><span class="refAuthor"> and B. Trammell</span>, <span class="refTitle">"Manageability of the QUIC Transport Protocol"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-manageability-05</span>, <time datetime="2019-07-05">5 July 2019</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-quic-manageability-05.txt">http://www.ietf.org/internet-drafts/draft-ietf-quic-manageability-05.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Kuehlewind, M.</span><span class="refAuthor"> and B. Trammell</span>, <span class="refTitle">"Manageability of the QUIC Transport Protocol"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-manageability-06</span>, <time datetime="2020-01-06">6 January 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-quic-manageability-06.txt">http://www.ietf.org/internet-drafts/draft-ietf-quic-manageability-06.txt</a>&gt;</span>. </dd>
 <dt id="RFC1812">[RFC1812]</dt>
 <dd>
 <span class="refAuthor">Baker, F., Ed.</span>, <span class="refTitle">"Requirements for IP Version 4 Routers"</span>, <span class="seriesInfo">RFC 1812</span>, <span class="seriesInfo">DOI 10.17487/RFC1812</span>, <time datetime="1995-06">June 1995</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc1812">https://www.rfc-editor.org/info/rfc1812</a>&gt;</span>. </dd>
