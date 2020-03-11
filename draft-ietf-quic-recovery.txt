@@ -90,11 +90,11 @@ Table of Contents
        5.1.2.  Time Threshold  . . . . . . . . . . . . . . . . . . .  11
      5.2.  Probe Timeout . . . . . . . . . . . . . . . . . . . . . .  12
        5.2.1.  Computing PTO . . . . . . . . . . . . . . . . . . . .  12
-     5.3.  Handshakes and New Paths  . . . . . . . . . . . . . . . .  13
-       5.3.1.  Sending Probe Packets . . . . . . . . . . . . . . . .  14
-       5.3.2.  Loss Detection  . . . . . . . . . . . . . . . . . . .  15
-     5.4.  Handling Retry Packets  . . . . . . . . . . . . . . . . .  16
-     5.5.  Discarding Keys and Packet State  . . . . . . . . . . . .  16
+       5.2.2.  Handshakes and New Paths  . . . . . . . . . . . . . .  13
+       5.2.3.  Sending Probe Packets . . . . . . . . . . . . . . . .  14
+       5.2.4.  Loss Detection  . . . . . . . . . . . . . . . . . . .  15
+     5.3.  Handling Retry Packets  . . . . . . . . . . . . . . . . .  16
+     5.4.  Discarding Keys and Packet State  . . . . . . . . . . . .  16
    6.  Congestion Control  . . . . . . . . . . . . . . . . . . . . .  16
      6.1.  Explicit Congestion Notification  . . . . . . . . . . . .  17
      6.2.  Initial and Minimum Congestion Window . . . . . . . . . .  17
@@ -706,7 +706,7 @@ Internet-Draft             QUIC Loss Detection                March 2020
    is expected to both expire earlier than the PTO and be less likely to
    spuriously retransmit data.
 
-5.3.  Handshakes and New Paths
+5.2.2.  Handshakes and New Paths
 
    The initial probe timeout for a new connection or new path SHOULD be
    set to twice the initial RTT.  Resumed connections over the same
@@ -752,12 +752,13 @@ Internet-Draft             QUIC Loss Detection                March 2020
 
    Initial packets and Handshake packets could be never acknowledged,
    but they are removed from bytes in flight when the Initial and
-   Handshake keys are discarded.  When Initial or Handshake keys are
-   discarded, the PTO and loss detection timers MUST be reset, because
-   discarding keys indicates forward progress and the loss detection
-   timer may have been set for a now discarded packet number space.
+   Handshake keys are discarded, as described below in
+   Section Section 5.4.  When Initial or Handshake keys are discarded,
+   the PTO and loss detection timers MUST be reset, because discarding
+   keys indicates forward progress and the loss detection timer might
+   have been set for a now discarded packet number space.
 
-5.3.1.  Sending Probe Packets
+5.2.3.  Sending Probe Packets
 
    When a PTO timer expires, a sender MUST send at least one ack-
    eliciting packet in the packet number space as a probe, unless there
@@ -777,7 +778,6 @@ Internet-Draft             QUIC Loss Detection                March 2020
    It is possible the sender has no new or previously-sent data to send.
    As an example, consider the following sequence of events: new
    application data is sent in a STREAM frame, deemed lost, then
-   retransmitted in a new packet, and then the original transmission is
 
 
 
@@ -786,6 +786,7 @@ Iyengar & Swett         Expires 12 September 2020              [Page 14]
 Internet-Draft             QUIC Loss Detection                March 2020
 
 
+   retransmitted in a new packet, and then the original transmission is
    acknowledged.  When there is no data to send, the sender SHOULD send
    a PING or other ack-eliciting frame in a single packet, re-arming the
    PTO timer.
@@ -818,7 +819,7 @@ Internet-Draft             QUIC Loss Detection                March 2020
    Sending different payloads each time reduces the chances of spurious
    retransmission.
 
-5.3.2.  Loss Detection
+5.2.4.  Loss Detection
 
    Delivery or loss of packets in flight is established when an ACK
    frame is received that newly acknowledges one or more packets.
@@ -836,13 +837,12 @@ Internet-Draft             QUIC Loss Detection                March 2020
 
 
 
-
 Iyengar & Swett         Expires 12 September 2020              [Page 15]
 
 Internet-Draft             QUIC Loss Detection                March 2020
 
 
-5.4.  Handling Retry Packets
+5.3.  Handling Retry Packets
 
    A Retry packet causes a client to send another Initial packet,
    effectively restarting the connection process.  A Retry packet
@@ -860,7 +860,7 @@ Internet-Draft             QUIC Loss Detection                March 2020
    Version Negotiation packet is received.  The client MAY use this
    value in place of its default for the initial RTT estimate.
 
-5.5.  Discarding Keys and Packet State
+5.4.  Discarding Keys and Packet State
 
    When packet protection keys are discarded (see Section 4.10 of
    [QUIC-TLS]), all packets that were sent with those keys can no longer
