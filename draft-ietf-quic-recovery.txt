@@ -1194,7 +1194,7 @@ Internet-Draft             QUIC Loss Detection                March 2020
 
 8.  IANA Considerations
 
-   This document has no IANA actions.  Yet.
+   This document has no IANA actions.
 
 9.  References
 
