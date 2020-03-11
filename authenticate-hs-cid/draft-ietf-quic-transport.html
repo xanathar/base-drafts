@@ -3162,7 +3162,7 @@ lifetime of a connection, especially in response to connection migration
 (<a href="#migration" class="xref">Section 9</a>); see <a href="#issue-cid" class="xref">Section 5.1.1</a> for details.<a href="#section-7.2-8" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="authenticating-connection-ids">
+<div id="cid-auth">
 <section id="section-7.3">
         <h3 id="name-authenticating-connection-i">
 <a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-authenticating-connection-i" class="section-name selfRef">Authenticating Connection IDs</a>
@@ -6576,9 +6576,10 @@ transport parameter is absent, unless otherwise stated.<a href="#section-18.2-2"
           <dt id="section-18.2-4.1">original_connection_id (0x00):</dt>
 <dd id="section-18.2-4.2">
   The value of the Destination Connection ID field from the first Initial packet
-sent by the client.  This transport parameter is only sent by a server.  This
-is the same value sent in the Original Destination Connection ID field that is
-used to construct a Retry packet (see <a href="#packet-retry" class="xref">Section 17.2.5</a>).<a href="#section-18.2-4.2" class="pilcrow">¶</a>
+sent by the client; see <a href="#cid-auth" class="xref">Section 7.3</a>.  This transport parameter is only sent
+by a server.  This is the same value sent in the Original Destination
+Connection ID field that is used to construct a Retry packet (see
+<a href="#packet-retry" class="xref">Section 17.2.5</a>).<a href="#section-18.2-4.2" class="pilcrow">¶</a>
 </dd>
 <dt id="section-18.2-4.3">max_idle_timeout (0x01):</dt>
 <dd id="section-18.2-4.4">
@@ -6758,18 +6759,13 @@ parameter MUST NOT be sent.<a href="#section-18.2-6.2" class="pilcrow">¶</a>
 <dt id="section-18.2-6.3">handshake_connection_id (0x0f):</dt>
 <dd id="section-18.2-6.4">
   The value that the endpoint included in the Source Connection ID field of the
-first Initial packet it sends during the handshake. Endpoints MUST validate
-that this transport parameter is present and that it matches the value that
-was received in Initial packets. Authenticating this value ensures that an
-attacker is unable to influence the selection of connection IDs during the
-handshake.<a href="#section-18.2-6.4" class="pilcrow">¶</a>
+first Initial packet it sends during the handshake; see <a href="#cid-auth" class="xref">Section 7.3</a>.<a href="#section-18.2-6.4" class="pilcrow">¶</a>
 </dd>
 <dt id="section-18.2-6.5">retry_connection_id (0x10):</dt>
 <dd id="section-18.2-6.6">
   The value that the the server included in the Source Connection ID field of a
-Retry packet.  This transport parameter is only sent by a server.  A server
-MUST include the retry_connection_id transport parameter if it sent a Retry
-packet.  This transport parameter MUST be absent if no Retry packet was sent.<a href="#section-18.2-6.6" class="pilcrow">¶</a>
+Retry packet; see <a href="#cid-auth" class="xref">Section 7.3</a>.  This transport parameter is only sent by a
+server.<a href="#section-18.2-6.6" class="pilcrow">¶</a>
 </dd>
 </dl>
 <p id="section-18.2-7">If present, transport parameters that set initial flow control limits

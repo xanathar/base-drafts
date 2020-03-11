@@ -6003,9 +6003,9 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
    original_connection_id (0x00):  The value of the Destination
       Connection ID field from the first Initial packet sent by the
-      client.  This transport parameter is only sent by a server.  This
-      is the same value sent in the Original Destination Connection ID
-      field that is used to construct a Retry packet (see
+      client; see Section 7.3.  This transport parameter is only sent by
+      a server.  This is the same value sent in the Original Destination
+      Connection ID field that is used to construct a Retry packet (see
       Section 17.2.5).
 
    max_idle_timeout (0x01):  The max idle timeout is a value in
@@ -6208,8 +6208,8 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
    handshake_connection_id (0x0f):  The value that the endpoint included
       in the Source Connection ID field of the first Initial packet it
-      sends during the handshake.  Endpoints MUST validate that this
-      transport parameter is present and that it matches the value that
+      sends during the handshake; see Section 7.3.
+
 
 
 
@@ -6218,16 +6218,9 @@ Iyengar & Thomson       Expires 12 September 2020             [Page 111]
 Internet-Draft           QUIC Transport Protocol              March 2020
 
 
-      was received in Initial packets.  Authenticating this value
-      ensures that an attacker is unable to influence the selection of
-      connection IDs during the handshake.
-
    retry_connection_id (0x10):  The value that the the server included
-      in the Source Connection ID field of a Retry packet.  This
-      transport parameter is only sent by a server.  A server MUST
-      include the retry_connection_id transport parameter if it sent a
-      Retry packet.  This transport parameter MUST be absent if no Retry
-      packet was sent.
+      in the Source Connection ID field of a Retry packet; see
+      Section 7.3.  This transport parameter is only sent by a server.
 
    If present, transport parameters that set initial flow control limits
    (initial_max_stream_data_bidi_local,
@@ -6265,15 +6258,6 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    are still alive or to check reachability to the peer.  The PING frame
    contains no additional fields.
 
-
-
-
-
-Iyengar & Thomson       Expires 12 September 2020             [Page 112]
-
-Internet-Draft           QUIC Transport Protocol              March 2020
-
-
    The receiver of a PING frame simply needs to acknowledge the packet
    containing this frame.
 
@@ -6282,6 +6266,14 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    from timing out.  An application protocol SHOULD provide guidance
    about the conditions under which generating a PING is recommended.
    This guidance SHOULD indicate whether it is the client or the server
+
+
+
+Iyengar & Thomson       Expires 12 September 2020             [Page 112]
+
+Internet-Draft           QUIC Transport Protocol              March 2020
+
+
    that is expected to send the PING.  Having both endpoints send PING
    frames without coordination can produce an excessive number of
    packets and poor performance.
@@ -6321,6 +6313,14 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    packet sent by the client.
 
    An ACK frame is shown in Figure 19.
+
+
+
+
+
+
+
+
 
 
 
