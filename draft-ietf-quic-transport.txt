@@ -432,8 +432,9 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
    Out-of-order packet:  A packet that does not increase the largest
       received packet number for its packet number space (Section 12.3)
-      by exactly one.  A packet can arrive out of order if it is delayed
-      or if earlier packets are lost or delayed.
+      by exactly one.  A packet can arrive out of order if it is
+      delayed, if earlier packets are lost or delayed, or if the sender
+      intentionally skips a packet number.
 
    Endpoint:  An entity that can participate in a QUIC connection by
       generating, receiving, and processing QUIC packets.  There are
@@ -441,7 +442,6 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
    Client:  The endpoint initiating a QUIC connection.
 
-   Server:  The endpoint accepting incoming QUIC connections.
 
 
 
@@ -449,6 +449,8 @@ Iyengar & Thomson       Expires 12 September 2020               [Page 8]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
+
+   Server:  The endpoint accepting incoming QUIC connections.
 
    Address:  When used without qualification, the tuple of IP version,
       IP address, UDP protocol, and UDP port number that represents one
@@ -495,8 +497,6 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    for, and close a stream.  Streams can also be long-lived and can last
    the entire duration of a connection.
 
-   Streams can be created by either endpoint, can concurrently send data
-   interleaved with other streams, and can be cancelled.  QUIC does not
 
 
 
@@ -506,6 +506,8 @@ Iyengar & Thomson       Expires 12 September 2020               [Page 9]
 Internet-Draft           QUIC Transport Protocol              March 2020
 
 
+   Streams can be created by either endpoint, can concurrently send data
+   interleaved with other streams, and can be cancelled.  QUIC does not
    provide any means of ensuring ordering between bytes on different
    streams.
 
@@ -552,8 +554,6 @@ Internet-Draft           QUIC Transport Protocol              March 2020
                 +------+----------------------------------+
 
                           Table 1: Stream ID Types
-
-
 
 
 

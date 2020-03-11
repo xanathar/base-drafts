@@ -1773,7 +1773,8 @@ CONNECTION_CLOSE. These cause a recipient to send an acknowledgment (see
 <dd id="section-1.2-3.8">
   A packet that does not increase the largest received packet number for its
 packet number space (<a href="#packet-numbers" class="xref">Section 12.3</a>) by exactly one. A packet can arrive
-out of order if it is delayed or if earlier packets are lost or delayed.<a href="#section-1.2-3.8" class="pilcrow">¶</a>
+out of order if it is delayed, if earlier packets are lost or delayed, or if
+the sender intentionally skips a packet number.<a href="#section-1.2-3.8" class="pilcrow">¶</a>
 </dd>
 <dt id="section-1.2-3.9">Endpoint:</dt>
 <dd id="section-1.2-3.10">
