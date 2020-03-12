@@ -1802,12 +1802,12 @@ included in an HTTP/1.1 status line.<a href="#section-4.1.1.1-10" class="pilcrow
 <p id="section-4.1.1.2-1">HTTP/3 uses QPACK field compression as described in <span>[<a href="#QPACK" class="xref">QPACK</a>]</span>, a variation of
 HPACK which allows the flexibility to avoid compression-induced head-of-line
 blocking.  See that document for additional details.<a href="#section-4.1.1.2-1" class="pilcrow">¶</a></p>
-<p id="section-4.1.1.2-2">To allow for better compression efficiency, the "Cookie" field <span>[<a href="#RFC6265" class="xref">RFC6265</a>]</span>
-MAY be split into separate field lines, each with one or more cookie-pairs,
-before compression. If a decompressed field list contains multiple cookie
-header fields, these MUST be concatenated into a single octet string using the
-two-octet delimiter of 0x3B, 0x20 (the ASCII string "; ") before being passed
-into a context other than HTTP/2 or HTTP/3, such as an HTTP/1.1 connection, or a
+<p id="section-4.1.1.2-2">To allow for better compression efficiency, the "Cookie" field <span>[<a href="#RFC6265" class="xref">RFC6265</a>]</span> MAY
+be split into separate field lines, each with one or more cookie-pairs, before
+compression. If a decompressed field list contains multiple cookie field lines,
+these MUST be concatenated into a single octet string using the two-octet
+delimiter of 0x3B, 0x20 (the ASCII string "; ") before being passed into a
+context other than HTTP/2 or HTTP/3, such as an HTTP/1.1 connection, or a
 generic HTTP server application.<a href="#section-4.1.1.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -2564,7 +2564,7 @@ using QPACK. See <span>[<a href="#QPACK" class="xref">QPACK</a>]</span> for more
  0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|                       Header Block (*)                      ...
+|                        Field Block (*)                      ...
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 </pre>
 </div>
@@ -2773,7 +2773,7 @@ field set from server to client on a request stream, as in HTTP/2.<a href="#sect
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |                          Push ID (i)                        ...
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|                       Header Block (*)                      ...
+|                        Field Block (*)                      ...
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 </pre>
 </div>
