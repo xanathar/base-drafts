@@ -4107,32 +4107,31 @@ source address.<a href="#section-10.1-9" class="pilcrow">¶</a></p>
         <h3 id="name-idle-timeout">
 <a href="#section-10.2" class="section-number selfRef">10.2. </a><a href="#name-idle-timeout" class="section-name selfRef">Idle Timeout</a>
         </h3>
-<p id="section-10.2-1">If the idle timeout is enabled by either peer, a connection is silently closed
+<p id="section-10.2-1">If a max_idle_timeout is specified by either peer in its transport parameters
+(<a href="#transport-parameter-definitions" class="xref">Section 18.2</a>), the connection is silently closed
 and its state is discarded when it remains idle for longer than the minimum of
-the max_idle_timeouts (see <a href="#transport-parameter-definitions" class="xref">Section 18.2</a>) and three times
-the current Probe Timeout (PTO).<a href="#section-10.2-1" class="pilcrow">¶</a></p>
+both peers max_idle_timeout values and three times the current Probe Timeout
+(PTO).<a href="#section-10.2-1" class="pilcrow">¶</a></p>
 <p id="section-10.2-2">Each endpoint advertises a max_idle_timeout, but the effective value
 at an endpoint is computed as the minimum of the two advertised values. By
 announcing a max_idle_timeout, an endpoint commits to initiating an immediate
 close (<a href="#immediate-close" class="xref">Section 10.3</a>) if it abandons the connection prior to the effective
 value.<a href="#section-10.2-2" class="pilcrow">¶</a></p>
-<p id="section-10.2-3">An endpoint restarts its idle timer when a packet from its peer is received
-and processed successfully.  The idle timer is also restarted when sending the
-first ack-eliciting packet (see <span>[<a href="#QUIC-RECOVERY" class="xref">QUIC-RECOVERY</a>]</span>) after receiving a packet.
-Restarting when sending packets ensures that connections do not prematurely time
-out when initiating new activity.  Only restarting when sending after receipt of
-a packet ensures the idle timeout is not excessively lengthened past the time
-the peer's timeout has expired.  An endpoint might need to send packets to avoid
-an idle timeout if it is unable to send application data due to being blocked on
-flow control limits; see <a href="#flow-control" class="xref">Section 4</a>.<a href="#section-10.2-3" class="pilcrow">¶</a></p>
-<p id="section-10.2-4">An endpoint that sends packets near the end of the idle timeout period
-risks having those packets discarded if its peer enters the draining state
-before the packets arrive.  If a peer could time out within a Probe Timeout
-(PTO; see Section 6.6 of <span>[<a href="#QUIC-RECOVERY" class="xref">QUIC-RECOVERY</a>]</span>), it is advisable to probe the path
-with an ack-eliciting packet to ensure the connection is still responsive
-before sending any data that cannot be retried safely.  Note that it is
-likely that only applications or application protocols will know what
-information can be retried.<a href="#section-10.2-4" class="pilcrow">¶</a></p>
+<p id="section-10.2-3">An endpoint restarts its idle timer when a packet from its peer is received and
+processed successfully. An endpoint also restarts its idle timer when sending an
+ack-eliciting packet if no other ack-eliciting packets have been sent since last
+receiving and processing a packet. Restarting this timer when sending a packet
+ensures that connections are not closed after new activity is initiated.<a href="#section-10.2-3" class="pilcrow">¶</a></p>
+<p id="section-10.2-4">An endpoint might need to send ack-eliciting packets to avoid an idle timeout
+if it is expecting response data, but does not have or is unable to send
+application data.<a href="#section-10.2-4" class="pilcrow">¶</a></p>
+<p id="section-10.2-5">An endpoint that sends packets close to the effective timeout risks having
+them be discarded at the peer, since the peer might enter its draining state
+before these packets arrive. An endpoint can send a PING or another
+ack-eliciting frame to test the connection for liveness if the peer could
+time out soon, such as within a PTO; see Section 6.6 of <span>[<a href="#QUIC-RECOVERY" class="xref">QUIC-RECOVERY</a>]</span>.
+This is especially useful if any available application data cannot be safely
+retried. Note that the application determines what data is safe to retry.<a href="#section-10.2-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="immediate-close">
