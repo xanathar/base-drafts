@@ -3269,8 +3269,9 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    idle timer when sending an ack-eliciting packet if no other ack-
    eliciting packets have been sent since last receiving and processing
    a packet.  Restarting this timer when sending a packet ensures that
-   connections are not closed after new activity is initiated.  An
-   endpoint might need to send ack-eliciting packets to avoid an idle
+   connections are not closed after new activity is initiated.
+
+   An endpoint might need to send ack-eliciting packets to avoid an idle
    timeout if it is expecting response data, but does not have or is
    unable to send application data.
 
@@ -3278,8 +3279,8 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    having them be discarded at the peer, since the peer might enter its
    draining state before these packets arrive.  An endpoint can send a
    PING or another ack-eliciting frame to test the connection for
-   liveness if the peer could time out soon, such as within a PTO (see
-   Section 6.6 of [QUIC-RECOVERY]).  This is especially useful if any
+   liveness if the peer could time out soon, such as within a PTO; see
+   Section 6.6 of [QUIC-RECOVERY].  This is especially useful if any
    available application data cannot be safely retried.  Note that the
    application determines what data is safe to retry.
 
@@ -3297,7 +3298,6 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    frame SHOULD respond to any incoming packet that can be decrypted
    with another packet containing a CONNECTION_CLOSE frame.  Such an
    endpoint SHOULD limit the number of packets it generates containing a
-   CONNECTION_CLOSE frame.  For instance, an endpoint could wait for a
 
 
 
@@ -3306,6 +3306,7 @@ Iyengar & Thomson       Expires 13 September 2020              [Page 59]
 Internet-Draft           QUIC Transport Protocol              March 2020
 
 
+   CONNECTION_CLOSE frame.  For instance, an endpoint could wait for a
    progressively increasing number of received packets or amount of time
    before responding to a received packet.
 
@@ -3349,7 +3350,6 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    requests that the connection be closed.  The application protocol can
    use a CONNECTION_CLOSE frame with an appropriate error code to signal
    closure.
-
 
 
 
