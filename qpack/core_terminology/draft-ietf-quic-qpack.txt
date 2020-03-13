@@ -509,7 +509,7 @@ Internet-Draft                    QPACK                       March 2020
 2.2.2.1.  Completed Processing of a Field Block
 
    After the decoder finishes decoding a field block containing dynamic
-   table references, it MUST emit a Entry Acknowledgement instruction
+   table references, it MUST emit an Entry Acknowledgement instruction
    (Section 4.4.1).  A stream may carry multiple field blocks in the
    case of intermediate responses, trailers, and pushed requests.  The
    encoder interprets each Entry Acknowledgement instruction as
@@ -1033,7 +1033,7 @@ Internet-Draft                    QPACK                       March 2020
 4.4.1.  Entry Acknowledgement
 
    After processing a field block whose declared Required Insert Count
-   is not zero, the decoder emits a Entry Acknowledgement instruction.
+   is not zero, the decoder emits an Entry Acknowledgement instruction.
    The instruction begins with the '1' one-bit pattern which is followed
    by the field block's associated stream ID encoded as a 7-bit prefix
    integer; see Section 4.1.1.
@@ -1048,7 +1048,7 @@ Internet-Draft                    QPACK                       March 2020
 
                       Figure 9: Entry Acknowledgement
 
-   If an encoder receives a Entry Acknowledgement instruction referring
+   If an encoder receives an Entry Acknowledgement instruction referring
    to a stream on which every field block with a non-zero Required
    Insert Count has already been acknowledged, that MUST be treated as a
    connection error of type QPACK_DECODER_STREAM_ERROR.
