@@ -4,8 +4,8 @@
 
 QUIC                                                          M. Thomson
 Internet-Draft                                                   Mozilla
-Intended status: Standards Track                           13 March 2020
-Expires: 14 September 2020
+Intended status: Standards Track                           16 March 2020
+Expires: 17 September 2020
 
 
                  Version-Independent Properties of QUIC
@@ -45,7 +45,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 September 2020.
+   This Internet-Draft will expire on 17 September 2020.
 
 
 
@@ -53,7 +53,7 @@ Status of This Memo
 
 
 
-Thomson                 Expires 14 September 2020               [Page 1]
+Thomson                 Expires 17 September 2020               [Page 1]
 
 Internet-Draft               QUIC Invariants                  March 2020
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Thomson                 Expires 14 September 2020               [Page 2]
+Thomson                 Expires 17 September 2020               [Page 2]
 
 Internet-Draft               QUIC Invariants                  March 2020
 
@@ -165,7 +165,7 @@ Internet-Draft               QUIC Invariants                  March 2020
 
 
 
-Thomson                 Expires 14 September 2020               [Page 3]
+Thomson                 Expires 17 September 2020               [Page 3]
 
 Internet-Draft               QUIC Invariants                  March 2020
 
@@ -221,7 +221,7 @@ Internet-Draft               QUIC Invariants                  March 2020
 
 
 
-Thomson                 Expires 14 September 2020               [Page 4]
+Thomson                 Expires 17 September 2020               [Page 4]
 
 Internet-Draft               QUIC Invariants                  March 2020
 
@@ -277,7 +277,7 @@ Internet-Draft               QUIC Invariants                  March 2020
 
 
 
-Thomson                 Expires 14 September 2020               [Page 5]
+Thomson                 Expires 17 September 2020               [Page 5]
 
 Internet-Draft               QUIC Invariants                  March 2020
 
@@ -333,7 +333,7 @@ Internet-Draft               QUIC Invariants                  March 2020
 
 
 
-Thomson                 Expires 14 September 2020               [Page 6]
+Thomson                 Expires 17 September 2020               [Page 6]
 
 Internet-Draft               QUIC Invariants                  March 2020
 
@@ -389,7 +389,7 @@ Internet-Draft               QUIC Invariants                  March 2020
 
 
 
-Thomson                 Expires 14 September 2020               [Page 7]
+Thomson                 Expires 17 September 2020               [Page 7]
 
 Internet-Draft               QUIC Invariants                  March 2020
 
@@ -399,7 +399,7 @@ Internet-Draft               QUIC Invariants                  March 2020
    [QUIC-TRANSPORT]
               Iyengar, J., Ed. and M. Thomson, Ed., "QUIC: A UDP-Based
               Multiplexed and Secure Transport", Work in Progress,
-              Internet-Draft, draft-ietf-quic-transport-latest, 13 March
+              Internet-Draft, draft-ietf-quic-transport-latest, 16 March
               2020, <https://tools.ietf.org/html/draft-ietf-quic-
               transport-latest>.
 
@@ -416,7 +416,7 @@ Internet-Draft               QUIC Invariants                  March 2020
 
    [QUIC-TLS] Thomson, M., Ed. and S. Turner, Ed., "Using Transport
               Layer Security (TLS) to Secure QUIC", Work in Progress,
-              Internet-Draft, draft-ietf-quic-tls-latest, 13 March 2020,
+              Internet-Draft, draft-ietf-quic-tls-latest, 16 March 2020,
               <https://tools.ietf.org/html/draft-ietf-quic-tls-latest>.
 
    [RFC5116]  McGrew, D., "An Interface and Algorithms for Authenticated
@@ -445,7 +445,7 @@ Appendix A.  Incorrect Assumptions
 
 
 
-Thomson                 Expires 14 September 2020               [Page 8]
+Thomson                 Expires 17 September 2020               [Page 8]
 
 Internet-Draft               QUIC Invariants                  March 2020
 
@@ -501,4 +501,4 @@ Author's Address
 
 
 
-Thomson                 Expires 14 September 2020               [Page 9]
+Thomson                 Expires 17 September 2020               [Page 9]
