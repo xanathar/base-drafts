@@ -831,7 +831,7 @@ table.left {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Iyengar &amp; Thomson</td>
-<td class="center">Expires 17 September 2020</td>
+<td class="center">Expires 18 September 2020</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -844,12 +844,12 @@ table.left {
 <dd class="internet-draft">draft-ietf-quic-transport-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2020-03-16" class="published">16 March 2020</time>
+<time datetime="2020-03-17" class="published">17 March 2020</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2020-09-17">17 September 2020</time></dd>
+<dd class="expires"><time datetime="2020-09-18">18 September 2020</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -902,7 +902,7 @@ code and issues list for this draft can be found at
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 17 September 2020.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 18 September 2020.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -3354,7 +3354,7 @@ controller.  Clients are only constrained by the congestion controller.<a href="
 <a href="#section-8.1.1" class="section-number selfRef">8.1.1. </a><a href="#name-token-construction" class="section-name selfRef">Token Construction</a>
           </h4>
 <p id="section-8.1.1-1">A token sent in a NEW_TOKEN frames or a Retry packet MUST be constructed in a
-way that allows the server to identity how it was provided to a client.  These
+way that allows the server to identify how it was provided to a client.  These
 tokens are carried in the same field, but require different handling from
 servers.<a href="#section-8.1.1-1" class="pilcrow">¶</a></p>
 </section>
@@ -3437,7 +3437,7 @@ be either an explicit expiration time or an issued timestamp that can be
 used to dynamically calculate the expiration time.  A server can store the
 expiration time or include it in an encrypted form in the token.<a href="#section-8.1.3-3" class="pilcrow">¶</a></p>
 <p id="section-8.1.3-4">A token issued with NEW_TOKEN MUST NOT include information that would allow
-values to be linked by an on-path observer to the connection on which it was
+values to be linked by an observer to the connection on which it was
 issued, unless the values are encrypted.  For example, it cannot include the
 previous connection ID or addressing information.  A server MUST ensure that
 every NEW_TOKEN frame it sends is unique across all clients, with the exception
@@ -5012,7 +5012,10 @@ a max_ack_delay of 0 is used. The sender uses the receiver's <code>max_ack_delay
 value in determining timeouts for timer-based retransmission, as detailed in
 Section 5.2.1 of <span>[<a href="#QUIC-RECOVERY" class="xref">QUIC-RECOVERY</a>]</span>.<a href="#section-13.2.1-1" class="pilcrow">¶</a></p>
 <p id="section-13.2.1-2">An ACK frame SHOULD be generated for at least every second ack-eliciting packet.
-This recommendation is in keeping with standard practice for TCP <span>[<a href="#RFC5681" class="xref">RFC5681</a>]</span>.<a href="#section-13.2.1-2" class="pilcrow">¶</a></p>
+This recommendation is in keeping with standard practice for TCP <span>[<a href="#RFC5681" class="xref">RFC5681</a>]</span>.
+A receiver could decide to send an ACK frame less frequently if it has
+information about how frequently the sender's congestion controller
+needs feedback, or if the receiver is CPU or bandwidth constrained.<a href="#section-13.2.1-2" class="pilcrow">¶</a></p>
 <p id="section-13.2.1-3">In order to assist loss detection at the sender, an endpoint SHOULD send an ACK
 frame immediately on receiving an ack-eliciting packet that is out of order. The
 endpoint MAY continue sending ACK frames immediately on each subsequently
@@ -7228,8 +7231,9 @@ final size of the stream.  Setting this bit indicates that the frame
 marks the end of the stream.<a href="#section-19.8-2.3" class="pilcrow">¶</a>
 </li>
 </ul>
-<p id="section-19.8-3">An endpoint that receives a STREAM frame for a send-only stream MUST terminate
-the connection with error STREAM_STATE_ERROR.<a href="#section-19.8-3" class="pilcrow">¶</a></p>
+<p id="section-19.8-3">An endpoint MUST terminate the connection with error STREAM_STATE_ERROR if it
+receives a STREAM frame for a locally-initiated stream that has not yet been
+created, or for a send-only stream.<a href="#section-19.8-3" class="pilcrow">¶</a></p>
 <p id="section-19.8-4">The STREAM frames are shown in <a href="#fig-stream" class="xref">Figure 26</a>.<a href="#section-19.8-4" class="pilcrow">¶</a></p>
 <span id="name-stream-frame-format"></span><div id="fig-stream">
 <figure id="figure-26">
@@ -9025,10 +9029,10 @@ specification reference is provided.<a href="#section-22.4-4.4" class="pilcrow">
 <span class="refAuthor">Postel, J.</span>, <span class="refTitle">"Internet Protocol"</span>, <span class="seriesInfo">STD 5</span>, <span class="seriesInfo">RFC 791</span>, <span class="seriesInfo">DOI 10.17487/RFC0791</span>, <time datetime="1981-09">September 1981</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc791">https://www.rfc-editor.org/info/rfc791</a>&gt;</span>. </dd>
 <dt id="QUIC-RECOVERY">[QUIC-RECOVERY]</dt>
 <dd>
-<span class="refAuthor">Iyengar, J., Ed.</span><span class="refAuthor"> and I. Swett, Ed.</span>, <span class="refTitle">"QUIC Loss Detection and Congestion Control"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-recovery-latest</span>, <time datetime="2020-03-16">16 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-recovery-latest">https://tools.ietf.org/html/draft-ietf-quic-recovery-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Iyengar, J., Ed.</span><span class="refAuthor"> and I. Swett, Ed.</span>, <span class="refTitle">"QUIC Loss Detection and Congestion Control"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-recovery-latest</span>, <time datetime="2020-03-17">17 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-recovery-latest">https://tools.ietf.org/html/draft-ietf-quic-recovery-latest</a>&gt;</span>. </dd>
 <dt id="QUIC-TLS">[QUIC-TLS]</dt>
 <dd>
-<span class="refAuthor">Thomson, M., Ed.</span><span class="refAuthor"> and S. Turner, Ed.</span>, <span class="refTitle">"Using Transport Layer Security (TLS) to Secure QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-tls-latest</span>, <time datetime="2020-03-16">16 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-tls-latest">https://tools.ietf.org/html/draft-ietf-quic-tls-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Thomson, M., Ed.</span><span class="refAuthor"> and S. Turner, Ed.</span>, <span class="refTitle">"Using Transport Layer Security (TLS) to Secure QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-tls-latest</span>, <time datetime="2020-03-17">17 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-tls-latest">https://tools.ietf.org/html/draft-ietf-quic-tls-latest</a>&gt;</span>. </dd>
 <dt id="RFC1191">[RFC1191]</dt>
 <dd>
 <span class="refAuthor">Mogul, J.C.</span><span class="refAuthor"> and S.E. Deering</span>, <span class="refTitle">"Path MTU discovery"</span>, <span class="seriesInfo">RFC 1191</span>, <span class="seriesInfo">DOI 10.17487/RFC1191</span>, <time datetime="1990-11">November 1990</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc1191">https://www.rfc-editor.org/info/rfc1191</a>&gt;</span>. </dd>
@@ -9083,7 +9087,7 @@ specification reference is provided.<a href="#section-22.4-4.4" class="pilcrow">
 <span class="refAuthor">Belshe, M.</span><span class="refAuthor">, Peon, R.</span><span class="refAuthor">, and M. Thomson, Ed.</span>, <span class="refTitle">"Hypertext Transfer Protocol Version 2 (HTTP/2)"</span>, <span class="seriesInfo">RFC 7540</span>, <span class="seriesInfo">DOI 10.17487/RFC7540</span>, <time datetime="2015-05">May 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7540">https://www.rfc-editor.org/info/rfc7540</a>&gt;</span>. </dd>
 <dt id="QUIC-INVARIANTS">[QUIC-INVARIANTS]</dt>
 <dd>
-<span class="refAuthor">Thomson, M.</span>, <span class="refTitle">"Version-Independent Properties of QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-invariants-latest</span>, <time datetime="2020-03-16">16 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-invariants-latest">https://tools.ietf.org/html/draft-ietf-quic-invariants-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Thomson, M.</span>, <span class="refTitle">"Version-Independent Properties of QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-invariants-latest</span>, <time datetime="2020-03-17">17 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-invariants-latest">https://tools.ietf.org/html/draft-ietf-quic-invariants-latest</a>&gt;</span>. </dd>
 <dt id="QUIC-MANAGEABILITY">[QUIC-MANAGEABILITY]</dt>
 <dd>
 <span class="refAuthor">Kuehlewind, M.</span><span class="refAuthor"> and B. Trammell</span>, <span class="refTitle">"Manageability of the QUIC Transport Protocol"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-manageability-06</span>, <time datetime="2020-01-06">6 January 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-quic-manageability-06.txt">http://www.ietf.org/internet-drafts/draft-ietf-quic-manageability-06.txt</a>&gt;</span>. </dd>
