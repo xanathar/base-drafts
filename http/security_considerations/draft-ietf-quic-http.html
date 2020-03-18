@@ -3309,17 +3309,16 @@ different results in terms of the granularity of padding, how padding is
 arranged in relation to the information that is being protected, whether padding
 is applied in the case of packet loss, and how an implementation might control
 padding.  Redundant padding could even be counterproductive.<a href="#section-10.7-2" class="pilcrow">¶</a></p>
-<p id="section-10.7-3">To mitigate attacks that rely on compression, disabling or limiting
-compression might be preferable to padding as a countermeasure.<a href="#section-10.7-3" class="pilcrow">¶</a></p>
-<p id="section-10.7-4">Use of padding can result in less protection than might seem
-immediately obvious.  At best, padding only makes it more difficult
-for an attacker to infer length information by increasing the number
-of frames an attacker has to observe.  Incorrectly implemented
-padding schemes can be easily defeated.  In particular, randomized
-padding with a predictable distribution provides very little
-protection; similarly, padding payloads to a fixed size exposes
-information as payload sizes cross the fixed-sized boundary, which
-could be possible if an attacker can control plaintext.<a href="#section-10.7-4" class="pilcrow">¶</a></p>
+<p id="section-10.7-3">To mitigate attacks that rely on compression, disabling or limiting compression
+might be preferable to padding as a countermeasure.<a href="#section-10.7-3" class="pilcrow">¶</a></p>
+<p id="section-10.7-4">Use of padding can result in less protection than might seem immediately
+obvious.  At best, padding only makes it more difficult for an attacker to infer
+length information by increasing the number of frames an attacker has to
+observe.  Incorrectly implemented padding schemes can be easily defeated.  In
+particular, randomized padding with a predictable distribution provides very
+little protection; similarly, padding payloads to a fixed size exposes
+information as payload sizes cross the fixed-sized boundary, which could be
+possible if an attacker can control plaintext.<a href="#section-10.7-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="frame-parsing">
@@ -3937,7 +3936,7 @@ assigned by IANA.<a href="#section-11.2.4-7" class="pilcrow">¶</a></p>
 <dl class="references">
 <dt id="BREACH">[BREACH]</dt>
 <dd>
-<span class="refAuthor">Gluck, Y.</span><span class="refAuthor">, Harris, N.</span><span class="refAuthor">, and A. Prado</span>, <span class="refTitle">"BREACH: Reviving the CRIME Attack"</span>, <time datetime="2013-07">July 2013</time>. </dd>
+<span class="refAuthor">Gluck, Y.</span><span class="refAuthor">, Harris, N.</span><span class="refAuthor">, and A. Prado</span>, <span class="refTitle">"BREACH: Reviving the CRIME Attack"</span>, <time datetime="2013-07">July 2013</time>, <span>&lt;<a href="http://breachattack.com/resources/BREACH%20-%20SSL,%20gone%20in%2030%20seconds.pdf">http://breachattack.com/resources/BREACH%20-%20SSL,%20gone%20in%2030%20seconds.pdf</a>&gt;</span>. </dd>
 <dt id="HPACK">[HPACK]</dt>
 <dd>
 <span class="refAuthor">Peon, R.</span><span class="refAuthor"> and H. Ruellan</span>, <span class="refTitle">"HPACK: Header Compression for HTTP/2"</span>, <span class="seriesInfo">RFC 7541</span>, <span class="seriesInfo">DOI 10.17487/RFC7541</span>, <time datetime="2015-05">May 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7541">https://www.rfc-editor.org/info/rfc7541</a>&gt;</span>. </dd>
