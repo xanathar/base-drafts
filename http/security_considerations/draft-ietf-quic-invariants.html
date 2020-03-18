@@ -1314,7 +1314,7 @@ to contain an acknowledgment<a href="#section-appendix.a-4.5" class="pilcrow">¶
 <li id="section-appendix.a-4.6">QUIC uses an AEAD (AEAD_AES_128_GCM <span>[<a href="#RFC5116" class="xref">RFC5116</a>]</span>) to protect the packets it
 exchanges during connection establishment<a href="#section-appendix.a-4.6" class="pilcrow">¶</a>
 </li>
-<li id="section-appendix.a-4.7">QUIC packet numbers appear after the Version field<a href="#section-appendix.a-4.7" class="pilcrow">¶</a>
+<li id="section-appendix.a-4.7">QUIC packet numbers are encrypted and appear as the first encrypted bytes<a href="#section-appendix.a-4.7" class="pilcrow">¶</a>
 </li>
 <li id="section-appendix.a-4.8">QUIC packet numbers increase by one for every packet sent<a href="#section-appendix.a-4.8" class="pilcrow">¶</a>
 </li>
@@ -1322,17 +1322,19 @@ exchanges during connection establishment<a href="#section-appendix.a-4.6" class
 </li>
 <li id="section-appendix.a-4.10">QUIC stipulates that a client speaks first<a href="#section-appendix.a-4.10" class="pilcrow">¶</a>
 </li>
-<li id="section-appendix.a-4.11">A QUIC Version Negotiation packet is only sent by a server<a href="#section-appendix.a-4.11" class="pilcrow">¶</a>
+<li id="section-appendix.a-4.11">QUIC packets always have the second bit of the first byte (0x40) set<a href="#section-appendix.a-4.11" class="pilcrow">¶</a>
 </li>
-<li id="section-appendix.a-4.12">A QUIC connection ID changes infrequently<a href="#section-appendix.a-4.12" class="pilcrow">¶</a>
+<li id="section-appendix.a-4.12">A QUIC Version Negotiation packet is only sent by a server<a href="#section-appendix.a-4.12" class="pilcrow">¶</a>
 </li>
-<li id="section-appendix.a-4.13">QUIC endpoints change the version they speak if they are sent a Version
-Negotiation packet<a href="#section-appendix.a-4.13" class="pilcrow">¶</a>
+<li id="section-appendix.a-4.13">A QUIC connection ID changes infrequently<a href="#section-appendix.a-4.13" class="pilcrow">¶</a>
 </li>
-<li id="section-appendix.a-4.14">The version field in a QUIC long header is the same in both directions<a href="#section-appendix.a-4.14" class="pilcrow">¶</a>
+<li id="section-appendix.a-4.14">QUIC endpoints change the version they speak if they are sent a Version
+Negotiation packet<a href="#section-appendix.a-4.14" class="pilcrow">¶</a>
 </li>
-<li id="section-appendix.a-4.15">Only one connection at a time is established between any pair of QUIC
-endpoints<a href="#section-appendix.a-4.15" class="pilcrow">¶</a>
+<li id="section-appendix.a-4.15">The version field in a QUIC long header is the same in both directions<a href="#section-appendix.a-4.15" class="pilcrow">¶</a>
+</li>
+<li id="section-appendix.a-4.16">Only one connection at a time is established between any pair of QUIC
+endpoints<a href="#section-appendix.a-4.16" class="pilcrow">¶</a>
 </li>
 </ul>
 </section>
