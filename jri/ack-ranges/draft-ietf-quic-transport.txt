@@ -4350,18 +4350,18 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    largest received packet number.  A receiver SHOULD retain ACK Ranges
    containing newly received packets or higher-numbered packets.
 
-   It is possible that the ACK frame is too large, despite limiting ACK
-   Ranges to those not yet acknowledged.  A receiver can discard an
-   unacknowledged ACK Ranges to further limit the size of the ACK frame.
-   When doing so, a receiver SHOULD give preference to acknowledging
-   newly received packets to those received earlier.  It is possible
-   that such ACK Ranges are not received by the sender causing the
-   sender to unnecessarily retransmit those packets.
-
    A receiver that sends only non-ack-eliciting packets, such as ACK
    frames, might not receive an acknowledgement for a long period of
    time.  This could cause the receiver to maintain state for a large
    number of ACK frames for a long period of time, and ACK frames it
+   sends could be unnecessarily large.  In such a case, a receiver could
+   bundle a PING or other small ack-eliciting frame occasionally, such
+   as once per round trip, to elicit an ACK from the peer.
+
+   A receiver MUST NOT bundle an ack-eliciting frame with all packets
+   that would otherwise be non-ack-eliciting, to avoid an infinite
+   feedback loop of acknowledgements.
+
 
 
 
@@ -4369,14 +4369,6 @@ Iyengar & Thomson       Expires 19 September 2020              [Page 78]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
-
-   sends could be unnecessarily large.  In such a case, a receiver could
-   bundle a PING or other small ack-eliciting frame occasionally, such
-   as once per round trip, to receive an ACK from the peer.
-
-   A receiver MUST NOT bundle an ack-eliciting frame with all packets
-   that would otherwise be non-ack-eliciting, to avoid an infinite
-   feedback loop of acknowledgements.
 
 13.2.5.  Measuring and Reporting Host Delay
 
@@ -4418,6 +4410,14 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    and sending ceases when a packet containing that information is
    acknowledged.
 
+   *  Data sent in CRYPTO frames is retransmitted according to the rules
+      in [QUIC-RECOVERY], until all data has been acknowledged.  Data in
+      CRYPTO frames for Initial and Handshake packets is discarded when
+      keys for the corresponding encryption level are discarded.
+
+   *  Application data sent in STREAM frames is retransmitted in new
+      STREAM frames unless the endpoint has sent a RESET_STREAM for that
+
 
 
 
@@ -4426,13 +4426,6 @@ Iyengar & Thomson       Expires 19 September 2020              [Page 79]
 Internet-Draft           QUIC Transport Protocol              March 2020
 
 
-   *  Data sent in CRYPTO frames is retransmitted according to the rules
-      in [QUIC-RECOVERY], until all data has been acknowledged.  Data in
-      CRYPTO frames for Initial and Handshake packets is discarded when
-      keys for the corresponding encryption level are discarded.
-
-   *  Application data sent in STREAM frames is retransmitted in new
-      STREAM frames unless the endpoint has sent a RESET_STREAM for that
       stream.  Once an endpoint sends a RESET_STREAM frame, no further
       STREAM frames are needed.
 
@@ -4474,6 +4467,13 @@ Internet-Draft           QUIC Transport Protocol              March 2020
       MAX_STREAM_DATA frames when the receiving part of the stream
       enters a "Size Known" state.
 
+   *  The limit on streams of a given type is sent in MAX_STREAMS
+      frames.  Like MAX_DATA, an updated value is sent when a packet
+      containing the most recent MAX_STREAMS for a stream type frame is
+      declared lost or when the limit is updated, with care taken to
+      prevent the frame from being sent too often.
+
+
 
 
 
@@ -4481,12 +4481,6 @@ Iyengar & Thomson       Expires 19 September 2020              [Page 80]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
-
-   *  The limit on streams of a given type is sent in MAX_STREAMS
-      frames.  Like MAX_DATA, an updated value is sent when a packet
-      containing the most recent MAX_STREAMS for a stream type frame is
-      declared lost or when the limit is updated, with care taken to
-      prevent the frame from being sent too often.
 
    *  Blocked signals are carried in DATA_BLOCKED, STREAM_DATA_BLOCKED,
       and STREAMS_BLOCKED frames.  DATA_BLOCKED frames have connection
@@ -4529,6 +4523,12 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    data, unless priorities specified by the application indicate
    otherwise (see Section 2.3).
 
+   Even though a sender is encouraged to assemble frames containing up-
+   to-date information every time it sends a packet, it is not forbidden
+   to retransmit copies of frames from lost packets.  A sender that
+   retransmits copies of frames needs to handle decreases in available
+   payload size due to change in packet number length, connection ID
+   length, and path MTU.  A receiver MUST accept packets containing an
 
 
 
@@ -4538,12 +4538,6 @@ Iyengar & Thomson       Expires 19 September 2020              [Page 81]
 Internet-Draft           QUIC Transport Protocol              March 2020
 
 
-   Even though a sender is encouraged to assemble frames containing up-
-   to-date information every time it sends a packet, it is not forbidden
-   to retransmit copies of frames from lost packets.  A sender that
-   retransmits copies of frames needs to handle decreases in available
-   payload size due to change in packet number length, connection ID
-   length, and path MTU.  A receiver MUST accept packets containing an
    outdated frame, such as a MAX_DATA frame carrying a smaller maximum
    data than one found in an older packet.
 
@@ -4587,17 +4581,18 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    implement ECN support or does not have access to received ECN
    codepoints, it does not increase ECN counts.
 
+   Coalesced packets (see Section 12.2) mean that several packets can
+   share the same IP header.  The ECN counter for the ECN codepoint
+   received in the associated IP header are incremented once for each
+   QUIC packet, not per enclosing IP packet or UDP datagram.
+
+
 
 
 Iyengar & Thomson       Expires 19 September 2020              [Page 82]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
-
-   Coalesced packets (see Section 12.2) mean that several packets can
-   share the same IP header.  The ECN counter for the ECN codepoint
-   received in the associated IP header are incremented once for each
-   QUIC packet, not per enclosing IP packet or UDP datagram.
 
    Each packet number space maintains separate acknowledgement state and
    separate ECN counts.  For example, if one each of an Initial, 0-RTT,
@@ -4641,6 +4636,11 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    codepoint in the first ten outgoing packets on a path, or for a
    period of three RTTs, whichever occurs first.
 
+   Implementations MAY experiment with and use other strategies for use
+   of ECN.  Other methods of probing paths for ECN support are possible,
+   as are different marking strategies.  Implementations can also use
+   the ECT(1) codepoint, as specified in [RFC8311].
+
 
 
 
@@ -4649,11 +4649,6 @@ Iyengar & Thomson       Expires 19 September 2020              [Page 83]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
-
-   Implementations MAY experiment with and use other strategies for use
-   of ECN.  Other methods of probing paths for ECN support are possible,
-   as are different marking strategies.  Implementations can also use
-   the ECT(1) codepoint, as specified in [RFC8311].
 
 13.4.2.2.  Receiving ACK Frames
 
@@ -4698,6 +4693,11 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    subsequent IP packets with the expectation that either the network
    path or the peer does not support ECN.
 
+   Upon successful validation, an endpoint can continue to set ECT
+   codepoints in subsequent packets with the expectation that the path
+   is ECN-capable.  Network routing and path elements can change mid-
+   connection however; an endpoint MUST disable ECN if validation fails
+   at any point in the connection.
 
 
 
@@ -4705,12 +4705,6 @@ Iyengar & Thomson       Expires 19 September 2020              [Page 84]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
-
-   Upon successful validation, an endpoint can continue to set ECT
-   codepoints in subsequent packets with the expectation that the path
-   is ECN-capable.  Network routing and path elements can change mid-
-   connection however; an endpoint MUST disable ECN if validation fails
-   at any point in the connection.
 
    Even if validation fails, an endpoint MAY revalidate ECN on the same
    path at any later time in the connection.
@@ -4753,6 +4747,12 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    Therefore, the current largest UDP payload an implementation will
    send is referred to as the QUIC maximum packet size.
 
+   QUIC depends on a PMTU of at least 1280 bytes.  This is the IPv6
+   minimum size [RFC8200] and is also supported by most modern IPv4
+   networks.  All QUIC packets (except for PMTU probe packets) SHOULD be
+   sized to fit within the maximum packet size to avoid the packet being
+   fragmented or dropped [RFC8085].
+
 
 
 
@@ -4761,12 +4761,6 @@ Iyengar & Thomson       Expires 19 September 2020              [Page 85]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
-
-   QUIC depends on a PMTU of at least 1280 bytes.  This is the IPv6
-   minimum size [RFC8200] and is also supported by most modern IPv4
-   networks.  All QUIC packets (except for PMTU probe packets) SHOULD be
-   sized to fit within the maximum packet size to avoid the packet being
-   fragmented or dropped [RFC8085].
 
    An endpoint SHOULD use Datagram Packetization Layer PMTU Discovery
    ([DPLPMTUD]) or implement Path MTU Discovery (PMTUD) [RFC1191]
@@ -4809,6 +4803,12 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    that the quoted packet should contain as much of the original packet
    as possible without exceeding the minimum MTU for the IP version.
    The size of the quoted packet can actually be smaller, or the
+   information unintelligible, as described in Section 1.1 of
+   [DPLPMTUD].
+
+   QUIC endpoints SHOULD validate ICMP messages to protect from off-path
+   injection as specified in [RFC8201] and Section 5.2 of [RFC8085].
+   This validation SHOULD use the quoted packet supplied in the payload
 
 
 
@@ -4818,12 +4818,6 @@ Iyengar & Thomson       Expires 19 September 2020              [Page 86]
 Internet-Draft           QUIC Transport Protocol              March 2020
 
 
-   information unintelligible, as described in Section 1.1 of
-   [DPLPMTUD].
-
-   QUIC endpoints SHOULD validate ICMP messages to protect from off-path
-   injection as specified in [RFC8201] and Section 5.2 of [RFC8085].
-   This validation SHOULD use the quoted packet supplied in the payload
    of an ICMP message to associate the message with a corresponding
    transport connection [DPLPMTUD].
 
@@ -4866,6 +4860,12 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    A PING frame can be included in a PMTU probe to ensure that a valid
    probe is acknowledged.
 
+   The considerations for processing ICMP messages in the previous
+   section also apply if these messages are used by DPLPMTUD.
+
+
+
+
 
 
 
@@ -4873,9 +4873,6 @@ Iyengar & Thomson       Expires 19 September 2020              [Page 87]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
-
-   The considerations for processing ICMP messages in the previous
-   section also apply if these messages are used by DPLPMTUD.
 
 14.3.1.  PMTU Probes Containing Source Connection ID
 
@@ -4921,6 +4918,9 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    Reserved version numbers will never represent a real protocol; a
    client MAY use one of these version numbers with the expectation that
    the server will initiate version negotiation; a server MAY advertise
+   support for one of these versions and can expect that clients ignore
+   the value.
+
 
 
 
@@ -4929,9 +4929,6 @@ Iyengar & Thomson       Expires 19 September 2020              [Page 88]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
-
-   support for one of these versions and can expect that clients ignore
-   the value.
 
    [[RFC editor: please remove the remainder of this section before
    publication.]]
@@ -4977,6 +4974,9 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
                    Table 4: Summary of Integer Encodings
 
+   For example, the eight byte sequence c2 19 7c 5e ff 14 e8 8c (in
+   hexadecimal) decodes to the decimal value 151288809941952652; the
+   four byte sequence 9d 7f 3e 7d decodes to 494878333; the two byte
 
 
 
@@ -4986,9 +4986,6 @@ Iyengar & Thomson       Expires 19 September 2020              [Page 89]
 Internet-Draft           QUIC Transport Protocol              March 2020
 
 
-   For example, the eight byte sequence c2 19 7c 5e ff 14 e8 8c (in
-   hexadecimal) decodes to the decimal value 151288809941952652; the
-   four byte sequence 9d 7f 3e 7d decodes to 494878333; the two byte
    sequence 7b bd decodes to 15293; and the single byte 25 decodes to 37
    (as does the two byte sequence 40 25).
 
@@ -5034,6 +5031,9 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
    At a receiver, protection of the packet number is removed prior to
    recovering the full packet number.  The full packet number is then
+   reconstructed based on the number of significant bits present, the
+   value of those bits, and the largest packet number received on a
+
 
 
 
@@ -5042,8 +5042,6 @@ Iyengar & Thomson       Expires 19 September 2020              [Page 90]
 Internet-Draft           QUIC Transport Protocol              March 2020
 
 
-   reconstructed based on the number of significant bits present, the
-   value of those bits, and the largest packet number received on a
    successfully authenticated packet.  Recovering the full packet number
    is necessary to successfully remove packet protection.
 
@@ -5090,6 +5088,8 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    Fixed Bit:  The next bit (0x40) of byte 0 is set to 1.  Packets
       containing a zero value for this bit are not valid packets in this
       version and MUST be discarded.
+
+
 
 
 
