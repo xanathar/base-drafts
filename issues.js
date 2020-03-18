@@ -266,6 +266,10 @@ class Parser {
   }
 
   parseFilter() {
+    if (this.next === '-') {
+      this.parseSeparator('-');
+      return issueFilters.not.f.call(null, this.parseFilter());
+    }
     let name = this.parseName();
     if (!name) {
       let n = this.parseNumber();
@@ -369,7 +373,10 @@ function cell(row, children, cellClass) {
     td.className = cellClass;
   }
   if (Array.isArray(children)) {
-    children.forEach(c => td.appendChild(c));
+    children.forEach(c => {
+      td.appendChild(c);
+      td.appendChild(document.createTextNode(' '));
+    });
   } else {
     td.appendChild(children);
   }
@@ -426,6 +433,21 @@ function showBody(item) {
   return div;
 }
 
+function showDate(d, reference) {
+  let de = document.createElement('span');
+  de.classList.add('item');
+  de.classList.add('date');
+  const full = d.toISOString();
+  const parts = full.split(/[TZ\.]/);
+  if (reference && parts[0] === reference.toISOString().split('T')[0]) {
+    de.innerText = parts[1];
+  } else {
+    de.innerText = parts[0] + ' ' + parts[1];
+  }
+  de.title = full;
+  return de;
+}
+
 // Make a fresh replacement element for the identified element.
 function freshReplacement(id) {
   let e = document.getElementById(id);
@@ -435,8 +457,17 @@ function freshReplacement(id) {
   return r;
 }
 
-function show(issue) {
-  document.getElementById('issuebg').classList.add('active');
+var displayed = null;
+
+function show(index) {
+  if (index < 0 || index >= subset.length) {
+    hideIssue();
+    return;
+  }
+  displayed = index;
+  const issue = subset[index];
+
+  document.getElementById('overlay').classList.add('active');
   let frame = freshReplacement('issue');
   frame.classList.add('active');
 
@@ -456,35 +487,55 @@ function show(issue) {
     return title;
   }
 
-  function showDate(d) {
-    let created = document.createElement('span');
-    created.classList.add('item');
-    created.classList.add('date');
-    created.innerText = new Date(d).toISOString();
-    return created;
-  }
-
   function showMeta() {
     let meta = document.createElement('div');
     meta.className = 'meta';
-    meta.appendChild(showDate(issue.createdAt));
+    let created = new Date(issue.createdAt);
+    meta.appendChild(showDate(created));
     meta.appendChild(author(issue));
     meta.appendChild(issueState(issue));
     if (issue.closedAt) {
-      meta.appendChild(showDate(issue.closedAt));
+      meta.appendChild(showDate(new Date(issue.closedAt), created));
     }
     return meta;
   }
 
+  let refdate = null;
   function showComment(c) {
     let row = document.createElement('tr');
-    cell(row, showDate(c.createdAt), 'date');
+    let cdate = new Date(c.createdAt);
+    cell(row, showDate(cdate, refdate), 'date');
+    refdate = cdate;
     cell(row, author(c), 'user');
-    let icon = (c.state === 'APPROVED') ?
-      '\u2714' : (c.state === 'CHANGES_REQUESTED') ?
-        '\u2718' : '\uD83D\uDCAC';
-    cell(row, document.createTextNode(icon));
-    cell(row, showBody(c));
+
+    if (issue.pr) {
+      let icon = document.createElement('span');
+      switch (c.state) {
+        case 'APPROVED':
+          icon.innerText = '\u2714';
+          icon.title = 'Approved';
+          break;
+        case 'CHANGES_REQUESTED':
+          icon.innerText = '\u2718';
+          icon.title = 'Changes Requested';
+          break;
+        default:
+          icon.innerText = '\uD83D\uDCAC';
+          icon.title = 'Comment';
+          break;
+      }
+      cell(row, icon);
+    }
+
+    let body = showBody(c);
+    if (c.comments && c.comments.length > 0) {
+      let codeComments = document.createElement('div');
+      codeComments.className = 'item';
+      const s = (c.comments.length === 1) ? '' : 's';
+      codeComments.innerText = `... ${c.comments.length} comment${s} on changes`;
+      body.appendChild(codeComments);
+    }
+    cell(row, body);
     return row;
   }
 
@@ -498,9 +549,30 @@ function show(issue) {
   comments.className = 'comments';
   allcomments.map(showComment).forEach(row => comments.appendChild(row));
   frame.appendChild(comments);
+
+  frame.scroll(0, 0);
 }
 
-function makeRow(issue) {
+function hideIssue() {
+  document.getElementById('help').classList.remove('active');
+  document.getElementById('issue').classList.remove('active');
+  document.getElementById('overlay').classList.remove('active');
+  displayed = null;
+}
+
+function step(n) {
+  if (displayed === null) {
+    if (n > 0) {
+      show(n - 1);
+    } else {
+      show(subset.length + n);
+    }
+  } else {
+    show(displayed + n);
+  }
+}
+
+function makeRow(issue, index) {
   function cellID() {
     let a = document.createElement('a');
     a.href = issue.url;
@@ -514,7 +586,7 @@ function makeRow(issue) {
     a.href = issue.url;
     a.onclick = e => {
       e.preventDefault();
-      show(issue);
+      show(index);
     };
     return a;
   }
@@ -558,8 +630,8 @@ function list(issues) {
 
   let body = freshReplacement('issuelist');
   body.innerHTML = '';
-  issues.forEach(issue => {
-    body.appendChild(makeRow(issue));
+  issues.forEach((issue, index) => {
+    body.appendChild(makeRow(issue, index));
   });
 }
 
@@ -567,7 +639,7 @@ var currentFilter = '';
 function filter(str, now) {
   try {
     filterIssues(str);
-    setStatus(`${db.all.length} records selected`);
+    setStatus(`${subset.length} records selected`);
     if (now) {
       window.location.hash = str;
       currentFilter = str;
@@ -580,10 +652,17 @@ function filter(str, now) {
   }
 }
 
+function showHelp() {
+  setStatus('help shown');
+  let h = document.getElementById('help');
+  h.classList.add('active');
+  h.scroll(0, 0);
+  document.getElementById('overlay').classList.add('active');
+}
+
 function slashCmd(cmd) {
   if (cmd[0] === 'help') {
-    setStatus('help shown');
-    document.getElementById('help').classList.remove('hidden');
+    showHelp();
   } else if (cmd[0] === 'local') {
     setStatus('retrieving local JSON files');
     get().then(redraw);
@@ -601,7 +680,6 @@ function redraw(now) {
     if (now) {
       slashCmd(cmd.value.slice(1).split(' ').map(x => x.trim()));
       cmd.value = currentFilter;
-      document.getElementById('display').classList.add('hidden');
     }
     return;
   }
@@ -613,8 +691,7 @@ function redraw(now) {
     return;
   }
 
-  document.getElementById('help').classList.add('hidden');
-  document.getElementById('display').classList.remove('hidden');
+  document.getElementById('help').classList.remove('active');
   filter(cmd.value, now);
   list(subset);
 }
@@ -627,11 +704,14 @@ function generateHelp() {
     if (issueFilters[k].args.length > 0) {
       arglist = '(' + issueFilters[k].args.map(x => '<' + x + '>').join(', ') + ')';
     }
+    let fn = document.createElement('tt');
+    fn.innerText = k + arglist;
+    li.appendChild(fn);
     let help = '';
     if (issueFilters[k].h) {
       help = ' - ' + issueFilters[k].h;
     }
-    li.innerText = `${k}${arglist}${help}`;
+    li.appendChild(document.createTextNode(help));
     functionhelp.appendChild(li);
   });
 }
@@ -641,33 +721,57 @@ function addFileHelp() {
   if (window.location.protocol !== 'file:') {
     return;
   }
-  let h = document.getElementById('help');
   let p = document.createElement('p');
   p.className = 'warning';
   p.innerHTML = 'Important: Browsers display files inconsistently.' +
     ' You can work around this by running an HTTP server,' +
     ' such as <code>python3 -m http.server</code>,' +
     ' then view this file using that server.';
-  h.insertBefore(p, h.firstChild);
+  document.getElementById('help').insertBefore(p, h.firstChild);
 }
 
 function issueOverlaySetup() {
-  let issuebg = document.getElementById('issuebg');
-  let hideIssue = _ => {
-    document.getElementById('issue').classList.remove('active');
-    issuebg.classList.remove('active');
-  }
-  issuebg.addEventListener('click', hideIssue);
+  let overlay = document.getElementById('overlay');
+  overlay.addEventListener('click', hideIssue);
   window.addEventListener('keyup', e => {
+    if (e.target.id === 'cmd') {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        e.target.blur();
+      }
+      return;
+    }
     if (e.key === 'Escape') {
+      e.preventDefault();
       hideIssue();
     }
   });
+  window.addEventListener('keypress', e=> {
+    if (e.target.closest('input')) {
+      return;
+    }
+    if (e.key === 'p' || e.key === 'k') {
+      e.preventDefault();
+      step(-1);
+    } else if (e.key === 'n' || e.key === 'j') {
+      e.preventDefault();
+      step(1);
+    } else if (e.key === '?') {
+      e.preventDefault();
+      showHelp();
+    } else if (e.key === '\'') {
+      e.preventDefault();
+      hideIssue();
+      document.getElementById('cmd').focus();
+    }
+  })
 }
 
 window.onload = () => {
   let cmd = document.getElementById('cmd');
-  cmd.onkeypress = debounce(redraw);
+  let redrawHandler = debounce(redraw);
+  cmd.addEventListener('input', redrawHandler);
+  cmd.addEventListener('keypress', redrawHandler);
   if (window.location.hash) {
     cmd.value = decodeURIComponent(window.location.hash.substring(1));
   }
