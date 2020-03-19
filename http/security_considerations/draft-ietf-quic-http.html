@@ -3171,13 +3171,13 @@ field names in the syntax used by HTTP (Section 4.3 of <span>[<a href="#SEMANTIC
 or responses containing invalid field names MUST be treated as malformed
 (<a href="#malformed" class="xref">Section 4.1.3</a>).  An intermediary therefore cannot translate an HTTP/3 request
 or response containing an invalid field name into an HTTP/1.1 message.<a href="#section-10.3-1" class="pilcrow">¶</a></p>
-<p id="section-10.3-2">Similarly, HTTP/3 allows header field values that are not valid. While most of
-the values that can be encoded will not alter header field parsing, carriage
-return (CR, ASCII 0xd), line feed (LF, ASCII 0xa), and the zero character (NUL,
-ASCII 0x0) might be exploited by an attacker if they are translated verbatim.
-Any request or response that contains a character not permitted in a header
-field value MUST be treated as malformed (<a href="#malformed" class="xref">Section 4.1.3</a>).  Valid characters are
-defined by the "field-content" ABNF rule in Section 4.4 of <span>[<a href="#SEMANTICS" class="xref">SEMANTICS</a>]</span>.<a href="#section-10.3-2" class="pilcrow">¶</a></p>
+<p id="section-10.3-2">Similarly, HTTP/3 allows field values that are not valid. While most of the
+values that can be encoded will not alter field parsing, carriage return (CR,
+ASCII 0xd), line feed (LF, ASCII 0xa), and the zero character (NUL, ASCII 0x0)
+might be exploited by an attacker if they are translated verbatim. Any request
+or response that contains a character not permitted in a field value MUST be
+treated as malformed (<a href="#malformed" class="xref">Section 4.1.3</a>).  Valid characters are defined by the
+"field-content" ABNF rule in Section 4.4 of <span>[<a href="#SEMANTICS" class="xref">SEMANTICS</a>]</span>.<a href="#section-10.3-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="cacheability-of-pushed-responses">
@@ -3206,7 +3206,7 @@ representation that the authoritative tenant provides.<a href="#section-10.4-3" 
 <a href="#section-10.5" class="section-number selfRef">10.5. </a><a href="#name-denial-of-service-considera" class="section-name selfRef">Denial-of-Service Considerations</a>
         </h3>
 <p id="section-10.5-1">An HTTP/3 connection can demand a greater commitment of resources to operate
-than an HTTP/1.1 or HTTP/2 connection.  The use of header compression and flow
+than an HTTP/1.1 or HTTP/2 connection.  The use of field compression and flow
 control depend on a commitment of resources for storing a greater amount of
 state.  Settings for these features ensure that memory commitments for these
 features are strictly bounded.<a href="#section-10.5-1" class="pilcrow">¶</a></p>
@@ -3222,7 +3222,7 @@ legitimate, such as optional-to-understand extensions and padding to increase
 resistance to traffic analysis.<a href="#section-10.5-4" class="pilcrow">¶</a></p>
 <p id="section-10.5-5">Header compression also offers some opportunities to waste processing resources;
 see Section 7 of <span>[<a href="#QPACK" class="xref">QPACK</a>]</span> for more details on potential abuses.<a href="#section-10.5-5" class="pilcrow">¶</a></p>
-<p id="section-10.5-6">All these features - i.e., server push, unknown protocol elements, header
+<p id="section-10.5-6">All these features - i.e., server push, unknown protocol elements, field
 compression - have legitimate uses.  These features become a burden only when
 they are used unnecessarily or to excess.<a href="#section-10.5-6" class="pilcrow">¶</a></p>
 <p id="section-10.5-7">An endpoint that doesn't monitor this behavior exposes itself to a risk of
@@ -3289,7 +3289,7 @@ correct.<a href="#section-10.6-2" class="pilcrow">¶</a></p>
 includes both confidential and attacker-controlled data unless separate
 compression dictionaries are used for each source of data.  Compression MUST NOT
 be used if the source of data cannot be reliably determined.<a href="#section-10.6-3" class="pilcrow">¶</a></p>
-<p id="section-10.6-4">Further considerations regarding the compression of header fields are
+<p id="section-10.6-4">Further considerations regarding the compression of fields sections are
 described in <span>[<a href="#QPACK" class="xref">QPACK</a>]</span>.<a href="#section-10.6-4" class="pilcrow">¶</a></p>
 </section>
 </div>
