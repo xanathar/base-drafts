@@ -86,25 +86,25 @@ Table of Contents
      2.2.  Decoder . . . . . . . . . . . . . . . . . . . . . . . . .   9
        2.2.1.  Blocked Decoding  . . . . . . . . . . . . . . . . . .   9
        2.2.2.  State Synchronization . . . . . . . . . . . . . . . .   9
-       2.2.3.  Invalid References  . . . . . . . . . . . . . . . . .  11
+       2.2.3.  Invalid References  . . . . . . . . . . . . . . . . .  10
    3.  Reference Tables  . . . . . . . . . . . . . . . . . . . . . .  11
      3.1.  Static Table  . . . . . . . . . . . . . . . . . . . . . .  11
      3.2.  Dynamic Table . . . . . . . . . . . . . . . . . . . . . .  11
-       3.2.1.  Dynamic Table Size  . . . . . . . . . . . . . . . . .  12
+       3.2.1.  Dynamic Table Size  . . . . . . . . . . . . . . . . .  11
        3.2.2.  Dynamic Table Capacity and Eviction . . . . . . . . .  12
-       3.2.3.  Maximum Dynamic Table Capacity  . . . . . . . . . . .  13
+       3.2.3.  Maximum Dynamic Table Capacity  . . . . . . . . . . .  12
        3.2.4.  Absolute Indexing . . . . . . . . . . . . . . . . . .  13
        3.2.5.  Relative Indexing . . . . . . . . . . . . . . . . . .  13
        3.2.6.  Post-Base Indexing  . . . . . . . . . . . . . . . . .  14
-   4.  Wire Format . . . . . . . . . . . . . . . . . . . . . . . . .  15
+   4.  Wire Format . . . . . . . . . . . . . . . . . . . . . . . . .  14
      4.1.  Primitives  . . . . . . . . . . . . . . . . . . . . . . .  15
        4.1.1.  Prefixed Integers . . . . . . . . . . . . . . . . . .  15
        4.1.2.  String Literals . . . . . . . . . . . . . . . . . . .  15
-     4.2.  Encoder and Decoder Streams . . . . . . . . . . . . . . .  16
-     4.3.  Encoder Instructions  . . . . . . . . . . . . . . . . . .  17
-       4.3.1.  Set Dynamic Table Capacity  . . . . . . . . . . . . .  17
+     4.2.  Encoder and Decoder Streams . . . . . . . . . . . . . . .  15
+     4.3.  Encoder Instructions  . . . . . . . . . . . . . . . . . .  16
+       4.3.1.  Set Dynamic Table Capacity  . . . . . . . . . . . . .  16
        4.3.2.  Insert With Name Reference  . . . . . . . . . . . . .  17
-       4.3.3.  Insert Without Name Reference . . . . . . . . . . . .  18
+       4.3.3.  Insert Without Name Reference . . . . . . . . . . . .  17
        4.3.4.  Duplicate . . . . . . . . . . . . . . . . . . . . . .  18
 
 
@@ -114,12 +114,12 @@ Krasic, et al.          Expires 20 September 2020               [Page 2]
 Internet-Draft                    QPACK                       March 2020
 
 
-     4.4.  Decoder Instructions  . . . . . . . . . . . . . . . . . .  19
-       4.4.1.  Entry Acknowledgement . . . . . . . . . . . . . . . .  19
-       4.4.2.  Stream Cancellation . . . . . . . . . . . . . . . . .  20
-       4.4.3.  Insert Count Increment  . . . . . . . . . . . . . . .  20
-     4.5.  Field Block Representations . . . . . . . . . . . . . . .  20
-       4.5.1.  Field Block Prefix  . . . . . . . . . . . . . . . . .  21
+     4.4.  Decoder Instructions  . . . . . . . . . . . . . . . . . .  18
+       4.4.1.  Entry Acknowledgement . . . . . . . . . . . . . . . .  18
+       4.4.2.  Stream Cancellation . . . . . . . . . . . . . . . . .  19
+       4.4.3.  Insert Count Increment  . . . . . . . . . . . . . . .  19
+     4.5.  Field Line Representations  . . . . . . . . . . . . . . .  20
+       4.5.1.  Field Section Prefix  . . . . . . . . . . . . . . . .  20
        4.5.2.  Indexed Field Line  . . . . . . . . . . . . . . . . .  23
        4.5.3.  Indexed Field Line With Post-Base Index . . . . . . .  24
        4.5.4.  Literal Field Line With Name Reference  . . . . . . .  24
@@ -135,25 +135,25 @@ Internet-Draft                    QPACK                       March 2020
    9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  28
      9.1.  Normative References  . . . . . . . . . . . . . . . . . .  28
      9.2.  Informative References  . . . . . . . . . . . . . . . . .  29
-   Appendix A.  Static Table . . . . . . . . . . . . . . . . . . . .  29
-   Appendix B.  Sample One Pass Encoding Algorithm . . . . . . . . .  34
-   Appendix C.  Change Log . . . . . . . . . . . . . . . . . . . . .  35
-     C.1.  Since draft-ietf-quic-qpack-13  . . . . . . . . . . . . .  36
-     C.2.  Since draft-ietf-quic-qpack-12  . . . . . . . . . . . . .  36
-     C.3.  Since draft-ietf-quic-qpack-11  . . . . . . . . . . . . .  36
-     C.4.  Since draft-ietf-quic-qpack-10  . . . . . . . . . . . . .  36
-     C.5.  Since draft-ietf-quic-qpack-09  . . . . . . . . . . . . .  36
-     C.6.  Since draft-ietf-quic-qpack-08  . . . . . . . . . . . . .  36
-     C.7.  Since draft-ietf-quic-qpack-06  . . . . . . . . . . . . .  36
-     C.8.  Since draft-ietf-quic-qpack-05  . . . . . . . . . . . . .  36
-     C.9.  Since draft-ietf-quic-qpack-04  . . . . . . . . . . . . .  37
-     C.10. Since draft-ietf-quic-qpack-03  . . . . . . . . . . . . .  37
-     C.11. Since draft-ietf-quic-qpack-02  . . . . . . . . . . . . .  37
-     C.12. Since draft-ietf-quic-qpack-01  . . . . . . . . . . . . .  37
-     C.13. Since draft-ietf-quic-qpack-00  . . . . . . . . . . . . .  37
-     C.14. Since draft-ietf-quic-qcram-00  . . . . . . . . . . . . .  38
-   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  38
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  38
+   Appendix A.  Static Table . . . . . . . . . . . . . . . . . . . .  34
+   Appendix B.  Sample One Pass Encoding Algorithm . . . . . . . . .  38
+   Appendix C.  Change Log . . . . . . . . . . . . . . . . . . . . .  39
+     C.1.  Since draft-ietf-quic-qpack-13  . . . . . . . . . . . . .  40
+     C.2.  Since draft-ietf-quic-qpack-12  . . . . . . . . . . . . .  40
+     C.3.  Since draft-ietf-quic-qpack-11  . . . . . . . . . . . . .  40
+     C.4.  Since draft-ietf-quic-qpack-10  . . . . . . . . . . . . .  40
+     C.5.  Since draft-ietf-quic-qpack-09  . . . . . . . . . . . . .  40
+     C.6.  Since draft-ietf-quic-qpack-08  . . . . . . . . . . . . .  40
+     C.7.  Since draft-ietf-quic-qpack-06  . . . . . . . . . . . . .  40
+     C.8.  Since draft-ietf-quic-qpack-05  . . . . . . . . . . . . .  40
+     C.9.  Since draft-ietf-quic-qpack-04  . . . . . . . . . . . . .  41
+     C.10. Since draft-ietf-quic-qpack-03  . . . . . . . . . . . . .  41
+     C.11. Since draft-ietf-quic-qpack-02  . . . . . . . . . . . . .  41
+     C.12. Since draft-ietf-quic-qpack-01  . . . . . . . . . . . . .  41
+     C.13. Since draft-ietf-quic-qpack-00  . . . . . . . . . . . . .  41
+     C.14. Since draft-ietf-quic-qcram-00  . . . . . . . . . . . . .  42
+   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  42
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  42
 
 
 
@@ -210,14 +210,14 @@ Internet-Draft                    QPACK                       March 2020
       lines.  An HTTP message can include both header field and trailer
       field sections.
 
-   Field block:  The compressed representation of a field section.
+   Representation:  An instruction which represents a field line,
+      possibly by reference to the dynamic and static tables.
 
    Encoder:  An implementation which transforms a field section into a
-      field block.
+      series of representations.
 
-   Decoder:  An implementation which transforms a field block into a
-      field section.
-
+   Decoder:  An implementation which transforms a series of
+      representations into a field section.
 
 
 
@@ -229,7 +229,7 @@ Internet-Draft                    QPACK                       March 2020
    Absolute Index:  A unique index for each entry in the dynamic table.
 
    Base:  A reference point for relative and post-base indices.
-      References to dynamic table entries in field blocks are relative
+      Representations which reference dynamic table entries are relative
       to a Base.
 
    Insert Count:  The total number of entries inserted in the dynamic
@@ -264,16 +264,16 @@ Internet-Draft                    QPACK                       March 2020
 
 2.1.  Encoder
 
-   An encoder converts a field section into a field block by emitting
-   either an indexed or a literal representation for each field line in
-   the list; see Section 4.5.  Indexed representations achieve high
-   compression by replacing the literal name and possibly the value with
-   an index to either the static or dynamic table.  References to the
-   static table and literal representations do not require any dynamic
-   state and never risk head-of-line blocking.  References to the
-   dynamic table risk head-of-line blocking if the encoder has not
-   received an acknowledgement indicating the entry is available at the
-   decoder.
+   An encoder converts a field section into a series of representations
+   by emitting either an indexed or a literal representation for each
+   field line in the list; see Section 4.5.  Indexed representations
+   achieve high compression by replacing the literal name and possibly
+   the value with an index to either the static or dynamic table.
+   References to the static table and literal representations do not
+   require any dynamic state and never risk head-of-line blocking.
+   References to the dynamic table risk head-of-line blocking if the
+   encoder has not received an acknowledgement indicating the entry is
+   available at the decoder.
 
 
 
@@ -300,20 +300,20 @@ Internet-Draft                    QPACK                       March 2020
    A dynamic table entry cannot be evicted immediately after insertion,
    even if it has never been referenced.  Once the insertion of a
    dynamic table entry has been acknowledged and there are no
-   outstanding references to the entry in unacknowledged field blocks,
-   the entry becomes evictable.  Note that references on the encoder
-   stream never preclude the eviction of an entry, because those
-   references are guaranteed to be processed before the instruction
-   evicting the entry.
+   outstanding references to the entry in unacknowledged
+   representations, the entry becomes evictable.  Note that references
+   on the encoder stream never preclude the eviction of an entry,
+   because those references are guaranteed to be processed before the
+   instruction evicting the entry.
 
    If the dynamic table does not contain enough room for a new entry
    without evicting other entries, and the entries which would be
    evicted are not evictable, the encoder MUST NOT insert that entry
    into the dynamic table (including duplicates of existing entries).
    In order to avoid this, an encoder that uses the dynamic table has to
-   keep track of each dynamic table entry referenced by each field block
-   until that field block is acknowledged by the decoder (see
-   Section 4.4.1).
+   keep track of each dynamic table entry referenced by each field
+   section until those representations are acknowledged by the decoder
+   (see Section 4.4.1).
 
 2.1.1.1.  Avoiding Prohibited Insertions
 
@@ -357,20 +357,21 @@ Internet-Draft                    QPACK                       March 2020
 2.1.2.  Blocked Streams
 
    Because QUIC does not guarantee order between data on different
-   streams, a decoder might encounter a field block that references a
+   streams, a decoder might encounter a representation that references a
    dynamic table entry that it has not yet received.
 
-   Each field block contains a Required Insert Count (Section 4.5.1),
-   the lowest possible value for the Insert Count with which the field
-   block can be decoded.  For a field block with references to the
-   dynamic table, the Required Insert Count is one larger than the
-   largest absolute index of all referenced dynamic table entries.  For
-   a field block with no references to the dynamic table, the Required
-   Insert Count is zero.
+   Each encoded field section contains a Required Insert Count
+   (Section 4.5.1), the lowest possible value for the Insert Count with
+   which the field section can be decoded.  For a field section encoded
+   using references to the dynamic table, the Required Insert Count is
+   one larger than the largest absolute index of all referenced dynamic
+   table entries.  For a field section encoded with no references to the
+   dynamic table, the Required Insert Count is zero.
 
-   When the decoder receives a field block with a Required Insert Count
-   greater than its own Insert Count, the stream cannot be processed
-   immediately, and is considered "blocked"; see Section 2.2.1.
+   When the decoder receives an encoded field section with a Required
+   Insert Count greater than its own Insert Count, the stream cannot be
+   processed immediately, and is considered "blocked"; see
+   Section 2.2.1.
 
    The decoder specifies an upper bound on the number of streams which
    can be blocked using the SETTINGS_QPACK_BLOCKED_STREAMS setting; see
@@ -385,7 +386,6 @@ Internet-Draft                    QPACK                       March 2020
 
    An encoder can decide whether to risk having a stream become blocked.
    If permitted by the value of SETTINGS_QPACK_BLOCKED_STREAMS,
-   compression efficiency can often be improved by referencing dynamic
 
 
 
@@ -394,13 +394,14 @@ Krasic, et al.          Expires 20 September 2020               [Page 7]
 Internet-Draft                    QPACK                       March 2020
 
 
+   compression efficiency can often be improved by referencing dynamic
    table entries that are still in transit, but if there is loss or
    reordering the stream can become blocked at the decoder.  An encoder
    can avoid the risk of blocking by only referencing dynamic table
    entries which have been acknowledged, but this could mean using
-   literals.  Since literals make the field block larger, this can
-   result in the encoder becoming blocked on congestion or flow control
-   limits.
+   literals.  Since literals make the encoding of the field section
+   larger, this can result in the encoder becoming blocked on congestion
+   or flow control limits.
 
 2.1.3.  Avoiding Flow Control Deadlocks
 
@@ -408,11 +409,11 @@ Internet-Draft                    QPACK                       March 2020
    produce deadlocks.
 
    A decoder might stop issuing flow control credit on the stream that
-   carries a field block until the necessary updates are received on the
-   encoder stream.  If the granting of flow control credit on the
-   encoder stream (or the connection as a whole) depends on the
-   consumption and release of data on the stream carrying the field
-   block, a deadlock might result.
+   carries an encoded field section until the necessary updates are
+   received on the encoder stream.  If the granting of flow control
+   credit on the encoder stream (or the connection as a whole) depends
+   on the consumption and release of data on the stream carrying the
+   field section, a deadlock might result.
 
    More generally, a stream containing a large instruction can become
    deadlocked if the decoder withholds flow control credit until the
@@ -432,11 +433,10 @@ Internet-Draft                    QPACK                       March 2020
    able to send Insert Count Increment instructions.
 
    An Entry Acknowledgement instruction (Section 4.4.1) implies that the
-   decoder has received all dynamic table state necessary to process
-   corresponding the field block.  If the Required Insert Count of the
-   acknowledged field block is greater than the current Known Received
-   Count, Known Received Count is updated to the value of the Required
-   Insert Count.
+   decoder has received all dynamic table state necessary to decode the
+   field section.  If the Required Insert Count of the acknowledged
+   field section is greater than the current Known Received Count, Known
+   Received Count is updated to the value of the Required Insert Count.
 
    An Insert Count Increment instruction Section 4.4.3 increases the
    Known Received Count by its Increment parameter.  See Section 2.2.2.3
@@ -452,52 +452,52 @@ Internet-Draft                    QPACK                       March 2020
 
 2.2.  Decoder
 
-   As in HPACK, the decoder processes field blocks and emits the
-   corresponding field sections.  It also processes instructions
-   received on the encoder stream that modify the dynamic table.  Note
-   that field blocks and encoder stream instructions arrive on separate
-   streams.  This is unlike HPACK, where field blocks can contain
-   instructions that modify the dynamic table, and there is no dedicated
-   stream of HPACK instructions.
+   As in HPACK, the decoder processes a series of representations and
+   emits the corresponding field sections.  It also processes
+   instructions received on the encoder stream that modify the dynamic
+   table.  Note that encoded field sections and encoder stream
+   instructions arrive on separate streams.  This is unlike HPACK, where
+   field sections can contain instructions that modify the dynamic
+   table, and there is no dedicated stream of HPACK instructions.
 
    The decoder MUST emit field lines in the order their representations
-   appear in the input field block.
+   appear in the encoded field section.
 
 2.2.1.  Blocked Decoding
 
-   Upon receipt of a field block, the decoder examines the Required
-   Insert Count.  When the Required Insert Count is less than or equal
-   to the decoder's Insert Count, the field block can be processed
-   immediately.  Otherwise, the stream on which the field block was
-   received becomes blocked.
+   Upon receipt of an encoded field section, the decoder examines the
+   Required Insert Count.  When the Required Insert Count is less than
+   or equal to the decoder's Insert Count, the field section can be
+   processed immediately.  Otherwise, the stream on which the field
+   section was received becomes blocked.
 
-   While blocked, field block data SHOULD remain in the blocked stream's
-   flow control window.  A stream becomes unblocked when the Insert
-   Count becomes greater than or equal to the Required Insert Count for
-   all field blocks the decoder has started reading from the stream.
+   While blocked, field section data SHOULD remain in the blocked
+   stream's flow control window.  A stream becomes unblocked when the
+   Insert Count becomes greater than or equal to the Required Insert
+   Count for all field sections the decoder has started reading from the
+   stream.
 
-   When processing field blocks, the decoder expects the Required Insert
-   Count to equal the lowest possible value for the Insert Count with
-   which the field block can be decoded, as prescribed in Section 2.1.2.
-   If it encounters a Required Insert Count smaller than expected, it
-   MUST treat this as a connection error of type
-   QPACK_DECOMPRESSION_FAILED; see Section 2.2.3.  If it encounters a
-   Required Insert Count larger than expected, it MAY treat this as a
-   connection error of type QPACK_DECOMPRESSION_FAILED.
+   When processing encoded field sections, the decoder expects the
+   Required Insert Count to equal the lowest possible value for the
+   Insert Count with which the field section can be decoded, as
+   prescribed in Section 2.1.2.  If it encounters a Required Insert
+   Count smaller than expected, it MUST treat this as a connection error
+   of type QPACK_DECOMPRESSION_FAILED; see Section 2.2.3.  If it
+   encounters a Required Insert Count larger than expected, it MAY treat
+   this as a connection error of type QPACK_DECOMPRESSION_FAILED.
 
 2.2.2.  State Synchronization
 
    The decoder signals the following events by emitting decoder
    instructions (Section 4.4) on the decoder stream.
 
+2.2.2.1.  Completed Processing of a Field Section
 
-
-
-
-
-
-
-
+   After the decoder finishes decoding a field section encoded using
+   representations containing dynamic table references, it MUST emit an
+   Entry Acknowledgement instruction (Section 4.4.1).  A stream may
+   carry multiple field sections in the case of intermediate responses,
+   trailers, and pushed requests.  The encoder interprets each Entry
 
 
 
@@ -506,20 +506,14 @@ Krasic, et al.          Expires 20 September 2020               [Page 9]
 Internet-Draft                    QPACK                       March 2020
 
 
-2.2.2.1.  Completed Processing of a Field Block
-
-   After the decoder finishes decoding a field block containing dynamic
-   table references, it MUST emit an Entry Acknowledgement instruction
-   (Section 4.4.1).  A stream may carry multiple field blocks in the
-   case of intermediate responses, trailers, and pushed requests.  The
-   encoder interprets each Entry Acknowledgement instruction as
-   acknowledging the earliest unacknowledged field block containing
-   dynamic table references sent on the given stream.
+   Acknowledgement instruction as acknowledging the earliest
+   unacknowledged field section containing dynamic table references sent
+   on the given stream.
 
 2.2.2.2.  Abandonment of a Stream
 
    When an endpoint receives a stream reset before the end of a stream
-   or before all field blocks are processed on that stream, or when it
+   or before all field sections are processed on that stream, or when it
    abandons reading of a stream, it generates a Stream Cancellation
    instruction; see Section 4.4.2.  This signals to the encoder that all
    references to the dynamic table on that stream are no longer
@@ -548,23 +542,9 @@ Internet-Draft                    QPACK                       March 2020
    However, delaying too long may lead to compression inefficiencies if
    the encoder waits for an entry to be acknowledged before using it.
 
-
-
-
-
-
-
-
-
-
-Krasic, et al.          Expires 20 September 2020              [Page 10]
-
-Internet-Draft                    QPACK                       March 2020
-
-
 2.2.3.  Invalid References
 
-   If the decoder encounters a reference in a field block representation
+   If the decoder encounters a reference in a field line representation
    to a dynamic table entry which has already been evicted or which has
    an absolute index greater than or equal to the declared Required
    Insert Count (Section 4.5.1), it MUST treat this as a connection
@@ -573,6 +553,14 @@ Internet-Draft                    QPACK                       March 2020
    If the decoder encounters a reference in an encoder instruction to a
    dynamic table entry which has already been evicted, it MUST treat
    this as a connection error of type QPACK_ENCODER_STREAM_ERROR.
+
+
+
+
+Krasic, et al.          Expires 20 September 2020              [Page 10]
+
+Internet-Draft                    QPACK                       March 2020
+
 
 3.  Reference Tables
 
@@ -594,7 +582,7 @@ Internet-Draft                    QPACK                       March 2020
    static table is indexed from 1.
 
    When the decoder encounters an invalid static table index in a field
-   block representation it MUST treat this as a connection error of type
+   line representation it MUST treat this as a connection error of type
    QPACK_DECOMPRESSION_FAILED.  If this index is received on the encoder
    stream, this MUST be treated as a connection error of type
    QPACK_ENCODER_STREAM_ERROR.
@@ -610,14 +598,6 @@ Internet-Draft                    QPACK                       March 2020
    the same name and same value).  Therefore, duplicate entries MUST NOT
    be treated as an error by the decoder.
 
-
-
-
-Krasic, et al.          Expires 20 September 2020              [Page 11]
-
-Internet-Draft                    QPACK                       March 2020
-
-
    Dynamic table entries can have empty values.
 
 3.2.1.  Dynamic Table Size
@@ -628,6 +608,15 @@ Internet-Draft                    QPACK                       March 2020
    value's length in bytes, and 32.  The size of an entry is calculated
    using the length of its name and value without Huffman encoding
    applied.
+
+
+
+
+
+Krasic, et al.          Expires 20 September 2020              [Page 11]
+
+Internet-Draft                    QPACK                       March 2020
+
 
 3.2.2.  Dynamic Table Capacity and Eviction
 
@@ -660,20 +649,6 @@ Internet-Draft                    QPACK                       March 2020
    clear entries from the dynamic table by setting a capacity of 0,
    which can subsequently be restored.
 
-
-
-
-
-
-
-
-
-
-Krasic, et al.          Expires 20 September 2020              [Page 12]
-
-Internet-Draft                    QPACK                       March 2020
-
-
 3.2.3.  Maximum Dynamic Table Capacity
 
    To bound the memory requirements of the decoder, the decoder limits
@@ -691,6 +666,14 @@ Internet-Draft                    QPACK                       March 2020
    SETTINGS frame.  If the remembered value is non-zero, the server MUST
    send the same non-zero value in its SETTINGS frame.  If it specifies
    any other value, or omits SETTINGS_QPACK_MAX_TABLE_CAPACITY from
+
+
+
+Krasic, et al.          Expires 20 September 2020              [Page 12]
+
+Internet-Draft                    QPACK                       March 2020
+
+
    SETTINGS, the encoder must treat this as a connection error of type
    QPACK_DECODER_STREAM_ERROR.
 
@@ -720,16 +703,6 @@ Internet-Draft                    QPACK                       March 2020
    this means the entry referenced by a given relative index will change
    while interpreting instructions on the encoder stream.
 
-
-
-
-
-
-Krasic, et al.          Expires 20 September 2020              [Page 13]
-
-Internet-Draft                    QPACK                       March 2020
-
-
          +-----+---------------+-------+
          | n-1 |      ...      |   d   |  Absolute Index
          + - - +---------------+ - - - +
@@ -744,14 +717,21 @@ Internet-Draft                    QPACK                       March 2020
 
          Figure 2: Example Dynamic Table Indexing - Encoder Stream
 
-   Unlike in encoder instructions, relative indices in field block
+   Unlike in encoder instructions, relative indices in field line
    representations are relative to the Base at the beginning of the
-   field block; see Section 4.5.1.  This ensures that references are
-   stable even if field blocks and dynamic table updates are processed
+   field section; see Section 4.5.1.  This ensures that references are
+   stable even if field sections and dynamic table updates are processed
    out of order.
 
-   In a field block a relative index of "0" refers to the entry with
-   absolute index equal to Base - 1.
+
+
+Krasic, et al.          Expires 20 September 2020              [Page 13]
+
+Internet-Draft                    QPACK                       March 2020
+
+
+   In a field line representation, a relative index of "0" refers to the
+   entry with absolute index equal to Base - 1.
 
                   Base
                    |
@@ -767,27 +747,18 @@ Internet-Draft                    QPACK                       March 2020
    In this example, Base = n - 2
 
         Figure 3: Example Dynamic Table Indexing - Relative Index in
-                                Field Block
+                               Representation
 
 3.2.6.  Post-Base Indexing
 
-   Post-Base indices are used in field block instructions for entries
+   Post-Base indices are used in field line representations for entries
    with absolute indices greater than or equal to Base, starting at 0
    for the entry with absolute index equal to Base, and increasing in
    the same direction as the absolute index.
 
-   Post-Base indices allow an encoder to process a field block in a
-
-
-
-
-Krasic, et al.          Expires 20 September 2020              [Page 14]
-
-Internet-Draft                    QPACK                       March 2020
-
-
+   Post-Base indices allow an encoder to process a field section in a
    single pass and include references to entries added while processing
-   this (or other) field blocks.
+   this (or other) field sections.
 
                   Base
                    |
@@ -803,9 +774,17 @@ Internet-Draft                    QPACK                       March 2020
    In this example, Base = n - 2
 
        Figure 4: Example Dynamic Table Indexing - Post-Base Index in
-                                Field Block
+                               Representation
 
 4.  Wire Format
+
+
+
+
+Krasic, et al.          Expires 20 September 2020              [Page 14]
+
+Internet-Draft                    QPACK                       March 2020
+
 
 4.1.  Primitives
 
@@ -834,14 +813,6 @@ Internet-Draft                    QPACK                       March 2020
    This document expands the definition of string literals and permits
    them to begin other than on a byte boundary.  An "N-bit prefix string
    literal" begins with the same Huffman flag, followed by the length
-
-
-
-Krasic, et al.          Expires 20 September 2020              [Page 15]
-
-Internet-Draft                    QPACK                       March 2020
-
-
    encoded as an (N-1)-bit prefix integer.  The prefix size, N, can have
    a value between 2 and 8 inclusive.  The remainder of the string
    literal is unmodified.
@@ -862,6 +833,15 @@ Internet-Draft                    QPACK                       March 2020
       carries an unframed sequence of decoder instructions from decoder
       to encoder.
 
+
+
+
+
+Krasic, et al.          Expires 20 September 2020              [Page 15]
+
+Internet-Draft                    QPACK                       March 2020
+
+
    HTTP/3 endpoints contain a QPACK encoder and decoder.  Each endpoint
    MUST initiate at most one encoder stream and at most one decoder
    stream.  Receipt of a second instance of either stream type MUST be
@@ -880,23 +860,6 @@ Internet-Draft                    QPACK                       March 2020
 
    An endpoint MUST allow its peer to create an encoder stream and a
    decoder stream even if the connection's settings prevent their use.
-
-
-
-
-
-
-
-
-
-
-
-
-
-Krasic, et al.          Expires 20 September 2020              [Page 16]
-
-Internet-Draft                    QPACK                       March 2020
-
 
 4.3.  Encoder Instructions
 
@@ -927,6 +890,14 @@ Internet-Draft                    QPACK                       March 2020
 
    The new capacity MUST be lower than or equal to the limit described
    in Section 3.2.3.  In HTTP/3, this limit is the value of the
+
+
+
+Krasic, et al.          Expires 20 September 2020              [Page 16]
+
+Internet-Draft                    QPACK                       March 2020
+
+
    SETTINGS_QPACK_MAX_TABLE_CAPACITY parameter (Section 5) received from
    the decoder.  The decoder MUST treat a new dynamic table capacity
    value that exceeds this limit as a connection error of type
@@ -946,14 +917,6 @@ Internet-Draft                    QPACK                       March 2020
    pattern.  The second ('T') bit indicates whether the reference is to
    the static or dynamic table.  The 6-bit prefix integer
    (Section 4.1.1) that follows is used to locate the table entry for
-
-
-
-Krasic, et al.          Expires 20 September 2020              [Page 17]
-
-Internet-Draft                    QPACK                       March 2020
-
-
    the field name.  When T=1, the number represents the static table
    index; when T=0, the number is the relative index of the entry in the
    dynamic table.
@@ -982,6 +945,15 @@ Internet-Draft                    QPACK                       March 2020
    literal, and the value represented as an 8-bit prefix string literal;
    see Section 4.1.2.
 
+
+
+
+
+Krasic, et al.          Expires 20 September 2020              [Page 17]
+
+Internet-Draft                    QPACK                       March 2020
+
+
         0   1   2   3   4   5   6   7
       +---+---+---+---+---+---+---+---+
       | 0 | 1 | H | Name Length (5+)  |
@@ -1002,14 +974,6 @@ Internet-Draft                    QPACK                       March 2020
    followed by the relative index of the existing entry represented as
    an integer with a 5-bit prefix; see Section 4.1.1.
 
-
-
-
-Krasic, et al.          Expires 20 September 2020              [Page 18]
-
-Internet-Draft                    QPACK                       March 2020
-
-
         0   1   2   3   4   5   6   7
       +---+---+---+---+---+---+---+---+
       | 0 | 0 | 0 |    Index (5+)     |
@@ -1025,18 +989,26 @@ Internet-Draft                    QPACK                       March 2020
 4.4.  Decoder Instructions
 
    A decoder sends decoder instructions on the decoder stream to inform
-   the encoder about the processing of field blocks and table updates to
-   ensure consistency of the dynamic table.
+   the encoder about the processing of field sections and table updates
+   to ensure consistency of the dynamic table.
 
    This section specifies the following decoder instructions.
 
 4.4.1.  Entry Acknowledgement
 
-   After processing a field block whose declared Required Insert Count
+   After processing a field section whose declared Required Insert Count
    is not zero, the decoder emits an Entry Acknowledgement instruction.
    The instruction begins with the '1' one-bit pattern which is followed
-   by the field block's associated stream ID encoded as a 7-bit prefix
+   by the field section's associated stream ID encoded as a 7-bit prefix
    integer; see Section 4.1.1.
+
+
+
+
+Krasic, et al.          Expires 20 September 2020              [Page 18]
+
+Internet-Draft                    QPACK                       March 2020
+
 
    This instruction is used as described in Section 2.1.4 and in
    Section 2.2.2.
@@ -1049,22 +1021,12 @@ Internet-Draft                    QPACK                       March 2020
                       Figure 9: Entry Acknowledgement
 
    If an encoder receives an Entry Acknowledgement instruction referring
-   to a stream on which every field block with a non-zero Required
-   Insert Count has already been acknowledged, that MUST be treated as a
-   connection error of type QPACK_DECODER_STREAM_ERROR.
+   to a stream on which every encoded field section with a non-zero
+   Required Insert Count has already been acknowledged, that MUST be
+   treated as a connection error of type QPACK_DECODER_STREAM_ERROR.
 
    The Entry Acknowledgement instruction might increase the Known
    Received Count; see Section 2.1.4.
-
-
-
-
-
-
-Krasic, et al.          Expires 20 September 2020              [Page 19]
-
-Internet-Draft                    QPACK                       March 2020
-
 
 4.4.2.  Stream Cancellation
 
@@ -1096,6 +1058,14 @@ Internet-Draft                    QPACK                       March 2020
    | 0 | 0 |     Increment (6+)    |
    +---+---+-----------------------+
 
+
+
+
+Krasic, et al.          Expires 20 September 2020              [Page 19]
+
+Internet-Draft                    QPACK                       March 2020
+
+
                      Figure 11: Insert Count Increment
 
    An encoder that receives an Increment field equal to zero, or one
@@ -1103,32 +1073,24 @@ Internet-Draft                    QPACK                       March 2020
    sent MUST treat this as a connection error of type
    QPACK_DECODER_STREAM_ERROR.
 
-4.5.  Field Block Representations
+4.5.  Field Line Representations
 
-   A field block consists of a prefix and a possibly empty sequence of
-   representations defined in this section.  Each representation
-   corresponds to a single field line.  These representations reference
-   the static table or the dynamic table in a particular state, but do
-   not modify that state.
+   An encoded field section consists of a prefix and a possibly empty
+   sequence of representations defined in this section.  Each
+   representation corresponds to a single field line.  These
+   representations reference the static table or the dynamic table in a
+   particular state, but do not modify that state.
 
-   Field blocks are carried in frames on streams defined by the
-   enclosing protocol.
+   Encoded field sections are carried in frames on streams defined by
+   the enclosing protocol.
 
+4.5.1.  Field Section Prefix
 
-
-
-Krasic, et al.          Expires 20 September 2020              [Page 20]
-
-Internet-Draft                    QPACK                       March 2020
-
-
-4.5.1.  Field Block Prefix
-
-   Each field block is prefixed with two integers.  The Required Insert
-   Count is encoded as an integer with an 8-bit prefix after the
-   encoding described in Section 4.5.1.1).  The Base is encoded as a
-   sign bit ('S') and a Delta Base value with a 7-bit prefix; see
-   Section 4.5.1.2.
+   Each encoded field section is prefixed with two integers.  The
+   Required Insert Count is encoded as an integer with an 8-bit prefix
+   after the encoding described in Section 4.5.1.1).  The Base is
+   encoded as a sign bit ('S') and a Delta Base value with a 7-bit
+   prefix; see Section 4.5.1.2.
 
      0   1   2   3   4   5   6   7
    +---+---+---+---+---+---+---+---+
@@ -1139,17 +1101,26 @@ Internet-Draft                    QPACK                       March 2020
    |      Encoded Field Lines    ...
    +-------------------------------+
 
-                           Figure 12: Field Block
+                      Figure 12: Encoded Field Section
 
 4.5.1.1.  Required Insert Count
 
    Required Insert Count identifies the state of the dynamic table
-   needed to process the field block.  Blocking decoders use the
-   Required Insert Count to determine when it is safe to process the
-   rest of the block.
+   needed to process the encoded field section.  Blocking decoders use
+   the Required Insert Count to determine when it is safe to process the
+   rest of the field section.
 
    The encoder transforms the Required Insert Count as follows before
    encoding:
+
+
+
+
+
+Krasic, et al.          Expires 20 September 2020              [Page 20]
+
+Internet-Draft                    QPACK                       March 2020
+
 
       if ReqInsertCount == 0:
          EncInsertCount = 0
@@ -1170,6 +1141,35 @@ Internet-Draft                    QPACK                       March 2020
 
    The decoder can reconstruct the Required Insert Count using an
    algorithm such as the following.  If the decoder encounters a value
+   of EncodedInsertCount that could not have been produced by a
+   conformant encoder, it MUST treat this as a connection error of type
+   QPACK_DECOMPRESSION_FAILED.
+
+   TotalNumberOfInserts is the total number of inserts into the
+   decoder's dynamic table.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1177,13 +1177,6 @@ Krasic, et al.          Expires 20 September 2020              [Page 21]
 
 Internet-Draft                    QPACK                       March 2020
 
-
-   of EncodedInsertCount that could not have been produced by a
-   conformant encoder, it MUST treat this as a connection error of type
-   QPACK_DECOMPRESSION_FAILED.
-
-   TotalNumberOfInserts is the total number of inserts into the
-   decoder's dynamic table.
 
       FullRange = 2 * MaxEntries
       if EncodedInsertCount == 0:
@@ -1212,7 +1205,7 @@ Internet-Draft                    QPACK                       March 2020
    For example, if the dynamic table is 100 bytes, then the Required
    Insert Count will be encoded modulo 6.  If a decoder has received 10
    inserts, then an encoded value of 3 indicates that the Required
-   Insert Count is 9 for the field block.
+   Insert Count is 9 for the field section.
 
 4.5.1.2.  Base
 
@@ -1226,14 +1219,6 @@ Internet-Draft                    QPACK                       March 2020
    Delta Base to the Required Insert Count to determine the value of the
    Base.  A sign bit of 1 indicates that the Base is less than the
    Required Insert Count; the decoder subtracts the value of Delta Base
-
-
-
-Krasic, et al.          Expires 20 September 2020              [Page 22]
-
-Internet-Draft                    QPACK                       March 2020
-
-
    from the Required Insert Count and also subtracts one to determine
    the value of the Base.  That is:
 
@@ -1242,22 +1227,30 @@ Internet-Draft                    QPACK                       March 2020
       else:
          Base = ReqInsertCount - DeltaBase - 1
 
+
+
+Krasic, et al.          Expires 20 September 2020              [Page 22]
+
+Internet-Draft                    QPACK                       March 2020
+
+
    A single-pass encoder determines the Base before encoding a field
-   block.  If the encoder inserted entries in the dynamic table while
-   encoding the field block, Required Insert Count will be greater than
-   the Base, so the encoded difference is negative and the sign bit is
-   set to 1.  If the field block did not reference the most recent entry
-   in the table and did not insert any new entries, the Base will be
-   greater than the Required Insert Count, so the delta will be positive
-   and the sign bit is set to 0.
+   section.  If the encoder inserted entries in the dynamic table while
+   encoding the field section, Required Insert Count will be greater
+   than the Base, so the encoded difference is negative and the sign bit
+   is set to 1.  If the field section was not encoded using
+   representations which reference the most recent entry in the table
+   and did not insert any new entries, the Base will be greater than the
+   Required Insert Count, so the delta will be positive and the sign bit
+   is set to 0.
 
-   An encoder that produces table updates before encoding a field block
-   might set Base to the value of Required Insert Count.  In such case,
-   both the sign bit and the Delta Base will be set to zero.
+   An encoder that produces table updates before encoding a field
+   section might set Base to the value of Required Insert Count.  In
+   such case, both the sign bit and the Delta Base will be set to zero.
 
-   A field block that does not reference the dynamic table can use any
-   value for the Base; setting Delta Base to zero is one of the most
-   efficient encodings.
+   A field section that was encoded without references to the dynamic
+   table can use any value for the Base; setting Delta Base to zero is
+   one of the most efficient encodings.
 
    For example, with a Required Insert Count of 9, a decoder receives an
    S bit of 1 and a Delta Base of 2.  This sets the Base to 6 and
@@ -1282,6 +1275,13 @@ Internet-Draft                    QPACK                       March 2020
    the 'T' bit indicating whether the reference is into the static or
    dynamic table.  The 6-bit prefix integer (Section 4.1.1) that follows
    is used to locate the table entry for the field line.  When T=1, the
+   number represents the static table index; when T=0, the number is the
+   relative index of the entry in the dynamic table.
+
+
+
+
+
 
 
 
@@ -1289,9 +1289,6 @@ Krasic, et al.          Expires 20 September 2020              [Page 23]
 
 Internet-Draft                    QPACK                       March 2020
 
-
-   number represents the static table index; when T=0, the number is the
-   relative index of the entry in the dynamic table.
 
 4.5.3.  Indexed Field Line With Post-Base Index
 
@@ -1337,6 +1334,9 @@ Internet-Draft                    QPACK                       March 2020
    field line that it received represented as a literal field line with
    the 'N' bit set, it MUST use a literal representation to forward this
    field line.  This bit is intended for protecting field values that
+   are not to be put at risk by compressing them; see Section 7 for more
+   details.
+
 
 
 
@@ -1345,9 +1345,6 @@ Krasic, et al.          Expires 20 September 2020              [Page 24]
 
 Internet-Draft                    QPACK                       March 2020
 
-
-   are not to be put at risk by compressing them; see Section 7 for more
-   details.
 
    The fourth ('T') bit indicates whether the reference is to the static
    or dynamic table.  The 4-bit prefix integer (Section 4.1.1) that
@@ -1397,6 +1394,9 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
+
+
+
 Krasic, et al.          Expires 20 September 2020              [Page 25]
 
 Internet-Draft                    QPACK                       March 2020
@@ -1439,8 +1439,8 @@ Internet-Draft                    QPACK                       March 2020
    of QPACK which prevent the connection from continuing:
 
    QPACK_DECOMPRESSION_FAILED (0x200):  The decoder failed to interpret
-      a field block and is not able to continue decoding that field
-      block.
+      a representation and is not able to continue decoding that field
+      section.
 
    QPACK_ENCODER_STREAM_ERROR (0x201):  The decoder failed to interpret
       an encoder instruction received on the encoder stream.
@@ -1520,21 +1520,24 @@ Internet-Draft                    QPACK                       March 2020
    following table are registered in the "HTTP/3 Error Code" registry
    established in [HTTP3].
 
-   +----------------------------+------+---------------+---------------+
-   | Name                       | Code | Description   | Specification |
-   +============================+======+===============+===============+
-   | QPACK_DECOMPRESSION_FAILED |0x200 | Decompression | Section 6     |
-   |                            |      | of a field    |               |
-   |                            |      | block failed  |               |
-   +----------------------------+------+---------------+---------------+
-   | QPACK_ENCODER_STREAM_ERROR |0x201 | Error on the  | Section 6     |
-   |                            |      |encoder stream |               |
-   +----------------------------+------+---------------+---------------+
-   | QPACK_DECODER_STREAM_ERROR |0x202 | Error on the  | Section 6     |
-   |                            |      |decoder stream |               |
-   +----------------------------+------+---------------+---------------+
+   +----------------------------+-------+-------------+---------------+
+   | Name                       | Code  | Description | Specification |
+   +============================+=======+=============+===============+
+   | QPACK_DECOMPRESSION_FAILED | 0x200 | Decoding of | Section 6     |
+   |                            |       | a field     |               |
+   |                            |       | section     |               |
+   |                            |       | failed      |               |
+   +----------------------------+-------+-------------+---------------+
+   | QPACK_ENCODER_STREAM_ERROR | 0x201 | Error on    | Section 6     |
+   |                            |       | the encoder |               |
+   |                            |       | stream      |               |
+   +----------------------------+-------+-------------+---------------+
+   | QPACK_DECODER_STREAM_ERROR | 0x202 | Error on    | Section 6     |
+   |                            |       | the decoder |               |
+   |                            |       | stream      |               |
+   +----------------------------+-------+-------------+---------------+
 
-                                  Table 3
+                                 Table 3
 
 9.  References
 
@@ -1558,9 +1561,6 @@ Internet-Draft                    QPACK                       March 2020
               <https://www.rfc-editor.org/info/rfc2119>.
 
    [RFC7541]  Peon, R. and H. Ruellan, "HPACK: Header Compression for
-              HTTP/2", RFC 7541, DOI 10.17487/RFC7541, May 2015,
-              <https://www.rfc-editor.org/info/rfc7541>.
-
 
 
 
@@ -1569,6 +1569,9 @@ Krasic, et al.          Expires 20 September 2020              [Page 28]
 
 Internet-Draft                    QPACK                       March 2020
 
+
+              HTTP/2", RFC 7541, DOI 10.17487/RFC7541, May 2015,
+              <https://www.rfc-editor.org/info/rfc7541>.
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
@@ -1615,9 +1618,6 @@ Appendix A.  Static Table
    | 8     | if-modified-since                |                       |
    +-------+----------------------------------+-----------------------+
    | 9     | if-none-match                    |                       |
-   +-------+----------------------------------+-----------------------+
-   | 10    | last-modified                    |                       |
-   +-------+----------------------------------+-----------------------+
 
 
 
@@ -1626,6 +1626,9 @@ Krasic, et al.          Expires 20 September 2020              [Page 29]
 Internet-Draft                    QPACK                       March 2020
 
 
+   +-------+----------------------------------+-----------------------+
+   | 10    | last-modified                    |                       |
+   +-------+----------------------------------+-----------------------+
    | 11    | link                             |                       |
    +-------+----------------------------------+-----------------------+
    | 12    | location                         |                       |
@@ -1671,9 +1674,6 @@ Internet-Draft                    QPACK                       March 2020
    +-------+----------------------------------+-----------------------+
    | 32    | accept-ranges                    | bytes                 |
    +-------+----------------------------------+-----------------------+
-   | 33    | access-control-allow-headers     | cache-control         |
-   +-------+----------------------------------+-----------------------+
-   | 34    | access-control-allow-headers     | content-type          |
 
 
 
@@ -1682,6 +1682,9 @@ Krasic, et al.          Expires 20 September 2020              [Page 30]
 Internet-Draft                    QPACK                       March 2020
 
 
+   | 33    | access-control-allow-headers     | cache-control         |
+   +-------+----------------------------------+-----------------------+
+   | 34    | access-control-allow-headers     | content-type          |
    +-------+----------------------------------+-----------------------+
    | 35    | access-control-allow-origin      | *                     |
    +-------+----------------------------------+-----------------------+
@@ -1727,9 +1730,6 @@ Internet-Draft                    QPACK                       March 2020
    | 53    | content-type                     | text/plain            |
    +-------+----------------------------------+-----------------------+
    | 54    | content-type                     | text/                 |
-   |       |                                  | plain;charset=utf-8   |
-   +-------+----------------------------------+-----------------------+
-   | 55    | range                            | bytes=0-              |
 
 
 
@@ -1738,6 +1738,9 @@ Krasic, et al.          Expires 20 September 2020              [Page 31]
 Internet-Draft                    QPACK                       March 2020
 
 
+   |       |                                  | plain;charset=utf-8   |
+   +-------+----------------------------------+-----------------------+
+   | 55    | range                            | bytes=0-              |
    +-------+----------------------------------+-----------------------+
    | 56    | strict-transport-security        | max-age=31536000      |
    +-------+----------------------------------+-----------------------+
@@ -1783,9 +1786,6 @@ Internet-Draft                    QPACK                       March 2020
    | 75    | access-control-allow-headers     | *                     |
    +-------+----------------------------------+-----------------------+
    | 76    | access-control-allow-methods     | get                   |
-   +-------+----------------------------------+-----------------------+
-   | 77    | access-control-allow-methods     | get, post, options    |
-   +-------+----------------------------------+-----------------------+
 
 
 
@@ -1794,6 +1794,425 @@ Krasic, et al.          Expires 20 September 2020              [Page 32]
 Internet-Draft                    QPACK                       March 2020
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Krasic, et al.          Expires 20 September 2020              [Page 33]
+
+Internet-Draft                    QPACK                       March 2020
+
+
+Appendix A.  Static Table
+
+   +-------+----------------------------------+-----------------------+
+   | Index | Name                             | Value                 |
+   +=======+==================================+=======================+
+   | 0     | :authority                       |                       |
+   +-------+----------------------------------+-----------------------+
+   | 1     | :path                            | /                     |
+   +-------+----------------------------------+-----------------------+
+   | 2     | age                              | 0                     |
+   +-------+----------------------------------+-----------------------+
+   | 3     | content-disposition              |                       |
+   +-------+----------------------------------+-----------------------+
+   | 4     | content-length                   | 0                     |
+   +-------+----------------------------------+-----------------------+
+   | 5     | cookie                           |                       |
+   +-------+----------------------------------+-----------------------+
+   | 6     | date                             |                       |
+   +-------+----------------------------------+-----------------------+
+   | 7     | etag                             |                       |
+   +-------+----------------------------------+-----------------------+
+   | 8     | if-modified-since                |                       |
+   +-------+----------------------------------+-----------------------+
+   | 9     | if-none-match                    |                       |
+   +-------+----------------------------------+-----------------------+
+   | 10    | last-modified                    |                       |
+   +-------+----------------------------------+-----------------------+
+   | 11    | link                             |                       |
+   +-------+----------------------------------+-----------------------+
+   | 12    | location                         |                       |
+   +-------+----------------------------------+-----------------------+
+   | 13    | referer                          |                       |
+   +-------+----------------------------------+-----------------------+
+   | 14    | set-cookie                       |                       |
+   +-------+----------------------------------+-----------------------+
+   | 15    | :method                          | CONNECT               |
+   +-------+----------------------------------+-----------------------+
+   | 16    | :method                          | DELETE                |
+   +-------+----------------------------------+-----------------------+
+   | 17    | :method                          | GET                   |
+   +-------+----------------------------------+-----------------------+
+   | 18    | :method                          | HEAD                  |
+   +-------+----------------------------------+-----------------------+
+   | 19    | :method                          | OPTIONS               |
+   +-------+----------------------------------+-----------------------+
+   | 20    | :method                          | POST                  |
+   +-------+----------------------------------+-----------------------+
+   | 21    | :method                          | PUT                   |
+
+
+
+Krasic, et al.          Expires 20 September 2020              [Page 34]
+
+Internet-Draft                    QPACK                       March 2020
+
+
+   +-------+----------------------------------+-----------------------+
+   | 22    | :scheme                          | http                  |
+   +-------+----------------------------------+-----------------------+
+   | 23    | :scheme                          | https                 |
+   +-------+----------------------------------+-----------------------+
+   | 24    | :status                          | 103                   |
+   +-------+----------------------------------+-----------------------+
+   | 25    | :status                          | 200                   |
+   +-------+----------------------------------+-----------------------+
+   | 26    | :status                          | 304                   |
+   +-------+----------------------------------+-----------------------+
+   | 27    | :status                          | 404                   |
+   +-------+----------------------------------+-----------------------+
+   | 28    | :status                          | 503                   |
+   +-------+----------------------------------+-----------------------+
+   | 29    | accept                           | */*                   |
+   +-------+----------------------------------+-----------------------+
+   | 30    | accept                           | application/dns-      |
+   |       |                                  | message               |
+   +-------+----------------------------------+-----------------------+
+   | 31    | accept-encoding                  | gzip, deflate, br     |
+   +-------+----------------------------------+-----------------------+
+   | 32    | accept-ranges                    | bytes                 |
+   +-------+----------------------------------+-----------------------+
+   | 33    | access-control-allow-headers     | cache-control         |
+   +-------+----------------------------------+-----------------------+
+   | 34    | access-control-allow-headers     | content-type          |
+   +-------+----------------------------------+-----------------------+
+   | 35    | access-control-allow-origin      | *                     |
+   +-------+----------------------------------+-----------------------+
+   | 36    | cache-control                    | max-age=0             |
+   +-------+----------------------------------+-----------------------+
+   | 37    | cache-control                    | max-age=2592000       |
+   +-------+----------------------------------+-----------------------+
+   | 38    | cache-control                    | max-age=604800        |
+   +-------+----------------------------------+-----------------------+
+   | 39    | cache-control                    | no-cache              |
+   +-------+----------------------------------+-----------------------+
+   | 40    | cache-control                    | no-store              |
+   +-------+----------------------------------+-----------------------+
+   | 41    | cache-control                    | public, max-          |
+   |       |                                  | age=31536000          |
+   +-------+----------------------------------+-----------------------+
+   | 42    | content-encoding                 | br                    |
+   +-------+----------------------------------+-----------------------+
+   | 43    | content-encoding                 | gzip                  |
+   +-------+----------------------------------+-----------------------+
+   | 44    | content-type                     | application/dns-      |
+
+
+
+Krasic, et al.          Expires 20 September 2020              [Page 35]
+
+Internet-Draft                    QPACK                       March 2020
+
+
+   |       |                                  | message               |
+   +-------+----------------------------------+-----------------------+
+   | 45    | content-type                     | application/          |
+   |       |                                  | javascript            |
+   +-------+----------------------------------+-----------------------+
+   | 46    | content-type                     | application/json      |
+   +-------+----------------------------------+-----------------------+
+   | 47    | content-type                     | application/x-www-    |
+   |       |                                  | form-urlencoded       |
+   +-------+----------------------------------+-----------------------+
+   | 48    | content-type                     | image/gif             |
+   +-------+----------------------------------+-----------------------+
+   | 49    | content-type                     | image/jpeg            |
+   +-------+----------------------------------+-----------------------+
+   | 50    | content-type                     | image/png             |
+   +-------+----------------------------------+-----------------------+
+   | 51    | content-type                     | text/css              |
+   +-------+----------------------------------+-----------------------+
+   | 52    | content-type                     | text/html;            |
+   |       |                                  | charset=utf-8         |
+   +-------+----------------------------------+-----------------------+
+   | 53    | content-type                     | text/plain            |
+   +-------+----------------------------------+-----------------------+
+   | 54    | content-type                     | text/                 |
+   |       |                                  | plain;charset=utf-8   |
+   +-------+----------------------------------+-----------------------+
+   | 55    | range                            | bytes=0-              |
+   +-------+----------------------------------+-----------------------+
+   | 56    | strict-transport-security        | max-age=31536000      |
+   +-------+----------------------------------+-----------------------+
+   | 57    | strict-transport-security        | max-age=31536000;     |
+   |       |                                  | includesubdomains     |
+   +-------+----------------------------------+-----------------------+
+   | 58    | strict-transport-security        | max-age=31536000;     |
+   |       |                                  | includesubdomains;    |
+   |       |                                  | preload               |
+   +-------+----------------------------------+-----------------------+
+   | 59    | vary                             | accept-encoding       |
+   +-------+----------------------------------+-----------------------+
+   | 60    | vary                             | origin                |
+   +-------+----------------------------------+-----------------------+
+   | 61    | x-content-type-options           | nosniff               |
+   +-------+----------------------------------+-----------------------+
+   | 62    | x-xss-protection                 | 1; mode=block         |
+   +-------+----------------------------------+-----------------------+
+   | 63    | :status                          | 100                   |
+   +-------+----------------------------------+-----------------------+
+   | 64    | :status                          | 204                   |
+
+
+
+Krasic, et al.          Expires 20 September 2020              [Page 36]
+
+Internet-Draft                    QPACK                       March 2020
+
+
+   +-------+----------------------------------+-----------------------+
+   | 65    | :status                          | 206                   |
+   +-------+----------------------------------+-----------------------+
+   | 66    | :status                          | 302                   |
+   +-------+----------------------------------+-----------------------+
+   | 67    | :status                          | 400                   |
+   +-------+----------------------------------+-----------------------+
+   | 68    | :status                          | 403                   |
+   +-------+----------------------------------+-----------------------+
+   | 69    | :status                          | 421                   |
+   +-------+----------------------------------+-----------------------+
+   | 70    | :status                          | 425                   |
+   +-------+----------------------------------+-----------------------+
+   | 71    | :status                          | 500                   |
+   +-------+----------------------------------+-----------------------+
+   | 72    | accept-language                  |                       |
+   +-------+----------------------------------+-----------------------+
+   | 73    | access-control-allow-credentials | FALSE                 |
+   +-------+----------------------------------+-----------------------+
+   | 74    | access-control-allow-credentials | TRUE                  |
+   +-------+----------------------------------+-----------------------+
+   | 75    | access-control-allow-headers     | *                     |
+   +-------+----------------------------------+-----------------------+
+   | 76    | access-control-allow-methods     | get                   |
+   +-------+----------------------------------+-----------------------+
+   | 77    | access-control-allow-methods     | get, post, options    |
+   +-------+----------------------------------+-----------------------+
    | 78    | access-control-allow-methods     | options               |
    +-------+----------------------------------+-----------------------+
    | 79    | access-control-expose-headers    | content-length        |
@@ -1815,6 +2234,14 @@ Internet-Draft                    QPACK                       March 2020
    | 86    | early-data                       | 1                     |
    +-------+----------------------------------+-----------------------+
    | 87    | expect-ct                        |                       |
+
+
+
+Krasic, et al.          Expires 20 September 2020              [Page 37]
+
+Internet-Draft                    QPACK                       March 2020
+
+
    +-------+----------------------------------+-----------------------+
    | 88    | forwarded                        |                       |
    +-------+----------------------------------+-----------------------+
@@ -1841,15 +2268,6 @@ Internet-Draft                    QPACK                       March 2020
 
                                  Table 4
 
-
-
-
-
-Krasic, et al.          Expires 20 September 2020              [Page 33]
-
-Internet-Draft                    QPACK                       March 2020
-
-
 Appendix B.  Sample One Pass Encoding Algorithm
 
    Pseudo-code for single pass encoding, excluding handling of
@@ -1875,33 +2293,7 @@ Appendix B.  Sample One Pass Encoding Algorithm
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Krasic, et al.          Expires 20 September 2020              [Page 34]
+Krasic, et al.          Expires 20 September 2020              [Page 38]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1957,7 +2349,7 @@ Appendix C.  Change Log
 
 
 
-Krasic, et al.          Expires 20 September 2020              [Page 35]
+Krasic, et al.          Expires 20 September 2020              [Page 39]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -2013,7 +2405,7 @@ C.8.  Since draft-ietf-quic-qpack-05
 
 
 
-Krasic, et al.          Expires 20 September 2020              [Page 36]
+Krasic, et al.          Expires 20 September 2020              [Page 40]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -2069,7 +2461,7 @@ C.13.  Since draft-ietf-quic-qpack-00
 
 
 
-Krasic, et al.          Expires 20 September 2020              [Page 37]
+Krasic, et al.          Expires 20 September 2020              [Page 41]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -2125,7 +2517,7 @@ Authors' Addresses
 
 
 
-Krasic, et al.          Expires 20 September 2020              [Page 38]
+Krasic, et al.          Expires 20 September 2020              [Page 42]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -2181,4 +2573,4 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 20 September 2020              [Page 39]
+Krasic, et al.          Expires 20 September 2020              [Page 43]
