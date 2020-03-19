@@ -5,10 +5,10 @@
 QUIC                                                           C. Krasic
 Internet-Draft                                                   Netflix
 Intended status: Standards Track                               M. Bishop
-Expires: 14 September 2020                           Akamai Technologies
+Expires: 20 September 2020                           Akamai Technologies
                                                         A. Frindell, Ed.
                                                                 Facebook
-                                                           13 March 2020
+                                                           19 March 2020
 
 
                   QPACK: Header Compression for HTTP/3
@@ -48,12 +48,12 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 September 2020.
+   This Internet-Draft will expire on 20 September 2020.
 
 
 
 
-Krasic, et al.          Expires 14 September 2020               [Page 1]
+Krasic, et al.          Expires 20 September 2020               [Page 1]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Krasic, et al.          Expires 14 September 2020               [Page 2]
+Krasic, et al.          Expires 20 September 2020               [Page 2]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -165,7 +165,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 14 September 2020               [Page 3]
+Krasic, et al.          Expires 20 September 2020               [Page 3]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -204,24 +204,24 @@ Internet-Draft                    QPACK                       March 2020
       all field line values with that field name in that section,
       concatenated together and separated with commas.
 
-   Field list:  An ordered collection of HTTP field lines associated
-      with an HTTP message.  A field list can contain multiple field
+   Field section:  An ordered collection of HTTP field lines associated
+      with an HTTP message.  A field section can contain multiple field
       lines with the same name.  It can also contain duplicate field
-      lines.  The header field and trailer field sections of an HTTP
-      message each contain a field list.
+      lines.  An HTTP message can include both header field and trailer
+      field sections.
 
-   Field block:  The compressed representation of a field list.
+   Field block:  The compressed representation of a field section.
 
-   Encoder:  An implementation which transforms a field list into a
+   Encoder:  An implementation which transforms a field section into a
       field block.
 
    Decoder:  An implementation which transforms a field block into a
-      field list.
+      field section.
 
 
 
 
-Krasic, et al.          Expires 14 September 2020               [Page 4]
+Krasic, et al.          Expires 20 September 2020               [Page 4]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -257,14 +257,14 @@ Internet-Draft                    QPACK                       March 2020
    common field lines (some of them with an empty value).  The dynamic
    table (Section 3.2) is built up over the course of the connection and
    can be used by the encoder to index field lines in the encoded field
-   lists.
+   sections.
 
    QPACK defines unidirectional streams for sending instructions from
    encoder to decoder and vice versa.
 
 2.1.  Encoder
 
-   An encoder converts a field list into a field block by emitting
+   An encoder converts a field section into a field block by emitting
    either an indexed or a literal representation for each field line in
    the list; see Section 4.5.  Indexed representations achieve high
    compression by replacing the literal name and possibly the value with
@@ -277,7 +277,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 14 September 2020               [Page 5]
+Krasic, et al.          Expires 20 September 2020               [Page 5]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -285,9 +285,9 @@ Internet-Draft                    QPACK                       March 2020
    An encoder MAY insert any entry in the dynamic table it chooses; it
    is not limited to field lines it is compressing.
 
-   QPACK preserves the ordering of field lines within each field list.
-   An encoder MUST emit field representations in the order they appear
-   in the input field list.
+   QPACK preserves the ordering of field lines within each field
+   section.  An encoder MUST emit field representations in the order
+   they appear in the input field list.
 
    QPACK is designed to contain the more complex state tracking to the
    encoder, while the decoder is relatively simple.
@@ -333,7 +333,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 14 September 2020               [Page 6]
+Krasic, et al.          Expires 20 September 2020               [Page 6]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -389,7 +389,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 14 September 2020               [Page 7]
+Krasic, et al.          Expires 20 September 2020               [Page 7]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -445,7 +445,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 14 September 2020               [Page 8]
+Krasic, et al.          Expires 20 September 2020               [Page 8]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -453,12 +453,12 @@ Internet-Draft                    QPACK                       March 2020
 2.2.  Decoder
 
    As in HPACK, the decoder processes field blocks and emits the
-   corresponding field lists.  It also processes instructions received
-   on the encoder stream that modify the dynamic table.  Note that field
-   blocks and encoder stream instructions arrive on separate streams.
-   This is unlike HPACK, where field blocks can contain instructions
-   that modify the dynamic table, and there is no dedicated stream of
-   HPACK instructions.
+   corresponding field sections.  It also processes instructions
+   received on the encoder stream that modify the dynamic table.  Note
+   that field blocks and encoder stream instructions arrive on separate
+   streams.  This is unlike HPACK, where field blocks can contain
+   instructions that modify the dynamic table, and there is no dedicated
+   stream of HPACK instructions.
 
    The decoder MUST emit field lines in the order their representations
    appear in the input field block.
@@ -501,7 +501,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 14 September 2020               [Page 9]
+Krasic, et al.          Expires 20 September 2020               [Page 9]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -557,7 +557,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 14 September 2020              [Page 10]
+Krasic, et al.          Expires 20 September 2020              [Page 10]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -613,7 +613,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 14 September 2020              [Page 11]
+Krasic, et al.          Expires 20 September 2020              [Page 11]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -669,7 +669,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 14 September 2020              [Page 12]
+Krasic, et al.          Expires 20 September 2020              [Page 12]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -725,7 +725,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 14 September 2020              [Page 13]
+Krasic, et al.          Expires 20 September 2020              [Page 13]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -781,7 +781,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 14 September 2020              [Page 14]
+Krasic, et al.          Expires 20 September 2020              [Page 14]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -837,7 +837,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 14 September 2020              [Page 15]
+Krasic, et al.          Expires 20 September 2020              [Page 15]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -893,7 +893,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 14 September 2020              [Page 16]
+Krasic, et al.          Expires 20 September 2020              [Page 16]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -949,7 +949,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 14 September 2020              [Page 17]
+Krasic, et al.          Expires 20 September 2020              [Page 17]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1005,7 +1005,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 14 September 2020              [Page 18]
+Krasic, et al.          Expires 20 September 2020              [Page 18]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1061,7 +1061,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 14 September 2020              [Page 19]
+Krasic, et al.          Expires 20 September 2020              [Page 19]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1117,7 +1117,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 14 September 2020              [Page 20]
+Krasic, et al.          Expires 20 September 2020              [Page 20]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1173,7 +1173,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 14 September 2020              [Page 21]
+Krasic, et al.          Expires 20 September 2020              [Page 21]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1229,7 +1229,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 14 September 2020              [Page 22]
+Krasic, et al.          Expires 20 September 2020              [Page 22]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1285,7 +1285,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 14 September 2020              [Page 23]
+Krasic, et al.          Expires 20 September 2020              [Page 23]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1341,7 +1341,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 14 September 2020              [Page 24]
+Krasic, et al.          Expires 20 September 2020              [Page 24]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1397,7 +1397,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 14 September 2020              [Page 25]
+Krasic, et al.          Expires 20 September 2020              [Page 25]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1453,7 +1453,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 14 September 2020              [Page 26]
+Krasic, et al.          Expires 20 September 2020              [Page 26]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1509,7 +1509,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 14 September 2020              [Page 27]
+Krasic, et al.          Expires 20 September 2020              [Page 27]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1542,13 +1542,13 @@ Internet-Draft                    QPACK                       March 2020
 
    [HTTP3]    Bishop, M., Ed., "Hypertext Transfer Protocol Version 3
               (HTTP/3)", Work in Progress, Internet-Draft, draft-ietf-
-              quic-http-latest, 13 March 2020,
+              quic-http-latest, 19 March 2020,
               <https://tools.ietf.org/html/draft-ietf-quic-http-latest>.
 
    [QUIC-TRANSPORT]
               Iyengar, J., Ed. and M. Thomson, Ed., "QUIC: A UDP-Based
               Multiplexed and Secure Transport", Work in Progress,
-              Internet-Draft, draft-ietf-quic-transport-latest, 13 March
+              Internet-Draft, draft-ietf-quic-transport-latest, 19 March
               2020, <https://tools.ietf.org/html/draft-ietf-quic-
               transport-latest>.
 
@@ -1565,7 +1565,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 14 September 2020              [Page 28]
+Krasic, et al.          Expires 20 September 2020              [Page 28]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1621,7 +1621,7 @@ Appendix A.  Static Table
 
 
 
-Krasic, et al.          Expires 14 September 2020              [Page 29]
+Krasic, et al.          Expires 20 September 2020              [Page 29]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1677,7 +1677,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 14 September 2020              [Page 30]
+Krasic, et al.          Expires 20 September 2020              [Page 30]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1733,7 +1733,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 14 September 2020              [Page 31]
+Krasic, et al.          Expires 20 September 2020              [Page 31]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1789,7 +1789,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 14 September 2020              [Page 32]
+Krasic, et al.          Expires 20 September 2020              [Page 32]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1845,7 +1845,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 14 September 2020              [Page 33]
+Krasic, et al.          Expires 20 September 2020              [Page 33]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1901,7 +1901,7 @@ Appendix B.  Sample One Pass Encoding Algorithm
 
 
 
-Krasic, et al.          Expires 14 September 2020              [Page 34]
+Krasic, et al.          Expires 20 September 2020              [Page 34]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1957,7 +1957,7 @@ Appendix C.  Change Log
 
 
 
-Krasic, et al.          Expires 14 September 2020              [Page 35]
+Krasic, et al.          Expires 20 September 2020              [Page 35]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -2013,7 +2013,7 @@ C.8.  Since draft-ietf-quic-qpack-05
 
 
 
-Krasic, et al.          Expires 14 September 2020              [Page 36]
+Krasic, et al.          Expires 20 September 2020              [Page 36]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -2069,7 +2069,7 @@ C.13.  Since draft-ietf-quic-qpack-00
 
 
 
-Krasic, et al.          Expires 14 September 2020              [Page 37]
+Krasic, et al.          Expires 20 September 2020              [Page 37]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -2125,7 +2125,7 @@ Authors' Addresses
 
 
 
-Krasic, et al.          Expires 14 September 2020              [Page 38]
+Krasic, et al.          Expires 20 September 2020              [Page 38]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -2181,4 +2181,4 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 14 September 2020              [Page 39]
+Krasic, et al.          Expires 20 September 2020              [Page 39]
