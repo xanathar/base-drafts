@@ -5,10 +5,10 @@
 QUIC                                                           C. Krasic
 Internet-Draft                                                   Netflix
 Intended status: Standards Track                               M. Bishop
-Expires: 19 September 2020                           Akamai Technologies
+Expires: 20 September 2020                           Akamai Technologies
                                                         A. Frindell, Ed.
                                                                 Facebook
-                                                           18 March 2020
+                                                           19 March 2020
 
 
                   QPACK: Header Compression for HTTP/3
@@ -48,12 +48,12 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 September 2020.
+   This Internet-Draft will expire on 20 September 2020.
 
 
 
 
-Krasic, et al.          Expires 19 September 2020               [Page 1]
+Krasic, et al.          Expires 20 September 2020               [Page 1]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Krasic, et al.          Expires 19 September 2020               [Page 2]
+Krasic, et al.          Expires 20 September 2020               [Page 2]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -165,7 +165,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 19 September 2020               [Page 3]
+Krasic, et al.          Expires 20 September 2020               [Page 3]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -221,7 +221,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 19 September 2020               [Page 4]
+Krasic, et al.          Expires 20 September 2020               [Page 4]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -277,7 +277,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 19 September 2020               [Page 5]
+Krasic, et al.          Expires 20 September 2020               [Page 5]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -333,7 +333,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 19 September 2020               [Page 6]
+Krasic, et al.          Expires 20 September 2020               [Page 6]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -389,7 +389,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 19 September 2020               [Page 7]
+Krasic, et al.          Expires 20 September 2020               [Page 7]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -445,7 +445,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 19 September 2020               [Page 8]
+Krasic, et al.          Expires 20 September 2020               [Page 8]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -501,7 +501,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 19 September 2020               [Page 9]
+Krasic, et al.          Expires 20 September 2020               [Page 9]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -557,7 +557,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 19 September 2020              [Page 10]
+Krasic, et al.          Expires 20 September 2020              [Page 10]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -613,7 +613,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 19 September 2020              [Page 11]
+Krasic, et al.          Expires 20 September 2020              [Page 11]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -669,7 +669,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 19 September 2020              [Page 12]
+Krasic, et al.          Expires 20 September 2020              [Page 12]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -725,7 +725,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 19 September 2020              [Page 13]
+Krasic, et al.          Expires 20 September 2020              [Page 13]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -781,7 +781,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 19 September 2020              [Page 14]
+Krasic, et al.          Expires 20 September 2020              [Page 14]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -837,7 +837,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 19 September 2020              [Page 15]
+Krasic, et al.          Expires 20 September 2020              [Page 15]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -893,7 +893,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 19 September 2020              [Page 16]
+Krasic, et al.          Expires 20 September 2020              [Page 16]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -949,7 +949,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 19 September 2020              [Page 17]
+Krasic, et al.          Expires 20 September 2020              [Page 17]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1005,7 +1005,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 19 September 2020              [Page 18]
+Krasic, et al.          Expires 20 September 2020              [Page 18]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1061,7 +1061,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 19 September 2020              [Page 19]
+Krasic, et al.          Expires 20 September 2020              [Page 19]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1117,7 +1117,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 19 September 2020              [Page 20]
+Krasic, et al.          Expires 20 September 2020              [Page 20]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1173,7 +1173,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 19 September 2020              [Page 21]
+Krasic, et al.          Expires 20 September 2020              [Page 21]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1229,7 +1229,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 19 September 2020              [Page 22]
+Krasic, et al.          Expires 20 September 2020              [Page 22]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1285,7 +1285,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 19 September 2020              [Page 23]
+Krasic, et al.          Expires 20 September 2020              [Page 23]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1341,7 +1341,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 19 September 2020              [Page 24]
+Krasic, et al.          Expires 20 September 2020              [Page 24]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1397,7 +1397,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 19 September 2020              [Page 25]
+Krasic, et al.          Expires 20 September 2020              [Page 25]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1453,7 +1453,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 19 September 2020              [Page 26]
+Krasic, et al.          Expires 20 September 2020              [Page 26]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1509,7 +1509,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 19 September 2020              [Page 27]
+Krasic, et al.          Expires 20 September 2020              [Page 27]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1536,13 +1536,13 @@ Internet-Draft                    QPACK                       March 2020
 
    [HTTP3]    Bishop, M., Ed., "Hypertext Transfer Protocol Version 3
               (HTTP/3)", Work in Progress, Internet-Draft, draft-ietf-
-              quic-http-latest, 18 March 2020,
+              quic-http-latest, 19 March 2020,
               <https://tools.ietf.org/html/draft-ietf-quic-http-latest>.
 
    [QUIC-TRANSPORT]
               Iyengar, J., Ed. and M. Thomson, Ed., "QUIC: A UDP-Based
               Multiplexed and Secure Transport", Work in Progress,
-              Internet-Draft, draft-ietf-quic-transport-latest, 18 March
+              Internet-Draft, draft-ietf-quic-transport-latest, 19 March
               2020, <https://tools.ietf.org/html/draft-ietf-quic-
               transport-latest>.
 
@@ -1565,7 +1565,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 19 September 2020              [Page 28]
+Krasic, et al.          Expires 20 September 2020              [Page 28]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1621,7 +1621,7 @@ Appendix A.  Static Table
 
 
 
-Krasic, et al.          Expires 19 September 2020              [Page 29]
+Krasic, et al.          Expires 20 September 2020              [Page 29]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1677,7 +1677,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 19 September 2020              [Page 30]
+Krasic, et al.          Expires 20 September 2020              [Page 30]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1733,7 +1733,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 19 September 2020              [Page 31]
+Krasic, et al.          Expires 20 September 2020              [Page 31]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1789,7 +1789,7 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 19 September 2020              [Page 32]
+Krasic, et al.          Expires 20 September 2020              [Page 32]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1845,7 +1845,7 @@ Appendix B.  Sample One Pass Encoding Algorithm
 
 
 
-Krasic, et al.          Expires 19 September 2020              [Page 33]
+Krasic, et al.          Expires 20 September 2020              [Page 33]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1901,7 +1901,7 @@ Appendix C.  Change Log
 
 
 
-Krasic, et al.          Expires 19 September 2020              [Page 34]
+Krasic, et al.          Expires 20 September 2020              [Page 34]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -1957,7 +1957,7 @@ C.8.  Since draft-ietf-quic-qpack-05
 
 
 
-Krasic, et al.          Expires 19 September 2020              [Page 35]
+Krasic, et al.          Expires 20 September 2020              [Page 35]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -2013,7 +2013,7 @@ C.13.  Since draft-ietf-quic-qpack-00
 
 
 
-Krasic, et al.          Expires 19 September 2020              [Page 36]
+Krasic, et al.          Expires 20 September 2020              [Page 36]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -2069,7 +2069,7 @@ Authors' Addresses
 
 
 
-Krasic, et al.          Expires 19 September 2020              [Page 37]
+Krasic, et al.          Expires 20 September 2020              [Page 37]
 
 Internet-Draft                    QPACK                       March 2020
 
@@ -2125,4 +2125,4 @@ Internet-Draft                    QPACK                       March 2020
 
 
 
-Krasic, et al.          Expires 19 September 2020              [Page 38]
+Krasic, et al.          Expires 20 September 2020              [Page 38]
