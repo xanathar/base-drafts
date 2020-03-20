@@ -3050,12 +3050,11 @@ shows a QUIC packet with the packet type and packet number shown first, followed
 by the frames that are typically contained in those packets. So, for instance
 the first packet is of type Initial, with packet number 0, and contains a CRYPTO
 frame carrying the ClientHello.<a href="#section-7.1-3" class="pilcrow">¶</a></p>
-<p id="section-7.1-4">Note that multiple QUIC packets - even of different encryption levels - may be
+<p id="section-7.1-4">Note that multiple QUIC packets - even of different packet types - can be
 coalesced into a single UDP datagram (see <a href="#packet-coalesce" class="xref">Section 12.2</a>), and so this
 handshake may consist of as few as 4 UDP datagrams, or any number more. For
-instance, the server's first flight contains packets from the Initial encryption
-level (obfuscation), the Handshake level, and "0.5-RTT data" from the server at
-the 1-RTT encryption level.<a href="#section-7.1-4" class="pilcrow">¶</a></p>
+instance, the server's first flight contains Initial packets,
+Handshake packets, and "0.5-RTT data" in 1-RTT packets with a short header.<a href="#section-7.1-4" class="pilcrow">¶</a></p>
 <span id="name-example-1-rtt-handshake"></span><div id="tls-1rtt-handshake">
 <figure id="figure-3">
           <div class="artwork art-text alignLeft" id="section-7.1-5.1">
@@ -3081,9 +3080,9 @@ Handshake[0]: CRYPTO[FIN], ACK[0]
           </figcaption></figure>
 </div>
 <p id="section-7.1-6"><a href="#tls-0rtt-handshake" class="xref">Figure 4</a> shows an example of a connection with a 0-RTT handshake
-and a single packet of 0-RTT data. Note that as described in <a href="#packet-numbers" class="xref">Section 12.3</a>,
-the server acknowledges 0-RTT data at the 1-RTT encryption level, and the
-client sends 1-RTT packets in the same packet number space.<a href="#section-7.1-6" class="pilcrow">¶</a></p>
+and a single packet of 0-RTT data. Note that as described in
+<a href="#packet-numbers" class="xref">Section 12.3</a>, the server acknowledges 0-RTT data in 1-RTT packets, and
+the client sends 1-RTT packets in the same packet number space.<a href="#section-7.1-6" class="pilcrow">¶</a></p>
 <span id="name-example-0-rtt-handshake"></span><div id="tls-0rtt-handshake">
 <figure id="figure-4">
           <div class="artwork art-text alignLeft" id="section-7.1-7.1">
@@ -4198,17 +4197,36 @@ level of packet protection to avoid the packet being discarded.  After the
 handshake is confirmed (see Section 4.1.2 of <span>[<a href="#QUIC-TLS" class="xref">QUIC-TLS</a>]</span>), an endpoint MUST
 send any CONNECTION_CLOSE frames in a 1-RTT packet.  However, prior to
 confirming the handshake, it is possible that more advanced packet protection
-keys are not available to the peer, so the frame MAY be replicated in a packet
-that uses a lower packet protection level.<a href="#section-10.3.1-1" class="pilcrow">¶</a></p>
-<p id="section-10.3.1-2">A client will always know whether the server has Handshake keys (see
-<a href="#discard-initial" class="xref">Section 17.2.2.1</a>), but it is possible that a server does not know whether the
-client has Handshake keys.  Under these circumstances, a server SHOULD send a
-CONNECTION_CLOSE frame in both Handshake and Initial packets to ensure that at
-least one of them is processable by the client.  Similarly, a peer might be
-unable to read 1-RTT packets, so an endpoint SHOULD send CONNECTION_CLOSE in
-Handshake and 1-RTT packets prior to confirming the handshake.  These packets
-can be coalesced into a single UDP datagram; see <a href="#packet-coalesce" class="xref">Section 12.2</a>.<a href="#section-10.3.1-2" class="pilcrow">¶</a></p>
-<p id="section-10.3.1-3">An endpoint might send a CONNECTION_CLOSE frame in an Initial packet or in
+keys are not available to the peer, so another CONNECTION_CLOSE frame MAY be
+sent in a packet that uses a lower packet protection level.  More specifically:<a href="#section-10.3.1-1" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-10.3.1-2.1">A client will always know whether the server has Handshake keys (see
+<a href="#discard-initial" class="xref">Section 17.2.2.1</a>), but it is possible that a server does not know whether
+the client has Handshake keys.  Under these circumstances, a server SHOULD
+send a CONNECTION_CLOSE frame in both Handshake and Initial packets to ensure
+that at least one of them is processable by the client.<a href="#section-10.3.1-2.1" class="pilcrow">¶</a>
+</li>
+<li id="section-10.3.1-2.2">A client that sends CONNECTION_CLOSE in a 0-RTT packet cannot be assured of
+the server has accepted 0-RTT and so sending a CONNECTION_CLOSE frame in an
+Initial packet makes it more likely that the server can receive the close
+signal, even if the application error code might not be received.<a href="#section-10.3.1-2.2" class="pilcrow">¶</a>
+</li>
+<li id="section-10.3.1-2.3">Prior to confirming the handshake, a peer might be unable to process 1-RTT
+packets, so an endpoint SHOULD send CONNECTION_CLOSE in both Handshake and
+1-RTT packets.  A server SHOULD also send CONNECTION_CLOSE in an Initial
+packet.<a href="#section-10.3.1-2.3" class="pilcrow">¶</a>
+</li>
+</ul>
+<p id="section-10.3.1-3">Sending a CONNECTION_CLOSE of type 0x1d in an Initial or Handshake packet could
+expose application state or be used to alter application state. A
+CONNECTION_CLOSE of type 0x1d MUST be replaced by a CONNECTION_CLOSE of type
+0x1c when sending the frame in Initial or Handshake packets. Otherwise,
+information about the application state might be revealed. Endpoints MUST clear
+the value of the Reason Phrase field and SHOULD use the APPLICATION_ERROR code
+when converting to a CONNECTION_CLOSE of type 0x1c.<a href="#section-10.3.1-3" class="pilcrow">¶</a></p>
+<p id="section-10.3.1-4">CONNECTION_CLOSE frames sent in multiple packet types can be coalesced into a
+single UDP datagram; see <a href="#packet-coalesce" class="xref">Section 12.2</a>.<a href="#section-10.3.1-4" class="pilcrow">¶</a></p>
+<p id="section-10.3.1-5">An endpoint might send a CONNECTION_CLOSE frame in an Initial packet or in
 response to unauthenticated information received in Initial or Handshake
 packets.  Such an immediate close might expose legitimate connections to a
 denial of service.  QUIC does not include defensive measures for on-path attacks
@@ -4217,11 +4235,11 @@ feedback about errors for legitimate peers, some forms of denial of service can
 be made more difficult for an attacker if endpoints discard illegal packets
 rather than terminating a connection with CONNECTION_CLOSE.  For this reason,
 endpoints MAY discard packets rather than immediately close if errors are
-detected in packets that lack authentication.<a href="#section-10.3.1-3" class="pilcrow">¶</a></p>
-<p id="section-10.3.1-4">An endpoint that has not established state, such as a server that detects an
+detected in packets that lack authentication.<a href="#section-10.3.1-5" class="pilcrow">¶</a></p>
+<p id="section-10.3.1-6">An endpoint that has not established state, such as a server that detects an
 error in an Initial packet, does not enter the closing state.  An endpoint that
 has no state for the connection does not enter a closing or draining period on
-sending a CONNECTION_CLOSE frame.<a href="#section-10.3.1-4" class="pilcrow">¶</a></p>
+sending a CONNECTION_CLOSE frame.<a href="#section-10.3.1-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -4553,11 +4571,10 @@ keys necessary to remove packet protection or to generate packets that will be
 successfully authenticated.<a href="#section-12.1-2" class="pilcrow">¶</a></p>
 <p id="section-12.1-3">All other packets are protected with keys derived from the cryptographic
 handshake. The type of the packet from the long header or key phase from the
-short header are used to identify which encryption level - and therefore the
-keys - that are used. Packets protected with 0-RTT and 1-RTT keys are expected
-to have confidentiality and data origin authentication; the cryptographic
-handshake ensures that only the communicating endpoints receive the
-corresponding keys.<a href="#section-12.1-3" class="pilcrow">¶</a></p>
+short header are used to identify which encryption keys are used. Packets
+protected with 0-RTT and 1-RTT keys are expected to have confidentiality and
+data origin authentication; the cryptographic handshake ensures that only the
+communicating endpoints receive the corresponding keys.<a href="#section-12.1-3" class="pilcrow">¶</a></p>
 <p id="section-12.1-4">The packet number field contains a packet number, which has additional
 confidentiality protection that is applied after packet protection is applied
 (see <span>[<a href="#QUIC-TLS" class="xref">QUIC-TLS</a>]</span> for details).  The underlying packet number increases with
@@ -4582,10 +4599,11 @@ cryptographic handshake and start sending data.  This can also be used to
 construct PMTU probes (see <a href="#pmtu-probes-src-cid" class="xref">Section 14.3.1</a>).  Receivers MUST be able to
 process coalesced packets.<a href="#section-12.2-2" class="pilcrow">¶</a></p>
 <p id="section-12.2-3">Coalescing packets in order of increasing encryption levels (Initial, 0-RTT,
-Handshake, 1-RTT) makes it more likely the receiver will be able to process all
-the packets in a single pass.  A packet with a short header does not include a
-length, so it can only be the last packet included in a UDP datagram.  An
-endpoint SHOULD NOT coalesce multiple packets at the same encryption level.<a href="#section-12.2-3" class="pilcrow">¶</a></p>
+Handshake, 1-RTT; see Section 4.1.4 of <span>[<a href="#QUIC-TLS" class="xref">QUIC-TLS</a>]</span>) makes it more likely the
+receiver will be able to process all the packets in a single pass. A packet
+with a short header does not include a length, so it can only be the last
+packet included in a UDP datagram. An endpoint SHOULD NOT coalesce multiple
+packets at the same encryption level.<a href="#section-12.2-3" class="pilcrow">¶</a></p>
 <p id="section-12.2-4">Senders MUST NOT coalesce QUIC packets for different connections into a single
 UDP datagram. Receivers SHOULD ignore any subsequent packets with a different
 Destination Connection ID than the first packet in the datagram.<a href="#section-12.2-4" class="pilcrow">¶</a></p>
@@ -4876,7 +4894,7 @@ frames are explained in more detail in <a href="#frame-formats" class="xref">Sec
               <td class="text-left" rowspan="1" colspan="1">
                 <a href="#frame-connection-close" class="xref">Section 19.19</a>
 </td>
-              <td class="text-left" rowspan="1" colspan="1">IH_1*</td>
+              <td class="text-left" rowspan="1" colspan="1">ih01</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x1e</td>
@@ -4891,7 +4909,7 @@ frames are explained in more detail in <a href="#frame-formats" class="xref">Sec
 </div>
 <p id="section-12.4-8">The "Packets" column in <a href="#frame-types" class="xref">Table 3</a> does not form part of the IANA registry
 (see <a href="#iana-frames" class="xref">Section 22.3</a>).  This column lists the types of packets that each
-frame type can appear in, indicated by the following characters:<a href="#section-12.4-8" class="pilcrow">¶</a></p>
+frame type could appear in, indicated by the following characters:<a href="#section-12.4-8" class="pilcrow">¶</a></p>
 <dl class="dlParallel" id="section-12.4-9">
           <dt id="section-12.4-9.1">I:</dt>
 <dd id="section-12.4-9.2">
@@ -4909,11 +4927,10 @@ frame type can appear in, indicated by the following characters:<a href="#sectio
 <dd id="section-12.4-9.8">
   1-RTT (<a href="#short-header" class="xref">Section 17.3</a>)<a href="#section-12.4-9.8" class="pilcrow">¶</a>
 </dd>
-<dt id="section-12.4-9.9">*:</dt>
+<dt id="section-12.4-9.9">ih:</dt>
 <dd id="section-12.4-9.10">
-  A CONNECTION_CLOSE frame of type 0x1c can appear in Initial, Handshake, and
-1-RTT packets, whereas a CONNECTION_CLOSE of type 0x1d can only appear in a
-1-RTT packet.<a href="#section-12.4-9.10" class="pilcrow">¶</a>
+  A CONNECTION_CLOSE frame of type 0x1d cannot appear in Initial or Handshake
+packets.<a href="#section-12.4-9.10" class="pilcrow">¶</a>
 </dd>
 </dl>
 <p id="section-12.4-10">Section 4 of <span>[<a href="#QUIC-TLS" class="xref">QUIC-TLS</a>]</span> provides more detail about these restrictions.  Note
@@ -5178,7 +5195,7 @@ containing that information is acknowledged.<a href="#section-13.3-2" class="pil
 <li id="section-13.3-3.1">Data sent in CRYPTO frames is retransmitted according to the rules in
 <span>[<a href="#QUIC-RECOVERY" class="xref">QUIC-RECOVERY</a>]</span>, until all data has been acknowledged.  Data in CRYPTO
 frames for Initial and Handshake packets is discarded when keys for the
-corresponding encryption level are discarded.<a href="#section-13.3-3.1" class="pilcrow">¶</a>
+corresponding packet number space are discarded.<a href="#section-13.3-3.1" class="pilcrow">¶</a>
 </li>
 <li id="section-13.3-3.2">Application data sent in STREAM frames is retransmitted in new STREAM frames
 unless the endpoint has sent a RESET_STREAM for that stream.  Once an endpoint
@@ -6188,9 +6205,9 @@ Handshake packet sent by a server contains a packet number of 0.<a href="#sectio
 PADDING, or ACK frames. Handshake packets MAY contain CONNECTION_CLOSE frames.
 Endpoints MUST treat receipt of Handshake packets with other frames as a
 connection error.<a href="#section-17.2.4-6" class="pilcrow">¶</a></p>
-<p id="section-17.2.4-7">Like Initial packets (see <a href="#discard-initial" class="xref">Section 17.2.2.1</a>), data in CRYPTO frames at the
-Handshake encryption level is discarded - and no longer retransmitted - when
-Handshake protection keys are discarded.<a href="#section-17.2.4-7" class="pilcrow">¶</a></p>
+<p id="section-17.2.4-7">Like Initial packets (see <a href="#discard-initial" class="xref">Section 17.2.2.1</a>), data in CRYPTO frames for
+Handshake packets is discarded - and no longer retransmitted - when Handshake
+protection keys are discarded.<a href="#section-17.2.4-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="packet-retry">
@@ -7828,10 +7845,10 @@ This SHOULD be a UTF-8 encoded string <span>[<a href="#RFC3629" class="xref">RFC
 </dd>
 </dl>
 <p id="section-19.19-7">The application-specific variant of CONNECTION_CLOSE (type 0x1d) can only be
-sent using an 1-RTT packet (<span>[<a href="#QUIC-TLS" class="xref">QUIC-TLS</a>]</span>, Section 4).  When an application
-wishes to abandon a connection during the handshake, an endpoint can send a
-CONNECTION_CLOSE frame (type 0x1c) with an error code of 0x15a ("user_canceled"
-alert; see <span>[<a href="#TLS13" class="xref">TLS13</a>]</span>) in an Initial or a Handshake packet.<a href="#section-19.19-7" class="pilcrow">¶</a></p>
+sent using 0-RTT or 1-RTT packets (<span>[<a href="#QUIC-TLS" class="xref">QUIC-TLS</a>]</span>, Section 4).  When an
+application wishes to abandon a connection during the handshake, an endpoint
+can send a CONNECTION_CLOSE frame (type 0x1c) with an error code of
+APPLICATION_ERROR in an Initial or a Handshake packet.<a href="#section-19.19-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="frame-handshake-done">
@@ -7949,16 +7966,20 @@ more specific error codes.<a href="#section-20-3.22" class="pilcrow">¶</a>
 <dd id="section-20-3.24">
   A server received a Retry Token in a client Initial that is invalid.<a href="#section-20-3.24" class="pilcrow">¶</a>
 </dd>
-<dt id="section-20-3.25">CRYPTO_BUFFER_EXCEEDED (0xD):</dt>
+<dt id="section-20-3.25">APPLICATION_ERROR (0xC):</dt>
 <dd id="section-20-3.26">
-  An endpoint has received more data in CRYPTO frames than it can buffer.<a href="#section-20-3.26" class="pilcrow">¶</a>
+  The application or application protocol caused the connection to be closed.<a href="#section-20-3.26" class="pilcrow">¶</a>
 </dd>
-<dt id="section-20-3.27">CRYPTO_ERROR (0x1XX):</dt>
+<dt id="section-20-3.27">CRYPTO_BUFFER_EXCEEDED (0xD):</dt>
 <dd id="section-20-3.28">
+  An endpoint has received more data in CRYPTO frames than it can buffer.<a href="#section-20-3.28" class="pilcrow">¶</a>
+</dd>
+<dt id="section-20-3.29">CRYPTO_ERROR (0x1XX):</dt>
+<dd id="section-20-3.30">
   The cryptographic handshake failed.  A range of 256 values is reserved for
 carrying error codes specific to the cryptographic handshake that is used.
 Codes for errors occurring when TLS is used for the crypto handshake are
-described in Section 4.8 of <span>[<a href="#QUIC-TLS" class="xref">QUIC-TLS</a>]</span>.<a href="#section-20-3.28" class="pilcrow">¶</a>
+described in Section 4.8 of <span>[<a href="#QUIC-TLS" class="xref">QUIC-TLS</a>]</span>.<a href="#section-20-3.30" class="pilcrow">¶</a>
 </dd>
 </dl>
 <p id="section-20-4">See <a href="#iana-error-codes" class="xref">Section 22.4</a> for details of registering new error codes.<a href="#section-20-4" class="pilcrow">¶</a></p>
@@ -9006,6 +9027,14 @@ specification reference is provided.<a href="#section-22.4-4.4" class="pilcrow">
               <td class="text-left" rowspan="1" colspan="1">0xB</td>
               <td class="text-left" rowspan="1" colspan="1">INVALID_TOKEN</td>
               <td class="text-left" rowspan="1" colspan="1">Invalid Token Received</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <a href="#error-codes" class="xref">Section 20</a>
+</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">0xC</td>
+              <td class="text-left" rowspan="1" colspan="1">APPLICATION_ERROR</td>
+              <td class="text-left" rowspan="1" colspan="1">Application error</td>
               <td class="text-left" rowspan="1" colspan="1">
                 <a href="#error-codes" class="xref">Section 20</a>
 </td>

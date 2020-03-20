@@ -150,18 +150,18 @@ Internet-Draft           QUIC Transport Protocol              March 2020
      10.2.  Idle Timeout . . . . . . . . . . . . . . . . . . . . . .  59
      10.3.  Immediate Close  . . . . . . . . . . . . . . . . . . . .  59
        10.3.1.  Immediate Close During the Handshake . . . . . . . .  61
-     10.4.  Stateless Reset  . . . . . . . . . . . . . . . . . . . .  61
-       10.4.1.  Detecting a Stateless Reset  . . . . . . . . . . . .  64
-       10.4.2.  Calculating a Stateless Reset Token  . . . . . . . .  65
-       10.4.3.  Looping  . . . . . . . . . . . . . . . . . . . . . .  66
+     10.4.  Stateless Reset  . . . . . . . . . . . . . . . . . . . .  62
+       10.4.1.  Detecting a Stateless Reset  . . . . . . . . . . . .  65
+       10.4.2.  Calculating a Stateless Reset Token  . . . . . . . .  66
+       10.4.3.  Looping  . . . . . . . . . . . . . . . . . . . . . .  67
    11. Error Handling  . . . . . . . . . . . . . . . . . . . . . . .  67
-     11.1.  Connection Errors  . . . . . . . . . . . . . . . . . . .  67
+     11.1.  Connection Errors  . . . . . . . . . . . . . . . . . . .  68
      11.2.  Stream Errors  . . . . . . . . . . . . . . . . . . . . .  68
-   12. Packets and Frames  . . . . . . . . . . . . . . . . . . . . .  68
+   12. Packets and Frames  . . . . . . . . . . . . . . . . . . . . .  69
      12.1.  Protected Packets  . . . . . . . . . . . . . . . . . . .  69
-     12.2.  Coalescing Packets . . . . . . . . . . . . . . . . . . .  69
-     12.3.  Packet Numbers . . . . . . . . . . . . . . . . . . . . .  70
-     12.4.  Frames and Frame Types . . . . . . . . . . . . . . . . .  71
+     12.2.  Coalescing Packets . . . . . . . . . . . . . . . . . . .  70
+     12.3.  Packet Numbers . . . . . . . . . . . . . . . . . . . . .  71
+     12.4.  Frames and Frame Types . . . . . . . . . . . . . . . . .  72
 
 
 
@@ -170,54 +170,54 @@ Iyengar & Thomson       Expires 21 September 2020               [Page 3]
 Internet-Draft           QUIC Transport Protocol              March 2020
 
 
-   13. Packetization and Reliability . . . . . . . . . . . . . . . .  74
-     13.1.  Packet Processing  . . . . . . . . . . . . . . . . . . .  75
-     13.2.  Generating Acknowledgements  . . . . . . . . . . . . . .  75
-       13.2.1.  Sending ACK Frames . . . . . . . . . . . . . . . . .  76
-       13.2.2.  Managing ACK Ranges  . . . . . . . . . . . . . . . .  77
-       13.2.3.  Receiver Tracking of ACK Frames  . . . . . . . . . .  78
-       13.2.4.  Limiting ACK Ranges  . . . . . . . . . . . . . . . .  78
-       13.2.5.  Measuring and Reporting Host Delay . . . . . . . . .  79
-       13.2.6.  ACK Frames and Packet Protection . . . . . . . . . .  79
-     13.3.  Retransmission of Information  . . . . . . . . . . . . .  79
-     13.4.  Explicit Congestion Notification . . . . . . . . . . . .  82
-       13.4.1.  ECN Counts . . . . . . . . . . . . . . . . . . . . .  82
-       13.4.2.  ECN Validation . . . . . . . . . . . . . . . . . . .  83
-   14. Packet Size . . . . . . . . . . . . . . . . . . . . . . . . .  85
-     14.1.  Path Maximum Transmission Unit (PMTU)  . . . . . . . . .  85
-     14.2.  ICMP Packet Too Big Messages . . . . . . . . . . . . . .  86
-     14.3.  Datagram Packetization Layer PMTU Discovery  . . . . . .  87
-       14.3.1.  PMTU Probes Containing Source Connection ID  . . . .  88
-   15. Versions  . . . . . . . . . . . . . . . . . . . . . . . . . .  88
-   16. Variable-Length Integer Encoding  . . . . . . . . . . . . . .  89
-   17. Packet Formats  . . . . . . . . . . . . . . . . . . . . . . .  90
-     17.1.  Packet Number Encoding and Decoding  . . . . . . . . . .  90
-     17.2.  Long Header Packets  . . . . . . . . . . . . . . . . . .  91
-       17.2.1.  Version Negotiation Packet . . . . . . . . . . . . .  94
-       17.2.2.  Initial Packet . . . . . . . . . . . . . . . . . . .  95
-       17.2.3.  0-RTT  . . . . . . . . . . . . . . . . . . . . . . .  98
-       17.2.4.  Handshake Packet . . . . . . . . . . . . . . . . . .  99
-       17.2.5.  Retry Packet . . . . . . . . . . . . . . . . . . . . 100
-     17.3.  Short Header Packets . . . . . . . . . . . . . . . . . . 103
-       17.3.1.  Latency Spin Bit . . . . . . . . . . . . . . . . . . 105
-   18. Transport Parameter Encoding  . . . . . . . . . . . . . . . . 106
-     18.1.  Reserved Transport Parameters  . . . . . . . . . . . . . 107
-     18.2.  Transport Parameter Definitions  . . . . . . . . . . . . 107
-   19. Frame Types and Formats . . . . . . . . . . . . . . . . . . . 111
-     19.1.  PADDING Frame  . . . . . . . . . . . . . . . . . . . . . 111
-     19.2.  PING Frame . . . . . . . . . . . . . . . . . . . . . . . 111
-     19.3.  ACK Frames . . . . . . . . . . . . . . . . . . . . . . . 112
-       19.3.1.  ACK Ranges . . . . . . . . . . . . . . . . . . . . . 114
-       19.3.2.  ECN Counts . . . . . . . . . . . . . . . . . . . . . 115
-     19.4.  RESET_STREAM Frame . . . . . . . . . . . . . . . . . . . 116
-     19.5.  STOP_SENDING Frame . . . . . . . . . . . . . . . . . . . 117
-     19.6.  CRYPTO Frame . . . . . . . . . . . . . . . . . . . . . . 118
-     19.7.  NEW_TOKEN Frame  . . . . . . . . . . . . . . . . . . . . 119
-     19.8.  STREAM Frames  . . . . . . . . . . . . . . . . . . . . . 120
-     19.9.  MAX_DATA Frame . . . . . . . . . . . . . . . . . . . . . 121
-     19.10. MAX_STREAM_DATA Frame  . . . . . . . . . . . . . . . . . 122
-     19.11. MAX_STREAMS Frames . . . . . . . . . . . . . . . . . . . 123
-     19.12. DATA_BLOCKED Frame . . . . . . . . . . . . . . . . . . . 124
+   13. Packetization and Reliability . . . . . . . . . . . . . . . .  75
+     13.1.  Packet Processing  . . . . . . . . . . . . . . . . . . .  76
+     13.2.  Generating Acknowledgements  . . . . . . . . . . . . . .  76
+       13.2.1.  Sending ACK Frames . . . . . . . . . . . . . . . . .  77
+       13.2.2.  Managing ACK Ranges  . . . . . . . . . . . . . . . .  78
+       13.2.3.  Receiver Tracking of ACK Frames  . . . . . . . . . .  79
+       13.2.4.  Limiting ACK Ranges  . . . . . . . . . . . . . . . .  79
+       13.2.5.  Measuring and Reporting Host Delay . . . . . . . . .  80
+       13.2.6.  ACK Frames and Packet Protection . . . . . . . . . .  80
+     13.3.  Retransmission of Information  . . . . . . . . . . . . .  80
+     13.4.  Explicit Congestion Notification . . . . . . . . . . . .  83
+       13.4.1.  ECN Counts . . . . . . . . . . . . . . . . . . . . .  83
+       13.4.2.  ECN Validation . . . . . . . . . . . . . . . . . . .  84
+   14. Packet Size . . . . . . . . . . . . . . . . . . . . . . . . .  86
+     14.1.  Path Maximum Transmission Unit (PMTU)  . . . . . . . . .  86
+     14.2.  ICMP Packet Too Big Messages . . . . . . . . . . . . . .  87
+     14.3.  Datagram Packetization Layer PMTU Discovery  . . . . . .  88
+       14.3.1.  PMTU Probes Containing Source Connection ID  . . . .  89
+   15. Versions  . . . . . . . . . . . . . . . . . . . . . . . . . .  89
+   16. Variable-Length Integer Encoding  . . . . . . . . . . . . . .  90
+   17. Packet Formats  . . . . . . . . . . . . . . . . . . . . . . .  91
+     17.1.  Packet Number Encoding and Decoding  . . . . . . . . . .  91
+     17.2.  Long Header Packets  . . . . . . . . . . . . . . . . . .  92
+       17.2.1.  Version Negotiation Packet . . . . . . . . . . . . .  95
+       17.2.2.  Initial Packet . . . . . . . . . . . . . . . . . . .  96
+       17.2.3.  0-RTT  . . . . . . . . . . . . . . . . . . . . . . .  99
+       17.2.4.  Handshake Packet . . . . . . . . . . . . . . . . . . 100
+       17.2.5.  Retry Packet . . . . . . . . . . . . . . . . . . . . 101
+     17.3.  Short Header Packets . . . . . . . . . . . . . . . . . . 104
+       17.3.1.  Latency Spin Bit . . . . . . . . . . . . . . . . . . 106
+   18. Transport Parameter Encoding  . . . . . . . . . . . . . . . . 107
+     18.1.  Reserved Transport Parameters  . . . . . . . . . . . . . 108
+     18.2.  Transport Parameter Definitions  . . . . . . . . . . . . 108
+   19. Frame Types and Formats . . . . . . . . . . . . . . . . . . . 112
+     19.1.  PADDING Frame  . . . . . . . . . . . . . . . . . . . . . 112
+     19.2.  PING Frame . . . . . . . . . . . . . . . . . . . . . . . 112
+     19.3.  ACK Frames . . . . . . . . . . . . . . . . . . . . . . . 113
+       19.3.1.  ACK Ranges . . . . . . . . . . . . . . . . . . . . . 115
+       19.3.2.  ECN Counts . . . . . . . . . . . . . . . . . . . . . 116
+     19.4.  RESET_STREAM Frame . . . . . . . . . . . . . . . . . . . 117
+     19.5.  STOP_SENDING Frame . . . . . . . . . . . . . . . . . . . 118
+     19.6.  CRYPTO Frame . . . . . . . . . . . . . . . . . . . . . . 119
+     19.7.  NEW_TOKEN Frame  . . . . . . . . . . . . . . . . . . . . 120
+     19.8.  STREAM Frames  . . . . . . . . . . . . . . . . . . . . . 121
+     19.9.  MAX_DATA Frame . . . . . . . . . . . . . . . . . . . . . 122
+     19.10. MAX_STREAM_DATA Frame  . . . . . . . . . . . . . . . . . 123
+     19.11. MAX_STREAMS Frames . . . . . . . . . . . . . . . . . . . 124
+     19.12. DATA_BLOCKED Frame . . . . . . . . . . . . . . . . . . . 125
 
 
 
@@ -226,54 +226,54 @@ Iyengar & Thomson       Expires 21 September 2020               [Page 4]
 Internet-Draft           QUIC Transport Protocol              March 2020
 
 
-     19.13. STREAM_DATA_BLOCKED Frame  . . . . . . . . . . . . . . . 124
-     19.14. STREAMS_BLOCKED Frames . . . . . . . . . . . . . . . . . 125
-     19.15. NEW_CONNECTION_ID Frame  . . . . . . . . . . . . . . . . 125
-     19.16. RETIRE_CONNECTION_ID Frame . . . . . . . . . . . . . . . 127
-     19.17. PATH_CHALLENGE Frame . . . . . . . . . . . . . . . . . . 128
-     19.18. PATH_RESPONSE Frame  . . . . . . . . . . . . . . . . . . 129
-     19.19. CONNECTION_CLOSE Frames  . . . . . . . . . . . . . . . . 129
-     19.20. HANDSHAKE_DONE frame . . . . . . . . . . . . . . . . . . 130
-     19.21. Extension Frames . . . . . . . . . . . . . . . . . . . . 130
-   20. Transport Error Codes . . . . . . . . . . . . . . . . . . . . 131
-     20.1.  Application Protocol Error Codes . . . . . . . . . . . . 133
-   21. Security Considerations . . . . . . . . . . . . . . . . . . . 133
-     21.1.  Handshake Denial of Service  . . . . . . . . . . . . . . 133
-     21.2.  Amplification Attack . . . . . . . . . . . . . . . . . . 134
-     21.3.  Optimistic ACK Attack  . . . . . . . . . . . . . . . . . 134
-     21.4.  Slowloris Attacks  . . . . . . . . . . . . . . . . . . . 135
-     21.5.  Stream Fragmentation and Reassembly Attacks  . . . . . . 135
-     21.6.  Stream Commitment Attack . . . . . . . . . . . . . . . . 135
-     21.7.  Peer Denial of Service . . . . . . . . . . . . . . . . . 136
-     21.8.  Explicit Congestion Notification Attacks . . . . . . . . 136
-     21.9.  Stateless Reset Oracle . . . . . . . . . . . . . . . . . 137
-     21.10. Version Downgrade  . . . . . . . . . . . . . . . . . . . 137
-     21.11. Targeted Attacks by Routing  . . . . . . . . . . . . . . 137
-     21.12. Overview of Security Properties  . . . . . . . . . . . . 138
-       21.12.1.  Handshake . . . . . . . . . . . . . . . . . . . . . 138
-       21.12.2.  Protected Packets . . . . . . . . . . . . . . . . . 140
-       21.12.3.  Connection Migration  . . . . . . . . . . . . . . . 140
-   22. IANA Considerations . . . . . . . . . . . . . . . . . . . . . 144
-     22.1.  Registration Policies for QUIC Registries  . . . . . . . 145
-       22.1.1.  Provisional Registrations  . . . . . . . . . . . . . 145
-       22.1.2.  Selecting Codepoints . . . . . . . . . . . . . . . . 146
-       22.1.3.  Reclaiming Provisional Codepoints  . . . . . . . . . 146
-       22.1.4.  Permanent Registrations  . . . . . . . . . . . . . . 147
-     22.2.  QUIC Transport Parameter Registry  . . . . . . . . . . . 147
-     22.3.  QUIC Frame Type Registry . . . . . . . . . . . . . . . . 148
-     22.4.  QUIC Transport Error Codes Registry  . . . . . . . . . . 149
-   23. References  . . . . . . . . . . . . . . . . . . . . . . . . . 151
-     23.1.  Normative References . . . . . . . . . . . . . . . . . . 151
-     23.2.  Informative References . . . . . . . . . . . . . . . . . 152
-   Appendix A.  Sample Packet Number Decoding Algorithm  . . . . . . 154
-   Appendix B.  Sample ECN Validation Algorithm  . . . . . . . . . . 155
-   Appendix C.  Change Log . . . . . . . . . . . . . . . . . . . . . 156
-     C.1.  Since draft-ietf-quic-transport-26  . . . . . . . . . . . 156
-     C.2.  Since draft-ietf-quic-transport-25  . . . . . . . . . . . 156
-     C.3.  Since draft-ietf-quic-transport-24  . . . . . . . . . . . 156
-     C.4.  Since draft-ietf-quic-transport-23  . . . . . . . . . . . 158
-     C.5.  Since draft-ietf-quic-transport-22  . . . . . . . . . . . 158
-     C.6.  Since draft-ietf-quic-transport-21  . . . . . . . . . . . 159
+     19.13. STREAM_DATA_BLOCKED Frame  . . . . . . . . . . . . . . . 125
+     19.14. STREAMS_BLOCKED Frames . . . . . . . . . . . . . . . . . 126
+     19.15. NEW_CONNECTION_ID Frame  . . . . . . . . . . . . . . . . 126
+     19.16. RETIRE_CONNECTION_ID Frame . . . . . . . . . . . . . . . 128
+     19.17. PATH_CHALLENGE Frame . . . . . . . . . . . . . . . . . . 129
+     19.18. PATH_RESPONSE Frame  . . . . . . . . . . . . . . . . . . 130
+     19.19. CONNECTION_CLOSE Frames  . . . . . . . . . . . . . . . . 130
+     19.20. HANDSHAKE_DONE frame . . . . . . . . . . . . . . . . . . 131
+     19.21. Extension Frames . . . . . . . . . . . . . . . . . . . . 131
+   20. Transport Error Codes . . . . . . . . . . . . . . . . . . . . 132
+     20.1.  Application Protocol Error Codes . . . . . . . . . . . . 134
+   21. Security Considerations . . . . . . . . . . . . . . . . . . . 134
+     21.1.  Handshake Denial of Service  . . . . . . . . . . . . . . 134
+     21.2.  Amplification Attack . . . . . . . . . . . . . . . . . . 135
+     21.3.  Optimistic ACK Attack  . . . . . . . . . . . . . . . . . 135
+     21.4.  Slowloris Attacks  . . . . . . . . . . . . . . . . . . . 136
+     21.5.  Stream Fragmentation and Reassembly Attacks  . . . . . . 136
+     21.6.  Stream Commitment Attack . . . . . . . . . . . . . . . . 136
+     21.7.  Peer Denial of Service . . . . . . . . . . . . . . . . . 137
+     21.8.  Explicit Congestion Notification Attacks . . . . . . . . 137
+     21.9.  Stateless Reset Oracle . . . . . . . . . . . . . . . . . 138
+     21.10. Version Downgrade  . . . . . . . . . . . . . . . . . . . 138
+     21.11. Targeted Attacks by Routing  . . . . . . . . . . . . . . 138
+     21.12. Overview of Security Properties  . . . . . . . . . . . . 139
+       21.12.1.  Handshake . . . . . . . . . . . . . . . . . . . . . 139
+       21.12.2.  Protected Packets . . . . . . . . . . . . . . . . . 141
+       21.12.3.  Connection Migration  . . . . . . . . . . . . . . . 141
+   22. IANA Considerations . . . . . . . . . . . . . . . . . . . . . 145
+     22.1.  Registration Policies for QUIC Registries  . . . . . . . 146
+       22.1.1.  Provisional Registrations  . . . . . . . . . . . . . 146
+       22.1.2.  Selecting Codepoints . . . . . . . . . . . . . . . . 147
+       22.1.3.  Reclaiming Provisional Codepoints  . . . . . . . . . 147
+       22.1.4.  Permanent Registrations  . . . . . . . . . . . . . . 148
+     22.2.  QUIC Transport Parameter Registry  . . . . . . . . . . . 148
+     22.3.  QUIC Frame Type Registry . . . . . . . . . . . . . . . . 149
+     22.4.  QUIC Transport Error Codes Registry  . . . . . . . . . . 150
+   23. References  . . . . . . . . . . . . . . . . . . . . . . . . . 152
+     23.1.  Normative References . . . . . . . . . . . . . . . . . . 152
+     23.2.  Informative References . . . . . . . . . . . . . . . . . 153
+   Appendix A.  Sample Packet Number Decoding Algorithm  . . . . . . 155
+   Appendix B.  Sample ECN Validation Algorithm  . . . . . . . . . . 156
+   Appendix C.  Change Log . . . . . . . . . . . . . . . . . . . . . 157
+     C.1.  Since draft-ietf-quic-transport-26  . . . . . . . . . . . 157
+     C.2.  Since draft-ietf-quic-transport-25  . . . . . . . . . . . 157
+     C.3.  Since draft-ietf-quic-transport-24  . . . . . . . . . . . 157
+     C.4.  Since draft-ietf-quic-transport-23  . . . . . . . . . . . 159
+     C.5.  Since draft-ietf-quic-transport-22  . . . . . . . . . . . 159
+     C.6.  Since draft-ietf-quic-transport-21  . . . . . . . . . . . 160
 
 
 
@@ -282,30 +282,30 @@ Iyengar & Thomson       Expires 21 September 2020               [Page 5]
 Internet-Draft           QUIC Transport Protocol              March 2020
 
 
-     C.7.  Since draft-ietf-quic-transport-20  . . . . . . . . . . . 160
-     C.8.  Since draft-ietf-quic-transport-19  . . . . . . . . . . . 160
-     C.9.  Since draft-ietf-quic-transport-18  . . . . . . . . . . . 161
-     C.10. Since draft-ietf-quic-transport-17  . . . . . . . . . . . 161
-     C.11. Since draft-ietf-quic-transport-16  . . . . . . . . . . . 162
-     C.12. Since draft-ietf-quic-transport-15  . . . . . . . . . . . 163
-     C.13. Since draft-ietf-quic-transport-14  . . . . . . . . . . . 163
-     C.14. Since draft-ietf-quic-transport-13  . . . . . . . . . . . 164
-     C.15. Since draft-ietf-quic-transport-12  . . . . . . . . . . . 165
-     C.16. Since draft-ietf-quic-transport-11  . . . . . . . . . . . 165
-     C.17. Since draft-ietf-quic-transport-10  . . . . . . . . . . . 166
-     C.18. Since draft-ietf-quic-transport-09  . . . . . . . . . . . 166
-     C.19. Since draft-ietf-quic-transport-08  . . . . . . . . . . . 167
-     C.20. Since draft-ietf-quic-transport-07  . . . . . . . . . . . 168
-     C.21. Since draft-ietf-quic-transport-06  . . . . . . . . . . . 169
-     C.22. Since draft-ietf-quic-transport-05  . . . . . . . . . . . 169
-     C.23. Since draft-ietf-quic-transport-04  . . . . . . . . . . . 169
-     C.24. Since draft-ietf-quic-transport-03  . . . . . . . . . . . 170
-     C.25. Since draft-ietf-quic-transport-02  . . . . . . . . . . . 170
-     C.26. Since draft-ietf-quic-transport-01  . . . . . . . . . . . 171
-     C.27. Since draft-ietf-quic-transport-00  . . . . . . . . . . . 173
-     C.28. Since draft-hamilton-quic-transport-protocol-01 . . . . . 173
-   Contributors  . . . . . . . . . . . . . . . . . . . . . . . . . . 173
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . . 174
+     C.7.  Since draft-ietf-quic-transport-20  . . . . . . . . . . . 161
+     C.8.  Since draft-ietf-quic-transport-19  . . . . . . . . . . . 161
+     C.9.  Since draft-ietf-quic-transport-18  . . . . . . . . . . . 162
+     C.10. Since draft-ietf-quic-transport-17  . . . . . . . . . . . 162
+     C.11. Since draft-ietf-quic-transport-16  . . . . . . . . . . . 163
+     C.12. Since draft-ietf-quic-transport-15  . . . . . . . . . . . 164
+     C.13. Since draft-ietf-quic-transport-14  . . . . . . . . . . . 164
+     C.14. Since draft-ietf-quic-transport-13  . . . . . . . . . . . 165
+     C.15. Since draft-ietf-quic-transport-12  . . . . . . . . . . . 166
+     C.16. Since draft-ietf-quic-transport-11  . . . . . . . . . . . 166
+     C.17. Since draft-ietf-quic-transport-10  . . . . . . . . . . . 167
+     C.18. Since draft-ietf-quic-transport-09  . . . . . . . . . . . 167
+     C.19. Since draft-ietf-quic-transport-08  . . . . . . . . . . . 168
+     C.20. Since draft-ietf-quic-transport-07  . . . . . . . . . . . 169
+     C.21. Since draft-ietf-quic-transport-06  . . . . . . . . . . . 170
+     C.22. Since draft-ietf-quic-transport-05  . . . . . . . . . . . 170
+     C.23. Since draft-ietf-quic-transport-04  . . . . . . . . . . . 170
+     C.24. Since draft-ietf-quic-transport-03  . . . . . . . . . . . 171
+     C.25. Since draft-ietf-quic-transport-02  . . . . . . . . . . . 171
+     C.26. Since draft-ietf-quic-transport-01  . . . . . . . . . . . 172
+     C.27. Since draft-ietf-quic-transport-00  . . . . . . . . . . . 174
+     C.28. Since draft-hamilton-quic-transport-protocol-01 . . . . . 174
+   Contributors  . . . . . . . . . . . . . . . . . . . . . . . . . . 174
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . . 175
 
 1.  Introduction
 
@@ -1928,13 +1928,12 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    packet number 0, and contains a CRYPTO frame carrying the
    ClientHello.
 
-   Note that multiple QUIC packets - even of different encryption levels
-   - may be coalesced into a single UDP datagram (see Section 12.2), and
+   Note that multiple QUIC packets - even of different packet types -
+   can be coalesced into a single UDP datagram (see Section 12.2), and
    so this handshake may consist of as few as 4 UDP datagrams, or any
    number more.  For instance, the server's first flight contains
-   packets from the Initial encryption level (obfuscation), the
-   Handshake level, and "0.5-RTT data" from the server at the 1-RTT
-   encryption level.
+   Initial packets, Handshake packets, and "0.5-RTT data" in 1-RTT
+   packets with a short header.
 
    Client                                                  Server
 
@@ -1953,7 +1952,8 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
                      Figure 3: Example 1-RTT Handshake
 
-
+   Figure 4 shows an example of a connection with a 0-RTT handshake and
+   a single packet of 0-RTT data.  Note that as described in
 
 
 
@@ -1962,11 +1962,8 @@ Iyengar & Thomson       Expires 21 September 2020              [Page 35]
 Internet-Draft           QUIC Transport Protocol              March 2020
 
 
-   Figure 4 shows an example of a connection with a 0-RTT handshake and
-   a single packet of 0-RTT data.  Note that as described in
-   Section 12.3, the server acknowledges 0-RTT data at the 1-RTT
-   encryption level, and the client sends 1-RTT packets in the same
-   packet number space.
+   Section 12.3, the server acknowledges 0-RTT data in 1-RTT packets,
+   and the client sends 1-RTT packets in the same packet number space.
 
    Client                                                  Server
 
@@ -2009,6 +2006,9 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    value.  This Destination Connection ID MUST be at least 8 bytes in
    length.  Until a packet is received from the server, the client MUST
    use the same Destination Connection ID value on all packets in this
+   connection.  This Destination Connection ID is used to determine
+   packet protection keys for Initial packets.
+
 
 
 
@@ -2017,9 +2017,6 @@ Iyengar & Thomson       Expires 21 September 2020              [Page 36]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
-
-   connection.  This Destination Connection ID is used to determine
-   packet protection keys for Initial packets.
 
    The client populates the Source Connection ID field with a value of
    its choosing and sets the SCID Len field to indicate the length.
@@ -2067,6 +2064,9 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
    The encoding of the transport parameters is detailed in Section 18.
 
+   QUIC includes the encoded transport parameters in the cryptographic
+   handshake.  Once the handshake completes, the transport parameters
+
 
 
 Iyengar & Thomson       Expires 21 September 2020              [Page 37]
@@ -2074,8 +2074,6 @@ Iyengar & Thomson       Expires 21 September 2020              [Page 37]
 Internet-Draft           QUIC Transport Protocol              March 2020
 
 
-   QUIC includes the encoded transport parameters in the cryptographic
-   handshake.  Once the handshake completes, the transport parameters
    declared by the peer are available.  Each endpoint validates the
    value provided by its peer.
 
@@ -2122,6 +2120,8 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    the values in the ticket and recover the information when accepting
    0-RTT data.  A server uses the transport parameters in determining
    whether to accept 0-RTT data.
+
+
 
 
 
@@ -3371,17 +3371,38 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    Section 4.1.2 of [QUIC-TLS]), an endpoint MUST send any
    CONNECTION_CLOSE frames in a 1-RTT packet.  However, prior to
    confirming the handshake, it is possible that more advanced packet
-   protection keys are not available to the peer, so the frame MAY be
-   replicated in a packet that uses a lower packet protection level.
+   protection keys are not available to the peer, so another
+   CONNECTION_CLOSE frame MAY be sent in a packet that uses a lower
+   packet protection level.  More specifically:
 
-   A client will always know whether the server has Handshake keys (see
-   Section 17.2.2.1), but it is possible that a server does not know
-   whether the client has Handshake keys.  Under these circumstances, a
-   server SHOULD send a CONNECTION_CLOSE frame in both Handshake and
-   Initial packets to ensure that at least one of them is processable by
-   the client.  Similarly, a peer might be unable to read 1-RTT packets,
-   so an endpoint SHOULD send CONNECTION_CLOSE in Handshake and 1-RTT
-   packets prior to confirming the handshake.  These packets can be
+   *  A client will always know whether the server has Handshake keys
+      (see Section 17.2.2.1), but it is possible that a server does not
+      know whether the client has Handshake keys.  Under these
+      circumstances, a server SHOULD send a CONNECTION_CLOSE frame in
+      both Handshake and Initial packets to ensure that at least one of
+      them is processable by the client.
+
+   *  A client that sends CONNECTION_CLOSE in a 0-RTT packet cannot be
+      assured of the server has accepted 0-RTT and so sending a
+      CONNECTION_CLOSE frame in an Initial packet makes it more likely
+      that the server can receive the close signal, even if the
+      application error code might not be received.
+
+   *  Prior to confirming the handshake, a peer might be unable to
+      process 1-RTT packets, so an endpoint SHOULD send CONNECTION_CLOSE
+      in both Handshake and 1-RTT packets.  A server SHOULD also send
+      CONNECTION_CLOSE in an Initial packet.
+
+   Sending a CONNECTION_CLOSE of type 0x1d in an Initial or Handshake
+   packet could expose application state or be used to alter application
+   state.  A CONNECTION_CLOSE of type 0x1d MUST be replaced by a
+   CONNECTION_CLOSE of type 0x1c when sending the frame in Initial or
+   Handshake packets.  Otherwise, information about the application
+   state might be revealed.  Endpoints MUST clear the value of the
+   Reason Phrase field and SHOULD use the APPLICATION_ERROR code when
+   converting to a CONNECTION_CLOSE of type 0x1c.
+
+   CONNECTION_CLOSE frames sent in multiple packet types can be
    coalesced into a single UDP datagram; see Section 12.2.
 
    An endpoint might send a CONNECTION_CLOSE frame in an Initial packet
@@ -3389,6 +3410,14 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    Handshake packets.  Such an immediate close might expose legitimate
    connections to a denial of service.  QUIC does not include defensive
    measures for on-path attacks during the handshake; see Section 21.1.
+
+
+
+Iyengar & Thomson       Expires 21 September 2020              [Page 61]
+
+Internet-Draft           QUIC Transport Protocol              March 2020
+
+
    However, at the cost of reducing feedback about errors for legitimate
    peers, some forms of denial of service can be made more difficult for
    an attacker if endpoints discard illegal packets rather than
@@ -3411,13 +3440,6 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    endpoint MAY send a stateless reset in response to receiving a packet
    that it cannot associate with an active connection.
 
-
-
-Iyengar & Thomson       Expires 21 September 2020              [Page 61]
-
-Internet-Draft           QUIC Transport Protocol              March 2020
-
-
    A stateless reset is not appropriate for signaling error conditions.
    An endpoint that wishes to communicate a fatal connection error MUST
    use a CONNECTION_CLOSE frame if it has sufficient state to do so.
@@ -3435,6 +3457,22 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
    An endpoint that receives packets that it cannot process sends a
    packet in the following layout:
+
+
+
+
+
+
+
+
+
+
+
+
+Iyengar & Thomson       Expires 21 September 2020              [Page 62]
+
+Internet-Draft           QUIC Transport Protocol              March 2020
+
 
     0                   1                   2                   3
     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -3465,15 +3503,6 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    To entities other than its intended recipient, a stateless reset will
    appear to be a packet with a short header.  For the stateless reset
    to appear as a valid QUIC packet, the Unpredictable Bits field needs
-
-
-
-
-Iyengar & Thomson       Expires 21 September 2020              [Page 62]
-
-Internet-Draft           QUIC Transport Protocol              March 2020
-
-
    to include at least 38 bits of data (or 5 bytes, less the two fixed
    bits).
 
@@ -3492,6 +3521,14 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    unpredictable bytes are necessary if the endpoint could have
    negotiated a packet protection scheme with a larger minimum
    expansion.
+
+
+
+
+Iyengar & Thomson       Expires 21 September 2020              [Page 63]
+
+Internet-Draft           QUIC Transport Protocol              March 2020
+
 
    An endpoint MUST NOT send a stateless reset that is three times or
    more larger than the packet it receives to avoid being used for
@@ -3521,15 +3558,6 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    Connection ID in the stateless reset packet.  The Destination
    Connection ID will therefore differ from the value used in previous
    packets.  A random Destination Connection ID makes the connection ID
-
-
-
-
-Iyengar & Thomson       Expires 21 September 2020              [Page 63]
-
-Internet-Draft           QUIC Transport Protocol              March 2020
-
-
    appear to be the result of moving to a new connection ID that was
    provided using a NEW_CONNECTION_ID frame (Section 19.15).
 
@@ -3548,6 +3576,15 @@ Internet-Draft           QUIC Transport Protocol              March 2020
       than the peer to identify this as a potential stateless reset.  An
       endpoint that occasionally uses different connection IDs might
       introduce some uncertainty about this.
+
+
+
+
+
+Iyengar & Thomson       Expires 21 September 2020              [Page 64]
+
+Internet-Draft           QUIC Transport Protocol              March 2020
+
 
    This stateless reset design is specific to QUIC version 1.  An
    endpoint that supports multiple versions of QUIC needs to generate a
@@ -3577,15 +3614,6 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    associated with a connection, or cannot be decrypted.
 
    An endpoint MUST NOT check for any Stateless Reset Tokens associated
-
-
-
-
-Iyengar & Thomson       Expires 21 September 2020              [Page 64]
-
-Internet-Draft           QUIC Transport Protocol              March 2020
-
-
    with connection IDs it has not used or for connection IDs that have
    been retired.
 
@@ -3605,6 +3633,14 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    If the last 16 bytes of the datagram are identical in value to a
    Stateless Reset Token, the endpoint MUST enter the draining period
    and not send any further packets on this connection.
+
+
+
+
+Iyengar & Thomson       Expires 21 September 2020              [Page 65]
+
+Internet-Draft           QUIC Transport Protocol              March 2020
+
 
 10.4.2.  Calculating a Stateless Reset Token
 
@@ -3634,14 +3670,6 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    packets so that the endpoint can use the connection ID from a packet
    to reset the connection.  An endpoint that uses this design MUST
    either use the same connection ID length for all connections or
-
-
-
-Iyengar & Thomson       Expires 21 September 2020              [Page 65]
-
-Internet-Draft           QUIC Transport Protocol              March 2020
-
-
    encode the length of the connection ID such that it can be recovered
    without state.  In addition, it cannot provide a zero-length
    connection ID.
@@ -3661,6 +3689,14 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    connection IDs.  Endpoints are not required to compare new values
    against all previous values, but a duplicate value MAY be treated as
    a connection error of type PROTOCOL_VIOLATION.
+
+
+
+
+Iyengar & Thomson       Expires 21 September 2020              [Page 66]
+
+Internet-Draft           QUIC Transport Protocol              March 2020
+
 
    Note that Stateless Reset packets do not have any cryptographic
    protection.
@@ -3690,14 +3726,6 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    depending upon the length of the peer's connection IDs.  Conversely,
    refusing to send a Stateless Reset in response to a small packet
    might result in Stateless Reset not being useful in detecting cases
-
-
-
-Iyengar & Thomson       Expires 21 September 2020              [Page 66]
-
-Internet-Draft           QUIC Transport Protocol              March 2020
-
-
    of broken connections where only very small packets are sent; such
    failures might only be detected by other means, such as timers.
 
@@ -3718,6 +3746,13 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    code when it detects an error condition; a generic error code (such
    as PROTOCOL_VIOLATION or INTERNAL_ERROR) can always be used in place
    of specific error codes.
+
+
+
+Iyengar & Thomson       Expires 21 September 2020              [Page 67]
+
+Internet-Draft           QUIC Transport Protocol              March 2020
+
 
    A stateless reset (Section 10.4) is not suitable for any error that
    can be signaled with a CONNECTION_CLOSE or RESET_STREAM frame.  A
@@ -3746,14 +3781,6 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    which this final packet is sent limits the effort expended on
    terminated connections.
 
-
-
-
-Iyengar & Thomson       Expires 21 September 2020              [Page 67]
-
-Internet-Draft           QUIC Transport Protocol              March 2020
-
-
    An endpoint that chooses not to retransmit packets containing a
    CONNECTION_CLOSE frame risks a peer missing the first such packet.
    The only mechanism available to an endpoint that continues to receive
@@ -3775,6 +3802,14 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    The semantics of the application error code carried in RESET_STREAM
    are defined by the application protocol.  Only the application
    protocol is able to cause a stream to be terminated.  A local
+
+
+
+Iyengar & Thomson       Expires 21 September 2020              [Page 68]
+
+Internet-Draft           QUIC Transport Protocol              March 2020
+
+
    instance of the application protocol uses a direct API call and a
    remote instance uses the STOP_SENDING frame, which triggers an
    automatic RESET_STREAM.
@@ -3799,17 +3834,6 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    overhead and are used after a connection is established and 1-RTT
    keys are available.
 
-
-
-
-
-
-
-Iyengar & Thomson       Expires 21 September 2020              [Page 68]
-
-Internet-Draft           QUIC Transport Protocol              March 2020
-
-
 12.1.  Protected Packets
 
    All QUIC packets except Version Negotiation packets use authenticated
@@ -3829,11 +3853,18 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    All other packets are protected with keys derived from the
    cryptographic handshake.  The type of the packet from the long header
    or key phase from the short header are used to identify which
-   encryption level - and therefore the keys - that are used.  Packets
-   protected with 0-RTT and 1-RTT keys are expected to have
-   confidentiality and data origin authentication; the cryptographic
-   handshake ensures that only the communicating endpoints receive the
-   corresponding keys.
+   encryption keys are used.  Packets protected with 0-RTT and 1-RTT
+   keys are expected to have confidentiality and data origin
+   authentication; the cryptographic handshake ensures that only the
+   communicating endpoints receive the corresponding keys.
+
+
+
+
+Iyengar & Thomson       Expires 21 September 2020              [Page 69]
+
+Internet-Draft           QUIC Transport Protocol              March 2020
+
 
    The packet number field contains a packet number, which has
    additional confidentiality protection that is applied after packet
@@ -3857,21 +3888,13 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    Section 14.3.1).  Receivers MUST be able to process coalesced
    packets.
 
-
-
-
-
-Iyengar & Thomson       Expires 21 September 2020              [Page 69]
-
-Internet-Draft           QUIC Transport Protocol              March 2020
-
-
    Coalescing packets in order of increasing encryption levels (Initial,
-   0-RTT, Handshake, 1-RTT) makes it more likely the receiver will be
-   able to process all the packets in a single pass.  A packet with a
-   short header does not include a length, so it can only be the last
-   packet included in a UDP datagram.  An endpoint SHOULD NOT coalesce
-   multiple packets at the same encryption level.
+   0-RTT, Handshake, 1-RTT; see Section 4.1.4 of [QUIC-TLS]) makes it
+   more likely the receiver will be able to process all the packets in a
+   single pass.  A packet with a short header does not include a length,
+   so it can only be the last packet included in a UDP datagram.  An
+   endpoint SHOULD NOT coalesce multiple packets at the same encryption
+   level.
 
    Senders MUST NOT coalesce QUIC packets for different connections into
    a single UDP datagram.  Receivers SHOULD ignore any subsequent
@@ -3891,6 +3914,14 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    (Section 17.2.1), and packets with a short header (Section 17.3) do
    not contain a Length field and so cannot be followed by other packets
    in the same UDP datagram.  Note also that there is no situation where
+
+
+
+Iyengar & Thomson       Expires 21 September 2020              [Page 70]
+
+Internet-Draft           QUIC Transport Protocol              March 2020
+
+
    a Retry or Version Negotiation packet is coalesced with another
    packet.
 
@@ -3914,13 +3945,6 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
    *  Initial space: All Initial packets (Section 17.2.2) are in this
       space.
-
-
-
-Iyengar & Thomson       Expires 21 September 2020              [Page 70]
-
-Internet-Draft           QUIC Transport Protocol              March 2020
-
 
    *  Handshake space: All Handshake packets (Section 17.2.4) are in
       this space.
@@ -3947,6 +3971,13 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    loss recovery algorithms easier to implement between the two packet
    types.
 
+
+
+Iyengar & Thomson       Expires 21 September 2020              [Page 71]
+
+Internet-Draft           QUIC Transport Protocol              March 2020
+
+
    A QUIC endpoint MUST NOT reuse a packet number within the same packet
    number space in one connection.  If the packet number for sending
    reaches 2^62 - 1, the sender MUST close the connection without
@@ -3971,13 +4002,6 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    Version Negotiation, Stateless Reset, and Retry packets do not
    contain frames.
 
-
-
-Iyengar & Thomson       Expires 21 September 2020              [Page 71]
-
-Internet-Draft           QUIC Transport Protocol              March 2020
-
-
     0                   1                   2                   3
     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -3999,6 +4023,16 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
    Each frame begins with a Frame Type, indicating its type, followed by
    additional type-dependent fields:
+
+
+
+
+
+
+Iyengar & Thomson       Expires 21 September 2020              [Page 72]
+
+Internet-Draft           QUIC Transport Protocol              March 2020
+
 
     0                   1                   2                   3
     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -4029,7 +4063,29 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020              [Page 72]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Iyengar & Thomson       Expires 21 September 2020              [Page 73]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -4073,7 +4129,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
      +-------------+----------------------+---------------+---------+
      | 0x1b        | PATH_RESPONSE        | Section 19.18 | __01    |
      +-------------+----------------------+---------------+---------+
-     | 0x1c - 0x1d | CONNECTION_CLOSE     | Section 19.19 | IH_1*   |
+     | 0x1c - 0x1d | CONNECTION_CLOSE     | Section 19.19 | ih01    |
      +-------------+----------------------+---------------+---------+
      | 0x1e        | HANDSHAKE_DONE       | Section 19.20 | ___1    |
      +-------------+----------------------+---------------+---------+
@@ -4085,12 +4141,12 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020              [Page 73]
+Iyengar & Thomson       Expires 21 September 2020              [Page 74]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
 
-   that each frame type can appear in, indicated by the following
+   that each frame type could appear in, indicated by the following
    characters:
 
    I:  Initial (Section 17.2.2)
@@ -4101,9 +4157,8 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
    1:  1-RTT (Section 17.3)
 
-   *:  A CONNECTION_CLOSE frame of type 0x1c can appear in Initial,
-      Handshake, and 1-RTT packets, whereas a CONNECTION_CLOSE of type
-      0x1d can only appear in a 1-RTT packet.
+   ih:  A CONNECTION_CLOSE frame of type 0x1d cannot appear in Initial
+      or Handshake packets.
 
    Section 4 of [QUIC-TLS] provides more detail about these
    restrictions.  Note that all frames can appear in 1-RTT packets.
@@ -4138,15 +4193,15 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    MAY wait for a short period of time to bundle multiple frames before
    sending a packet that is not maximally packed, to avoid sending out
    large numbers of small packets.  An implementation MAY use knowledge
+   about application sending behavior or heuristics to determine whether
 
 
 
-Iyengar & Thomson       Expires 21 September 2020              [Page 74]
+Iyengar & Thomson       Expires 21 September 2020              [Page 75]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
 
-   about application sending behavior or heuristics to determine whether
    and for how long to wait.  This waiting period is an implementation
    decision, and an implementation should be careful to delay
    conservatively, since any delay is likely to increase application-
@@ -4197,7 +4252,8 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020              [Page 75]
+
+Iyengar & Thomson       Expires 21 September 2020              [Page 76]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -4253,7 +4309,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020              [Page 76]
+Iyengar & Thomson       Expires 21 September 2020              [Page 77]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -4309,7 +4365,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020              [Page 77]
+Iyengar & Thomson       Expires 21 September 2020              [Page 78]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -4365,7 +4421,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020              [Page 78]
+Iyengar & Thomson       Expires 21 September 2020              [Page 79]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -4413,7 +4469,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    *  Data sent in CRYPTO frames is retransmitted according to the rules
       in [QUIC-RECOVERY], until all data has been acknowledged.  Data in
       CRYPTO frames for Initial and Handshake packets is discarded when
-      keys for the corresponding encryption level are discarded.
+      keys for the corresponding packet number space are discarded.
 
    *  Application data sent in STREAM frames is retransmitted in new
       STREAM frames unless the endpoint has sent a RESET_STREAM for that
@@ -4421,7 +4477,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020              [Page 79]
+Iyengar & Thomson       Expires 21 September 2020              [Page 80]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -4477,7 +4533,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020              [Page 80]
+Iyengar & Thomson       Expires 21 September 2020              [Page 81]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -4533,7 +4589,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020              [Page 81]
+Iyengar & Thomson       Expires 21 September 2020              [Page 82]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -4589,7 +4645,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020              [Page 82]
+Iyengar & Thomson       Expires 21 September 2020              [Page 83]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -4645,7 +4701,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020              [Page 83]
+Iyengar & Thomson       Expires 21 September 2020              [Page 84]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -4701,7 +4757,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020              [Page 84]
+Iyengar & Thomson       Expires 21 September 2020              [Page 85]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -4757,7 +4813,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020              [Page 85]
+Iyengar & Thomson       Expires 21 September 2020              [Page 86]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -4813,7 +4869,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020              [Page 86]
+Iyengar & Thomson       Expires 21 September 2020              [Page 87]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -4869,7 +4925,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020              [Page 87]
+Iyengar & Thomson       Expires 21 September 2020              [Page 88]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -4925,7 +4981,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020              [Page 88]
+Iyengar & Thomson       Expires 21 September 2020              [Page 89]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -4981,7 +5037,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020              [Page 89]
+Iyengar & Thomson       Expires 21 September 2020              [Page 90]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -5037,7 +5093,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020              [Page 90]
+Iyengar & Thomson       Expires 21 September 2020              [Page 91]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -5093,7 +5149,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020              [Page 91]
+Iyengar & Thomson       Expires 21 September 2020              [Page 92]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -5149,7 +5205,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020              [Page 92]
+Iyengar & Thomson       Expires 21 September 2020              [Page 93]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -5205,7 +5261,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020              [Page 93]
+Iyengar & Thomson       Expires 21 September 2020              [Page 94]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -5261,7 +5317,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020              [Page 94]
+Iyengar & Thomson       Expires 21 September 2020              [Page 95]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -5317,7 +5373,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020              [Page 95]
+Iyengar & Thomson       Expires 21 September 2020              [Page 96]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -5373,7 +5429,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020              [Page 96]
+Iyengar & Thomson       Expires 21 September 2020              [Page 97]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -5429,7 +5485,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020              [Page 97]
+Iyengar & Thomson       Expires 21 September 2020              [Page 98]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -5485,7 +5541,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020              [Page 98]
+Iyengar & Thomson       Expires 21 September 2020              [Page 99]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -5541,7 +5597,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020              [Page 99]
+Iyengar & Thomson       Expires 21 September 2020             [Page 100]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -5566,9 +5622,9 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    CONNECTION_CLOSE frames.  Endpoints MUST treat receipt of Handshake
    packets with other frames as a connection error.
 
-   Like Initial packets (see Section 17.2.2.1), data in CRYPTO frames at
-   the Handshake encryption level is discarded - and no longer
-   retransmitted - when Handshake protection keys are discarded.
+   Like Initial packets (see Section 17.2.2.1), data in CRYPTO frames
+   for Handshake packets is discarded - and no longer retransmitted -
+   when Handshake protection keys are discarded.
 
 17.2.5.  Retry Packet
 
@@ -5597,7 +5653,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 100]
+Iyengar & Thomson       Expires 21 September 2020             [Page 101]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -5653,7 +5709,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 101]
+Iyengar & Thomson       Expires 21 September 2020             [Page 102]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -5709,7 +5765,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 102]
+Iyengar & Thomson       Expires 21 September 2020             [Page 103]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -5765,7 +5821,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 103]
+Iyengar & Thomson       Expires 21 September 2020             [Page 104]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -5821,7 +5877,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 104]
+Iyengar & Thomson       Expires 21 September 2020             [Page 105]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -5877,7 +5933,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 105]
+Iyengar & Thomson       Expires 21 September 2020             [Page 106]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -5933,7 +5989,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 106]
+Iyengar & Thomson       Expires 21 September 2020             [Page 107]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -5989,7 +6045,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 107]
+Iyengar & Thomson       Expires 21 September 2020             [Page 108]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -6045,7 +6101,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 108]
+Iyengar & Thomson       Expires 21 September 2020             [Page 109]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -6101,7 +6157,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 109]
+Iyengar & Thomson       Expires 21 September 2020             [Page 110]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -6157,7 +6213,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 110]
+Iyengar & Thomson       Expires 21 September 2020             [Page 111]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -6213,7 +6269,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 111]
+Iyengar & Thomson       Expires 21 September 2020             [Page 112]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -6269,7 +6325,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 112]
+Iyengar & Thomson       Expires 21 September 2020             [Page 113]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -6325,7 +6381,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 113]
+Iyengar & Thomson       Expires 21 September 2020             [Page 114]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -6381,7 +6437,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 114]
+Iyengar & Thomson       Expires 21 September 2020             [Page 115]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -6437,7 +6493,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 115]
+Iyengar & Thomson       Expires 21 September 2020             [Page 116]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -6493,7 +6549,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 116]
+Iyengar & Thomson       Expires 21 September 2020             [Page 117]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -6549,7 +6605,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 117]
+Iyengar & Thomson       Expires 21 September 2020             [Page 118]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -6605,7 +6661,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 118]
+Iyengar & Thomson       Expires 21 September 2020             [Page 119]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -6661,7 +6717,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 119]
+Iyengar & Thomson       Expires 21 September 2020             [Page 120]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -6717,7 +6773,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 120]
+Iyengar & Thomson       Expires 21 September 2020             [Page 121]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -6773,7 +6829,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 121]
+Iyengar & Thomson       Expires 21 September 2020             [Page 122]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -6829,7 +6885,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 122]
+Iyengar & Thomson       Expires 21 September 2020             [Page 123]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -6885,7 +6941,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 123]
+Iyengar & Thomson       Expires 21 September 2020             [Page 124]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -6941,7 +6997,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 124]
+Iyengar & Thomson       Expires 21 September 2020             [Page 125]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -6997,7 +7053,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 125]
+Iyengar & Thomson       Expires 21 September 2020             [Page 126]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -7053,7 +7109,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 126]
+Iyengar & Thomson       Expires 21 September 2020             [Page 127]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -7109,7 +7165,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 127]
+Iyengar & Thomson       Expires 21 September 2020             [Page 128]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -7165,7 +7221,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 128]
+Iyengar & Thomson       Expires 21 September 2020             [Page 129]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -7221,7 +7277,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 129]
+Iyengar & Thomson       Expires 21 September 2020             [Page 130]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -7249,11 +7305,11 @@ Internet-Draft           QUIC Transport Protocol              March 2020
       encoded string [RFC3629].
 
    The application-specific variant of CONNECTION_CLOSE (type 0x1d) can
-   only be sent using an 1-RTT packet ([QUIC-TLS], Section 4).  When an
-   application wishes to abandon a connection during the handshake, an
-   endpoint can send a CONNECTION_CLOSE frame (type 0x1c) with an error
-   code of 0x15a ("user_canceled" alert; see [TLS13]) in an Initial or a
-   Handshake packet.
+   only be sent using 0-RTT or 1-RTT packets ([QUIC-TLS], Section 4).
+   When an application wishes to abandon a connection during the
+   handshake, an endpoint can send a CONNECTION_CLOSE frame (type 0x1c)
+   with an error code of APPLICATION_ERROR in an Initial or a Handshake
+   packet.
 
 19.20.  HANDSHAKE_DONE frame
 
@@ -7277,7 +7333,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 130]
+Iyengar & Thomson       Expires 21 September 2020             [Page 131]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -7333,7 +7389,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 131]
+Iyengar & Thomson       Expires 21 September 2020             [Page 132]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -7367,6 +7423,9 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    INVALID_TOKEN (0xB):  A server received a Retry Token in a client
       Initial that is invalid.
 
+   APPLICATION_ERROR (0xC):  The application or application protocol
+      caused the connection to be closed.
+
    CRYPTO_BUFFER_EXCEEDED (0xD):  An endpoint has received more data in
       CRYPTO frames than it can buffer.
 
@@ -7383,16 +7442,17 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    recipient are given unique codes.  Errors that represent common
    conditions are given specific codes.  Absent either of these
    conditions, error codes are used to identify a general function of
-   the stack, like flow control or transport parameter handling.
-   Finally, generic errors are provided for conditions where
-   implementations are unable or unwilling to use more specific codes.
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 132]
+Iyengar & Thomson       Expires 21 September 2020             [Page 133]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
+
+   the stack, like flow control or transport parameter handling.
+   Finally, generic errors are provided for conditions where
+   implementations are unable or unwilling to use more specific codes.
 
 20.1.  Application Protocol Error Codes
 
@@ -7438,18 +7498,18 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    by a client to be unpredictable, which serves an additional purpose.
    The packets that carry the cryptographic handshake are protected with
    a key that is derived from this connection ID and salt specific to
-   the QUIC version.  This allows endpoints to use the same process for
-   authenticating packets that they receive as they use after the
-   cryptographic handshake completes.  Packets that cannot be
-   authenticated are discarded.  Protecting packets in this fashion
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 133]
+Iyengar & Thomson       Expires 21 September 2020             [Page 134]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
 
+   the QUIC version.  This allows endpoints to use the same process for
+   authenticating packets that they receive as they use after the
+   cryptographic handshake completes.  Packets that cannot be
+   authenticated are discarded.  Protecting packets in this fashion
    provides a strong assurance that the sender of the packet saw the
    Initial packet and understood it.
 
@@ -7497,11 +7557,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-
-
-
-
-Iyengar & Thomson       Expires 21 September 2020             [Page 134]
+Iyengar & Thomson       Expires 21 September 2020             [Page 135]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -7557,7 +7613,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 135]
+Iyengar & Thomson       Expires 21 September 2020             [Page 136]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -7613,7 +7669,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 136]
+Iyengar & Thomson       Expires 21 September 2020             [Page 137]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -7669,7 +7725,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 137]
+Iyengar & Thomson       Expires 21 September 2020             [Page 138]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -7725,7 +7781,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 138]
+Iyengar & Thomson       Expires 21 September 2020             [Page 139]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -7781,7 +7837,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 139]
+Iyengar & Thomson       Expires 21 September 2020             [Page 140]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -7837,7 +7893,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 140]
+Iyengar & Thomson       Expires 21 September 2020             [Page 141]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -7893,7 +7949,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 141]
+Iyengar & Thomson       Expires 21 September 2020             [Page 142]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -7949,7 +8005,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 142]
+Iyengar & Thomson       Expires 21 September 2020             [Page 143]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -8005,7 +8061,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 143]
+Iyengar & Thomson       Expires 21 September 2020             [Page 144]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -8061,7 +8117,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 144]
+Iyengar & Thomson       Expires 21 September 2020             [Page 145]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -8117,7 +8173,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 145]
+Iyengar & Thomson       Expires 21 September 2020             [Page 146]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -8173,7 +8229,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 146]
+Iyengar & Thomson       Expires 21 September 2020             [Page 147]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -8229,7 +8285,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 147]
+Iyengar & Thomson       Expires 21 September 2020             [Page 148]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -8285,7 +8341,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 148]
+Iyengar & Thomson       Expires 21 September 2020             [Page 149]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -8341,7 +8397,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 149]
+Iyengar & Thomson       Expires 21 September 2020             [Page 150]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -8387,20 +8443,22 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    | 0xB  | INVALID_TOKEN             | Invalid Token  | Section 20    |
    |      |                           | Received       |               |
    +------+---------------------------+----------------+---------------+
+   | 0xC  | APPLICATION_ERROR         | Application    | Section 20    |
+   |      |                           | error          |               |
+   +------+---------------------------+----------------+---------------+
    | 0xD  | CRYPTO_BUFFER_EXCEEDED    | CRYPTO data    | Section 20    |
    |      |                           | buffer         |               |
    |      |                           | overflowed     |               |
    +------+---------------------------+----------------+---------------+
 
-            Table 7: Initial QUIC Transport Error Codes Entries
 
 
-
-
-Iyengar & Thomson       Expires 21 September 2020             [Page 150]
+Iyengar & Thomson       Expires 21 September 2020             [Page 151]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
+
+            Table 7: Initial QUIC Transport Error Codes Entries
 
 23.  References
 
@@ -8447,17 +8505,17 @@ Internet-Draft           QUIC Transport Protocol              March 2020
               10646", STD 63, RFC 3629, DOI 10.17487/RFC3629, November
               2003, <https://www.rfc-editor.org/info/rfc3629>.
 
-   [RFC4086]  Eastlake 3rd, D., Schiller, J., and S. Crocker,
-              "Randomness Requirements for Security", BCP 106, RFC 4086,
 
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 151]
+Iyengar & Thomson       Expires 21 September 2020             [Page 152]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
 
+   [RFC4086]  Eastlake 3rd, D., Schiller, J., and S. Crocker,
+              "Randomness Requirements for Security", BCP 106, RFC 4086,
               DOI 10.17487/RFC4086, June 2005,
               <https://www.rfc-editor.org/info/rfc4086>.
 
@@ -8503,17 +8561,17 @@ Internet-Draft           QUIC Transport Protocol              March 2020
               Roskind, J., "QUIC: Multiplexed Transport Over UDP", 2
               December 2013, <https://goo.gl/dMVtFi>.
 
-   [HTTP2]    Belshe, M., Peon, R., and M. Thomson, Ed., "Hypertext
-              Transfer Protocol Version 2 (HTTP/2)", RFC 7540,
 
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 152]
+Iyengar & Thomson       Expires 21 September 2020             [Page 153]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
 
+   [HTTP2]    Belshe, M., Peon, R., and M. Thomson, Ed., "Hypertext
+              Transfer Protocol Version 2 (HTTP/2)", RFC 7540,
               DOI 10.17487/RFC7540, May 2015,
               <https://www.rfc-editor.org/info/rfc7540>.
 
@@ -8559,17 +8617,17 @@ Internet-Draft           QUIC Transport Protocol              March 2020
               RFC 4443, DOI 10.17487/RFC4443, March 2006,
               <https://www.rfc-editor.org/info/rfc4443>.
 
-   [RFC4787]  Audet, F., Ed. and C. Jennings, "Network Address
-              Translation (NAT) Behavioral Requirements for Unicast
 
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 153]
+Iyengar & Thomson       Expires 21 September 2020             [Page 154]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
 
+   [RFC4787]  Audet, F., Ed. and C. Jennings, "Network Address
+              Translation (NAT) Behavioral Requirements for Unicast
               UDP", BCP 127, RFC 4787, DOI 10.17487/RFC4787, January
               2007, <https://www.rfc-editor.org/info/rfc4787>.
 
@@ -8619,9 +8677,7 @@ Appendix A.  Sample Packet Number Decoding Algorithm
 
 
 
-
-
-Iyengar & Thomson       Expires 21 September 2020             [Page 154]
+Iyengar & Thomson       Expires 21 September 2020             [Page 155]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -8677,7 +8733,7 @@ Appendix B.  Sample ECN Validation Algorithm
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 155]
+Iyengar & Thomson       Expires 21 September 2020             [Page 156]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -8733,7 +8789,7 @@ C.3.  Since draft-ietf-quic-transport-24
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 156]
+Iyengar & Thomson       Expires 21 September 2020             [Page 157]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -8789,7 +8845,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 157]
+Iyengar & Thomson       Expires 21 September 2020             [Page 158]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -8845,7 +8901,7 @@ C.5.  Since draft-ietf-quic-transport-22
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 158]
+Iyengar & Thomson       Expires 21 September 2020             [Page 159]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -8901,7 +8957,7 @@ C.6.  Since draft-ietf-quic-transport-21
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 159]
+Iyengar & Thomson       Expires 21 September 2020             [Page 160]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -8957,7 +9013,7 @@ C.8.  Since draft-ietf-quic-transport-19
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 160]
+Iyengar & Thomson       Expires 21 September 2020             [Page 161]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -9013,7 +9069,7 @@ C.10.  Since draft-ietf-quic-transport-17
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 161]
+Iyengar & Thomson       Expires 21 September 2020             [Page 162]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -9069,7 +9125,7 @@ C.11.  Since draft-ietf-quic-transport-16
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 162]
+Iyengar & Thomson       Expires 21 September 2020             [Page 163]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -9125,7 +9181,7 @@ C.13.  Since draft-ietf-quic-transport-14
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 163]
+Iyengar & Thomson       Expires 21 September 2020             [Page 164]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -9181,7 +9237,7 @@ C.14.  Since draft-ietf-quic-transport-13
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 164]
+Iyengar & Thomson       Expires 21 September 2020             [Page 165]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -9237,7 +9293,7 @@ C.16.  Since draft-ietf-quic-transport-11
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 165]
+Iyengar & Thomson       Expires 21 September 2020             [Page 166]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -9293,7 +9349,7 @@ C.18.  Since draft-ietf-quic-transport-09
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 166]
+Iyengar & Thomson       Expires 21 September 2020             [Page 167]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -9349,7 +9405,7 @@ C.19.  Since draft-ietf-quic-transport-08
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 167]
+Iyengar & Thomson       Expires 21 September 2020             [Page 168]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -9405,7 +9461,7 @@ C.20.  Since draft-ietf-quic-transport-07
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 168]
+Iyengar & Thomson       Expires 21 September 2020             [Page 169]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -9461,7 +9517,7 @@ C.23.  Since draft-ietf-quic-transport-04
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 169]
+Iyengar & Thomson       Expires 21 September 2020             [Page 170]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -9517,7 +9573,7 @@ C.25.  Since draft-ietf-quic-transport-02
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 170]
+Iyengar & Thomson       Expires 21 September 2020             [Page 171]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -9573,7 +9629,7 @@ C.26.  Since draft-ietf-quic-transport-01
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 171]
+Iyengar & Thomson       Expires 21 September 2020             [Page 172]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -9629,7 +9685,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 172]
+Iyengar & Thomson       Expires 21 September 2020             [Page 173]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -9685,7 +9741,7 @@ Contributors
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 173]
+Iyengar & Thomson       Expires 21 September 2020             [Page 174]
 
 Internet-Draft           QUIC Transport Protocol              March 2020
 
@@ -9741,4 +9797,4 @@ Authors' Addresses
 
 
 
-Iyengar & Thomson       Expires 21 September 2020             [Page 174]
+Iyengar & Thomson       Expires 21 September 2020             [Page 175]
