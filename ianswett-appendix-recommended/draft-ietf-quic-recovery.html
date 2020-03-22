@@ -1742,7 +1742,7 @@ to both expire earlier than the PTO and be less likely to spuriously retransmit
 data.<a href="#section-5.2.1-8" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="handshakes-and-new-paths">
+<div id="pto-handshake">
 <section id="section-5.2.2">
           <h4 id="name-handshakes-and-new-paths">
 <a href="#section-5.2.2" class="section-number selfRef">5.2.2. </a><a href="#name-handshakes-and-new-paths" class="section-name selfRef">Handshakes and New Paths</a>
@@ -2361,13 +2361,13 @@ common practice.<a href="#section-a.2-1" class="pilcrow">¶</a></p>
           <dt id="section-a.2-2.1">kPacketThreshold:</dt>
 <dd id="section-a.2-2.2">
   Maximum reordering in packets before packet threshold loss detection
-considers a packet lost. The RECOMMENDED value is 3.<a href="#section-a.2-2.2" class="pilcrow">¶</a>
+considers a packet lost. The value recommended in <a href="#packet-threshold" class="xref">Section 5.1.1</a> is 3.<a href="#section-a.2-2.2" class="pilcrow">¶</a>
 </dd>
 <dt id="section-a.2-2.3">kTimeThreshold:</dt>
 <dd id="section-a.2-2.4">
   Maximum reordering in time before time threshold loss detection
-considers a packet lost. Specified as an RTT multiplier. The RECOMMENDED
-value is 9/8.<a href="#section-a.2-2.4" class="pilcrow">¶</a>
+considers a packet lost. Specified as an RTT multiplier. The value
+recommended in <a href="#time-threshold" class="xref">Section 5.1.2</a> is 9/8.<a href="#section-a.2-2.4" class="pilcrow">¶</a>
 </dd>
 <dt id="section-a.2-2.5">kGranularity:</dt>
 <dd id="section-a.2-2.6">
@@ -2376,7 +2376,7 @@ value is 1ms.<a href="#section-a.2-2.6" class="pilcrow">¶</a>
 </dd>
 <dt id="section-a.2-2.7">kInitialRtt:</dt>
 <dd id="section-a.2-2.8">
-  The RTT used before an RTT sample is taken. The RECOMMENDED value is 500ms.<a href="#section-a.2-2.8" class="pilcrow">¶</a>
+  The RTT used before an RTT sample is taken, as described in <a href="#pto-handshake" class="xref">Section 5.2.2</a>.<a href="#section-a.2-2.8" class="pilcrow">¶</a>
 </dd>
 <dt id="section-a.2-2.9">kPacketNumberSpace:</dt>
 <dd id="section-a.2-2.10">
@@ -2611,7 +2611,7 @@ duration of the timer is based on the timer's mode, which is set in the packet
 and timer events further below.  The function SetLossDetectionTimer defined
 below shows how the single timer is set.<a href="#section-a.8-1" class="pilcrow">¶</a></p>
 <p id="section-a.8-2">This algorithm may result in the timer being set in the past, particularly if
-timers wake up late. Timers set in the past SHOULD fire immediately.<a href="#section-a.8-2" class="pilcrow">¶</a></p>
+timers wake up late. Timers set in the past fire immediately.<a href="#section-a.8-2" class="pilcrow">¶</a></p>
 <p id="section-a.8-3">Pseudocode for SetLossDetectionTimer follows:<a href="#section-a.8-3" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft" id="section-a.8-4">
 <pre>

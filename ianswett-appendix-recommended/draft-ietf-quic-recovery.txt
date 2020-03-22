@@ -1408,18 +1408,18 @@ A.2.  Constants of interest
    papers, and common practice.
 
    kPacketThreshold:  Maximum reordering in packets before packet
-      threshold loss detection considers a packet lost.  The RECOMMENDED
-      value is 3.
+      threshold loss detection considers a packet lost.  The value
+      recommended in Section 5.1.1 is 3.
 
    kTimeThreshold:  Maximum reordering in time before time threshold
       loss detection considers a packet lost.  Specified as an RTT
-      multiplier.  The RECOMMENDED value is 9/8.
+      multiplier.  The value recommended in Section 5.1.2 is 9/8.
 
    kGranularity:  Timer granularity.  This is a system-dependent value,
       and the RECOMMENDED value is 1ms.
 
-   kInitialRtt:  The RTT used before an RTT sample is taken.  The
-      RECOMMENDED value is 500ms.
+   kInitialRtt:  The RTT used before an RTT sample is taken, as
+      described in Section 5.2.2.
 
    kPacketNumberSpace:  An enum to enumerate the three packet number
       spaces.
@@ -1635,8 +1635,8 @@ A.8.  Setting the Loss Detection Timer
    timer is set.
 
    This algorithm may result in the timer being set in the past,
-   particularly if timers wake up late.  Timers set in the past SHOULD
-   fire immediately.
+   particularly if timers wake up late.  Timers set in the past fire
+   immediately.
 
    Pseudocode for SetLossDetectionTimer follows:
 
