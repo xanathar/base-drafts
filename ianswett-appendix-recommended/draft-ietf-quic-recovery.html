@@ -1673,7 +1673,8 @@ up.<a href="#section-5.1.2-5.2" class="pilcrow">¶</a>
 </li>
 </ul>
 <p id="section-5.1.2-6">The RECOMMENDED time threshold (kTimeThreshold), expressed as a round-trip time
-multiplier, is 9/8.<a href="#section-5.1.2-6" class="pilcrow">¶</a></p>
+multiplier, is 9/8. The RECOMMENDED value of the timer granularity(kGranularity)
+is 1ms.<a href="#section-5.1.2-6" class="pilcrow">¶</a></p>
 <p id="section-5.1.2-7">Implementations MAY experiment with absolute thresholds, thresholds from
 previous connections, adaptive thresholds, or including RTT variation.  Smaller
 thresholds reduce reordering resilience and increase spurious retransmissions,
@@ -1754,9 +1755,8 @@ connection's initial RTT.  If no previous RTT is available, the initial RTT
 SHOULD be set to 500ms, resulting in a 1 second initial timeout as recommended
 in <span>[<a href="#RFC6298" class="xref">RFC6298</a>]</span>.<a href="#section-5.2.2-1" class="pilcrow">¶</a></p>
 <p id="section-5.2.2-2">A connection MAY use the delay between sending a PATH_CHALLENGE and receiving a
-PATH_RESPONSE to set the initial RTT (see kInitialRtt in
-<a href="#ld-consts-of-interest" class="xref">Appendix A.2</a>) for a new path, but the delay SHOULD NOT be
-considered an RTT sample.<a href="#section-5.2.2-2" class="pilcrow">¶</a></p>
+PATH_RESPONSE to set the initial RTT (see kInitialRtt in <a href="#pto-handshake" class="xref">Section 5.2.2</a>)
+for a new path, but the delay SHOULD NOT be considered an RTT sample.<a href="#section-5.2.2-2" class="pilcrow">¶</a></p>
 <p id="section-5.2.2-3">Until the server has validated the client's address on the path, the amount of
 data it can send is limited to three times the amount of data received,
 as specified in Section 8.1 of <span>[<a href="#QUIC-TRANSPORT" class="xref">QUIC-TRANSPORT</a>]</span>. If no data can be sent,
@@ -2353,7 +2353,7 @@ overhead, but including QUIC framing overhead.<a href="#section-a.1.1-1.8" class
 </div>
 </section>
 </div>
-<div id="ld-consts-of-interest">
+<div id="constants-of-interest">
 <section id="section-a.2">
         <h2 id="name-constants-of-interest">
 <a href="#section-a.2" class="section-number selfRef">A.2. </a><a href="#name-constants-of-interest" class="section-name selfRef">Constants of interest</a>
@@ -2374,12 +2374,13 @@ recommended in <a href="#time-threshold" class="xref">Section 5.1.2</a> is 9/8.<
 </dd>
 <dt id="section-a.2-2.5">kGranularity:</dt>
 <dd id="section-a.2-2.6">
-  Timer granularity. This is a system-dependent value, and the RECOMMENDED
-value is 1ms.<a href="#section-a.2-2.6" class="pilcrow">¶</a>
+  Timer granularity. This is a system-dependent value, and <a href="#time-threshold" class="xref">Section 5.1.2</a>
+recommends a value of 1ms.<a href="#section-a.2-2.6" class="pilcrow">¶</a>
 </dd>
 <dt id="section-a.2-2.7">kInitialRtt:</dt>
 <dd id="section-a.2-2.8">
-  The RTT used before an RTT sample is taken, as described in <a href="#pto-handshake" class="xref">Section 5.2.2</a>.<a href="#section-a.2-2.8" class="pilcrow">¶</a>
+  The RTT used before an RTT sample is taken. The value recommended in
+<a href="#pto-handshake" class="xref">Section 5.2.2</a> is 500ms.<a href="#section-a.2-2.8" class="pilcrow">¶</a>
 </dd>
 <dt id="section-a.2-2.9">kPacketNumberSpace:</dt>
 <dd id="section-a.2-2.10">

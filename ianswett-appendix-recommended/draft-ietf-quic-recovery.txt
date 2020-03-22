@@ -627,7 +627,8 @@ Internet-Draft             QUIC Loss Detection                March 2020
       has not yet caught up.
 
    The RECOMMENDED time threshold (kTimeThreshold), expressed as a
-   round-trip time multiplier, is 9/8.
+   round-trip time multiplier, is 9/8.  The RECOMMENDED value of the
+   timer granularity(kGranularity) is 1ms.
 
    Implementations MAY experiment with absolute thresholds, thresholds
    from previous connections, adaptive thresholds, or including RTT
@@ -664,8 +665,7 @@ Internet-Draft             QUIC Loss Detection                March 2020
    When the PTO is armed for Initial or Handshake packet number spaces,
    the max_ack_delay is 0, as specified in 13.2.1 of [QUIC-TRANSPORT].
 
-   The PTO value MUST be set to at least kGranularity, to avoid the
-   timer expiring immediately.
+
 
 
 
@@ -673,6 +673,9 @@ Iyengar & Swett         Expires 23 September 2020              [Page 12]
 
 Internet-Draft             QUIC Loss Detection                March 2020
 
+
+   The PTO value MUST be set to at least kGranularity, to avoid the
+   timer expiring immediately.
 
    A sender computes its PTO timer every time an ack-eliciting packet is
    sent.  When ack-eliciting packets are in-flight in multiple packet
@@ -714,14 +717,11 @@ Internet-Draft             QUIC Loss Detection                March 2020
 
    A connection MAY use the delay between sending a PATH_CHALLENGE and
    receiving a PATH_RESPONSE to set the initial RTT (see kInitialRtt in
-   Appendix A.2) for a new path, but the delay SHOULD NOT be considered
+   Section 5.2.2) for a new path, but the delay SHOULD NOT be considered
    an RTT sample.
 
    Until the server has validated the client's address on the path, the
    amount of data it can send is limited to three times the amount of
-   data received, as specified in Section 8.1 of [QUIC-TRANSPORT].  If
-   no data can be sent, then the PTO alarm MUST NOT be armed until
-   datagrams have been received from the client.
 
 
 
@@ -729,6 +729,10 @@ Iyengar & Swett         Expires 23 September 2020              [Page 13]
 
 Internet-Draft             QUIC Loss Detection                March 2020
 
+
+   data received, as specified in Section 8.1 of [QUIC-TRANSPORT].  If
+   no data can be sent, then the PTO alarm MUST NOT be armed until
+   datagrams have been received from the client.
 
    Since the server could be blocked until more packets are received
    from the client, it is the client's responsibility to send packets to
@@ -773,10 +777,6 @@ Internet-Draft             QUIC Loss Detection                March 2020
    coalesce an Initial packet containing PING and PADDING frames with a
    0-RTT data packet and a server can coalesce an Initial packet
    containing a PING frame with one or more packets in its first flight.
-
-
-
-
 
 
 
@@ -1416,10 +1416,10 @@ A.2.  Constants of interest
       multiplier.  The value recommended in Section 5.1.2 is 9/8.
 
    kGranularity:  Timer granularity.  This is a system-dependent value,
-      and the RECOMMENDED value is 1ms.
+      and Section 5.1.2 recommends a value of 1ms.
 
-   kInitialRtt:  The RTT used before an RTT sample is taken, as
-      described in Section 5.2.2.
+   kInitialRtt:  The RTT used before an RTT sample is taken.  The value
+      recommended in Section 5.2.2 is 500ms.
 
    kPacketNumberSpace:  An enum to enumerate the three packet number
       spaces.
