@@ -5407,7 +5407,7 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    The Initial packet contains a long header as well as the Length and
    Packet Number fields.  The first byte contains the Reserved and
    Packet Number Length bits.  Between the SCID and Length fields, there
-   are two additional field specific to the Initial packet.
+   are two additional fields specific to the Initial packet.
 
    Token Length:  A variable-length integer specifying the length of the
       Token field, in bytes.  This value is zero if no token is present.
@@ -8467,9 +8467,9 @@ Internet-Draft           QUIC Transport Protocol              March 2020
    [DPLPMTUD] Fairhurst, G., Jones, T., Tuexen, M., Ruengeler, I., and
               T. Voelker, "Packetization Layer Path MTU Discovery for
               Datagram Transports", Work in Progress, Internet-Draft,
-              draft-ietf-tsvwg-datagram-plpmtud-16, 9 March 2020,
+              draft-ietf-tsvwg-datagram-plpmtud-17, 23 March 2020,
               <http://www.ietf.org/internet-drafts/draft-ietf-tsvwg-
-              datagram-plpmtud-16.txt>.
+              datagram-plpmtud-17.txt>.
 
    [IPv4]     Postel, J., "Internet Protocol", STD 5, RFC 791,
               DOI 10.17487/RFC0791, September 1981,
