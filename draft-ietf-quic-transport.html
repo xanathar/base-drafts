@@ -12,7 +12,7 @@
 documents describe QUIC's loss detection and congestion control and the use of
 TLS for key negotiation. 
     " name="description">
-<meta content="xml2rfc 2.40.1" name="generator">
+<meta content="xml2rfc 2.41.0" name="generator">
 <meta content="draft-ietf-quic-transport-latest" name="ietf.draft">
 <link href="draft-ietf-quic-transport.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -28,7 +28,7 @@ html {
   --small-font-size: 14.5px;
 }
 body {
-  max-width: 624px;
+  max-width: 600px;
   margin: 75px auto;
   padding: 0 5px;
   color: var(--text-color);
@@ -206,7 +206,9 @@ tt, code, pre {
 }
 pre {
   border: 1px solid var(--line-color);
-  line-height: 17px;
+  font-size: 13.5px;
+  line-height: 16px;
+  letter-spacing: -0.2px;
   margin: 5px;
   padding: 5px;
 }
@@ -434,7 +436,7 @@ hr {
   font-weight: 700;
 }
 /* make the index two-column on all but the smallest screens */
-@media (min-width: 600px) {
+@media (min-width: 500px) {
   .index ul {
     column-count: 2;
     column-gap: 20px;
@@ -469,7 +471,7 @@ hr.addr {
   color: #ddd;
   max-width: calc(100% - 16px);
 }
-@media (min-width: 600px) {
+@media (min-width: 500px) {
   #authors-addresses > section {
     display: relative;
     padding: 32px 0 0;
@@ -512,7 +514,7 @@ hr.addr {
   font-style: italic;
 }
 /* alternative layout for smaller screens */
-@media screen and (max-width: 953px) {
+@media screen and (max-width: 929px) {
   #toc {
     position: fixed;
     z-index: 2;
@@ -578,9 +580,10 @@ hr.addr {
 }
 
 /* alternative layout for wide screens */
-@media screen and (min-width: 954px) {
+@media screen and (min-width: 930px) {
   body {
-    padding-right: 380px;
+    padding-right: 360px;
+    padding-right: calc(min(180px + 20%, 500px));
   }
   #toc {
     position: fixed;
@@ -722,16 +725,13 @@ dl.dlNewline > dt {
 }
 
 /* Provide styling for table cell text alignment */
-table td.text-left,
-table th.text-left {
+table .text-left, table .text-left {
   text-align: left;
 }
-table td.text-center,
-table th.text-center {
+table .text-center, table .text-center {
   text-align: center;
 }
-table td.text-right,
-table th.text-right {
+table .text-right, table .text-right {
   text-align: right;
 }
 
@@ -7687,8 +7687,9 @@ Retire Prior To fields that do not increase the largest received Retire Prior To
 value.<a href="#section-19.15-10" class="pilcrow">¶</a></p>
 <p id="section-19.15-11">An endpoint that receives a NEW_CONNECTION_ID frame with a sequence number
 smaller than the Retire Prior To field of a previously received
-NEW_CONNECTION_ID frame MUST immediately send a corresponding
-RETIRE_CONNECTION_ID frame that retires the newly received connection ID.<a href="#section-19.15-11" class="pilcrow">¶</a></p>
+NEW_CONNECTION_ID frame MUST send a corresponding RETIRE_CONNECTION_ID frame
+that retires the newly received connection ID, unless it has already done so
+for that sequence number.<a href="#section-19.15-11" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="frame-retire-connection-id">
