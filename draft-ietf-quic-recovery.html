@@ -830,7 +830,7 @@ table.left {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Iyengar &amp; Swett</td>
-<td class="center">Expires 24 September 2020</td>
+<td class="center">Expires 28 September 2020</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -843,12 +843,12 @@ table.left {
 <dd class="internet-draft">draft-ietf-quic-recovery-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2020-03-23" class="published">23 March 2020</time>
+<time datetime="2020-03-27" class="published">27 March 2020</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2020-09-24">24 September 2020</time></dd>
+<dd class="expires"><time datetime="2020-09-28">28 September 2020</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -900,7 +900,7 @@ code and issues list for this draft can be found at
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 24 September 2020.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 28 September 2020.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1673,7 +1673,8 @@ up.<a href="#section-5.1.2-5.2" class="pilcrow">¶</a>
 </li>
 </ul>
 <p id="section-5.1.2-6">The RECOMMENDED time threshold (kTimeThreshold), expressed as a round-trip time
-multiplier, is 9/8.<a href="#section-5.1.2-6" class="pilcrow">¶</a></p>
+multiplier, is 9/8. The RECOMMENDED value of the timer granularity
+(kGranularity) is 1ms.<a href="#section-5.1.2-6" class="pilcrow">¶</a></p>
 <p id="section-5.1.2-7">Implementations MAY experiment with absolute thresholds, thresholds from
 previous connections, adaptive thresholds, or including RTT variation.  Smaller
 thresholds reduce reordering resilience and increase spurious retransmissions,
@@ -1742,7 +1743,7 @@ to both expire earlier than the PTO and be less likely to spuriously retransmit
 data.<a href="#section-5.2.1-8" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="handshakes-and-new-paths">
+<div id="pto-handshake">
 <section id="section-5.2.2">
           <h4 id="name-handshakes-and-new-paths">
 <a href="#section-5.2.2" class="section-number selfRef">5.2.2. </a><a href="#name-handshakes-and-new-paths" class="section-name selfRef">Handshakes and New Paths</a>
@@ -1754,9 +1755,8 @@ connection's initial RTT.  If no previous RTT is available, the initial RTT
 SHOULD be set to 500ms, resulting in a 1 second initial timeout as recommended
 in <span>[<a href="#RFC6298" class="xref">RFC6298</a>]</span>.<a href="#section-5.2.2-1" class="pilcrow">¶</a></p>
 <p id="section-5.2.2-2">A connection MAY use the delay between sending a PATH_CHALLENGE and receiving a
-PATH_RESPONSE to set the initial RTT (see kInitialRtt in
-<a href="#ld-consts-of-interest" class="xref">Appendix A.2</a>) for a new path, but the delay SHOULD NOT be
-considered an RTT sample.<a href="#section-5.2.2-2" class="pilcrow">¶</a></p>
+PATH_RESPONSE to set the initial RTT (see kInitialRtt in <a href="#pto-handshake" class="xref">Section 5.2.2</a>)
+for a new path, but the delay SHOULD NOT be considered an RTT sample.<a href="#section-5.2.2-2" class="pilcrow">¶</a></p>
 <p id="section-5.2.2-3">Until the server has validated the client's address on the path, the amount of
 data it can send is limited to three times the amount of data received,
 as specified in Section 8.1 of <span>[<a href="#QUIC-TRANSPORT" class="xref">QUIC-TRANSPORT</a>]</span>. If no data can be sent,
@@ -2047,21 +2047,26 @@ sent over a long enough period of time, the network is considered to be
 experiencing persistent congestion.  Commonly, this can be established by
 consecutive PTOs, but since the PTO timer is reset when a new ack-eliciting
 packet is sent, an explicit duration must be used to account for those cases
-where PTOs do not occur or are substantially delayed.  This duration is computed
-as follows:<a href="#section-6.8-1" class="pilcrow">¶</a></p>
-<div class="artwork art-text alignLeft" id="section-6.8-2">
+where PTOs do not occur or are substantially delayed. The rationale for this
+threshold is to enable a sender to use initial PTOs for aggressive probing,
+as TCP does with Tail Loss Probe (TLP) <span>[<a href="#RACK" class="xref">RACK</a>]</span>, before establishing persistent
+congestion, as TCP does with a Retransmission Timeout (RTO) <span>[<a href="#RFC5681" class="xref">RFC5681</a>]</span>.
+The RECOMMENDED value for kPersistentCongestionThreshold is 3, which is
+approximately equivalent to two TLPs before an RTO in TCP.<a href="#section-6.8-1" class="pilcrow">¶</a></p>
+<p id="section-6.8-2">This duration is computed as follows:<a href="#section-6.8-2" class="pilcrow">¶</a></p>
+<div class="artwork art-text alignLeft" id="section-6.8-3">
 <pre>
 (smoothed_rtt + 4 * rttvar + max_ack_delay) *
     kPersistentCongestionThreshold
-</pre><a href="#section-6.8-2" class="pilcrow">¶</a>
+</pre><a href="#section-6.8-3" class="pilcrow">¶</a>
 </div>
-<p id="section-6.8-3">For example, assume:<a href="#section-6.8-3" class="pilcrow">¶</a></p>
-<p id="section-6.8-4">smoothed_rtt = 1
+<p id="section-6.8-4">For example, assume:<a href="#section-6.8-4" class="pilcrow">¶</a></p>
+<p id="section-6.8-5">smoothed_rtt = 1
   rttvar = 0
   max_ack_delay = 0
-  kPersistentCongestionThreshold = 3<a href="#section-6.8-4" class="pilcrow">¶</a></p>
-<p id="section-6.8-5">If an ack-eliciting packet is sent at time t = 0, the following scenario would
-illustrate persistent congestion:<a href="#section-6.8-5" class="pilcrow">¶</a></p>
+  kPersistentCongestionThreshold = 3<a href="#section-6.8-5" class="pilcrow">¶</a></p>
+<p id="section-6.8-6">If an ack-eliciting packet is sent at time t = 0, the following scenario would
+illustrate persistent congestion:<a href="#section-6.8-6" class="pilcrow">¶</a></p>
 <table class="center" id="table-1">
           <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
 <thead>
@@ -2089,18 +2094,18 @@ illustrate persistent congestion:<a href="#section-6.8-5" class="pilcrow">¶</a>
             </tr>
           </tbody>
         </table>
-<p id="section-6.8-7">The first three packets are determined to be lost when the acknowledgement of
+<p id="section-6.8-8">The first three packets are determined to be lost when the acknowledgement of
 packet 4 is received at t=8.  The congestion period is calculated as the time
 between the oldest and newest lost packets: (3 - 0) = 3.  The duration for
 persistent congestion is equal to: (1 * kPersistentCongestionThreshold) = 3.
 Because the threshold was reached and because none of the packets between the
 oldest and the newest packets are acknowledged, the network is considered to
-have experienced persistent congestion.<a href="#section-6.8-7" class="pilcrow">¶</a></p>
-<p id="section-6.8-8">When persistent congestion is established, the sender's congestion window MUST
+have experienced persistent congestion.<a href="#section-6.8-8" class="pilcrow">¶</a></p>
+<p id="section-6.8-9">When persistent congestion is established, the sender's congestion window MUST
 be reduced to the minimum congestion window (kMinimumWindow).  This response of
 collapsing the congestion window on persistent congestion is functionally
 similar to a sender's response on a Retransmission Timeout (RTO) in TCP
-<span>[<a href="#RFC5681" class="xref">RFC5681</a>]</span> after Tail Loss Probes (TLP) <span>[<a href="#RACK" class="xref">RACK</a>]</span>.<a href="#section-6.8-8" class="pilcrow">¶</a></p>
+<span>[<a href="#RFC5681" class="xref">RFC5681</a>]</span> after Tail Loss Probes (TLP) <span>[<a href="#RACK" class="xref">RACK</a>]</span>.<a href="#section-6.8-9" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="pacing">
@@ -2225,10 +2230,10 @@ detect.<a href="#section-7.3-4" class="pilcrow">¶</a></p>
 <dl class="references">
 <dt id="QUIC-TLS">[QUIC-TLS]</dt>
 <dd>
-<span class="refAuthor">Thomson, M., Ed.</span><span class="refAuthor"> and S. Turner, Ed.</span>, <span class="refTitle">"Using TLS to Secure QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-tls-latest</span>, <time datetime="2020-03-23">23 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-tls-latest">https://tools.ietf.org/html/draft-ietf-quic-tls-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Thomson, M., Ed.</span><span class="refAuthor"> and S. Turner, Ed.</span>, <span class="refTitle">"Using TLS to Secure QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-tls-latest</span>, <time datetime="2020-03-27">27 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-tls-latest">https://tools.ietf.org/html/draft-ietf-quic-tls-latest</a>&gt;</span>. </dd>
 <dt id="QUIC-TRANSPORT">[QUIC-TRANSPORT]</dt>
 <dd>
-<span class="refAuthor">Iyengar, J., Ed.</span><span class="refAuthor"> and M. Thomson, Ed.</span>, <span class="refTitle">"QUIC: A UDP-Based Multiplexed and Secure Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-transport-latest</span>, <time datetime="2020-03-23">23 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-transport-latest">https://tools.ietf.org/html/draft-ietf-quic-transport-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Iyengar, J., Ed.</span><span class="refAuthor"> and M. Thomson, Ed.</span>, <span class="refTitle">"QUIC: A UDP-Based Multiplexed and Secure Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-transport-latest</span>, <time datetime="2020-03-27">27 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-transport-latest">https://tools.ietf.org/html/draft-ietf-quic-transport-latest</a>&gt;</span>. </dd>
 <dt id="RFC2119">[RFC2119]</dt>
 <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;</span>. </dd>
@@ -2348,7 +2353,7 @@ overhead, but including QUIC framing overhead.<a href="#section-a.1.1-1.8" class
 </div>
 </section>
 </div>
-<div id="ld-consts-of-interest">
+<div id="constants-of-interest">
 <section id="section-a.2">
         <h2 id="name-constants-of-interest">
 <a href="#section-a.2" class="section-number selfRef">A.2. </a><a href="#name-constants-of-interest" class="section-name selfRef">Constants of interest</a>
@@ -2359,22 +2364,23 @@ common practice.<a href="#section-a.2-1" class="pilcrow">¶</a></p>
           <dt id="section-a.2-2.1">kPacketThreshold:</dt>
 <dd id="section-a.2-2.2">
   Maximum reordering in packets before packet threshold loss detection
-considers a packet lost. The RECOMMENDED value is 3.<a href="#section-a.2-2.2" class="pilcrow">¶</a>
+considers a packet lost. The value recommended in <a href="#packet-threshold" class="xref">Section 5.1.1</a> is 3.<a href="#section-a.2-2.2" class="pilcrow">¶</a>
 </dd>
 <dt id="section-a.2-2.3">kTimeThreshold:</dt>
 <dd id="section-a.2-2.4">
   Maximum reordering in time before time threshold loss detection
-considers a packet lost. Specified as an RTT multiplier. The RECOMMENDED
-value is 9/8.<a href="#section-a.2-2.4" class="pilcrow">¶</a>
+considers a packet lost. Specified as an RTT multiplier. The value
+recommended in <a href="#time-threshold" class="xref">Section 5.1.2</a> is 9/8.<a href="#section-a.2-2.4" class="pilcrow">¶</a>
 </dd>
 <dt id="section-a.2-2.5">kGranularity:</dt>
 <dd id="section-a.2-2.6">
-  Timer granularity. This is a system-dependent value, and the RECOMMENDED
-value is 1ms.<a href="#section-a.2-2.6" class="pilcrow">¶</a>
+  Timer granularity. This is a system-dependent value, and <a href="#time-threshold" class="xref">Section 5.1.2</a>
+recommends a value of 1ms.<a href="#section-a.2-2.6" class="pilcrow">¶</a>
 </dd>
 <dt id="section-a.2-2.7">kInitialRtt:</dt>
 <dd id="section-a.2-2.8">
-  The RTT used before an RTT sample is taken. The RECOMMENDED value is 500ms.<a href="#section-a.2-2.8" class="pilcrow">¶</a>
+  The RTT used before an RTT sample is taken. The value recommended in
+<a href="#pto-handshake" class="xref">Section 5.2.2</a> is 500ms.<a href="#section-a.2-2.8" class="pilcrow">¶</a>
 </dd>
 <dt id="section-a.2-2.9">kPacketNumberSpace:</dt>
 <dd id="section-a.2-2.10">
@@ -2609,7 +2615,7 @@ duration of the timer is based on the timer's mode, which is set in the packet
 and timer events further below.  The function SetLossDetectionTimer defined
 below shows how the single timer is set.<a href="#section-a.8-1" class="pilcrow">¶</a></p>
 <p id="section-a.8-2">This algorithm may result in the timer being set in the past, particularly if
-timers wake up late. Timers set in the past SHOULD fire immediately.<a href="#section-a.8-2" class="pilcrow">¶</a></p>
+timers wake up late. Timers set in the past fire immediately.<a href="#section-a.8-2" class="pilcrow">¶</a></p>
 <p id="section-a.8-3">Pseudocode for SetLossDetectionTimer follows:<a href="#section-a.8-3" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft" id="section-a.8-4">
 <pre>
@@ -2784,23 +2790,18 @@ and common practice.<a href="#section-b.1-1" class="pilcrow">¶</a></p>
 </dd>
 <dt id="section-b.1-2.3">kMinimumWindow:</dt>
 <dd id="section-b.1-2.4">
-  Minimum congestion window in bytes. The RECOMMENDED value is
-2 * max_datagram_size.<a href="#section-b.1-2.4" class="pilcrow">¶</a>
+  Minimum congestion window in bytes as described in <a href="#initial-cwnd" class="xref">Section 6.2</a>.<a href="#section-b.1-2.4" class="pilcrow">¶</a>
 </dd>
 <dt id="section-b.1-2.5">kLossReductionFactor:</dt>
 <dd id="section-b.1-2.6">
   Reduction in congestion window when a new loss event is detected.
-The RECOMMENDED value is 0.5.<a href="#section-b.1-2.6" class="pilcrow">¶</a>
+The <a href="#congestion-control" class="xref">Section 6</a> section recommends a value is 0.5.<a href="#section-b.1-2.6" class="pilcrow">¶</a>
 </dd>
 <dt id="section-b.1-2.7">kPersistentCongestionThreshold:</dt>
 <dd id="section-b.1-2.8">
-  Period of time for persistent congestion to be established, specified as a PTO
-multiplier.  The rationale for this threshold is to enable a sender to use
-initial PTOs for aggressive probing, as TCP does with Tail Loss Probe (TLP)
-<span>[<a href="#RACK" class="xref">RACK</a>]</span>, before establishing persistent congestion, as TCP does with a
-Retransmission Timeout (RTO) <span>[<a href="#RFC5681" class="xref">RFC5681</a>]</span>.  The RECOMMENDED value for
-kPersistentCongestionThreshold is 3, which is approximately equivalent to
-having two TLPs before an RTO in TCP.<a href="#section-b.1-2.8" class="pilcrow">¶</a>
+  Period of time for persistent congestion to be established, specified
+as a PTO multiplier. The <a href="#persistent-congestion" class="xref">Section 6.8</a> section recommends a
+value of 3.<a href="#section-b.1-2.8" class="pilcrow">¶</a>
 </dd>
 </dl>
 </section>
