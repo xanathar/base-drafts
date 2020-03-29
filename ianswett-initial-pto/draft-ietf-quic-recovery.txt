@@ -2056,6 +2056,7 @@ B.9.  Upon dropping Initial or Handshake keys
      // Reset the loss detection and PTO timer
      time_of_last_sent_ack_eliciting_packet[kPacketNumberSpace] = 0
      loss_time[pn_space] = 0
+     pto_count = 0
      SetLossDetectionTimer()
 
 Appendix C.  Change Log
@@ -2064,7 +2065,6 @@ Appendix C.  Change Log
       publication of a final version of this document.
 
    Issue and pull request numbers are listed with a leading octothorp.
-
 
 
 
