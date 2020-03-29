@@ -1819,28 +1819,28 @@ expired, the sender SHOULD send ack-eliciting packets from other packet
 number spaces with in-flight data, coalescing packets if possible.<a href="#section-5.2.4-2" class="pilcrow">¶</a></p>
 <p id="section-5.2.4-3">If the sender wants to elicit a faster acknowledgement on PTO, it can skip a
 packet number to eliminate the ack delay.<a href="#section-5.2.4-3" class="pilcrow">¶</a></p>
-<p id="section-5.2.4-4">It is possible the sender has no new or previously-sent data to send.
-As an example, consider the following sequence of events: new application data
-is sent in a STREAM frame, deemed lost, then retransmitted in a new packet,
-and then the original transmission is acknowledged.  When there is no data to
-send, the sender SHOULD send a PING or other ack-eliciting frame in a single
-packet, re-arming the PTO timer.<a href="#section-5.2.4-4" class="pilcrow">¶</a></p>
-<p id="section-5.2.4-5">Alternatively, instead of sending an ack-eliciting packet, the sender MAY mark
-any packets still in flight as lost.  Doing so avoids sending an additional
-packet, but increases the risk that loss is declared too aggressively, resulting
-in an unnecessary rate reduction by the congestion controller.<a href="#section-5.2.4-5" class="pilcrow">¶</a></p>
-<p id="section-5.2.4-6">Consecutive PTO periods increase exponentially, and as a result, connection
-recovery latency increases exponentially as packets continue to be dropped in
-the network.  Sending two packets on PTO expiration increases resilience to
-packet drops, thus reducing the probability of consecutive PTO events.<a href="#section-5.2.4-6" class="pilcrow">¶</a></p>
-<p id="section-5.2.4-7">When the PTO timer expires, and there is new or previously sent unacknowledged
+<p id="section-5.2.4-4">When the PTO timer expires, and there is new or previously sent unacknowledged
 data, it MUST be sent. A probe packet SHOULD carry new data when possible.
 A probe packet MAY carry retransmitted unacknowledged data when new data is
 unavailable, when flow control does not permit new data to be sent, or to
 opportunistically reduce loss recovery delay.  Implementations MAY use
 alternative strategies for determining the content of probe packets,
 including sending new or retransmitted data based on the application's
-priorities.<a href="#section-5.2.4-7" class="pilcrow">¶</a></p>
+priorities.<a href="#section-5.2.4-4" class="pilcrow">¶</a></p>
+<p id="section-5.2.4-5">It is possible the sender has no new or previously-sent data to send.
+As an example, consider the following sequence of events: new application data
+is sent in a STREAM frame, deemed lost, then retransmitted in a new packet,
+and then the original transmission is acknowledged.  When there is no data to
+send, the sender SHOULD send a PING or other ack-eliciting frame in a single
+packet, re-arming the PTO timer.<a href="#section-5.2.4-5" class="pilcrow">¶</a></p>
+<p id="section-5.2.4-6">Alternatively, instead of sending an ack-eliciting packet, the sender MAY mark
+any packets still in flight as lost.  Doing so avoids sending an additional
+packet, but increases the risk that loss is declared too aggressively, resulting
+in an unnecessary rate reduction by the congestion controller.<a href="#section-5.2.4-6" class="pilcrow">¶</a></p>
+<p id="section-5.2.4-7">Consecutive PTO periods increase exponentially, and as a result, connection
+recovery latency increases exponentially as packets continue to be dropped in
+the network.  Sending two packets on PTO expiration increases resilience to
+packet drops, thus reducing the probability of consecutive PTO events.<a href="#section-5.2.4-7" class="pilcrow">¶</a></p>
 <p id="section-5.2.4-8">When the PTO timer expires multiple times and new data cannot be sent,
 implementations must choose between sending the same payload every time
 or sending different payloads.  Sending the same payload may be simpler
