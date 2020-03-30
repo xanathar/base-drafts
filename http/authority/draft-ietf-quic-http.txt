@@ -261,7 +261,7 @@ Internet-Draft                   HTTP/3                       March 2020
    Once a client knows that an HTTP/3 server exists at a certain
    endpoint, it opens a QUIC connection.  QUIC provides protocol
    negotiation, stream-based multiplexing, and flow control.  Discovery
-   of an HTTP/3 endpoint is described in greater detail in Section 3.2.
+   of an HTTP/3 endpoint is described in Section 3.2.
 
    Within each stream, the basic unit of HTTP/3 communication is a frame
    (Section 7.2).  Each frame type serves a different purpose.  For
