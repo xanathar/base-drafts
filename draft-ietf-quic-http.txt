@@ -127,41 +127,41 @@ Internet-Draft                   HTTP/3                       March 2020
      8.1.  HTTP/3 Error Codes  . . . . . . . . . . . . . . . . . . .  39
    9.  Extensions to HTTP/3  . . . . . . . . . . . . . . . . . . . .  40
    10. Security Considerations . . . . . . . . . . . . . . . . . . .  41
-     10.1.  Traffic Analysis . . . . . . . . . . . . . . . . . . . .  41
-     10.2.  Frame Parsing  . . . . . . . . . . . . . . . . . . . . .  41
-     10.3.  Early Data . . . . . . . . . . . . . . . . . . . . . . .  41
-     10.4.  Migration  . . . . . . . . . . . . . . . . . . . . . . .  42
-   11. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  42
-     11.1.  Registration of HTTP/3 Identification String . . . . . .  42
-     11.2.  New Registries . . . . . . . . . . . . . . . . . . . . .  42
-       11.2.1.  Frame Types  . . . . . . . . . . . . . . . . . . . .  42
-       11.2.2.  Settings Parameters  . . . . . . . . . . . . . . . .  44
-       11.2.3.  Error Codes  . . . . . . . . . . . . . . . . . . . .  45
-       11.2.4.  Stream Types . . . . . . . . . . . . . . . . . . . .  47
-   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  48
-     12.1.  Normative References . . . . . . . . . . . . . . . . . .  48
-     12.2.  Informative References . . . . . . . . . . . . . . . . .  49
-   Appendix A.  Considerations for Transitioning from HTTP/2 . . . .  50
-     A.1.  Streams . . . . . . . . . . . . . . . . . . . . . . . . .  50
-     A.2.  HTTP Frame Types  . . . . . . . . . . . . . . . . . . . .  51
-       A.2.1.  Prioritization Differences  . . . . . . . . . . . . .  52
-       A.2.2.  Field Compression Differences . . . . . . . . . . . .  52
-       A.2.3.  Guidance for New Frame Type Definitions . . . . . . .  52
-       A.2.4.  Mapping Between HTTP/2 and HTTP/3 Frame Types . . . .  52
-     A.3.  HTTP/2 SETTINGS Parameters  . . . . . . . . . . . . . . .  53
-     A.4.  HTTP/2 Error Codes  . . . . . . . . . . . . . . . . . . .  55
-   Appendix B.  Change Log . . . . . . . . . . . . . . . . . . . . .  56
-     B.1.  Since draft-ietf-quic-http-26 . . . . . . . . . . . . . .  56
-     B.2.  Since draft-ietf-quic-http-25 . . . . . . . . . . . . . .  56
-     B.3.  Since draft-ietf-quic-http-24 . . . . . . . . . . . . . .  56
-     B.4.  Since draft-ietf-quic-http-23 . . . . . . . . . . . . . .  56
-     B.5.  Since draft-ietf-quic-http-22 . . . . . . . . . . . . . .  56
-     B.6.  Since draft-ietf-quic-http-21 . . . . . . . . . . . . . .  57
-     B.7.  Since draft-ietf-quic-http-20 . . . . . . . . . . . . . .  57
-     B.8.  Since draft-ietf-quic-http-19 . . . . . . . . . . . . . .  58
-     B.9.  Since draft-ietf-quic-http-18 . . . . . . . . . . . . . .  58
-     B.10. Since draft-ietf-quic-http-17 . . . . . . . . . . . . . .  59
-     B.11. Since draft-ietf-quic-http-16 . . . . . . . . . . . . . .  59
+     10.1.  Server Authority . . . . . . . . . . . . . . . . . . . .  41
+     10.2.  Cross-Protocol Attacks . . . . . . . . . . . . . . . . .  41
+     10.3.  Intermediary Encapsulation Attacks . . . . . . . . . . .  41
+     10.4.  Cacheability of Pushed Responses . . . . . . . . . . . .  42
+     10.5.  Denial-of-Service Considerations . . . . . . . . . . . .  42
+       10.5.1.  Limits on Field Section Size . . . . . . . . . . . .  43
+       10.5.2.  CONNECT Issues . . . . . . . . . . . . . . . . . . .  43
+     10.6.  Use of Compression . . . . . . . . . . . . . . . . . . .  44
+     10.7.  Padding and Traffic Analysis . . . . . . . . . . . . . .  44
+     10.8.  Frame Parsing  . . . . . . . . . . . . . . . . . . . . .  45
+     10.9.  Early Data . . . . . . . . . . . . . . . . . . . . . . .  45
+     10.10. Migration  . . . . . . . . . . . . . . . . . . . . . . .  45
+     10.11. Privacy Considerations . . . . . . . . . . . . . . . . .  45
+   11. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  46
+     11.1.  Registration of HTTP/3 Identification String . . . . . .  46
+     11.2.  New Registries . . . . . . . . . . . . . . . . . . . . .  46
+       11.2.1.  Frame Types  . . . . . . . . . . . . . . . . . . . .  46
+       11.2.2.  Settings Parameters  . . . . . . . . . . . . . . . .  48
+       11.2.3.  Error Codes  . . . . . . . . . . . . . . . . . . . .  49
+       11.2.4.  Stream Types . . . . . . . . . . . . . . . . . . . .  51
+   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  51
+     12.1.  Normative References . . . . . . . . . . . . . . . . . .  51
+     12.2.  Informative References . . . . . . . . . . . . . . . . .  53
+   Appendix A.  Considerations for Transitioning from HTTP/2 . . . .  54
+     A.1.  Streams . . . . . . . . . . . . . . . . . . . . . . . . .  54
+     A.2.  HTTP Frame Types  . . . . . . . . . . . . . . . . . . . .  55
+       A.2.1.  Prioritization Differences  . . . . . . . . . . . . .  56
+       A.2.2.  Field Compression Differences . . . . . . . . . . . .  56
+       A.2.3.  Guidance for New Frame Type Definitions . . . . . . .  56
+       A.2.4.  Mapping Between HTTP/2 and HTTP/3 Frame Types . . . .  56
+     A.3.  HTTP/2 SETTINGS Parameters  . . . . . . . . . . . . . . .  57
+     A.4.  HTTP/2 Error Codes  . . . . . . . . . . . . . . . . . . .  59
+   Appendix B.  Change Log . . . . . . . . . . . . . . . . . . . . .  60
+     B.1.  Since draft-ietf-quic-http-26 . . . . . . . . . . . . . .  60
+     B.2.  Since draft-ietf-quic-http-25 . . . . . . . . . . . . . .  60
 
 
 
@@ -170,25 +170,34 @@ Bishop                   Expires 1 October 2020                 [Page 3]
 Internet-Draft                   HTTP/3                       March 2020
 
 
-     B.12. Since draft-ietf-quic-http-15 . . . . . . . . . . . . . .  60
-     B.13. Since draft-ietf-quic-http-14 . . . . . . . . . . . . . .  60
-     B.14. Since draft-ietf-quic-http-13 . . . . . . . . . . . . . .  60
-     B.15. Since draft-ietf-quic-http-12 . . . . . . . . . . . . . .  60
-     B.16. Since draft-ietf-quic-http-11 . . . . . . . . . . . . . .  61
-     B.17. Since draft-ietf-quic-http-10 . . . . . . . . . . . . . .  61
-     B.18. Since draft-ietf-quic-http-09 . . . . . . . . . . . . . .  61
-     B.19. Since draft-ietf-quic-http-08 . . . . . . . . . . . . . .  61
-     B.20. Since draft-ietf-quic-http-07 . . . . . . . . . . . . . .  61
-     B.21. Since draft-ietf-quic-http-06 . . . . . . . . . . . . . .  61
-     B.22. Since draft-ietf-quic-http-05 . . . . . . . . . . . . . .  61
-     B.23. Since draft-ietf-quic-http-04 . . . . . . . . . . . . . .  61
-     B.24. Since draft-ietf-quic-http-03 . . . . . . . . . . . . . .  62
-     B.25. Since draft-ietf-quic-http-02 . . . . . . . . . . . . . .  62
-     B.26. Since draft-ietf-quic-http-01 . . . . . . . . . . . . . .  62
-     B.27. Since draft-ietf-quic-http-00 . . . . . . . . . . . . . .  63
-     B.28. Since draft-shade-quic-http2-mapping-00 . . . . . . . . .  63
-   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  63
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  63
+     B.3.  Since draft-ietf-quic-http-24 . . . . . . . . . . . . . .  60
+     B.4.  Since draft-ietf-quic-http-23 . . . . . . . . . . . . . .  60
+     B.5.  Since draft-ietf-quic-http-22 . . . . . . . . . . . . . .  60
+     B.6.  Since draft-ietf-quic-http-21 . . . . . . . . . . . . . .  61
+     B.7.  Since draft-ietf-quic-http-20 . . . . . . . . . . . . . .  61
+     B.8.  Since draft-ietf-quic-http-19 . . . . . . . . . . . . . .  62
+     B.9.  Since draft-ietf-quic-http-18 . . . . . . . . . . . . . .  62
+     B.10. Since draft-ietf-quic-http-17 . . . . . . . . . . . . . .  63
+     B.11. Since draft-ietf-quic-http-16 . . . . . . . . . . . . . .  63
+     B.12. Since draft-ietf-quic-http-15 . . . . . . . . . . . . . .  64
+     B.13. Since draft-ietf-quic-http-14 . . . . . . . . . . . . . .  64
+     B.14. Since draft-ietf-quic-http-13 . . . . . . . . . . . . . .  64
+     B.15. Since draft-ietf-quic-http-12 . . . . . . . . . . . . . .  64
+     B.16. Since draft-ietf-quic-http-11 . . . . . . . . . . . . . .  65
+     B.17. Since draft-ietf-quic-http-10 . . . . . . . . . . . . . .  65
+     B.18. Since draft-ietf-quic-http-09 . . . . . . . . . . . . . .  65
+     B.19. Since draft-ietf-quic-http-08 . . . . . . . . . . . . . .  65
+     B.20. Since draft-ietf-quic-http-07 . . . . . . . . . . . . . .  65
+     B.21. Since draft-ietf-quic-http-06 . . . . . . . . . . . . . .  65
+     B.22. Since draft-ietf-quic-http-05 . . . . . . . . . . . . . .  65
+     B.23. Since draft-ietf-quic-http-04 . . . . . . . . . . . . . .  65
+     B.24. Since draft-ietf-quic-http-03 . . . . . . . . . . . . . .  66
+     B.25. Since draft-ietf-quic-http-02 . . . . . . . . . . . . . .  66
+     B.26. Since draft-ietf-quic-http-01 . . . . . . . . . . . . . .  66
+     B.27. Since draft-ietf-quic-http-00 . . . . . . . . . . . . . .  67
+     B.28. Since draft-shade-quic-http2-mapping-00 . . . . . . . . .  67
+   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  67
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  67
 
 1.  Introduction
 
@@ -208,15 +217,6 @@ Internet-Draft                   HTTP/3                       March 2020
    connections are often used, reducing the ability of the congestion
    controller to effectively manage traffic between endpoints.
 
-   HTTP/2 [HTTP2] introduced a binary framing and multiplexing layer to
-   improve latency without modifying the transport layer.  However,
-   because the parallel nature of HTTP/2's multiplexing is not visible
-   to TCP's loss recovery mechanisms, a lost or reordered packet causes
-   all active transactions to experience a stall regardless of whether
-   that transaction was directly impacted by the lost packet.
-
-
-
 
 
 
@@ -225,6 +225,13 @@ Bishop                   Expires 1 October 2020                 [Page 4]
 
 Internet-Draft                   HTTP/3                       March 2020
 
+
+   HTTP/2 [HTTP2] introduced a binary framing and multiplexing layer to
+   improve latency without modifying the transport layer.  However,
+   because the parallel nature of HTTP/2's multiplexing is not visible
+   to TCP's loss recovery mechanisms, a lost or reordered packet causes
+   all active transactions to experience a stall regardless of whether
+   that transaction was directly impacted by the lost packet.
 
 1.2.  Delegation to QUIC
 
@@ -268,19 +275,19 @@ Internet-Draft                   HTTP/3                       March 2020
    independent of each other, so one stream that is blocked or suffers
    packet loss does not prevent progress on other streams.
 
-   Server push is an interaction mode introduced in HTTP/2 [HTTP2] which
-   permits a server to push a request-response exchange to a client in
-   anticipation of the client making the indicated request.  This trades
-   off network usage against a potential latency gain.  Several HTTP/3
-   frames are used to manage server push, such as PUSH_PROMISE,
-   MAX_PUSH_ID, and CANCEL_PUSH.
-
 
 
 Bishop                   Expires 1 October 2020                 [Page 5]
 
 Internet-Draft                   HTTP/3                       March 2020
 
+
+   Server push is an interaction mode introduced in HTTP/2 [HTTP2] which
+   permits a server to push a request-response exchange to a client in
+   anticipation of the client making the indicated request.  This trades
+   off network usage against a potential latency gain.  Several HTTP/3
+   frames are used to manage server push, such as PUSH_PROMISE,
+   MAX_PUSH_ID, and CANCEL_PUSH.
 
    As in HTTP/2, request and response fields are compressed for
    transmission.  Because HPACK [HPACK] relies on in-order transmission
@@ -322,13 +329,6 @@ Internet-Draft                   HTTP/3                       March 2020
    *  Extensions to HTTP/3 (Section 9) describes how new capabilities
       can be added in future documents.
 
-   *  A more detailed comparison between HTTP/2 and HTTP/3 can be found
-      in Appendix A.
-
-
-
-
-
 
 
 
@@ -337,6 +337,9 @@ Bishop                   Expires 1 October 2020                 [Page 6]
 
 Internet-Draft                   HTTP/3                       March 2020
 
+
+   *  A more detailed comparison between HTTP/2 and HTTP/3 can be found
+      in Appendix A.
 
 2.2.  Conventions and Terminology
 
@@ -383,9 +386,6 @@ Internet-Draft                   HTTP/3                       March 2020
 
    receiver:  An endpoint that is receiving frames.
 
-   sender:  An endpoint that is transmitting frames.
-
-
 
 
 
@@ -393,6 +393,8 @@ Bishop                   Expires 1 October 2020                 [Page 7]
 
 Internet-Draft                   HTTP/3                       March 2020
 
+
+   sender:  An endpoint that is transmitting frames.
 
    server:  The endpoint that accepts an HTTP/3 connection.  Servers
       receive HTTP requests and send HTTP responses.
@@ -438,8 +440,6 @@ Internet-Draft                   HTTP/3                       March 2020
    that any label MUST conform to the "token" syntax defined in
    Section 4.4.1.1 of [SEMANTICS].  Experimenters are encouraged to
    coordinate their experiments on the quic@ietf.org mailing list.
-
-
 
 
 
@@ -918,9 +918,11 @@ Internet-Draft                   HTTP/3                       March 2020
 
    *  pseudo-header fields after fields,
 
-   *  an invalid sequence of HTTP messages, or
+   *  an invalid sequence of HTTP messages,
 
-   *  the inclusion of uppercase field names.
+   *  the inclusion of uppercase field names, or
+
+   *  the inclusion of invalid characters in field names or values
 
    A request or response that includes a payload body can include a
    "content-length" header field.  A request or response is also
@@ -942,8 +944,6 @@ Internet-Draft                   HTTP/3                       March 2020
    against several types of common attacks against HTTP; they are
    deliberately strict because being permissive can expose
    implementations to these vulnerabilities.
-
-
 
 
 
@@ -2253,41 +2253,41 @@ Internet-Draft                   HTTP/3                       March 2020
 10.  Security Considerations
 
    The security considerations of HTTP/3 should be comparable to those
-   of HTTP/2 with TLS; the considerations from Section 10 of [HTTP2]
-   apply in addition to those listed here.
+   of HTTP/2 with TLS.  However, many of the considerations from
+   Section 10 of [HTTP2] apply to [QUIC-TRANSPORT] and are discussed in
+   that document.
 
-   TODO: This is going to be a big import, probably worthy of its own
-   PR.
+10.1.  Server Authority
 
-   When HTTP Alternative Services is used for discovery for HTTP/3
-   endpoints, the security considerations of [ALTSVC] also apply.
+   HTTP/3 relies on the HTTP definition of authority.  The security
+   considerations of establishing authority are discussed in
+   Section 11.1 of [SEMANTICS].
 
-10.1.  Traffic Analysis
+10.2.  Cross-Protocol Attacks
 
-   Where HTTP/2 employs PADDING frames and Padding fields in other
-   frames to make a connection more resistant to traffic analysis,
-   HTTP/3 can either rely on transport-layer padding or employ the
-   reserved frame and stream types discussed in Section 7.2.8 and
-   Section 6.2.3.  These methods of padding produce different results in
-   terms of the granularity of padding, how padding is arranged in
-   relation to the information that is being protected, whether padding
-   is applied in the case of packet loss, and how an implementation
-   might control padding.
+   The use of ALPN in the TLS and QUIC handshakes establishes the target
+   application protocol before application-layer bytes are processed.
+   Because all QUIC packets are encrypted, it is difficult for an
+   attacker to control the plaintext bytes of an HTTP/3 connection which
+   could be used in a cross-protocol attack on a plaintext protocol.
 
-10.2.  Frame Parsing
+10.3.  Intermediary Encapsulation Attacks
 
-   Several protocol elements contain nested length elements, typically
-   in the form of frames with an explicit length containing variable-
-   length integers.  This could pose a security risk to an incautious
-   implementer.  An implementation MUST ensure that the length of a
-   frame exactly matches the length of the fields it contains.
+   The HTTP/3 field encoding allows the expression of names that are not
+   valid field names in the syntax used by HTTP (Section 4.3 of
+   [SEMANTICS]).  Requests or responses containing invalid field names
+   MUST be treated as malformed (Section 4.1.3).  An intermediary
+   therefore cannot translate an HTTP/3 request or response containing
+   an invalid field name into an HTTP/1.1 message.
 
-10.3.  Early Data
-
-   The use of 0-RTT with HTTP/3 creates an exposure to replay attack.
-   The anti-replay mitigations in [HTTP-REPLAY] MUST be applied when
-   using HTTP/3 with 0-RTT.
-
+   Similarly, HTTP/3 allows field values that are not valid.  While most
+   of the values that can be encoded will not alter field parsing,
+   carriage return (CR, ASCII 0xd), line feed (LF, ASCII 0xa), and the
+   zero character (NUL, ASCII 0x0) might be exploited by an attacker if
+   they are translated verbatim.  Any request or response that contains
+   a character not permitted in a field value MUST be treated as
+   malformed (Section 4.1.3).  Valid characters are defined by the
+   "field-content" ABNF rule in Section 4.4 of [SEMANTICS].
 
 
 
@@ -2298,7 +2298,195 @@ Bishop                   Expires 1 October 2020                [Page 41]
 Internet-Draft                   HTTP/3                       March 2020
 
 
-10.4.  Migration
+10.4.  Cacheability of Pushed Responses
+
+   Pushed responses do not have an explicit request from the client; the
+   request is provided by the server in the PUSH_PROMISE frame.
+
+   Caching responses that are pushed is possible based on the guidance
+   provided by the origin server in the Cache-Control header field.
+   However, this can cause issues if a single server hosts more than one
+   tenant.  For example, a server might offer multiple users each a
+   small portion of its URI space.
+
+   Where multiple tenants share space on the same server, that server
+   MUST ensure that tenants are not able to push representations of
+   resources that they do not have authority over.  Failure to enforce
+   this would allow a tenant to provide a representation that would be
+   served out of cache, overriding the actual representation that the
+   authoritative tenant provides.
+
+   Pushed responses for which an origin server is not authoritative (see
+   Section 3.4) MUST NOT be used or cached.
+
+10.5.  Denial-of-Service Considerations
+
+   An HTTP/3 connection can demand a greater commitment of resources to
+   operate than an HTTP/1.1 or HTTP/2 connection.  The use of field
+   compression and flow control depend on a commitment of resources for
+   storing a greater amount of state.  Settings for these features
+   ensure that memory commitments for these features are strictly
+   bounded.
+
+   The number of PUSH_PROMISE frames is constrained in a similar
+   fashion.  A client that accepts server push SHOULD limit the number
+   of Push IDs it issues at a time.
+
+   Processing capacity cannot be guarded as effectively as state
+   capacity.
+
+   The ability to send undefined protocol elements which the peer is
+   required to ignore can be abused to cause a peer to expend additional
+   processing time.  This might be done by setting multiple undefined
+   SETTINGS parameters, unknown frame types, or unknown stream types.
+   Note, however, that some uses are entirely legitimate, such as
+   optional-to-understand extensions and padding to increase resistance
+   to traffic analysis.
+
+   Compression of field sections also offers some opportunities to waste
+   processing resources; see Section 7 of [QPACK] for more details on
+   potential abuses.
+
+
+
+Bishop                   Expires 1 October 2020                [Page 42]
+
+Internet-Draft                   HTTP/3                       March 2020
+
+
+   All these features - i.e., server push, unknown protocol elements,
+   field compression - have legitimate uses.  These features become a
+   burden only when they are used unnecessarily or to excess.
+
+   An endpoint that doesn't monitor this behavior exposes itself to a
+   risk of denial-of-service attack.  Implementations SHOULD track the
+   use of these features and set limits on their use.  An endpoint MAY
+   treat activity that is suspicious as a connection error (Section 8)
+   of type H3_EXCESSIVE_LOAD, but false positives will result in
+   disrupting valid connections and requests.
+
+10.5.1.  Limits on Field Section Size
+
+   A large field section (Section 4.1) can cause an implementation to
+   commit a large amount of state.  Header fields that are critical for
+   routing can appear toward the end of a header field section, which
+   prevents streaming of the header field section to its ultimate
+   destination.  This ordering and other reasons, such as ensuring cache
+   correctness, mean that an endpoint likely needs to buffer the entire
+   header field section.  Since there is no hard limit to the size of a
+   field section, some endpoints could be forced to commit a large
+   amount of available memory for header fields.
+
+   An endpoint can use the SETTINGS_MAX_HEADER_LIST_SIZE
+   (Section 7.2.4.1) setting to advise peers of limits that might apply
+   on the size of field sections.  This setting is only advisory, so
+   endpoints MAY choose to send field sections that exceed this limit
+   and risk having the request or response being treated as malformed.
+   This setting is specific to a connection, so any request or response
+   could encounter a hop with a lower, unknown limit.  An intermediary
+   can attempt to avoid this problem by passing on values presented by
+   different peers, but they are not obligated to do so.
+
+   A server that receives a larger field section than it is willing to
+   handle can send an HTTP 431 (Request Header Fields Too Large) status
+   code [RFC6585].  A client can discard responses that it cannot
+   process.
+
+10.5.2.  CONNECT Issues
+
+   The CONNECT method can be used to create disproportionate load on an
+   proxy, since stream creation is relatively inexpensive when compared
+   to the creation and maintenance of a TCP connection.  A proxy might
+   also maintain some resources for a TCP connection beyond the closing
+   of the stream that carries the CONNECT request, since the outgoing
+   TCP connection remains in the TIME_WAIT state.  Therefore, a proxy
+   cannot rely on QUIC stream limits alone to control the resources
+   consumed by CONNECT requests.
+
+
+
+Bishop                   Expires 1 October 2020                [Page 43]
+
+Internet-Draft                   HTTP/3                       March 2020
+
+
+10.6.  Use of Compression
+
+   Compression can allow an attacker to recover secret data when it is
+   compressed in the same context as data under attacker control.
+   HTTP/3 enables compression of fields (Section 4.1.1); the following
+   concerns also apply to the use of HTTP compressed content-codings;
+   see Section 6.1.2 of [SEMANTICS].
+
+   There are demonstrable attacks on compression that exploit the
+   characteristics of the web (e.g., [BREACH]).  The attacker induces
+   multiple requests containing varying plaintext, observing the length
+   of the resulting ciphertext in each, which reveals a shorter length
+   when a guess about the secret is correct.
+
+   Implementations communicating on a secure channel MUST NOT compress
+   content that includes both confidential and attacker-controlled data
+   unless separate compression dictionaries are used for each source of
+   data.  Compression MUST NOT be used if the source of data cannot be
+   reliably determined.
+
+   Further considerations regarding the compression of fields sections
+   are described in [QPACK].
+
+10.7.  Padding and Traffic Analysis
+
+   Padding can be used to obscure the exact size of frame content and is
+   provided to mitigate specific attacks within HTTP, for example,
+   attacks where compressed content includes both attacker-controlled
+   plaintext and secret data (e.g., [BREACH]).
+
+   Where HTTP/2 employs PADDING frames and Padding fields in other
+   frames to make a connection more resistant to traffic analysis,
+   HTTP/3 can either rely on transport-layer padding or employ the
+   reserved frame and stream types discussed in Section 7.2.8 and
+   Section 6.2.3.  These methods of padding produce different results in
+   terms of the granularity of padding, how padding is arranged in
+   relation to the information that is being protected, whether padding
+   is applied in the case of packet loss, and how an implementation
+   might control padding.  Redundant padding could even be
+   counterproductive.
+
+   To mitigate attacks that rely on compression, disabling or limiting
+   compression might be preferable to padding as a countermeasure.
+
+   Use of padding can result in less protection than might seem
+   immediately obvious.  At best, padding only makes it more difficult
+   for an attacker to infer length information by increasing the number
+   of frames an attacker has to observe.  Incorrectly implemented
+
+
+
+Bishop                   Expires 1 October 2020                [Page 44]
+
+Internet-Draft                   HTTP/3                       March 2020
+
+
+   padding schemes can be easily defeated.  In particular, randomized
+   padding with a predictable distribution provides very little
+   protection; similarly, padding payloads to a fixed size exposes
+   information as payload sizes cross the fixed-sized boundary, which
+   could be possible if an attacker can control plaintext.
+
+10.8.  Frame Parsing
+
+   Several protocol elements contain nested length elements, typically
+   in the form of frames with an explicit length containing variable-
+   length integers.  This could pose a security risk to an incautious
+   implementer.  An implementation MUST ensure that the length of a
+   frame exactly matches the length of the fields it contains.
+
+10.9.  Early Data
+
+   The use of 0-RTT with HTTP/3 creates an exposure to replay attack.
+   The anti-replay mitigations in [HTTP-REPLAY] MUST be applied when
+   using HTTP/3 with 0-RTT.
+
+10.10.  Migration
 
    Certain HTTP implementations use the client address for logging or
    access-control purposes.  Since a QUIC client's address might change
@@ -2307,6 +2495,32 @@ Internet-Draft                   HTTP/3                       March 2020
    actively retrieve the client's current address or addresses when they
    are relevant or explicitly accept that the original address might
    change.
+
+10.11.  Privacy Considerations
+
+   Several characteristics of HTTP/3 provide an observer an opportunity
+   to correlate actions of a single client or server over time.  These
+   include the value of settings, the timing of reactions to stimulus,
+   and the handling of any features that are controlled by settings.
+
+   As far as these create observable differences in behavior, they could
+   be used as a basis for fingerprinting a specific client.
+
+   HTTP/3's preference for using a single QUIC connection allows
+   correlation of a user's activity on a site.  Reusing connections for
+   different origins allows for correlation of activity across those
+   origins.
+
+   Several features of QUIC solicit immediate responses and can be used
+   by an endpoint to measure latency to their peer; this might have
+   privacy implications in certain scenarios.
+
+
+
+Bishop                   Expires 1 October 2020                [Page 45]
+
+Internet-Draft                   HTTP/3                       March 2020
+
 
 11.  IANA Considerations
 
@@ -2346,14 +2560,6 @@ Internet-Draft                   HTTP/3                       March 2020
    registry follows the QUIC registry policy; see Section 11.2.
    Permanent registrations in this registry are assigned using the
    Specification Required policy [RFC8126], except for values between
-
-
-
-Bishop                   Expires 1 October 2020                [Page 42]
-
-Internet-Draft                   HTTP/3                       March 2020
-
-
    0x00 and 0x3f (in hexadecimal; inclusive), which are assigned using
    Standards Action or IESG Approval as defined in Section 4.9 and 4.10
    of [RFC8126].
@@ -2363,6 +2569,14 @@ Internet-Draft                   HTTP/3                       March 2020
    each other where the code spaces overlap.  If an entry is present in
    only one registry, every effort SHOULD be made to avoid assigning the
    corresponding value to an unrelated operation.
+
+
+
+
+Bishop                   Expires 1 October 2020                [Page 46]
+
+Internet-Draft                   HTTP/3                       March 2020
+
 
    In addition to common fields as described in Section 11.2, permanent
    registrations in this registry MUST include the following field:
@@ -2403,16 +2617,22 @@ Internet-Draft                   HTTP/3                       March 2020
 
                    Table 2: Initial HTTP/3 Frame Types
 
-
-
-Bishop                   Expires 1 October 2020                [Page 43]
-
-Internet-Draft                   HTTP/3                       March 2020
-
-
    Additionally, each code of the format "0x1f * N + 0x21" for integer
    values of N (that is, "0x21", "0x40", ..., through
    "0x3FFFFFFFFFFFFFFE") MUST NOT be assigned by IANA.
+
+
+
+
+
+
+
+
+
+Bishop                   Expires 1 October 2020                [Page 47]
+
+Internet-Draft                   HTTP/3                       March 2020
+
 
 11.2.2.  Settings Parameters
 
@@ -2458,17 +2678,17 @@ Internet-Draft                   HTTP/3                       March 2020
 
                      Table 3: Initial HTTP/3 Settings
 
-
-
-
-Bishop                   Expires 1 October 2020                [Page 44]
-
-Internet-Draft                   HTTP/3                       March 2020
-
-
    Additionally, each code of the format "0x1f * N + 0x21" for integer
    values of N (that is, "0x21", "0x40", ..., through
    "0x3FFFFFFFFFFFFFFE") MUST NOT be assigned by IANA.
+
+
+
+
+Bishop                   Expires 1 October 2020                [Page 48]
+
+Internet-Draft                   HTTP/3                       March 2020
+
 
 11.2.3.  Error Codes
 
@@ -2514,18 +2734,18 @@ Internet-Draft                   HTTP/3                       March 2020
    +---------------------------+--------+--------------+---------------+
    | H3_CLOSED_CRITICAL_STREAM | 0x0104 | Critical     | Section 8.1   |
    |                           |        | stream was   |               |
-
-
-
-Bishop                   Expires 1 October 2020                [Page 45]
-
-Internet-Draft                   HTTP/3                       March 2020
-
-
    |                           |        | closed       |               |
    +---------------------------+--------+--------------+---------------+
    | H3_FRAME_UNEXPECTED       | 0x0105 | Frame not    | Section 8.1   |
    |                           |        | permitted    |               |
+
+
+
+Bishop                   Expires 1 October 2020                [Page 49]
+
+Internet-Draft                   HTTP/3                       March 2020
+
+
    |                           |        | in the       |               |
    |                           |        | current      |               |
    |                           |        | state        |               |
@@ -2570,18 +2790,17 @@ Internet-Draft                   HTTP/3                       March 2020
    |                           |        | or error on  |               |
    |                           |        | CONNECT      |               |
    |                           |        | request      |               |
-
-
-
-Bishop                   Expires 1 October 2020                [Page 46]
-
-Internet-Draft                   HTTP/3                       March 2020
-
-
    +---------------------------+--------+--------------+---------------+
    | H3_VERSION_FALLBACK       | 0x0110 | Retry over   | Section 8.1   |
    |                           |        | HTTP/1.1     |               |
    +---------------------------+--------+--------------+---------------+
+
+
+
+Bishop                   Expires 1 October 2020                [Page 50]
+
+Internet-Draft                   HTTP/3                       March 2020
+
 
                     Table 4: Initial HTTP/3 Error Codes
 
@@ -2625,21 +2844,19 @@ Internet-Draft                   HTTP/3                       March 2020
                                   Table 5
 
    Additionally, each code of the format "0x1f * N + 0x21" for integer
-
-
-
-
-Bishop                   Expires 1 October 2020                [Page 47]
-
-Internet-Draft                   HTTP/3                       March 2020
-
-
    values of N (that is, "0x21", "0x40", ..., through
    "0x3FFFFFFFFFFFFFFE") MUST NOT be assigned by IANA.
 
 12.  References
 
 12.1.  Normative References
+
+
+
+Bishop                   Expires 1 October 2020                [Page 51]
+
+Internet-Draft                   HTTP/3                       March 2020
+
 
    [ALTSVC]   Nottingham, M., McManus, P., and J. Reschke, "HTTP
               Alternative Services", RFC 7838, DOI 10.17487/RFC7838,
@@ -2682,14 +2899,6 @@ Internet-Draft                   HTTP/3                       March 2020
               RFC 3986, DOI 10.17487/RFC3986, January 2005,
               <https://www.rfc-editor.org/info/rfc3986>.
 
-
-
-
-Bishop                   Expires 1 October 2020                [Page 48]
-
-Internet-Draft                   HTTP/3                       March 2020
-
-
    [RFC5234]  Crocker, D., Ed. and P. Overell, "Augmented BNF for Syntax
               Specifications: ABNF", STD 68, RFC 5234,
               DOI 10.17487/RFC5234, January 2008,
@@ -2697,6 +2906,14 @@ Internet-Draft                   HTTP/3                       March 2020
 
    [RFC6066]  Eastlake 3rd, D., "Transport Layer Security (TLS)
               Extensions: Extension Definitions", RFC 6066,
+
+
+
+Bishop                   Expires 1 October 2020                [Page 52]
+
+Internet-Draft                   HTTP/3                       March 2020
+
+
               DOI 10.17487/RFC6066, January 2011,
               <https://www.rfc-editor.org/info/rfc6066>.
 
@@ -2729,6 +2946,11 @@ Internet-Draft                   HTTP/3                       March 2020
 
 12.2.  Informative References
 
+   [BREACH]   Gluck, Y., Harris, N., and A. Prado, "BREACH: Reviving the
+              CRIME Attack", July 2013,
+              <http://breachattack.com/resources/
+              BREACH%20-%20SSL,%20gone%20in%2030%20seconds.pdf>.
+
    [HPACK]    Peon, R. and H. Ruellan, "HPACK: Header Compression for
               HTTP/2", RFC 7541, DOI 10.17487/RFC7541, May 2015,
               <https://www.rfc-editor.org/info/rfc7541>.
@@ -2738,16 +2960,16 @@ Internet-Draft                   HTTP/3                       March 2020
               httpbis-messaging-07, 7 March 2020, <http://www.ietf.org/
               internet-drafts/draft-ietf-httpbis-messaging-07.txt>.
 
+   [HTTP2]    Belshe, M., Peon, R., and M. Thomson, Ed., "Hypertext
+              Transfer Protocol Version 2 (HTTP/2)", RFC 7540,
 
 
 
-Bishop                   Expires 1 October 2020                [Page 49]
+Bishop                   Expires 1 October 2020                [Page 53]
 
 Internet-Draft                   HTTP/3                       March 2020
 
 
-   [HTTP2]    Belshe, M., Peon, R., and M. Thomson, Ed., "Hypertext
-              Transfer Protocol Version 2 (HTTP/2)", RFC 7540,
               DOI 10.17487/RFC7540, May 2015,
               <https://www.rfc-editor.org/info/rfc7540>.
 
@@ -2794,16 +3016,16 @@ A.1.  Streams
    likely that other limits in QUIC are reached first, such as the limit
    on the connection flow control window.
 
+   In contrast to HTTP/2, stream concurrency in HTTP/3 is managed by
+   QUIC.  QUIC considers a stream closed when all data has been received
 
 
 
-Bishop                   Expires 1 October 2020                [Page 50]
+Bishop                   Expires 1 October 2020                [Page 54]
 
 Internet-Draft                   HTTP/3                       March 2020
 
 
-   In contrast to HTTP/2, stream concurrency in HTTP/3 is managed by
-   QUIC.  QUIC considers a stream closed when all data has been received
    and sent data has been acknowledged by the peer.  HTTP/2 considers a
    stream closed when the frame containing the END_STREAM bit has been
    committed to the transport.  As a result, the stream for an
@@ -2853,7 +3075,9 @@ A.2.  HTTP Frame Types
 
 
 
-Bishop                   Expires 1 October 2020                [Page 51]
+
+
+Bishop                   Expires 1 October 2020                [Page 55]
 
 Internet-Draft                   HTTP/3                       March 2020
 
@@ -2909,7 +3133,7 @@ A.2.4.  Mapping Between HTTP/2 and HTTP/3 Frame Types
 
 
 
-Bishop                   Expires 1 October 2020                [Page 52]
+Bishop                   Expires 1 October 2020                [Page 56]
 
 Internet-Draft                   HTTP/3                       March 2020
 
@@ -2965,7 +3189,7 @@ A.3.  HTTP/2 SETTINGS Parameters
 
 
 
-Bishop                   Expires 1 October 2020                [Page 53]
+Bishop                   Expires 1 October 2020                [Page 57]
 
 Internet-Draft                   HTTP/3                       March 2020
 
@@ -3021,7 +3245,7 @@ Internet-Draft                   HTTP/3                       March 2020
 
 
 
-Bishop                   Expires 1 October 2020                [Page 54]
+Bishop                   Expires 1 October 2020                [Page 58]
 
 Internet-Draft                   HTTP/3                       March 2020
 
@@ -3077,7 +3301,7 @@ A.4.  HTTP/2 Error Codes
 
 
 
-Bishop                   Expires 1 October 2020                [Page 55]
+Bishop                   Expires 1 October 2020                [Page 59]
 
 Internet-Draft                   HTTP/3                       March 2020
 
@@ -3133,7 +3357,7 @@ B.5.  Since draft-ietf-quic-http-22
 
 
 
-Bishop                   Expires 1 October 2020                [Page 56]
+Bishop                   Expires 1 October 2020                [Page 60]
 
 Internet-Draft                   HTTP/3                       March 2020
 
@@ -3189,7 +3413,7 @@ B.7.  Since draft-ietf-quic-http-20
 
 
 
-Bishop                   Expires 1 October 2020                [Page 57]
+Bishop                   Expires 1 October 2020                [Page 61]
 
 Internet-Draft                   HTTP/3                       March 2020
 
@@ -3245,7 +3469,7 @@ B.9.  Since draft-ietf-quic-http-18
 
 
 
-Bishop                   Expires 1 October 2020                [Page 58]
+Bishop                   Expires 1 October 2020                [Page 62]
 
 Internet-Draft                   HTTP/3                       March 2020
 
@@ -3301,7 +3525,7 @@ B.11.  Since draft-ietf-quic-http-16
 
 
 
-Bishop                   Expires 1 October 2020                [Page 59]
+Bishop                   Expires 1 October 2020                [Page 63]
 
 Internet-Draft                   HTTP/3                       March 2020
 
@@ -3357,7 +3581,7 @@ B.15.  Since draft-ietf-quic-http-12
 
 
 
-Bishop                   Expires 1 October 2020                [Page 60]
+Bishop                   Expires 1 October 2020                [Page 64]
 
 Internet-Draft                   HTTP/3                       March 2020
 
@@ -3413,7 +3637,7 @@ B.23.  Since draft-ietf-quic-http-04
 
 
 
-Bishop                   Expires 1 October 2020                [Page 61]
+Bishop                   Expires 1 October 2020                [Page 65]
 
 Internet-Draft                   HTTP/3                       March 2020
 
@@ -3469,7 +3693,7 @@ B.26.  Since draft-ietf-quic-http-01
 
 
 
-Bishop                   Expires 1 October 2020                [Page 62]
+Bishop                   Expires 1 October 2020                [Page 66]
 
 Internet-Draft                   HTTP/3                       March 2020
 
@@ -3525,4 +3749,4 @@ Author's Address
 
 
 
-Bishop                   Expires 1 October 2020                [Page 63]
+Bishop                   Expires 1 October 2020                [Page 67]
