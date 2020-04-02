@@ -826,11 +826,11 @@ table.left {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">QUIC Loss Detection</td>
-<td class="right">March 2020</td>
+<td class="right">April 2020</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Iyengar &amp; Swett</td>
-<td class="center">Expires 2 October 2020</td>
+<td class="center">Expires 4 October 2020</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -843,12 +843,12 @@ table.left {
 <dd class="internet-draft">draft-ietf-quic-recovery-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2020-03-31" class="published">31 March 2020</time>
+<time datetime="2020-04-02" class="published">2 April 2020</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2020-10-02">2 October 2020</time></dd>
+<dd class="expires"><time datetime="2020-10-04">4 October 2020</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -900,7 +900,7 @@ code and issues list for this draft can be found at
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 2 October 2020.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 4 October 2020.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1112,16 +1112,13 @@ code and issues list for this draft can be found at
                 <p id="section-toc.1-1.10.2.6.1"><a href="#section-a.6" class="xref">A.6</a>.  <a href="#name-on-receiving-an-acknowledgm" class="xref">On Receiving an Acknowledgment</a><a href="#section-toc.1-1.10.2.6.1" class="pilcrow">¶</a></p>
 </li>
 <li class="toc ulEmpty" id="section-toc.1-1.10.2.7">
-                <p id="section-toc.1-1.10.2.7.1"><a href="#section-a.7" class="xref">A.7</a>.  <a href="#name-on-packet-acknowledgment" class="xref">On Packet Acknowledgment</a><a href="#section-toc.1-1.10.2.7.1" class="pilcrow">¶</a></p>
+                <p id="section-toc.1-1.10.2.7.1"><a href="#section-a.7" class="xref">A.7</a>.  <a href="#name-setting-the-loss-detection-" class="xref">Setting the Loss Detection Timer</a><a href="#section-toc.1-1.10.2.7.1" class="pilcrow">¶</a></p>
 </li>
 <li class="toc ulEmpty" id="section-toc.1-1.10.2.8">
-                <p id="section-toc.1-1.10.2.8.1"><a href="#section-a.8" class="xref">A.8</a>.  <a href="#name-setting-the-loss-detection-" class="xref">Setting the Loss Detection Timer</a><a href="#section-toc.1-1.10.2.8.1" class="pilcrow">¶</a></p>
+                <p id="section-toc.1-1.10.2.8.1"><a href="#section-a.8" class="xref">A.8</a>.  <a href="#name-on-timeout" class="xref">On Timeout</a><a href="#section-toc.1-1.10.2.8.1" class="pilcrow">¶</a></p>
 </li>
 <li class="toc ulEmpty" id="section-toc.1-1.10.2.9">
-                <p id="section-toc.1-1.10.2.9.1"><a href="#section-a.9" class="xref">A.9</a>.  <a href="#name-on-timeout" class="xref">On Timeout</a><a href="#section-toc.1-1.10.2.9.1" class="pilcrow">¶</a></p>
-</li>
-<li class="toc ulEmpty" id="section-toc.1-1.10.2.10">
-                <p id="section-toc.1-1.10.2.10.1"><a href="#section-a.10" class="xref">A.10</a>. <a href="#name-detecting-lost-packets" class="xref">Detecting Lost Packets</a><a href="#section-toc.1-1.10.2.10.1" class="pilcrow">¶</a></p>
+                <p id="section-toc.1-1.10.2.9.1"><a href="#section-a.9" class="xref">A.9</a>.  <a href="#name-detecting-lost-packets" class="xref">Detecting Lost Packets</a><a href="#section-toc.1-1.10.2.9.1" class="pilcrow">¶</a></p>
 </li>
 </ul>
 </li>
@@ -1718,15 +1715,15 @@ Handshake packet number spaces, the max_ack_delay is 0, as specified in
 13.2.1 of <span>[<a href="#QUIC-TRANSPORT" class="xref">QUIC-TRANSPORT</a>]</span>.<a href="#section-5.2.1-3" class="pilcrow">¶</a></p>
 <p id="section-5.2.1-4">The PTO value MUST be set to at least kGranularity, to avoid the timer expiring
 immediately.<a href="#section-5.2.1-4" class="pilcrow">¶</a></p>
-<p id="section-5.2.1-5">A sender computes its PTO timer every time an ack-eliciting packet is sent.
-When ack-eliciting packets are in-flight in multiple packet number spaces,
-the timer MUST be set for the packet number space with the earliest timeout,
-except for ApplicationData, which MUST be ignored until the handshake
-completes; see Section 4.1.1 of <span>[<a href="#QUIC-TLS" class="xref">QUIC-TLS</a>]</span>.  Not arming the PTO for
-ApplicationData prevents a client from retransmitting a 0-RTT packet on a PTO
-expiration before confirming that the server is able to decrypt 0-RTT packets,
-and prevents a server from sending a 1-RTT packet on a PTO expiration before it
-has the keys to process an acknowledgement.<a href="#section-5.2.1-5" class="pilcrow">¶</a></p>
+<p id="section-5.2.1-5">A sender recomputes and may need to reset its PTO timer every time an
+ack-eliciting packet is sent. When ack-eliciting packets are in-flight in
+multiple packet number spaces, the timer MUST be set for the packet number
+space with the earliest timeout, except for ApplicationData, which MUST be
+ignored until the handshake completes; see Section 4.1.1 of <span>[<a href="#QUIC-TLS" class="xref">QUIC-TLS</a>]</span>.  Not
+arming the PTO for ApplicationData prevents a client from retransmitting a 0-RTT
+packet on a PTO expiration before confirming that the server is able to decrypt
+0-RTT packets, and prevents a server from sending a 1-RTT packet on a PTO
+expiration before it has the keys to process an acknowledgement.<a href="#section-5.2.1-5" class="pilcrow">¶</a></p>
 <p id="section-5.2.1-6">When a PTO timer expires, the PTO period MUST be set to twice its current
 value. The PTO period is set back to the original value upon receiving an
 acknowledgement for a non-Initial packet. The PTO timer is not decreased when
@@ -1762,30 +1759,39 @@ in <span>[<a href="#RFC6298" class="xref">RFC6298</a>]</span>.<a href="#section-
 <p id="section-5.2.2-2">A connection MAY use the delay between sending a PATH_CHALLENGE and receiving a
 PATH_RESPONSE to set the initial RTT (see kInitialRtt in <a href="#pto-handshake" class="xref">Section 5.2.2</a>)
 for a new path, but the delay SHOULD NOT be considered an RTT sample.<a href="#section-5.2.2-2" class="pilcrow">¶</a></p>
-<p id="section-5.2.2-3">Until the server has validated the client's address on the path, the amount of
-data it can send is limited to three times the amount of data received,
-as specified in Section 8.1 of <span>[<a href="#QUIC-TRANSPORT" class="xref">QUIC-TRANSPORT</a>]</span>. If no data can be sent,
-then the PTO alarm MUST NOT be armed until datagrams have been received from
-the client.<a href="#section-5.2.2-3" class="pilcrow">¶</a></p>
-<p id="section-5.2.2-4">Since the server could be blocked until more packets are received from the
-client, it is the client's responsibility to send packets to unblock the server
-until it is certain that the server has finished its address validation
-(see Section 8 of <span>[<a href="#QUIC-TRANSPORT" class="xref">QUIC-TRANSPORT</a>]</span>).  That is, the client MUST set the
-probe timer if the client has not received an acknowledgement for one of its
-Handshake or 1-RTT packets, and has not received a HANDSHAKE_DONE frame.<a href="#section-5.2.2-4" class="pilcrow">¶</a></p>
-<p id="section-5.2.2-5">Prior to handshake completion, when few to none RTT samples have been
+<p id="section-5.2.2-3">Prior to handshake completion, when few to none RTT samples have been
 generated, it is possible that the probe timer expiration is due to an
 incorrect RTT estimate at the client. To allow the client to improve its RTT
 estimate, the new packet that it sends MUST be ack-eliciting.  If Handshake
 keys are available to the client, it MUST send a Handshake packet, and
 otherwise it MUST send an Initial packet in a UDP datagram of at least 1200
-bytes.<a href="#section-5.2.2-5" class="pilcrow">¶</a></p>
-<p id="section-5.2.2-6">Initial packets and Handshake packets could be never acknowledged, but they are
+bytes.<a href="#section-5.2.2-3" class="pilcrow">¶</a></p>
+<p id="section-5.2.2-4">Initial packets and Handshake packets could be never acknowledged, but they are
 removed from bytes in flight when the Initial and Handshake keys are discarded,
 as described below in Section <a href="#discarding-packets" class="xref">Section 5.4</a>. When Initial or Handshake
 keys are discarded, the PTO and loss detection timers MUST be reset, because
 discarding keys indicates forward progress and the loss detection timer might
-have been set for a now discarded packet number space.<a href="#section-5.2.2-6" class="pilcrow">¶</a></p>
+have been set for a now discarded packet number space.<a href="#section-5.2.2-4" class="pilcrow">¶</a></p>
+<div id="before-address-validation">
+<section id="section-5.2.2.1">
+            <h5 id="name-before-address-validation">
+<a href="#section-5.2.2.1" class="section-number selfRef">5.2.2.1. </a><a href="#name-before-address-validation" class="section-name selfRef">Before Address Validation</a>
+            </h5>
+<p id="section-5.2.2.1-1">Until the server has validated the client's address on the path, the amount of
+data it can send is limited to three times the amount of data received,
+as specified in Section 8.1 of <span>[<a href="#QUIC-TRANSPORT" class="xref">QUIC-TRANSPORT</a>]</span>. If no additional data can be
+sent, the server's PTO alarm MUST NOT be armed until datagrams have been
+received from the client, because packets sent on PTO count against the
+anti-amplification limit. Note that the server could fail to validate the
+client's address even if 0-RTT is accepted.<a href="#section-5.2.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.2.2.1-2">Since the server could be blocked until more packets are received from the
+client, it is the client's responsibility to send packets to unblock the server
+until it is certain that the server has finished its address validation
+(see Section 8 of <span>[<a href="#QUIC-TRANSPORT" class="xref">QUIC-TRANSPORT</a>]</span>).  That is, the client MUST set the
+probe timer if the client has not received an acknowledgement for one of its
+Handshake or 1-RTT packets, and has not received a HANDSHAKE_DONE frame.<a href="#section-5.2.2.1-2" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="speeding-up-handshake-completion">
@@ -1817,14 +1823,21 @@ its first flight.<a href="#section-5.2.3-3" class="pilcrow">¶</a></p>
 in the packet number space as a probe, unless there is no data available to
 send.  An endpoint MAY send up to two full-sized datagrams containing
 ack-eliciting packets, to avoid an expensive consecutive PTO expiration due
-to a single lost datagram or transmit data from multiple packet number spaces.<a href="#section-5.2.4-1" class="pilcrow">¶</a></p>
+to a single lost datagram or transmit data from multiple packet number spaces.
+All probe packets sent on a PTO MUST be ack-eliciting.<a href="#section-5.2.4-1" class="pilcrow">¶</a></p>
 <p id="section-5.2.4-2">In addition to sending data in the packet number space for which the timer
 expired, the sender SHOULD send ack-eliciting packets from other packet
 number spaces with in-flight data, coalescing packets if possible.<a href="#section-5.2.4-2" class="pilcrow">¶</a></p>
 <p id="section-5.2.4-3">If the sender wants to elicit a faster acknowledgement on PTO, it can skip a
 packet number to eliminate the ack delay.<a href="#section-5.2.4-3" class="pilcrow">¶</a></p>
 <p id="section-5.2.4-4">When the PTO timer expires, and there is new or previously sent unacknowledged
-data, it MUST be sent.<a href="#section-5.2.4-4" class="pilcrow">¶</a></p>
+data, it MUST be sent. A probe packet SHOULD carry new data when possible.
+A probe packet MAY carry retransmitted unacknowledged data when new data is
+unavailable, when flow control does not permit new data to be sent, or to
+opportunistically reduce loss recovery delay.  Implementations MAY use
+alternative strategies for determining the content of probe packets,
+including sending new or retransmitted data based on the application's
+priorities.<a href="#section-5.2.4-4" class="pilcrow">¶</a></p>
 <p id="section-5.2.4-5">It is possible the sender has no new or previously-sent data to send.
 As an example, consider the following sequence of events: new application data
 is sent in a STREAM frame, deemed lost, then retransmitted in a new packet,
@@ -1839,18 +1852,11 @@ in an unnecessary rate reduction by the congestion controller.<a href="#section-
 recovery latency increases exponentially as packets continue to be dropped in
 the network.  Sending two packets on PTO expiration increases resilience to
 packet drops, thus reducing the probability of consecutive PTO events.<a href="#section-5.2.4-7" class="pilcrow">¶</a></p>
-<p id="section-5.2.4-8">Probe packets sent on a PTO MUST be ack-eliciting.  A probe packet SHOULD carry
-new data when possible.  A probe packet MAY carry retransmitted unacknowledged
-data when new data is unavailable, when flow control does not permit new data to
-be sent, or to opportunistically reduce loss recovery delay.  Implementations
-MAY use alternative strategies for determining the content of probe packets,
-including sending new or retransmitted data based on the application's
-priorities.<a href="#section-5.2.4-8" class="pilcrow">¶</a></p>
-<p id="section-5.2.4-9">When the PTO timer expires multiple times and new data cannot be sent,
+<p id="section-5.2.4-8">When the PTO timer expires multiple times and new data cannot be sent,
 implementations must choose between sending the same payload every time
 or sending different payloads.  Sending the same payload may be simpler
 and ensures the highest priority frames arrive first.  Sending different
-payloads each time reduces the chances of spurious retransmission.<a href="#section-5.2.4-9" class="pilcrow">¶</a></p>
+payloads each time reduces the chances of spurious retransmission.<a href="#section-5.2.4-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="pto-loss">
@@ -2235,10 +2241,10 @@ detect.<a href="#section-7.3-4" class="pilcrow">¶</a></p>
 <dl class="references">
 <dt id="QUIC-TLS">[QUIC-TLS]</dt>
 <dd>
-<span class="refAuthor">Thomson, M., Ed.</span><span class="refAuthor"> and S. Turner, Ed.</span>, <span class="refTitle">"Using TLS to Secure QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-tls-latest</span>, <time datetime="2020-03-31">31 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-tls-latest">https://tools.ietf.org/html/draft-ietf-quic-tls-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Thomson, M., Ed.</span><span class="refAuthor"> and S. Turner, Ed.</span>, <span class="refTitle">"Using TLS to Secure QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-tls-latest</span>, <time datetime="2020-04-02">2 April 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-tls-latest">https://tools.ietf.org/html/draft-ietf-quic-tls-latest</a>&gt;</span>. </dd>
 <dt id="QUIC-TRANSPORT">[QUIC-TRANSPORT]</dt>
 <dd>
-<span class="refAuthor">Iyengar, J., Ed.</span><span class="refAuthor"> and M. Thomson, Ed.</span>, <span class="refTitle">"QUIC: A UDP-Based Multiplexed and Secure Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-transport-latest</span>, <time datetime="2020-03-31">31 March 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-transport-latest">https://tools.ietf.org/html/draft-ietf-quic-transport-latest</a>&gt;</span>. </dd>
+<span class="refAuthor">Iyengar, J., Ed.</span><span class="refAuthor"> and M. Thomson, Ed.</span>, <span class="refTitle">"QUIC: A UDP-Based Multiplexed and Secure Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-transport-latest</span>, <time datetime="2020-04-02">2 April 2020</time>, <span>&lt;<a href="https://tools.ietf.org/html/draft-ietf-quic-transport-latest">https://tools.ietf.org/html/draft-ietf-quic-transport-latest</a>&gt;</span>. </dd>
 <dt id="RFC2119">[RFC2119]</dt>
 <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;</span>. </dd>
@@ -2504,13 +2510,13 @@ to OnPacketSent are described in detail above in <a href="#sent-packets-fields" 
               in_flight, sent_bytes):
    sent_packets[pn_space][packet_number].packet_number =
                                             packet_number
-   sent_packets[pn_space][packet_number].time_sent = now
+   sent_packets[pn_space][packet_number].time_sent = now()
    sent_packets[pn_space][packet_number].ack_eliciting =
                                             ack_eliciting
    sent_packets[pn_space][packet_number].in_flight = in_flight
    if (in_flight):
      if (ack_eliciting):
-       time_of_last_sent_ack_eliciting_packet[pn_space] = now
+       time_of_last_sent_ack_eliciting_packet[pn_space] = now()
      OnPacketSentCC(sent_bytes)
      sent_packets[pn_space][packet_number].size = sent_bytes
      SetLossDetectionTimer()
@@ -2534,14 +2540,18 @@ OnAckReceived(ack, pn_space):
     largest_acked_packet[pn_space] =
         max(largest_acked_packet[pn_space], ack.largest_acked)
 
+  // DetectNewlyAckedPackets finds packets that are newly
+  // acknowledged and removes them from sent_packets.
+  newly_acked_packets =
+      DetectAndRemoveAckedPackets(ack, pn_space)
   // Nothing to do if there are no newly acked packets.
-  newly_acked_packets = DetermineNewlyAckedPackets(ack, pn_space)
   if (newly_acked_packets.empty()):
     return
 
   // If the largest acknowledged is newly acked and
   // at least one ack-eliciting was newly acked, update the RTT.
-  if (sent_packets[pn_space].contains(ack.largest_acked) &amp;&amp;
+  if (newly_acked_packets.largest().packet_number ==
+          ack.largest_acked &amp;&amp;
       IncludesAckEliciting(newly_acked_packets)):
     latest_rtt =
       now - sent_packets[pn_space][ack.largest_acked].time_sent
@@ -2554,15 +2564,15 @@ OnAckReceived(ack, pn_space):
   if (ACK frame contains ECN information):
       ProcessECN(ack, pn_space)
 
-  for acked_packet in newly_acked_packets:
-    OnPacketAcked(acked_packet.packet_number, pn_space)
+  lost_packets = DetectAndRemoveLostPackets(pn_space)
+  if (!lost_packets.empty()):
+    OnPacketsLost(lost_packets)
+  OnPacketsAcked(newly_acked_packets)
 
-  DetectLostPackets(pn_space)
   // Reset pto_count unless the server has not yet
   // validated the client's address.
   if (PeerCompletedAddressValidation()):
     pto_count = 0
-
   SetLossDetectionTimer()
 
 
@@ -2589,42 +2599,19 @@ UpdateRtt(ack_delay):
 </div>
 </section>
 </div>
-<div id="on-packet-acknowledgment">
-<section id="section-a.7">
-        <h2 id="name-on-packet-acknowledgment">
-<a href="#section-a.7" class="section-number selfRef">A.7. </a><a href="#name-on-packet-acknowledgment" class="section-name selfRef">On Packet Acknowledgment</a>
-        </h2>
-<p id="section-a.7-1">When a packet is acknowledged for the first time, the following OnPacketAcked
-function is called.  Note that a single ACK frame may newly acknowledge several
-packets. OnPacketAcked must be called once for each of these newly acknowledged
-packets.<a href="#section-a.7-1" class="pilcrow">¶</a></p>
-<p id="section-a.7-2">OnPacketAcked takes two parameters: acked_packet, which is the struct detailed
-in <a href="#sent-packets-fields" class="xref">Appendix A.1.1</a>, and the packet number space that this ACK frame was
-sent for.<a href="#section-a.7-2" class="pilcrow">¶</a></p>
-<p id="section-a.7-3">Pseudocode for OnPacketAcked follows:<a href="#section-a.7-3" class="pilcrow">¶</a></p>
-<div class="artwork art-text alignLeft" id="section-a.7-4">
-<pre>
-   OnPacketAcked(acked_packet, pn_space):
-     if (acked_packet.in_flight):
-       OnPacketAckedCC(acked_packet)
-     sent_packets[pn_space].remove(acked_packet.packet_number)
-</pre><a href="#section-a.7-4" class="pilcrow">¶</a>
-</div>
-</section>
-</div>
 <div id="setting-the-loss-detection-timer">
-<section id="section-a.8">
+<section id="section-a.7">
         <h2 id="name-setting-the-loss-detection-">
-<a href="#section-a.8" class="section-number selfRef">A.8. </a><a href="#name-setting-the-loss-detection-" class="section-name selfRef">Setting the Loss Detection Timer</a>
+<a href="#section-a.7" class="section-number selfRef">A.7. </a><a href="#name-setting-the-loss-detection-" class="section-name selfRef">Setting the Loss Detection Timer</a>
         </h2>
-<p id="section-a.8-1">QUIC loss detection uses a single timer for all timeout loss detection.  The
+<p id="section-a.7-1">QUIC loss detection uses a single timer for all timeout loss detection.  The
 duration of the timer is based on the timer's mode, which is set in the packet
 and timer events further below.  The function SetLossDetectionTimer defined
-below shows how the single timer is set.<a href="#section-a.8-1" class="pilcrow">¶</a></p>
-<p id="section-a.8-2">This algorithm may result in the timer being set in the past, particularly if
-timers wake up late. Timers set in the past fire immediately.<a href="#section-a.8-2" class="pilcrow">¶</a></p>
-<p id="section-a.8-3">Pseudocode for SetLossDetectionTimer follows:<a href="#section-a.8-3" class="pilcrow">¶</a></p>
-<div class="artwork art-text alignLeft" id="section-a.8-4">
+below shows how the single timer is set.<a href="#section-a.7-1" class="pilcrow">¶</a></p>
+<p id="section-a.7-2">This algorithm may result in the timer being set in the past, particularly if
+timers wake up late. Timers set in the past fire immediately.<a href="#section-a.7-2" class="pilcrow">¶</a></p>
+<p id="section-a.7-3">Pseudocode for SetLossDetectionTimer follows:<a href="#section-a.7-3" class="pilcrow">¶</a></p>
+<div class="artwork art-text alignLeft" id="section-a.7-4">
 <pre>
 GetEarliestTimeAndSpace(times):
   time = times[Initial]
@@ -2639,7 +2626,7 @@ GetEarliestTimeAndSpace(times):
       space = pn_space
   return time, space
 
-PeerNotAwaitingAddressValidation():
+PeerCompletedAddressValidation():
   # Assume clients validate the server's address implicitly.
   if (endpoint is server):
     return true
@@ -2662,7 +2649,7 @@ SetLossDetectionTimer():
     return
 
   if (no ack-eliciting packets in flight &amp;&amp;
-      peer not awaiting address validation):
+      PeerCompletedAddressValidation()):
     // There is nothing to detect lost, so no timer is set.
     // However, the client needs to arm the timer if the
     // server might be blocked by the anti-amplification limit.
@@ -2680,27 +2667,32 @@ SetLossDetectionTimer():
 
   sent_time, _ = GetEarliestTimeAndSpace(
     time_of_last_sent_ack_eliciting_packet)
+  if (sent_time == 0)
+    assert(!PeerCompletedAddressValidation())
+    sent_time = now()
   loss_detection_timer.update(sent_time + timeout)
-</pre><a href="#section-a.8-4" class="pilcrow">¶</a>
+</pre><a href="#section-a.7-4" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
 <div id="on-timeout">
-<section id="section-a.9">
+<section id="section-a.8">
         <h2 id="name-on-timeout">
-<a href="#section-a.9" class="section-number selfRef">A.9. </a><a href="#name-on-timeout" class="section-name selfRef">On Timeout</a>
+<a href="#section-a.8" class="section-number selfRef">A.8. </a><a href="#name-on-timeout" class="section-name selfRef">On Timeout</a>
         </h2>
-<p id="section-a.9-1">When the loss detection timer expires, the timer's mode determines the action
-to be performed.<a href="#section-a.9-1" class="pilcrow">¶</a></p>
-<p id="section-a.9-2">Pseudocode for OnLossDetectionTimeout follows:<a href="#section-a.9-2" class="pilcrow">¶</a></p>
-<div class="artwork art-text alignLeft" id="section-a.9-3">
+<p id="section-a.8-1">When the loss detection timer expires, the timer's mode determines the action
+to be performed.<a href="#section-a.8-1" class="pilcrow">¶</a></p>
+<p id="section-a.8-2">Pseudocode for OnLossDetectionTimeout follows:<a href="#section-a.8-2" class="pilcrow">¶</a></p>
+<div class="artwork art-text alignLeft" id="section-a.8-3">
 <pre>
 OnLossDetectionTimeout():
   earliest_loss_time, pn_space =
     GetEarliestTimeAndSpace(loss_time)
   if (earliest_loss_time != 0):
     // Time threshold loss Detection
-    DetectLostPackets(pn_space)
+    lost_packets = DetectLostPackets(pn_space)
+    assert(!lost_packets.empty())
+    OnPacketsLost(lost_packets)
     SetLossDetectionTimer()
     return
 
@@ -2722,21 +2714,23 @@ OnLossDetectionTimeout():
 
   pto_count++
   SetLossDetectionTimer()
-</pre><a href="#section-a.9-3" class="pilcrow">¶</a>
+</pre><a href="#section-a.8-3" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
 <div id="detecting-lost-packets">
-<section id="section-a.10">
+<section id="section-a.9">
         <h2 id="name-detecting-lost-packets">
-<a href="#section-a.10" class="section-number selfRef">A.10. </a><a href="#name-detecting-lost-packets" class="section-name selfRef">Detecting Lost Packets</a>
+<a href="#section-a.9" class="section-number selfRef">A.9. </a><a href="#name-detecting-lost-packets" class="section-name selfRef">Detecting Lost Packets</a>
         </h2>
-<p id="section-a.10-1">DetectLostPackets is called every time an ACK is received and operates on
-the sent_packets for that packet number space.<a href="#section-a.10-1" class="pilcrow">¶</a></p>
-<p id="section-a.10-2">Pseudocode for DetectLostPackets follows:<a href="#section-a.10-2" class="pilcrow">¶</a></p>
-<div class="artwork art-text alignLeft" id="section-a.10-3">
+<p id="section-a.9-1">DetectAndRemoveLostPackets is called every time an ACK is received or the time
+threshold loss detection timer expires. This function operates on the
+sent_packets for that packet number space and returns a list of packets newly
+detected as lost.<a href="#section-a.9-1" class="pilcrow">¶</a></p>
+<p id="section-a.9-2">Pseudocode for DetectAndRemoveLostPackets follows:<a href="#section-a.9-2" class="pilcrow">¶</a></p>
+<div class="artwork art-text alignLeft" id="section-a.9-3">
 <pre>
-DetectLostPackets(pn_space):
+DetectAndRemoveLostPackets(pn_space):
   assert(largest_acked_packet[pn_space] != infinite)
   loss_time[pn_space] = 0
   lost_packets = {}
@@ -2765,12 +2759,8 @@ DetectLostPackets(pn_space):
       else:
         loss_time[pn_space] = min(loss_time[pn_space],
                                   unacked.time_sent + loss_delay)
-
-  // Inform the congestion controller of lost packets and
-  // let it decide whether to retransmit immediately.
-  if (!lost_packets.empty()):
-    OnPacketsLost(lost_packets)
-</pre><a href="#section-a.10-3" class="pilcrow">¶</a>
+  return lost_packets
+</pre><a href="#section-a.9-3" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
@@ -2902,27 +2892,28 @@ increases bytes_in_flight.<a href="#section-b.4-1" class="pilcrow">¶</a></p>
         <h2 id="name-on-packet-acknowledgement">
 <a href="#section-b.5" class="section-number selfRef">B.5. </a><a href="#name-on-packet-acknowledgement" class="section-name selfRef">On Packet Acknowledgement</a>
         </h2>
-<p id="section-b.5-1">Invoked from loss detection's OnPacketAcked and is supplied with the
-acked_packet from sent_packets.<a href="#section-b.5-1" class="pilcrow">¶</a></p>
+<p id="section-b.5-1">Invoked from loss detection's OnAckReceived and is supplied with the
+newly acked_packets from sent_packets.<a href="#section-b.5-1" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft" id="section-b.5-2">
 <pre>
    InCongestionRecovery(sent_time):
      return sent_time &lt;= congestion_recovery_start_time
 
-   OnPacketAckedCC(acked_packet):
-     // Remove from bytes_in_flight.
-     bytes_in_flight -= acked_packet.size
-     if (InCongestionRecovery(acked_packet.time_sent)):
-       // Do not increase congestion window in recovery period.
-       return
-     if (IsAppOrFlowControlLimited()):
-       // Do not increase congestion_window if application
-       // limited or flow control limited.
-       return
-     if (congestion_window &lt; ssthresh):
-       // Slow start.
-       congestion_window += acked_packet.size
-     else:
+   OnPacketsAcked(acked_packets):
+     for (packet in acked_packets):
+       // Remove from bytes_in_flight.
+       bytes_in_flight -= packet.size
+       if (InCongestionRecovery(packet.time_sent)):
+         // Do not increase congestion window in recovery period.
+         return
+       if (IsAppOrFlowControlLimited()):
+         // Do not increase congestion_window if application
+         // limited or flow control limited.
+         return
+       if (congestion_window &lt; ssthresh):
+         // Slow start.
+         congestion_window += packet.size
+         return
        // Congestion avoidance.
        congestion_window += max_datagram_size * acked_packet.size
            / congestion_window
@@ -2944,7 +2935,7 @@ window.<a href="#section-b.6-1" class="pilcrow">¶</a></p>
      // Start a new congestion event if packet was sent after the
      // start of the previous congestion recovery period.
      if (!InCongestionRecovery(sent_time)):
-       congestion_recovery_start_time = Now()
+       congestion_recovery_start_time = now()
        congestion_window *= kLossReductionFactor
        congestion_window = max(congestion_window, kMinimumWindow)
        ssthresh = congestion_window
@@ -2980,25 +2971,23 @@ window.<a href="#section-b.6-1" class="pilcrow">¶</a></p>
 <p id="section-b.8-1">Invoked from DetectLostPackets when packets are deemed lost.<a href="#section-b.8-1" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft" id="section-b.8-2">
 <pre>
-   InPersistentCongestion(largest_lost_packet):
+   InPersistentCongestion(lost_packets):
      pto = smoothed_rtt + max(4 * rttvar, kGranularity) +
        max_ack_delay
      congestion_period = pto * kPersistentCongestionThreshold
      // Determine if all packets in the time period before the
-     // newest lost packet, including the edges, are marked
-     // lost
-     return AreAllPacketsLost(largest_lost_packet,
-                              congestion_period)
+     // largest newly lost packet, including the edges, are
+     // marked lost
+     return AreAllPacketsLost(lost_packets, congestion_period)
 
    OnPacketsLost(lost_packets):
      // Remove lost packets from bytes_in_flight.
      for (lost_packet : lost_packets):
        bytes_in_flight -= lost_packet.size
-     largest_lost_packet = lost_packets.last()
-     CongestionEvent(largest_lost_packet.time_sent)
+     CongestionEvent(lost_packets.largest().time_sent)
 
      // Collapse congestion window if persistent congestion
-     if (InPersistentCongestion(largest_lost_packet)):
+     if (InPersistentCongestion(lost_packets)):
        congestion_window = kMinimumWindow
 </pre><a href="#section-b.8-2" class="pilcrow">¶</a>
 </div>
