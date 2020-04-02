@@ -291,7 +291,6 @@ Example Structure {
 {: #fig-ex-format title="Example Format"}
 
 
-
 # Streams {#streams}
 
 Streams in QUIC provide a lightweight, ordered byte-stream abstraction to an
